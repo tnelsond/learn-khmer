@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Khmer Canvas + Custom WOFF2</title>
+  <style>
+    @font-face {
+      font-family: 'Nokora';
+      src: url('./nokora-bold.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+		}
+    @font-face {
+      font-family: 'Muol';
+      src: url('./muol.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+		}
+    @font-face {
+      font-family: 'Fasthand';
+      src: url('./fasthand.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+		}
+    @font-face {
+      font-family: 'Bokor';
+      src: url('./bokor.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+		}
+    @font-face {
+      font-family: 'Metalchrieng';
+      src: url('./metalchrieng.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+		}
+
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overscroll-behavior: none;
+    touch-action: manipulation;   /* optional: improves touch feel, reduces 300ms delay */
+		-webkit-text-size-adjust: 100%;  /* prevents iOS font size zoom */
+  }
+
+  canvas {
+    display: block;               /* removes unwanted bottom gap */
+    touch-action: none;           /* ← important for canvas drag + no zoom */
+
+    body {
+      font-family: 'Nokora', 'Noto Sans Khmer', sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="c" width="800" height="400"></canvas>
+
+<script>
+
+"use strict";
+
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+
+const fonts = [
+	"24px 'Nokora'",
+	"24px 'Muol'",
+	"24px 'Fasthand'",
+	"24px 'Bokor'",
+	"24px 'Metalchrieng'"];
+
+const khgrid = [
+	["ក", "ខ", "គ", "ឃ", "ង"],
+	["ច", "ឆ", "ជ", "ឈ", "ញ"],
+	["ដ", "ឋ", "ឌ", "ឍ", "ណ"],
+	["ត", "ថ", "ទ", "ធ", "ន"],
+	["ប", "ផ", "ព", "ភ", "ម"],
+	["ស", "ហ", "យ", "រ"],
+	["ល", "ឡ", "អ", "វ"]
+];
+
+function kh_isnasal(row, col){
+	return col == 4 && row <= 4;
+}
+
+function kh_tonasal(b){
+	if(b.row <= 4)
+		b.col = 4;
+	b.rect.color = "#000";
+}
+function kh_dec(b){
+	b.rect.color = "#008";
+	--b.col;
+	kh_tolegal(b);
+}
+function kh_tolegal(b){
+	if(b.row < 0)
+		b.row = 0;
+	else if(b.row > khgrid.length-1)
+		b.row = khgrid.length-1;
+	if(b.col < 0)
+		b.col = 0;
+	else if(b.col > khgrid[b.row].length-1)
+		b.col = khgrid[b.row].length-1;
+}
+function kh_nextfont(b){
+	++b.font;
+	if(b.font > fonts.length - 1)
+		b.font = 0;
+}
+function kh_incrow(b){
+	b.rect.color = "#883";
+	++b.row;
+	kh_tolegal(b);
+}
+function kh_toasp(b){
+	if(b.row <= 4){
+		if(b.col < 3 && b.col%2 == 0){
+			b.rect.color = "#08f";
+			++b.col;
+		}
+	}
+}
+
+
+function rect(x, y, w, h, color){
+	this.x = x;
+	this.y = y;
+	this.w = w;
+	this.h = h;
+	this.color = color;
+	this.draw = function(){
+		ctx.fillStyle = this.color;
+		ctx.fillRect(this.x, this.y, this.w, this.h);
+	}
+	this.intersects = function(x, y, w=1, h=1){
+		if(!x || !y)
+			return false;
+		return x + w >= this.x && x <= this.x + this.w &&
+			y + h >= this.y && y <= this.y + this.h;
+	}
+}
+
+function khc(row, col, font, x, y, w, h){
+	this.row = row;
+	this.col = col;
+	this.font = font;
+	this.a = 0;
+	this.rect = new rect(x, y, w, h, kh_isnasal(row, col) ? "#f70" : "#909");
+	this.draw = function(){
+		this.rect.draw();
+		ctx.textBaseline = "middle";
+		ctx.textAlign = "center";
+		ctx.fillStyle = "#fff";
+		ctx.font = fonts[this.font];
+		ctx.fillText(khgrid[this.row][this.col], this.rect.x + this.rect.w/2, this.rect.y + this.rect.h/2);
+	}
+}
+
+function machine(x, y, w, h, font, label, transf){
+	this.rect = new rect(x, y, w, h, "#555");
+	this.font = font;
+	this.label = label;
+	this.transf = transf;
+	this.draw = function(){
+		this.rect.draw();
+		ctx.textBaseline = "middle";
+		ctx.textAlign = "center";
+		ctx.fillStyle = "#fff";
+		ctx.font = fonts[this.font];
+		ctx.fillText(this.label, this.rect.x + this.rect.w/2, this.rect.y + this.rect.h/2);
+	}
+}
+
+let binis = [
+	new khc(0, 0, 0, 50, 50, 50, 50),
+	new khc(1, 0, 2, 150, 50, 50, 50),
+	new khc(0, 4, 1, 50, 150, 50, 50)
+];
+
+let machines = [
+	new machine(250, 50, 100, 100, 0, ">", kh_tonasal),
+	new machine(200, 220, 100, 100, 0, "-", kh_dec),
+	new machine(20, 230, 100, 100, 0, "h", kh_toasp),
+	new machine(400, 130, 70, 70, 0, ")+", kh_incrow),
+	new machine(500, 50, 70, 70, 0, "F+", kh_nextfont),
+];
+
+machines[0].transf(binis[0]);
+
+const game = {
+	mobile:
+    /Mobi|Android/i.test(navigator.userAgent),
+	lastX: null,
+	lastY: null,
+	x: null,
+	y: null,
+	mousedown: false,
+	cobj: null,
+	handleMouse: function(x, y, down){
+		this.lastX = this.x;
+		this.lastY = this.y;
+		this.x = x;
+		this.y = y;
+		this.mousedown = down;
+		if(down){
+			if(!this.cobj){
+				binis.forEach((b) =>{
+					if(b.rect.intersects(x, y))
+						this.cobj = b;
+				});
+			}
+		}else if(this.cobj){
+			machines.forEach((m) => {
+				if(this.cobj.rect.intersects(m.rect.x, m.rect.y, m.rect.w, m.rect.h)){
+					m.transf(this.cobj);
+				}
+			});
+			this.cobj = null;
+		}
+		console.log(`${this.x} ${this.y} ${this.cobj}`);
+	},
+	start: function(){
+		const updateMouse = (e) => {
+			this.lastX = this.x;
+			this.lastY = this.y;
+			this.x = e.pageX;
+			this.y = e.pageY;
+		};
+    window.addEventListener('pointermove', (e) => {
+			e.preventDefault();           // ← prevents page scroll on mobile
+			updateMouse(e);
+		});
+		window.addEventListener('pointerdown', (e) => {
+			this.handleMouse(e.pageX, e.pageY, true);
+    })
+    window.addEventListener('pointerup', (e) => {
+			this.handleMouse(e.pageX, e.pageY, false);
+    })
+		this.interval = setInterval(this.loop.bind(this), 20);
+	},
+	stop: function(){
+		clearInterval(this.interval);
+	},
+	clear: function(){
+		 ctx.clearRect(0, 0, canvas.width, canvas.height);
+	},
+	loop: async function() {
+		if(this.cobj){
+			this.cobj.rect.x = this.x - this.cobj.rect.w/2;
+			this.cobj.rect.y = this.y - this.cobj.rect.h + (this.mobile ? -50 : 0);
+		}
+		// Optional: fill background so you see if text is missing
+		ctx.fillStyle = "#aaa";
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+		machines.forEach((m) => {
+			m.draw();
+		});
+		binis.forEach((b) => {
+			b.draw();
+		});
+	}
+};
+
+game.start();
+</script>
+
+</body>
+</html>
