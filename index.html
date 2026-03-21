@@ -72,11 +72,11 @@ const canvas = document.getElementById('c');
 const ctx = canvas.getContext('2d');
 
 const fonts = [
-	"32px 'Nokora'",
-	"28px 'Muol'",
-	"26px 'Fasthand'",
-	"30px 'Bokor'",
-	"34px 'Metalchrieng'"];
+	"38px 'Nokora'",
+	"34px 'Muol'",
+	"30px 'Fasthand'",
+	"34px 'Bokor'",
+	"38px 'Metalchrieng'"];
 
 const khgrid = [
 	["ក", "ខ", "គ", "ឃ", "ង"],
@@ -87,6 +87,28 @@ const khgrid = [
 	["ស", "ហ", "យ", "រ"],
 	["ល", "ឡ", "អ", "វ"]
 ];
+
+const s = {
+	rects: null,
+	rows: 8,
+	cols: 8,
+	tile: 64,
+	atlas: null,
+	actx: null,
+	newsprite: function(){
+		const temp = this.rects.indexOf(false);
+		this.rects[temp] = true;
+		return temp;
+	},
+	populate: function(){
+		this.atlas = new OffscreenCanvas(this.tile*this.cols, this.tile*this.rows);
+		this.actx = this.atlas.getContext('2d');
+		this.actx.imageSmoothingEnabled = false;
+		this.rects = new Array(this.rows * this.cols).fill(false);
+		console.log(this.rects);
+	},
+};
+s.populate();
 
 function kh_isnasal(row, col){
 	return col == 4 && row <= 4;
@@ -201,26 +223,45 @@ function khc(row, col, font, x, y, w, h){
 	this.col = col;
 	this.font = font;
 	this.a = 0;
+	this.sprite;
 	this.frame = 0;
 	this.rect = new rect(x, y, w, h, kh_isnasal(row, col) ? "#f70" : "#909");
+	this.generate = function(){
+		if(this.sprite === undefined)
+			this.sprite = s.newsprite();
+		s.actx.clearRect(s.tile * (this.sprite % s.cols), s.tile * Math.floor(this.sprite/s.rows), s.tile, s.tile);
+		console.log(this.sprite);
+		s.actx.save();
+		s.actx.translate(s.tile * (this.sprite % s.cols), s.tile * Math.floor(this.sprite/s.rows));
+		s.actx.shadowColor = "#000";
+		s.actx.shadowBlur = 3;
+		s.actx.fillStyle = this.rect.color;
+		s.actx.beginPath()
+		s.actx.arc(s.tile/2, s.tile/2, s.tile/2 -2, 0, 2*Math.PI);
+		s.actx.fill();
+		//s.actx.fillRect(0, 0, s.tile - 8, s.tile - 8);
+		s.actx.textBaseline = "middle";
+		s.actx.textAlign = "center";
+		s.actx.fillStyle = "#fff";
+		s.actx.font = fonts[this.font];
+		s.actx.fillText(khgrid[this.row][this.col], s.tile/2, s.tile/2);
+		s.actx.restore();
+		//this.rect.draw();
+	};
 	this.draw = function(){
 		ctx.save();
 		const tremor = (-Math.cos(this.frame*Math.PI/anim[0])+1)/2*Math.cos(this.frame*Math.PI/10);
 		ctx.translate(this.rect.x+this.rect.w/2, this.rect.y+this.rect.h/2);
 		//ctx.rotate(this.a);
 		ctx.scale(1-tremor/2, 1+tremor/2)
-		ctx.shadowColor = "#000";
-		ctx.shadowBlur = 3;
-		ctx.fillStyle = this.rect.color;
-		ctx.fillRect(-this.rect.w/2, -this.rect.h/2, this.rect.w, this.rect.h);
-		ctx.textBaseline = "middle";
-		ctx.textAlign = "center";
-		ctx.fillStyle = "#fff";
-		ctx.font = fonts[this.font];
-		ctx.fillText(khgrid[this.row][this.col], 0, 0);
+		ctx.drawImage(
+      s.atlas,
+      s.tile*(this.sprite%s.cols), s.tile*Math.floor(this.sprite/s.rows), s.tile, s.tile,
+      -this.rect.w/2, -this.rect.h/2, this.rect.w, this.rect.h 
+    );
 		ctx.restore();
-		this.rect.draw();
-	}
+		//this.rect.draw();
+	};
 }
 
 function machine(x, y, w, h, font, label, transf){
@@ -229,29 +270,51 @@ function machine(x, y, w, h, font, label, transf){
 	this.label = label;
 	this.frame = 0;
 	this.transf = transf;
+	this.sprite;
+	this.generate = function(){
+		if(this.sprite === undefined)
+			this.sprite = s.newsprite();
+		s.actx.save();
+		s.actx.translate(s.tile * (this.sprite % s.cols) + 4, s.tile * Math.floor(this.sprite/s.rows) + 4);
+		s.actx.shadowColor = "#000";
+		s.actx.shadowBlur = 3;
+		s.actx.fillStyle = this.rect.color;
+		s.actx.fillRect(0, 0, s.tile - 8, s.tile - 8);
+		for(let i=0; i<100; ++i){
+			s.actx.fillStyle = `rgb(${100 + Math.random() * 50}, ${100 + Math.random() * 55}, ${50*Math.random()})`;
+			let w = (s.tile-8)/2*Math.random();
+			let h = (s.tile-8)/2*Math.random();
+			let x = (s.tile-8-w)*Math.random()
+			let y = (s.tile-8-h)*Math.random()
+			s.actx.fillRect(x, y, w, h);
+		}
+		s.actx.shadowBlur = 3;
+		s.actx.textBaseline = "middle";
+		s.actx.textAlign = "center";
+		s.actx.fillStyle = "#fff";
+		s.actx.font = fonts[this.font];
+		s.actx.fillText(label, s.tile/2, s.tile/2);
+		s.actx.restore();
+	};
 	this.draw = function(){
-		this.rect.draw();
 		ctx.save();
-		ctx.translate(this.rect.x + this.rect.w/2, this.rect.y + this.rect.h/2);
-		const ling = ctx.createLinearGradient(-50, -50, 50, 50);
-		ling.addColorStop(1, "#a83");
-		ling.addColorStop(0, "#fb8");
-		//this.frame += 0.01;
-		//ctx.rotate(this.frame);
-		ctx.fillStyle = ling;
-		ctx.fillRect(-this.rect.w/2, -this.rect.h/2, this.rect.w, this.rect.h);
-		ctx.textBaseline = "middle";
-		ctx.textAlign = "center";
-		ctx.fillStyle = "#fff";
-		ctx.font = fonts[this.font];
-		ctx.fillText(this.label, 0, 0);
+		const tremor = (-Math.cos(this.frame*Math.PI/anim[0])+1)/2*Math.cos(this.frame*Math.PI/10);
+		ctx.translate(this.rect.x+this.rect.w/2, this.rect.y+this.rect.h/2);
+		//ctx.rotate(this.a);
+		ctx.scale(1-tremor/2, 1+tremor/2)
+		ctx.drawImage(
+      s.atlas,
+      s.tile*(this.sprite%s.cols), s.tile*Math.floor(this.sprite/s.rows), s.tile, s.tile,
+      -this.rect.w/2, -this.rect.h/2, this.rect.w, this.rect.h 
+    );
 		ctx.restore();
-	}
+		//this.rect.draw();
+	};
 }
 
 let binis = [
-	new khc(0, 0, 0, 50, 50, 50, 50),
-	new khc(1, 0, 2, 150, 50, 50, 50),
+	new khc(0, 0, 0, 50, 50, 60, 50),
+	new khc(1, 0, 2, 150, 50, 50, 60),
 	new khc(2, 3, 3, 20, 200, 50, 50),
 	new khc(0, 4, 1, 50, 150, 50, 50)
 ];
@@ -263,8 +326,6 @@ let machines = [
 	new machine(400, 130, 70, 70, 0, ")+", kh_incrow),
 	new machine(500, 50, 70, 70, 0, "F+", kh_nextfont),
 ];
-
-machines[0].transf(binis[0]);
 
 const game = {
 	mobile:
@@ -292,6 +353,7 @@ const game = {
 			machines.forEach((m) => {
 				if(this.cobj.rect.intersects(m.rect.x, m.rect.y, m.rect.w, m.rect.h)){
 					m.transf(this.cobj);
+					this.cobj.generate();
 					particles.forEach((p) =>{
 						p.rect.x = this.cobj.rect.x + this.cobj.rect.w * Math.random();
 						p.rect.y = this.cobj.rect.y + this.cobj.rect.h * Math.random();
@@ -308,6 +370,12 @@ const game = {
 		}
 	},
 	start: function(){
+		binis.forEach((b) =>{
+			b.generate();
+		});
+		machines.forEach((m) =>{
+			m.generate();
+		});
 		const updateMouse = (e) => {
 			this.lastX = this.x;
 			this.lastY = this.y;
