@@ -62,13 +62,15 @@
 </head>
 <body>
 
-<canvas id="c" width="800" height="400"></canvas>
+<canvas id="c" width="700" height="350"></canvas>
+<div id="desc"></div>
 
 <script>
 
 "use strict";
 
 const canvas = document.getElementById('c');
+const desc = document.getElementById('desc');
 const ctx = canvas.getContext('2d');
 
 const fonts = [
@@ -87,6 +89,29 @@ const khgrid = [
 	["ស", "ហ", "យ", "រ"],
 	["ល", "ឡ", "អ", "វ"]
 ];
+
+const ipa = [
+	["k", "kʰ", "k", "kʰ", "ŋ"],
+	["c", "cʰ", "c", "cʰ", "ɲ"],
+	["ɗ", "tʰ", "ɗ", "tʰ", "n"],
+	["t", "tʰ", "t", "tʰ", "n"],
+	["ɓ", "pʰ", "p", "pʰ", "m"],
+	["s", "h", "y", "r"],
+	["l", "l", "a", "v"]
+];
+
+const ipav = [
+	["ɑɑ", "ɔɔ"],
+];
+
+const kh_rownames = [
+	"Throat", "Palatal", "Retroflex", "Dental", "Bilabial", "Misc", "Misc2"
+];
+
+function kh_desc(row, col){
+	let text = `<h3>${khgrid[row][col]} /${ipa[row][col]}${ipav[0][kh_isfirst(row, col)?0:1]}/ ${kh_isfirst(row, col) ? "First Series" : "Second Series"}</h3> Row ${row + 1} (${kh_rownames[row]}), Col ${col+1}. ${kh_isasp(row, col) ? "Aspirated" : "Unaspirated"}`;
+	return text;
+}
 
 const s = {
 	rects: null,
@@ -117,7 +142,7 @@ function kh_isnasal(row, col){
 function kh_tonasal(b){
 	if(b.row <= 4)
 		b.col = 4;
-	b.rect.color = "#000";
+	b.rect.color = "#ddd";
 }
 function kh_dec(b){
 	b.rect.color = "#008";
@@ -151,6 +176,12 @@ function kh_toasp(b){
 			++b.col;
 		}
 	}
+}
+function kh_isasp(row, col){
+	return row <= 4 && col < 4 && col%2 == 1;
+}
+function kh_isfirst(row, col){
+	return (row <= 5 && col < 2) || (row == 2 && col == 4) || (row == 6 && col != 0 && col != 3)
 }
 
 function particle(x, y, w, h, color, vx, vy, life){
@@ -235,15 +266,20 @@ function khc(row, col, font, x, y, w, h){
 		s.actx.translate(s.tile * (this.sprite % s.cols), s.tile * Math.floor(this.sprite/s.rows));
 		s.actx.shadowColor = "#000";
 		s.actx.shadowBlur = 3;
-		s.actx.fillStyle = this.rect.color;
+		const grad = s.actx.createRadialGradient(s.tile/2, s.tile/3, s.tile/4, s.tile/2, s.tile/2, s.tile/2);
+		grad.addColorStop(0, this.rect.color);
+		grad.addColorStop(1, "#000");
+		s.actx.fillStyle = grad;
 		s.actx.beginPath()
 		s.actx.arc(s.tile/2, s.tile/2, s.tile/2 -2, 0, 2*Math.PI);
 		s.actx.fill();
 		//s.actx.fillRect(0, 0, s.tile - 8, s.tile - 8);
 		s.actx.textBaseline = "middle";
 		s.actx.textAlign = "center";
-		s.actx.fillStyle = "#fff";
+		s.actx.fillStyle = "#000";
 		s.actx.font = fonts[this.font];
+		s.actx.fillText(khgrid[this.row][this.col], s.tile/2-s.tile/30, s.tile/2+s.tile/30);
+		s.actx.fillStyle = "#fff";
 		s.actx.fillText(khgrid[this.row][this.col], s.tile/2, s.tile/2);
 		s.actx.restore();
 		//this.rect.draw();
@@ -282,8 +318,8 @@ function machine(x, y, w, h, font, label, transf){
 		s.actx.fillRect(0, 0, s.tile - 8, s.tile - 8);
 		for(let i=0; i<100; ++i){
 			s.actx.fillStyle = `rgb(${100 + Math.random() * 50}, ${100 + Math.random() * 55}, ${50*Math.random()})`;
-			let w = (s.tile-8)/2*Math.random();
-			let h = (s.tile-8)/2*Math.random();
+			let w = (s.tile-8)/4*Math.random();
+			let h = (s.tile-8)/4*Math.random();
 			let x = (s.tile-8-w)*Math.random()
 			let y = (s.tile-8-h)*Math.random()
 			s.actx.fillRect(x, y, w, h);
@@ -320,11 +356,11 @@ let binis = [
 ];
 
 let machines = [
-	new machine(250, 50, 100, 100, 0, ">", kh_tonasal),
-	new machine(200, 220, 100, 100, 0, "-", kh_dec),
-	new machine(20, 230, 100, 100, 0, "h", kh_toasp),
-	new machine(400, 130, 70, 70, 0, ")+", kh_incrow),
-	new machine(500, 50, 70, 70, 0, "F+", kh_nextfont),
+	new machine(250, 50, 60, 60, 0, ">", kh_tonasal),
+	new machine(200, 220, 60, 60, 0, "-", kh_dec),
+	new machine(20, 230, 60, 60, 0, "h", kh_toasp),
+	new machine(400, 130, 60, 60, 0, ")+", kh_incrow),
+	new machine(500, 50, 60, 60, 0, "F+", kh_nextfont),
 ];
 
 const game = {
@@ -345,8 +381,10 @@ const game = {
 		if(down){
 			if(!this.cobj){
 				binis.forEach((b) =>{
-					if(b.rect.intersects(x, y))
+					if(b.rect.intersects(x, y)){
 						this.cobj = b;
+						desc.innerHTML = kh_desc(b.row, b.col);
+					}
 				});
 			}
 		}else if(this.cobj){
