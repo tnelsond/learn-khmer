@@ -447,7 +447,12 @@ const game = {
 	},
 	render: function(){
 		// Optional: fill background so you see if text is missing
-		ctx.fillStyle = "#aaa";
+		this.clear();
+		const ling = ctx.createLinearGradient(0, 0, 0, canvas.height);
+		ling.addColorStop(0, "#bcf");
+		ling.addColorStop(0.6, "#16c");
+		ling.addColorStop(0.63, "#2a1");
+		ctx.fillStyle = ling;
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 		machines.forEach((m) => {
