@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Khmer Canvas + Custom WOFF2</title>
+  <title>Learn Khmer</title>
   <style>
     @font-face {
       font-family: 'Nokora';
@@ -72,11 +72,11 @@ const canvas = document.getElementById('c');
 const ctx = canvas.getContext('2d');
 
 const fonts = [
-	"24px 'Nokora'",
-	"24px 'Muol'",
-	"24px 'Fasthand'",
-	"24px 'Bokor'",
-	"24px 'Metalchrieng'"];
+	"32px 'Nokora'",
+	"28px 'Muol'",
+	"26px 'Fasthand'",
+	"30px 'Bokor'",
+	"34px 'Metalchrieng'"];
 
 const khgrid = [
 	["ក", "ខ", "គ", "ឃ", "ង"],
@@ -131,6 +131,48 @@ function kh_toasp(b){
 	}
 }
 
+function particle(x, y, w, h, color, vx, vy, life){
+	this.vx = vx;
+	this.vy = vy;
+	this.life = life;
+	this.rect = new rect(x, y, w, h, color);
+	this.draw = function(){
+		ctx.globalAlpha = this.life/30;
+		ctx.fillStyle = this.rect.color;
+		ctx.fillRect(this.rect.x, this.rect.y, this.rect.w, this.rect.h);
+		ctx.globalAlpha = 1;
+	}
+	this.update = function(){
+		this.rect.x += this.vx;
+		this.rect.y += this.vy;
+		--this.life;
+	}
+}
+
+let particles = [
+	new particle(0, 0, 5, 5, "#F40", 0.1, -0.1, 10),
+	new particle(0, 0, 5, 5, "#FA0", -0.1, -0.1, 10),
+	new particle(0, 0, 5, 5, "#C90", 0.1, -0.1, 10),
+	new particle(0, 0, 5, 5, "#aa0", -0.2, -0.1, 10),
+	new particle(0, 0, 5, 5, "#880", 0.2, -0.1, 10),
+	new particle(0, 0, 5, 5, "#F50", 0.1, -0.1, 10),
+	new particle(0, 0, 5, 5, "#Fb0", -0.1, -0.1, 10),
+	new particle(0, 0, 5, 5, "#C90", 0.1, -0.1, 10),
+	new particle(0, 0, 5, 5, "#aa0", -0.2, -0.1, 10),
+	new particle(0, 0, 5, 5, "#880", 0.2, -0.1, 10),
+	new particle(0, 0, 5, 5, "#F40", 0.1, -0.1, 10),
+	new particle(0, 0, 5, 5, "#FA0", -0.1, -0.1, 10),
+	new particle(0, 0, 5, 5, "#C90", 0.1, -0.1, 10),
+	new particle(0, 0, 5, 5, "#aa0", -0.2, -0.1, 10),
+	new particle(0, 0, 5, 5, "#880", 0.2, -0.1, 10),
+	new particle(0, 0, 5, 5, "#F50", 0.1, -0.1, 10),
+	new particle(0, 0, 5, 5, "#F40", 0.1, -0.1, 10),
+	new particle(0, 0, 5, 5, "#FA0", -0.1, -0.1, 10),
+	new particle(0, 0, 5, 5, "#C90", 0.1, -0.1, 10),
+	new particle(0, 0, 5, 5, "#aa0", -0.2, -0.1, 10),
+	new particle(0, 0, 5, 5, "#880", 0.2, -0.1, 10),
+	new particle(0, 0, 5, 5, "#F50", 0.1, -0.1, 10),
+];
 
 function rect(x, y, w, h, color){
 	this.x = x;
@@ -139,8 +181,10 @@ function rect(x, y, w, h, color){
 	this.h = h;
 	this.color = color;
 	this.draw = function(){
-		ctx.fillStyle = this.color;
-		ctx.fillRect(this.x, this.y, this.w, this.h);
+		ctx.strokeStyle = "#F00";
+		ctx.setLineDash([4, 2]);
+		ctx.strokeWidth = 3;
+		ctx.strokeRect(this.x, this.y, this.w, this.h);
 	}
 	this.intersects = function(x, y, w=1, h=1){
 		if(!x || !y)
@@ -149,6 +193,8 @@ function rect(x, y, w, h, color){
 			y + h >= this.y && y <= this.y + this.h;
 	}
 }
+
+const anim = [30, 90];
 
 function khc(row, col, font, x, y, w, h){
 	this.row = row;
@@ -159,14 +205,21 @@ function khc(row, col, font, x, y, w, h){
 	this.rect = new rect(x, y, w, h, kh_isnasal(row, col) ? "#f70" : "#909");
 	this.draw = function(){
 		ctx.save();
-		ctx.translate(0, Math.sin(this.frame/5)*15);
-		this.rect.draw();
+		const tremor = (-Math.cos(this.frame*Math.PI/anim[0])+1)/2*Math.cos(this.frame*Math.PI/10);
+		ctx.translate(this.rect.x+this.rect.w/2, this.rect.y+this.rect.h/2);
+		//ctx.rotate(this.a);
+		ctx.scale(1-tremor/2, 1+tremor/2)
+		ctx.shadowColor = "#000";
+		ctx.shadowBlur = 3;
+		ctx.fillStyle = this.rect.color;
+		ctx.fillRect(-this.rect.w/2, -this.rect.h/2, this.rect.w, this.rect.h);
 		ctx.textBaseline = "middle";
 		ctx.textAlign = "center";
 		ctx.fillStyle = "#fff";
 		ctx.font = fonts[this.font];
-		ctx.fillText(khgrid[this.row][this.col], this.rect.x + this.rect.w/2, this.rect.y + this.rect.h/2);
+		ctx.fillText(khgrid[this.row][this.col], 0, 0);
 		ctx.restore();
+		this.rect.draw();
 	}
 }
 
@@ -174,20 +227,32 @@ function machine(x, y, w, h, font, label, transf){
 	this.rect = new rect(x, y, w, h, "#555");
 	this.font = font;
 	this.label = label;
+	this.frame = 0;
 	this.transf = transf;
 	this.draw = function(){
 		this.rect.draw();
+		ctx.save();
+		ctx.translate(this.rect.x + this.rect.w/2, this.rect.y + this.rect.h/2);
+		const ling = ctx.createLinearGradient(-50, -50, 50, 50);
+		ling.addColorStop(1, "#a83");
+		ling.addColorStop(0, "#fb8");
+		//this.frame += 0.01;
+		//ctx.rotate(this.frame);
+		ctx.fillStyle = ling;
+		ctx.fillRect(-this.rect.w/2, -this.rect.h/2, this.rect.w, this.rect.h);
 		ctx.textBaseline = "middle";
 		ctx.textAlign = "center";
 		ctx.fillStyle = "#fff";
 		ctx.font = fonts[this.font];
-		ctx.fillText(this.label, this.rect.x + this.rect.w/2, this.rect.y + this.rect.h/2);
+		ctx.fillText(this.label, 0, 0);
+		ctx.restore();
 	}
 }
 
 let binis = [
 	new khc(0, 0, 0, 50, 50, 50, 50),
 	new khc(1, 0, 2, 150, 50, 50, 50),
+	new khc(2, 3, 3, 20, 200, 50, 50),
 	new khc(0, 4, 1, 50, 150, 50, 50)
 ];
 
@@ -227,12 +292,20 @@ const game = {
 			machines.forEach((m) => {
 				if(this.cobj.rect.intersects(m.rect.x, m.rect.y, m.rect.w, m.rect.h)){
 					m.transf(this.cobj);
-					this.cobj.frame = 30;
+					particles.forEach((p) =>{
+						p.rect.x = this.cobj.rect.x + this.cobj.rect.w * Math.random();
+						p.rect.y = this.cobj.rect.y + this.cobj.rect.h * Math.random();
+						p.rect.w = 1 + Math.random() * 5;
+						p.rect.h = 1 + Math.random() * 5;
+						p.vx = 1 * Math.random() - 0.5;
+						p.vy = -1 * Math.random();
+						p.life = 30 * Math.random() + 30;
+					});
+					this.cobj.frame = anim[0];
 				}
 			});
 			this.cobj = null;
 		}
-		console.log(`${this.x} ${this.y} ${this.cobj}`);
 	},
 	start: function(){
 		const updateMouse = (e) => {
@@ -251,19 +324,22 @@ const game = {
     window.addEventListener('pointerup', (e) => {
 			this.handleMouse(e.pageX, e.pageY, false);
     })
-		this.interval = setInterval(this.loop.bind(this), 20);
-	},
-	stop: function(){
-		clearInterval(this.interval);
 	},
 	clear: function(){
 		 ctx.clearRect(0, 0, canvas.width, canvas.height);
 	},
-	loop: async function() {
+	update: function() {
+		particles.forEach((p) =>{
+			if(p.life > 0){
+				p.update();
+			}
+		});
 		if(this.cobj){
 			this.cobj.rect.x = this.x - this.cobj.rect.w/2;
 			this.cobj.rect.y = this.y - this.cobj.rect.h + (this.mobile ? -50 : 0);
 		}
+	},
+	render: function(){
 		// Optional: fill background so you see if text is missing
 		ctx.fillStyle = "#aaa";
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -276,10 +352,23 @@ const game = {
 				--b.frame;
 			b.draw();
 		});
+		particles.forEach((p) =>{
+			if(p.life > 0){
+				p.draw();
+			}
+		});
 	}
 };
 
-game.start();
+;(() => {
+	game.start();
+  function main(tFrame) {
+    game.stopMain = window.requestAnimationFrame(main);
+    game.update(tFrame);
+		game.render();
+  }
+  main(); // Start the cycle
+})();
 </script>
 
 </body>
