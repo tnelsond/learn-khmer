@@ -227,6 +227,21 @@ let particles = [
 	new particle(0, 0, 5, 5, "#F50", 0.1, -0.1, 10),
 ];
 
+function tpath(x, y, w, h, transf, ex, ey){
+	this.rect = new rect(x, y, w, h);
+	this.transf = transf;
+	this.ex = ex;
+	this.ey = ey;
+	this.draw = function(){
+		this.rect.draw();
+	}
+}
+
+let paths = [
+	new tpath(100, 100, 50, 50, kh_isnasal, 300, 150),
+	new tpath(100, 200, 50, 50, kh_isasp, 300, 150)
+];
+
 function rect(x, y, w, h, color){
 	this.x = x;
 	this.y = y;
@@ -254,8 +269,12 @@ function khc(row, col, font, x, y, w, h){
 	this.col = col;
 	this.font = font;
 	this.a = 0;
+	this.vx = 0;
+	this.vy = 0;
 	this.sprite;
 	this.frame = 0;
+	this.anim;
+	this.path = null;
 	this.rect = new rect(x, y, w, h, kh_isnasal(row, col) ? "#f70" : "#909");
 	this.generate = function(){
 		if(this.sprite === undefined)
@@ -286,10 +305,17 @@ function khc(row, col, font, x, y, w, h){
 	};
 	this.draw = function(){
 		ctx.save();
-		const tremor = (-Math.cos(this.frame*Math.PI/anim[0])+1)/2*Math.cos(this.frame*Math.PI/10);
 		ctx.translate(this.rect.x+this.rect.w/2, this.rect.y+this.rect.h/2);
-		//ctx.rotate(this.a);
-		ctx.scale(1-tremor/2, 1+tremor/2)
+		if(this.anim == 0){
+			const tremor = (-Math.cos(this.frame*Math.PI/anim[0])+1)/2*Math.cos(this.frame*Math.PI/10);
+			//ctx.rotate(this.a);
+			ctx.scale(1-tremor/2, 1+tremor/2)
+		}else if(this.anim == 1){
+			const jump = (Math.sin(this.frame/this.rect.w*5));
+			ctx.translate(0, jump*this.rect.h/2);
+			ctx.rotate(-jump*Math.PI/4);
+			ctx.scale(1+jump/4, 1-jump/4);
+		}
 		ctx.drawImage(
       s.atlas,
       s.tile*(this.sprite%s.cols), s.tile*Math.floor(this.sprite/s.rows), s.tile, s.tile,
@@ -298,6 +324,17 @@ function khc(row, col, font, x, y, w, h){
 		ctx.restore();
 		//this.rect.draw();
 	};
+	this.update = function(){
+		this.rect.x += this.vx;
+		this.rect.y += this.vy;
+		--this.frame;
+		if(this.frame <= 0)
+			this.anim = undefined;
+		if(this.path){
+			this.vx = (this.rect.x < this.path.ex) ? 1 : -1;
+			this.vy = (this.rect.y < this.path.ey) ? 1 : -1;
+		}
+	}
 }
 
 function machine(x, y, w, h, font, label, transf){
@@ -388,6 +425,13 @@ const game = {
 				});
 			}
 		}else if(this.cobj){
+			paths.forEach((p) =>{
+				if(this.cobj.rect.intersects(p.rect.x, p.rect.y, p.rect.w, p.rect.h)){
+					this.cobj.path = p;
+					this.cobj.anim = 1;
+					this.cobj.frame = 500;
+				}
+			});
 			machines.forEach((m) => {
 				if(this.cobj.rect.intersects(m.rect.x, m.rect.y, m.rect.w, m.rect.h)){
 					m.transf(this.cobj);
@@ -402,6 +446,7 @@ const game = {
 						p.life = 30 * Math.random() + 30;
 					});
 					this.cobj.frame = anim[0];
+					this.cobj.anim = 0;
 				}
 			});
 			this.cobj = null;
@@ -435,6 +480,9 @@ const game = {
 		 ctx.clearRect(0, 0, canvas.width, canvas.height);
 	},
 	update: function() {
+		binis.forEach((b) =>{
+			b.update();
+		});
 		particles.forEach((p) =>{
 			if(p.life > 0){
 				p.update();
@@ -458,9 +506,10 @@ const game = {
 		machines.forEach((m) => {
 			m.draw();
 		});
+		paths.forEach((p) => {
+			p.draw();
+		});
 		binis.forEach((b) => {
-			if(b.frame > 0)
-				--b.frame;
 			b.draw();
 		});
 		particles.forEach((p) =>{
