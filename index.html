@@ -155,14 +155,18 @@ function khc(row, col, font, x, y, w, h){
 	this.col = col;
 	this.font = font;
 	this.a = 0;
+	this.frame = 0;
 	this.rect = new rect(x, y, w, h, kh_isnasal(row, col) ? "#f70" : "#909");
 	this.draw = function(){
+		ctx.save();
+		ctx.translate(0, Math.sin(this.frame/5)*15);
 		this.rect.draw();
 		ctx.textBaseline = "middle";
 		ctx.textAlign = "center";
 		ctx.fillStyle = "#fff";
 		ctx.font = fonts[this.font];
 		ctx.fillText(khgrid[this.row][this.col], this.rect.x + this.rect.w/2, this.rect.y + this.rect.h/2);
+		ctx.restore();
 	}
 }
 
@@ -223,6 +227,7 @@ const game = {
 			machines.forEach((m) => {
 				if(this.cobj.rect.intersects(m.rect.x, m.rect.y, m.rect.w, m.rect.h)){
 					m.transf(this.cobj);
+					this.cobj.frame = 30;
 				}
 			});
 			this.cobj = null;
@@ -267,6 +272,8 @@ const game = {
 			m.draw();
 		});
 		binis.forEach((b) => {
+			if(b.frame > 0)
+				--b.frame;
 			b.draw();
 		});
 	}
