@@ -3,82 +3,167 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Learn Khmer</title>
-  <style>
-    @font-face {
-      font-family: 'Nokora';
-      src: url('./nokora-bold.woff') format('woff');
-      font-weight: normal;
-      font-style: normal;
-      font-display: swap;
-		}
-    @font-face {
-      font-family: 'Muol';
-      src: url('./muol.woff') format('woff');
-      font-weight: normal;
-      font-style: normal;
-      font-display: swap;
-		}
-    @font-face {
-      font-family: 'Fasthand';
-      src: url('./fasthand.woff') format('woff');
-      font-weight: normal;
-      font-style: normal;
-      font-display: swap;
-		}
-    @font-face {
-      font-family: 'Bokor';
-      src: url('./bokor.woff') format('woff');
-      font-weight: normal;
-      font-style: normal;
-      font-display: swap;
-		}
-    @font-face {
-      font-family: 'Metalchrieng';
-      src: url('./metalchrieng.woff') format('woff');
-      font-weight: normal;
-      font-style: normal;
-      font-display: swap;
-		}
+<title>Learn Khmer</title>
+<style>
+	@font-face {
+		font-family: 'Nokora';
+		src: url('./nokora-bold.woff') format('woff');
+		font-weight: normal;
+		font-style: normal;
+		font-display: swap;
+	}
+	@font-face {
+		font-family: 'Muol';
+		src: url('./muol.woff') format('woff');
+		font-weight: normal;
+		font-style: normal;
+		font-display: swap;
+	}
+	@font-face {
+		font-family: 'Fasthand';
+		src: url('./fasthand.woff') format('woff');
+		font-weight: normal;
+		font-style: normal;
+		font-display: swap;
+	}
+	@font-face {
+		font-family: 'Bokor';
+		src: url('./bokor.woff') format('woff');
+		font-weight: normal;
+		font-style: normal;
+		font-display: swap;
+	}
+	@font-face {
+		font-family: 'Metalchrieng';
+		src: url('./metalchrieng.woff') format('woff');
+		font-weight: normal;
+		font-style: normal;
+		font-display: swap;
+	}
 
+<!-- REPLACE your entire <style> block with this (fonts stay the same) -->
+<style>
+  @font-face {
+    font-family: 'Nokora'; src: url('./nokora-bold.woff') format('woff'); font-weight: normal; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'Muol'; src: url('./muol.woff') format('woff'); font-weight: normal; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'Fasthand'; src: url('./fasthand.woff') format('woff'); font-weight: normal; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'Bokor'; src: url('./bokor.woff') format('woff'); font-weight: normal; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'Metalchrieng'; src: url('./metalchrieng.woff') format('woff'); font-weight: normal; font-style: normal; font-display: swap;
+  }
 
   html, body {
     margin: 0;
     padding: 0;
     height: 100%;
+    overflow: hidden;               /* ← KILLS ALL SCROLLING */
     overscroll-behavior: none;
-    touch-action: manipulation;   /* optional: improves touch feel, reduces 300ms delay */
-		-webkit-text-size-adjust: 100%;  /* prevents iOS font size zoom */
+    touch-action: manipulation;
+    -webkit-text-size-adjust: 100%;
+    background: #000;
+  }
+
+  .app-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+  }
+
+  #main-area {
+    position: relative;
+    background: #112;
+    flex-shrink: 0;                 /* ← critical: never shrink */
+    margin: 0 auto;
   }
 
   canvas {
-    display: block;               /* removes unwanted bottom gap */
-    touch-action: none;           /* ← important for canvas drag + no zoom */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    image-rendering: pixelated;
+    touch-action: none;
+    pointer-events: none;
+  }
+  canvas#c {
+    pointer-events: auto;
+    z-index: 2;
+  }
+  canvas#bg {
+    z-index: 1;
+  }
 
-    body {
-      font-family: 'Nokora', 'Noto Sans Khmer', sans-serif;
+  #main-area {
+    width: 100%;
+    aspect-ratio: 320 / 180;
+  }
+  #desc {
+    flex-shrink: 0;
+    max-height: 40vh;
+    background: rgba(20,20,40,0.9);
+    color: #eee;
+    padding: 12px;
+    overflow-y: auto;
+  }
+
+  /* LANDSCAPE / WIDE → maximize HEIGHT, letterbox horizontally, desc on right */
+  @media (min-aspect-ratio: 16/9) and (min-width: 680px) {
+    .app-container {
+      flex-direction: row;
     }
+    #main-area {
+      width: auto;
+      height: 100%;
+      aspect-ratio: 320 / 180;
+    }
+    #desc {
+      width: 320px;
+      flex-shrink: 0;
+      background: rgba(20,20,40,0.85);
+      color: #eee;
+      padding: 16px;
+      overflow-y: auto;
+    }
+  }
+
   </style>
 </head>
 <body>
-
-<canvas id="c" width="700" height="350"></canvas>
-<div id="desc"></div>
-
+  <div class="app-container">
+    <div id="main-area">
+      <canvas id="bg" width="320" height="180"></canvas>
+      <canvas id="c" width="320" height="180"></canvas>
+    </div>
+    <div id="desc"></div>
+  </div>
 <script>
 
 "use strict";
 
+const bg = document.getElementById('bg');
+const bctx = bg.getContext('2d', {alpha: false});
 const canvas = document.getElementById('c');
 const desc = document.getElementById('desc');
 const ctx = canvas.getContext('2d');
+let screen = null;
+let scale = 1;
+updateCanvasSize();
 
 const fonts = [
-	"38px 'Nokora'",
-	"34px 'Muol'",
-	"30px 'Fasthand'",
-	"34px 'Bokor'",
-	"38px 'Metalchrieng'"];
+	"20px 'Nokora'",
+	"16px 'Muol'",
+	"17px 'Fasthand'",
+	"18px 'Bokor'",
+	"20px 'Metalchrieng'"];
 
 const khgrid = [
 	["ក", "ខ", "គ", "ឃ", "ង"],
@@ -117,7 +202,7 @@ const s = {
 	rects: null,
 	rows: 8,
 	cols: 8,
-	tile: 64,
+	tile: 32,
 	atlas: null,
 	actx: null,
 	newsprite: function(){
@@ -238,8 +323,8 @@ function tpath(x, y, w, h, transf, ex, ey){
 }
 
 let paths = [
-	new tpath(100, 100, 50, 50, kh_isnasal, 300, 150),
-	new tpath(100, 200, 50, 50, kh_isasp, 300, 150)
+	new tpath(160, 10, 32, 32, kh_isnasal, 280, 30),
+	new tpath(140, 130, 32, 32, kh_isasp, 270, 100)
 ];
 
 function rect(x, y, w, h, color){
@@ -274,6 +359,7 @@ function khc(row, col, font, x, y, w, h){
 	this.sprite;
 	this.frame = 0;
 	this.anim;
+	this.phase = 0;
 	this.path = null;
 	this.rect = new rect(x, y, w, h, kh_isnasal(row, col) ? "#f70" : "#909");
 	this.generate = function(){
@@ -305,16 +391,16 @@ function khc(row, col, font, x, y, w, h){
 	};
 	this.draw = function(){
 		ctx.save();
-		ctx.translate(this.rect.x+this.rect.w/2, this.rect.y+this.rect.h/2);
+		ctx.translate(Math.round(this.rect.x+this.rect.w/2), Math.round(this.rect.y+this.rect.h/2));
 		if(this.anim == 0){
-			const tremor = (-Math.cos(this.frame*Math.PI/anim[0])+1)/2*Math.cos(this.frame*Math.PI/10);
-			//ctx.rotate(this.a);
-			ctx.scale(1-tremor/2, 1+tremor/2)
+			this.phase = (-Math.cos(this.frame*Math.PI/anim[0])+1)/2*Math.cos(this.frame*Math.PI/10);
+			ctx.rotate(this.a);
+			ctx.scale(1-this.phase/2, 1+this.phase/2)
 		}else if(this.anim == 1){
-			const jump = (Math.sin(this.frame/this.rect.w*5));
-			ctx.translate(0, jump*this.rect.h/2);
-			ctx.rotate(-jump*Math.PI/4);
-			ctx.scale(1+jump/4, 1-jump/4);
+			this.phase = (Math.sin(this.frame/this.rect.w*5));
+			ctx.translate(0, this.phase*this.rect.h/2);
+			ctx.rotate(-this.phase*Math.PI/4);
+			ctx.scale(1+this.phase/4, 1-this.phase/4);
 		}
 		ctx.drawImage(
       s.atlas,
@@ -333,6 +419,13 @@ function khc(row, col, font, x, y, w, h){
 		if(this.path){
 			this.vx = (this.rect.x < this.path.ex) ? 1 : -1;
 			this.vy = (this.rect.y < this.path.ey) ? 1 : -1;
+			if(Math.abs(this.rect.x - this.path.ex) < 3 && Math.abs(this.rect.y - this.path.ey) < 3 && Math.abs(this.phase) < 0.1){
+			const jump = (Math.sin(this.frame/this.rect.w*5));
+				this.anim = undefined;
+				this.path = null;
+				this.frame = 0;
+				this.vx = this.vy = 0;
+			}
 		}
 	}
 }
@@ -386,19 +479,24 @@ function machine(x, y, w, h, font, label, transf){
 }
 
 let binis = [
-	new khc(0, 0, 0, 50, 50, 60, 50),
-	new khc(1, 0, 2, 150, 50, 50, 60),
-	new khc(2, 3, 3, 20, 200, 50, 50),
-	new khc(0, 4, 1, 50, 150, 50, 50)
+	new khc(0, 0, 0, 20, 20, 32, 32),
+	new khc(1, 0, 2, 50, 50, 32, 32),
+	new khc(2, 3, 3, 20, 100, 32, 32),
+	new khc(0, 4, 1, 10, 50, 32, 32)
 ];
 
 let machines = [
-	new machine(250, 50, 60, 60, 0, ">", kh_tonasal),
-	new machine(200, 220, 60, 60, 0, "-", kh_dec),
-	new machine(20, 230, 60, 60, 0, "h", kh_toasp),
-	new machine(400, 130, 60, 60, 0, ")+", kh_incrow),
-	new machine(500, 50, 60, 60, 0, "F+", kh_nextfont),
+	new machine(150, 50, 32, 32, 0, ">", kh_tonasal),
+	new machine(100, 120, 32, 32, 0, "-", kh_dec),
+	new machine(20, 130, 32, 32, 0, "h", kh_toasp),
+	new machine(100, 70, 32, 32, 0, ")+", kh_incrow),
+	new machine(100, 20, 32, 32, 0, "F+", kh_nextfont),
 ];
+
+function updateCanvasSize() {
+	screen = canvas.getBoundingClientRect();
+	scale = canvas.width/screen.width;
+}
 
 const game = {
 	mobile:
@@ -409,16 +507,19 @@ const game = {
 	y: null,
 	mousedown: false,
 	cobj: null,
-	handleMouse: function(x, y, down){
+	updateMouse: function(e){
 		this.lastX = this.x;
 		this.lastY = this.y;
-		this.x = x;
-		this.y = y;
+		this.x = (e.clientX - screen.x) * scale;
+		this.y = (e.clientY - screen.y) * scale;
+	},
+	handleMouse: function(e, down){
+		this.updateMouse(e);
 		this.mousedown = down;
 		if(down){
 			if(!this.cobj){
 				binis.forEach((b) =>{
-					if(b.rect.intersects(x, y)){
+					if(b.rect.intersects(this.x, this.y)){
 						this.cobj = b;
 						desc.innerHTML = kh_desc(b.row, b.col);
 					}
@@ -429,12 +530,13 @@ const game = {
 				if(this.cobj.rect.intersects(p.rect.x, p.rect.y, p.rect.w, p.rect.h)){
 					this.cobj.path = p;
 					this.cobj.anim = 1;
-					this.cobj.frame = 500;
+					this.cobj.frame = 200;
 				}
 			});
 			machines.forEach((m) => {
 				if(this.cobj.rect.intersects(m.rect.x, m.rect.y, m.rect.w, m.rect.h)){
 					m.transf(this.cobj);
+					desc.innerHTML = kh_desc(this.cobj.row, this.cobj.col);
 					this.cobj.generate();
 					particles.forEach((p) =>{
 						p.rect.x = this.cobj.rect.x + this.cobj.rect.w * Math.random();
@@ -453,27 +555,25 @@ const game = {
 		}
 	},
 	start: function(){
+		window.addEventListener('resize', updateCanvasSize);
+
 		binis.forEach((b) =>{
 			b.generate();
 		});
 		machines.forEach((m) =>{
 			m.generate();
 		});
-		const updateMouse = (e) => {
-			this.lastX = this.x;
-			this.lastY = this.y;
-			this.x = e.pageX;
-			this.y = e.pageY;
-		};
+		this.generate();
+
     window.addEventListener('pointermove', (e) => {
 			e.preventDefault();           // ← prevents page scroll on mobile
-			updateMouse(e);
+			this.updateMouse(e);
 		});
 		window.addEventListener('pointerdown', (e) => {
-			this.handleMouse(e.pageX, e.pageY, true);
+			this.handleMouse(e, true);
     })
     window.addEventListener('pointerup', (e) => {
-			this.handleMouse(e.pageX, e.pageY, false);
+			this.handleMouse(e, false);
     })
 	},
 	clear: function(){
@@ -490,20 +590,30 @@ const game = {
 		});
 		if(this.cobj){
 			this.cobj.rect.x = this.x - this.cobj.rect.w/2;
-			this.cobj.rect.y = this.y - this.cobj.rect.h + (this.mobile ? -50 : 0);
+			this.cobj.rect.y = this.y - this.cobj.rect.h + (this.mobile ? -16 : 0);
 		}
 	},
-	render: function(){
-		// Optional: fill background so you see if text is missing
-		this.clear();
-		const ling = ctx.createLinearGradient(0, 0, 0, canvas.height);
+	generate: function(){
+		const ling = bctx.createLinearGradient(0, 0, 0, canvas.height);
 		ling.addColorStop(0, "#bcf");
 		ling.addColorStop(0.6, "#16c");
 		ling.addColorStop(0.63, "#2a1");
-		ctx.fillStyle = ling;
-		ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-		machines.forEach((m) => {
+		bctx.fillStyle = ling;
+		bctx.fillRect(0, 0, bg.width, bg.height);
+		for(let i=0; i<900; ++i){
+			bctx.save();
+			bctx.translate(Math.random()*bg.width, bg.height/2+bg.height/8 + Math.random()*bg.height/2);
+			bctx.rotate(Math.random() *Math.PI);
+			bctx.fillStyle = `rgb(${50+Math.random()*40}, ${150+Math.random()*100}, ${Math.random()*20})`;
+			const w = Math.random() * 5;	
+			const h = Math.random() * 5;	
+			bctx.fillRect(0, 0, w, h);
+			bctx.restore();
+		}
+	},
+	render: function(){
+		this.clear();
+			machines.forEach((m) => {
 			m.draw();
 		});
 		paths.forEach((p) => {
