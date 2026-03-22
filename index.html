@@ -154,6 +154,8 @@ const bctx = bg.getContext('2d', {alpha: false});
 const canvas = document.getElementById('c');
 const desc = document.getElementById('desc');
 const ctx = canvas.getContext('2d');
+ctx.imageSmoothingEnabled = false;
+bctx.imageSmoothingEnabled = false;
 let screen = null;
 let scale = 1;
 updateCanvasSize();
@@ -215,7 +217,6 @@ const s = {
 		this.actx = this.atlas.getContext('2d');
 		this.actx.imageSmoothingEnabled = false;
 		this.rects = new Array(this.rows * this.cols).fill(false);
-		console.log(this.rects);
 	},
 };
 s.populate();
@@ -323,8 +324,8 @@ function tpath(x, y, w, h, transf, ex, ey){
 }
 
 let paths = [
-	new tpath(160, 10, 32, 32, kh_isnasal, 280, 30),
-	new tpath(140, 130, 32, 32, kh_isasp, 270, 100)
+	new tpath(160, 10, 32, 32, kh_isnasal, 280, 10),
+	new tpath(140, 130, 32, 32, kh_isasp, 270, 130)
 ];
 
 function rect(x, y, w, h, color){
@@ -336,7 +337,7 @@ function rect(x, y, w, h, color){
 	this.draw = function(){
 		ctx.strokeStyle = "#F00";
 		ctx.setLineDash([4, 2]);
-		ctx.strokeWidth = 3;
+		ctx.strokeWidth = 1;
 		ctx.strokeRect(this.x, this.y, this.w, this.h);
 	}
 	this.intersects = function(x, y, w=1, h=1){
@@ -348,6 +349,83 @@ function rect(x, y, w, h, color){
 }
 
 const anim = [30, 90];
+
+function hexToRgb(hex) {
+  hex = hex.replace(/^#/, '');
+  if (hex.length === 3) {
+    hex = hex.split('').map(c => c + c).join('');
+  }
+  if (!/^[0-9A-F]{6}$/i.test(hex)) {
+    throw new Error('Invalid Hex color: ' + hex);
+  }
+  const r = parseInt(hex.slice(0, 2), 16);
+  const g = parseInt(hex.slice(2, 4), 16);
+  const b = parseInt(hex.slice(4, 6), 16);
+  return { r, g, b };
+}
+function rgbToHsl(r, g, b) {
+  // Normalize RGB to 0-1
+  r /= 255;
+  g /= 255;
+  b /= 255;
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  let h, s, l = (max + min) / 2;
+  // If max == min, it's a gray color (no hue/saturation)
+  if (max === min) {
+    h = 0; // Hue is irrelevant
+    s = 0; // Saturation is 0 (gray)
+  } else {
+    const delta = max - min;
+    // Saturation depends on lightness
+    s = l > 0.5 ? delta / (2 - max - min) : delta / (max + min);
+    // Calculate hue based on which component is max
+    switch (max) {
+      case r: h = (g - b) / delta + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / delta + 2; break;
+      case b: h = (r - g) / delta + 4; break;
+    }
+    h *= 60; // Convert to degrees (0-360)
+  }
+  return { h: Math.round(h), s: parseFloat(s.toFixed(2)), l: parseFloat(l.toFixed(2)) };
+}
+function hslToRgb(h, s, l) {
+  let r, g, b;
+  if (s === 0) {
+    r = g = b = l; // Gray (no saturation)
+  } else {
+    const hue2rgb = (p, q, t) => {
+      if (t < 0) t += 1;
+      if (t > 1) t -= 1;
+      if (t < 1/6) return p + (q - p) * 6 * t;
+      if (t < 1/2) return q;
+      if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+      return p;
+    };
+    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    const p = 2 * l - q;
+    h /= 360; // Normalize hue to 0-1
+    r = hue2rgb(p, q, h + 1/3);
+    g = hue2rgb(p, q, h);
+    b = hue2rgb(p, q, h - 1/3);
+  }
+  // Convert to 0-255 and round
+  return {
+    r: Math.round(r * 255),
+    g: Math.round(g * 255),
+    b: Math.round(b * 255)
+  };
+}
+function rgbToHex(r, g, b) {
+  // Ensure values are 0-255
+  const clamp = (x) => Math.max(0, Math.min(255, x));
+  r = clamp(r);
+  g = clamp(g);
+  b = clamp(b);
+  // Convert to 2-digit hex
+  const toHex = (x) => x.toString(16).padStart(2, '0');
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase();
+}
 
 function khc(row, col, font, x, y, w, h){
 	this.row = row;
@@ -366,28 +444,41 @@ function khc(row, col, font, x, y, w, h){
 		if(this.sprite === undefined)
 			this.sprite = s.newsprite();
 		s.actx.clearRect(s.tile * (this.sprite % s.cols), s.tile * Math.floor(this.sprite/s.rows), s.tile, s.tile);
-		console.log(this.sprite);
 		s.actx.save();
 		s.actx.translate(s.tile * (this.sprite % s.cols), s.tile * Math.floor(this.sprite/s.rows));
-		s.actx.shadowColor = "#000";
-		s.actx.shadowBlur = 3;
-		const grad = s.actx.createRadialGradient(s.tile/2, s.tile/3, s.tile/4, s.tile/2, s.tile/2, s.tile/2);
+		const grad = s.actx.createRadialGradient(s.tile/2, s.tile/3, s.tile/3,
+																						s.tile/2, s.tile/2, s.tile/2);
+		//function hslToRgb(h, s, l) {
+		//function rgbToHsl(r, g, b) {
+		//function hexToRgb(hex) {
+		let color = hexToRgb(this.rect.color);
+		color = rgbToHsl(color.r, color.g, color.b);
+		console.log(color);
+		color.l *= 0.5;
+		let color2 = hslToRgb(color.h, color.s, color.l);
 		grad.addColorStop(0, this.rect.color);
-		grad.addColorStop(1, "#000");
+		grad.addColorStop(0.1, this.rect.color);
+		grad.addColorStop(0.31, rgbToHex(color2.r, color2.g, color2.b));
 		s.actx.fillStyle = grad;
 		s.actx.beginPath()
-		s.actx.arc(s.tile/2, s.tile/2, s.tile/2 -2, 0, 2*Math.PI);
+		color.l *= 0.3;
+		color2 = hslToRgb(color.h, color.s, color.l);
+		s.actx.arc(s.tile/2, s.tile/2, s.tile/2 -1.0, 0, 2*Math.PI);
 		s.actx.fill();
-		//s.actx.fillRect(0, 0, s.tile - 8, s.tile - 8);
+		s.actx.strokeWidth = 1;
+		s.actx.strokeStyle = rgbToHex(color2.r, color2.g, color2.b);
+		s.actx.stroke();
+		s.actx.shadowColor = "#000";
+		s.actx.shadowBlur = 3;
 		s.actx.textBaseline = "middle";
 		s.actx.textAlign = "center";
-		s.actx.fillStyle = "#000";
 		s.actx.font = fonts[this.font];
-		s.actx.fillText(khgrid[this.row][this.col], s.tile/2-s.tile/30, s.tile/2+s.tile/30);
 		s.actx.fillStyle = "#fff";
+		s.actx.strokeWidth = 3;
+		s.actx.strokeStyle = "#000";
+		s.actx.strokeText(khgrid[this.row][this.col], s.tile/2, s.tile/2);
 		s.actx.fillText(khgrid[this.row][this.col], s.tile/2, s.tile/2);
 		s.actx.restore();
-		//this.rect.draw();
 	};
 	this.draw = function(){
 		ctx.save();
@@ -397,10 +488,11 @@ function khc(row, col, font, x, y, w, h){
 			ctx.rotate(this.a);
 			ctx.scale(1-this.phase/2, 1+this.phase/2)
 		}else if(this.anim == 1){
-			this.phase = (Math.sin(this.frame/this.rect.w*5));
-			ctx.translate(0, this.phase*this.rect.h/2);
-			ctx.rotate(-this.phase*Math.PI/4);
-			ctx.scale(1+this.phase/4, 1-this.phase/4);
+			this.phase = (Math.sin(this.frame/this.rect.w*3));
+			ctx.translate(0, -Math.abs(Math.round(this.phase*this.rect.h)));
+			//ctx.rotate(this.phase*Math.PI/2+Math.PI/4);
+			this.phase = -Math.abs(this.phase);
+			ctx.scale(1+this.phase/2, 1-this.phase/2);
 		}
 		ctx.drawImage(
       s.atlas,
