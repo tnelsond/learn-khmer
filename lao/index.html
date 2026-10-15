@@ -872,11 +872,10 @@ function drawChart(){
 const ALLL=ALLG,g5=ch=>R(ch)<4,gl=(r,k)=>GRID[r][k];
 const SWAP={'ຂ':'ຄ','ຄ':'ຂ','ສ':'ຊ','ຊ':'ສ','ຖ':'ທ','ທ':'ຖ','ຜ':'ພ','ພ':'ຜ','ຝ':'ຟ','ຟ':'ຝ','ຫ':'ຮ','ຮ':'ຫ'},HIDE={'ງ':'ຫງ','ຍ':'ຫຍ','ນ':'ໜ','ມ':'ໝ','ລ':'ຫຼ','ວ':'ຫວ'};
 const MACH=[
- {id:'breath',name:'Puff machine',desc:'Adds a puff of air',sym:'ʰ',col:'#22b8f0',need:0,run:ch=>g5(ch)&&R(ch)!==1&&K(ch)===0?[gl(R(ch),1)]:[]},
+ {id:'breath',name:'Puff machine',desc:'Adds a puff of air',sym:'ʰ',col:'#22b8f0',need:0,run:ch=>g5(ch)&&K(ch)===0?[gl(R(ch),1)]:[]},
  {id:'nasal',name:'Nasal machine',desc:'Through the nose',sym:'ŋ',col:'#ff9f1c',need:0,run:ch=>g5(ch)&&K(ch)<3?[gl(R(ch),3)]:[]},
  {id:'series',name:'Class machine',desc:'High ↔ low class',sym:'H|L',col:'#b5179e',need:0,run:ch=>SWAP[ch]?[SWAP[ch]]:[]},
  {id:'tongue',name:'Tongue machine',desc:'Plain sounds move on',sym:'→',col:'#3ddc84',need:0,gate:d=>GRID[0].every(c=>d.has(c)),gateText:'Discover ກ ຂ ຄ ງ first',run:ch=>g5(ch)&&R(ch)<3&&K(ch)===0?[gl(R(ch)+1,0)]:[]},
- {id:'hiss',name:'Hiss machine',desc:'A click → a hiss',sym:'s',col:'#00c2a8',need:2,run:ch=>ch==='ຈ'?['ສ']:[]},
  {id:'pop',name:'Pop machine',desc:'A softer pop',sym:'d b',col:'#ff4d6d',need:2,run:ch=>ch==='ຕ'?['ດ']:ch==='ປ'?['ບ']:[]},
  {id:'fan',name:'Fan machine',desc:'Lips touch the teeth',sym:'f',col:'#f77f00',need:3,run:ch=>ch==='ຜ'?['ຝ']:ch==='ພ'?['ຟ']:[]},
  {id:'throat',name:'Throat machine',desc:'Opens the throat',sym:'h',col:'#f15bb5',need:3,run:ch=>g5(ch)&&R(ch)===0&&K(ch)<3?['ຫ','ຮ']:[]},
@@ -892,7 +891,7 @@ const mpos=i=>({x:498+(i%2)*224,y:84+(i/2|0)*66,w:222,h:62}),pvc=ch=>pv[ch]||(pv
 const labSave=()=>{try{localStorage.setItem('llc-lab',JSON.stringify([...lab.d]))}catch(e){}};
 let tongueReady=true;try{tongueReady=localStorage.getItem('llc-tongue')!=='0'}catch(e){}
 const setTongue=v=>{tongueReady=v;try{localStorage.setItem('llc-tongue',v?'1':'0')}catch(e){}};
-const BASE=['breath','nasal','series'],ORDER=['hiss','pop','fan','throat','catch','glide','flow','hidden'];
+const BASE=['breath','nasal','series'],ORDER=['pop','fan','throat','catch','glide','flow','hidden'];
 let MU=[],mgAt=0;try{MU=JSON.parse(localStorage.getItem('llc-mu')||'[]');mgAt=+localStorage.getItem('llc-mg')||0}catch(e){}
 const saveMU=()=>{try{localStorage.setItem('llc-mu',JSON.stringify(MU));localStorage.setItem('llc-mg',mgAt)}catch(e){}};
 const canUse=(m,d)=>[...d].some(c=>m.run(c).some(x=>!d.has(x))),tongueDone=d=>['ຈ','ຕ','ປ'].every(c=>d.has(c));

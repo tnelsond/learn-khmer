@@ -185,11 +185,10 @@ function drawChart(){
 block('const ALLL=', 'const lab=', r"""const ALLL=ALLG,g5=ch=>R(ch)<4,gl=(r,k)=>GRID[r][k];
 const SWAP={'ຂ':'ຄ','ຄ':'ຂ','ສ':'ຊ','ຊ':'ສ','ຖ':'ທ','ທ':'ຖ','ຜ':'ພ','ພ':'ຜ','ຝ':'ຟ','ຟ':'ຝ','ຫ':'ຮ','ຮ':'ຫ'},HIDE={'ງ':'ຫງ','ຍ':'ຫຍ','ນ':'ໜ','ມ':'ໝ','ລ':'ຫຼ','ວ':'ຫວ'};
 const MACH=[
- {id:'breath',name:'Puff machine',desc:'Adds a puff of air',sym:'ʰ',col:'#22b8f0',need:0,run:ch=>g5(ch)&&R(ch)!==1&&K(ch)===0?[gl(R(ch),1)]:[]},
+ {id:'breath',name:'Puff machine',desc:'Adds a puff of air',sym:'ʰ',col:'#22b8f0',need:0,run:ch=>g5(ch)&&K(ch)===0?[gl(R(ch),1)]:[]},
  {id:'nasal',name:'Nasal machine',desc:'Sound through the nose',sym:'ŋ',col:'#ff9f1c',need:0,run:ch=>g5(ch)&&K(ch)<3?[gl(R(ch),3)]:[]},
  {id:'series',name:'Class machine',desc:'Swaps high and low class',sym:'H|L',col:'#b5179e',need:0,run:ch=>SWAP[ch]?[SWAP[ch]]:[]},
  {id:'tongue',name:'Tongue machine',desc:'Plain sounds move on',sym:'→',col:'#3ddc84',need:0,gate:d=>GRID[0].every(c=>d.has(c)),gateText:'Discover ກ ຂ ຄ ງ first',run:ch=>g5(ch)&&R(ch)<3&&K(ch)===0?[gl(R(ch)+1,0)]:[]},
- {id:'hiss',name:'Hiss machine',desc:'A click becomes a hiss',sym:'s',col:'#00c2a8',need:2,run:ch=>ch==='ຈ'?['ສ']:[]},
  {id:'pop',name:'Pop machine',desc:'A softer, popping sound',sym:'d b',col:'#ff4d6d',need:2,run:ch=>ch==='ຕ'?['ດ']:ch==='ປ'?['ບ']:[]},
  {id:'fan',name:'Fan machine',desc:'Lips touch the teeth',sym:'f',col:'#f77f00',need:3,run:ch=>ch==='ຜ'?['ຝ']:ch==='ພ'?['ຟ']:[]},
  {id:'throat',name:'Throat machine',desc:'Opens the throat',sym:'h',col:'#f15bb5',need:3,run:ch=>g5(ch)&&R(ch)===0&&K(ch)<3?['ຫ','ຮ']:[]},
@@ -204,7 +203,7 @@ EXT.forEach((row,r)=>row.forEach((ch,k)=>CELLS.push({ch,x:34+k*52,y:318+r*48,w:4
 VOW.forEach((row,r)=>row.forEach((ch,k)=>CELLS.push({ch,x:262+k*62,y:318+r*48,w:58,h:44})));
 """)
 rep("const BASE=['breath','nasal','series'],ORDER=['hiss','throat','catch','glide','flow','wake1','wake2','roll'];",
-    "const BASE=['breath','nasal','series'],ORDER=['hiss','pop','fan','throat','catch','glide','flow','hidden'];")
+    "const BASE=['breath','nasal','series'],ORDER=['pop','fan','throat','catch','glide','flow','hidden'];")
 rep("tongueDone=d=>'ចដតប'.split('').every(c=>d.has(c))", "tongueDone=d=>['ຈ','ຕ','ປ'].every(c=>d.has(c))")
 rep("const d=new Set(['ក']);try{JSON.parse(localStorage.getItem('llc-lab')||'[]').forEach(c=>d.add(c))}catch(e){}lab.d.forEach(c=>d.add(c));let fr=0;for(let r=0;r<5;r++)if([...GRID[r]].some(c=>d.has(c)))fr=r;return{row:GRID[fr],ok:[...GRID[fr]].filter",
     "const d=new Set(['ກ']);try{JSON.parse(localStorage.getItem('llc-lab')||'[]').forEach(c=>d.add(c))}catch(e){}lab.d.forEach(c=>d.add(c));let fr=0;for(let r=0;r<GRID.length;r++)if(GRID[r].some(c=>d.has(c)))fr=r;return{row:GRID[fr],ok:GRID[fr].filter")
@@ -230,7 +229,6 @@ def r2(a, b):
 r2('''IFONT='"Noto Sans","Gentium Plus","DejaVu Sans","Noto Sans Lao Looped",system-ui,sans-serif';''', '''IFONT='"Noto Sans","Noto Sans Lao Looped","Gentium Plus","DejaVu Sans",system-ui,sans-serif';''')
 r2("desc:'Swaps high and low class'", "desc:'High ↔ low class'")
 r2("desc:'A softer, popping sound'", "desc:'A softer pop'")
-r2("desc:'A click becomes a hiss'", "desc:'A click → a hiss'")
 r2("desc:'Low letter → high class'", "desc:'Low → high class'")
 r2("desc:'Sound through the nose'", "desc:'Through the nose'")
 open(dst, 'w', encoding='utf-8').write(s2)
