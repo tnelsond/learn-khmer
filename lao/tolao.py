@@ -231,5 +231,27 @@ r2("desc:'Swaps high and low class'", "desc:'High ↔ low class'")
 r2("desc:'A softer, popping sound'", "desc:'A softer pop'")
 r2("desc:'Low letter → high class'", "desc:'Low → high class'")
 r2("desc:'Sound through the nose'", "desc:'Through the nose'")
+
+# ---- more class puzzles; never the same kind of level twice in one journey
+r2("const HL=ch=>R(ch)>=7,", "const TWIN={'ຂ':'ຄ','ຄ':'ຂ','ສ':'ຊ','ຊ':'ສ','ຖ':'ທ','ທ':'ຖ','ຜ':'ພ','ພ':'ຜ','ຝ':'ຟ','ຟ':'ຝ','ຫ':'ຮ','ຮ':'ຫ','ງ':'ຫງ','ຫງ':'ງ','ຍ':'ຫຍ','ຫຍ':'ຍ','ນ':'ໜ','ໜ':'ນ','ມ':'ໝ','ໝ':'ມ','ລ':'ຫຼ','ຫຼ':'ລ','ວ':'ຫວ','ຫວ':'ວ'};\nconst HL=ch=>R(ch)>=7,")
+r2(" muol:{key:ch=>ch,", " cls:{key:ch=>CLN[CLS(ch)],disp:k=>k+' class',fb:ch=>ch+' is '+CLN[CLS(ch)]+' class.',tags:false},\n twin:{key:ch=>TWIN[ch]||'',disp:k=>k,fb:ch=>ch+' ('+UK(ch)+') is the twin of '+TWIN[ch]+'.',tags:false},\n muol:{key:ch=>ch,")
+r2(" {name:'Ordered',sc:2,terr:'water',gk:[7,1,3],hint:'The guardians check in order: nose first, then puffs.',g:['NOSE letters','PUFF letters','all the rest'],cat:ch=>NOSE.includes(ch)?0:PUFF.includes(ch)?1:2},",
+   " {name:'Ordered',sc:2,terr:'water',gk:[7,1,3],hint:'The guardians check in order: puffs first, then lips. ຜ and ພ are puff AND lip letters, so the first guardian takes them!',g:['PUFF letters: ຂ ຄ ຖ ທ ຜ ພ','other LIP letters','all the rest'],cat:ch=>PUFF.includes(ch)?0:LIPS.includes(ch)?1:2},\n"
+   " {name:'High gate',sc:5,terr:'forest',gk:[9,5],hint:'High class: ຂ ສ ຖ ຜ ຝ ຫ, plus every letter with a silent ຫ in front (ຫງ ຫຍ ໜ ໝ ຫຼ ຫວ).',g:['HIGH class: ຂ ສ ຖ ຜ ຝ ຫ + silent ຫ','MID and LOW class'],cat:ch=>CLS(ch)===1?0:1},\n"
+   " {name:'Low gate',sc:1,terr:'cliff',gk:[8,4],hint:'Low class is the biggest group. If a letter is not one of the 8 mid letters and not high, it is low.',g:['LOW class: ຄ ງ ຊ ຍ ທ ນ ພ ມ ຟ ລ ວ ຣ ຮ','MID and HIGH class'],cat:ch=>CLS(ch)===2?0:1},\n"
+   " {name:'Class twins',sc:3,terr:'water',gk:[10],mode:'seq',seq:'twin',intro:'Many letters have a TWIN: the same sound in a different class. ຂ (high) and ຄ (low) both say kʰɔː. The dancer shows a letter. Send its twin! Letters without a twin rest this time.',hint:'High twins: ຂ ສ ຖ ຜ ຝ ຫ. Low twins: ຄ ຊ ທ ພ ຟ ຮ. A silent ຫ makes a high twin too: ນ and ໜ, ມ and ໝ.',g:['Twins share a sound but not a class.','The class tells you the tone!']},\n"
+   " {name:'Class hunt',sc:0,terr:'forest',gk:[4],mode:'seq',seq:'cls',intro:'The guardian calls out a class. Send EVERY letter in your party that belongs to it, one at a time. A wrong guess tells you that letter\\'s class.',hint:'Mid: ກ ຈ ດ ຕ ບ ປ ຢ ອ. High: ຂ ສ ຖ ຜ ຝ ຫ + silent ຫ. Low: everything else.',g:['Every letter belongs to one class.','Mid, high and low!']},\n"
+   " {name:'Class order',sc:2,terr:'cliff',gk:[3,1,0],hint:'The guardians check in order. Silent ຫ letters are high class too, but the first guardian grabs them before the second one can!',g:['SILENT ຫ letters: ຫງ ຫຍ ໜ ໝ ຫຼ ຫວ','other HIGH class letters','MID and LOW class'],cat:ch=>HL(ch)?0:CLS(ch)===1?1:2},")
+r2("['Three classes',0],", "['Three classes',0],['High gate',0],['Low gate',0],['Class twins',0],['Class hunt',0],['Class order',1,hasVow],")
+# levels that teach the same thing share a family; a journey uses each family once
+r2("// overworld map:", "const FAM={'Mid class':'classgate','High gate':'classgate','Low gate':'classgate','Sound check':'sound','IPA tablet':'sound','Consonants':'cons','IPA hunt':'cons','Loopless 1':'loop','Loopless 3':'loop','Build sounds':'build','Build more':'build','First words':'words','More words':'words','Word tablet':'words','Trace 1':'trace','Trace 2':'trace'},fam=i=>FAM[LV[i].name]||LV[i].name;let usedFam=new Set();\n// overworld map:")
+r2("if(L.seq==='feet'&&party.filter(c=>R(c.ch)<7).length<3)return false;return true};",
+   "if(L.seq==='twin'&&party.filter(c=>TWIN[c.ch]).length<3)return false;if(L.seq==='cls'&&new Set(party.map(c=>CLS(c.ch))).size<2)return false;return true},fresh=m=>!usedLv.has(m.i)&&!usedFam.has(fam(m.i));")
+r2(" let c=META.filter(m=>m.mp<=cap&&!usedLv.has(m.i)&&fits(m)&&!(m.road&&o.road&&m.road!==o.road));\n if(!c.length)c=META.filter(m=>m.mp<=cap&&fits(m));if(!c.length)c=META.filter(m=>m.mp<=plays&&fits(m));if(!c.length)c=META.filter(m=>m.mp===0&&fits(m));if(!c.length)c=META.filter(m=>m.mp===0);",
+   " let c=[];for(const ok of [m=>m.mp<=cap&&fresh(m)&&fits(m),m=>m.mp<=plays&&fresh(m)&&fits(m),m=>fresh(m)&&fits(m),m=>fresh(m)&&m.ok(),m=>!usedLv.has(m.i)&&fits(m),m=>!usedLv.has(m.i),m=>m.mp===0]){c=META.filter(ok);if(c.length)break}")
+r2("usedLv.add(i);n.lv=i;", "usedLv.add(i);usedFam.add(fam(i));n.lv=i;")
+r2("usedLv=new Set();planTrace();", "usedLv=new Set();usedFam=new Set(['trace']);planTrace();")
+r2("c.dim=L.seq==='feet'?R(c.ch)>=7:", "c.dim=L.seq==='twin'?!TWIN[c.ch]:")
+r2("(L.seq==='muol2'||L.seq==='feet')?KFONT", "(L.seq==='muol2'||L.seq==='twin')?KFONT")
 open(dst, 'w', encoding='utf-8').write(s2)
 print('polished')

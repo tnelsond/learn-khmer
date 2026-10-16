@@ -29,6 +29,7 @@ const IPA={};Object.keys(CONS).forEach(c=>IPA[c]=CONS[c]+'ɔː');
 const NAMES=IPA;
 // class decides the tone: 8 mid letters, 6 high letters plus every letter with a silent ຫ in front, the rest are low
 const MID=['ກ','ຈ','ດ','ຕ','ບ','ປ','ຢ','ອ'],HIGH=['ຂ','ສ','ຖ','ຜ','ຝ','ຫ'],CLS=ch=>MID.includes(ch)?0:HIGH.includes(ch)||R(ch)>=7?1:2,CLN=['mid','high','low'],UK=ch=>IPA[ch]+' · '+CLN[CLS(ch)];
+const TWIN={'ຂ':'ຄ','ຄ':'ຂ','ສ':'ຊ','ຊ':'ສ','ຖ':'ທ','ທ':'ຖ','ຜ':'ພ','ພ':'ຜ','ຝ':'ຟ','ຟ':'ຝ','ຫ':'ຮ','ຮ':'ຫ','ງ':'ຫງ','ຫງ':'ງ','ຍ':'ຫຍ','ຫຍ':'ຍ','ນ':'ໜ','ໜ':'ນ','ມ':'ໝ','ໝ':'ມ','ລ':'ຫຼ','ຫຼ':'ລ','ວ':'ຫວ','ຫວ':'ວ'};
 const HL=ch=>R(ch)>=7,NOSE=['ງ','ຍ','ນ','ມ','ຫງ','ຫຍ','ໜ','ໝ'],PUFF=['ຂ','ຄ','ຖ','ທ','ຜ','ພ'],LIPS=['ປ','ຜ','ພ','ມ','ບ','ຝ','ຟ','ວ','ໝ','ຫວ'];
 const STEPS=[
  {rows:GRID,rn:['throat','palate','teeth','lips'],cn:['mid','high','low','nose'],max:10,need:10,title:'Create your letter party',sub:'Letters you discover in Letter Lab unlock here. Pick a row and a column!',cnt:'Party',go:'Start journey'},
@@ -47,6 +48,8 @@ const SEQS={
  cons:{key:cons,disp:k=>k,fb:ch=>'That one starts with "'+cons(ch)+'".',tags:true},
  ipac:{key:cons,disp:k=>k,fb:ch=>'That one starts with "'+cons(ch)+'".',tags:false},
  ipa:{key:ch=>IPA[ch],disp:k=>k,fb:ch=>'That one says "'+IPA[ch]+'".',tags:false},
+ cls:{key:ch=>CLN[CLS(ch)],disp:k=>k+' class',fb:ch=>ch+' is '+CLN[CLS(ch)]+' class.',tags:false},
+ twin:{key:ch=>TWIN[ch]||'',disp:k=>k,fb:ch=>ch+' ('+UK(ch)+') is the twin of '+TWIN[ch]+'.',tags:false},
  muol:{key:ch=>ch,disp:k=>k,fb:ch=>'That one says "'+IPA[ch]+'". Study its shape!',tags:false},
  muol2:{key:ch=>ch,disp:k=>k,fb:ch=>'That one says "'+IPA[ch]+'". Look at the loops again!',tags:false}};
 // level: sc = scene, terr = water | cliff | forest, gk = guardian keepers, g = rule text, cat = which guardian accepts a letter
@@ -66,7 +69,12 @@ const LV=[
 {name:'Loopless 2',sc:3,terr:'forest',gk:[10],mode:'seq',seq:'muol2',intro:'Your critters take off their loops! The dancer shows a normal letter. Find the critter written without loops.',hint:'The shape stays the same. Only the loops are gone.',g:['Loopless letters are normal letters, simplified.','You can read both styles!']},
  {name:'Rows',sc:0,terr:'cliff',gk:[0,10,5],hint:'Now look at the rows: where in your mouth is each letter said?',g:['throat & palate rows: ກ … ຍ','teeth & lip rows: ຕ … ມ','the extra letters'],cat:ch=>R(ch)<2?0:R(ch)<4?1:2},
  {name:'Glide',sc:3,terr:'forest',gk:[1,8,2],hint:'The eight extra consonants have two rows of their own: pop & fan, and glide & flow.',g:['pop & fan: ດ ບ ຝ ຟ','glide & flow: ຢ ລ ວ ຣ','everything else'],cat:ch=>R(ch)===4?0:R(ch)===5?1:2},
- {name:'Ordered',sc:2,terr:'water',gk:[7,1,3],hint:'The guardians check in order: nose first, then puffs.',g:['NOSE letters','PUFF letters','all the rest'],cat:ch=>NOSE.includes(ch)?0:PUFF.includes(ch)?1:2},
+ {name:'Ordered',sc:2,terr:'water',gk:[7,1,3],hint:'The guardians check in order: puffs first, then lips. ຜ and ພ are puff AND lip letters, so the first guardian takes them!',g:['PUFF letters: ຂ ຄ ຖ ທ ຜ ພ','other LIP letters','all the rest'],cat:ch=>PUFF.includes(ch)?0:LIPS.includes(ch)?1:2},
+ {name:'High gate',sc:5,terr:'forest',gk:[9,5],hint:'High class: ຂ ສ ຖ ຜ ຝ ຫ, plus every letter with a silent ຫ in front (ຫງ ຫຍ ໜ ໝ ຫຼ ຫວ).',g:['HIGH class: ຂ ສ ຖ ຜ ຝ ຫ + silent ຫ','MID and LOW class'],cat:ch=>CLS(ch)===1?0:1},
+ {name:'Low gate',sc:1,terr:'cliff',gk:[8,4],hint:'Low class is the biggest group. If a letter is not one of the 8 mid letters and not high, it is low.',g:['LOW class: ຄ ງ ຊ ຍ ທ ນ ພ ມ ຟ ລ ວ ຣ ຮ','MID and HIGH class'],cat:ch=>CLS(ch)===2?0:1},
+ {name:'Class twins',sc:3,terr:'water',gk:[10],mode:'seq',seq:'twin',intro:'Many letters have a TWIN: the same sound in a different class. ຂ (high) and ຄ (low) both say kʰɔː. The dancer shows a letter. Send its twin! Letters without a twin rest this time.',hint:'High twins: ຂ ສ ຖ ຜ ຝ ຫ. Low twins: ຄ ຊ ທ ພ ຟ ຮ. A silent ຫ makes a high twin too: ນ and ໜ, ມ and ໝ.',g:['Twins share a sound but not a class.','The class tells you the tone!']},
+ {name:'Class hunt',sc:0,terr:'forest',gk:[4],mode:'seq',seq:'cls',intro:'The guardian calls out a class. Send EVERY letter in your party that belongs to it, one at a time. A wrong guess tells you that letter\'s class.',hint:'Mid: ກ ຈ ດ ຕ ບ ປ ຢ ອ. High: ຂ ສ ຖ ຜ ຝ ຫ + silent ຫ. Low: everything else.',g:['Every letter belongs to one class.','Mid, high and low!']},
+ {name:'Class order',sc:2,terr:'cliff',gk:[3,1,0],hint:'The guardians check in order. Silent ຫ letters are high class too, but the first guardian grabs them before the second one can!',g:['SILENT ຫ letters: ຫງ ຫຍ ໜ ໝ ຫຼ ຫວ','other HIGH class letters','MID and LOW class'],cat:ch=>HL(ch)?0:CLS(ch)===1?1:2},
 {name:'Loopless 3',sc:1,terr:'cliff',gk:[6],mode:'seq',seq:'muol',intro:'Loopless letters, ຫ letters too! The tablet shows a loopless letter. Send the looped letter that matches it.',hint:'Look at the shape, not the sound.',g:['Loopless works for every letter.','You can read signs and menus now!']},
  {name:'Silent ຫ',sc:4,terr:'forest',gk:[10,0],hint:'A silent ຫ in front moves a low letter into the high class. ໜ and ໝ are ຫ joined to ນ and ມ.',g:['silent ຫ: ຫງ ຫຍ ໜ ໝ ຫຼ ຫວ','everything else'],cat:ch=>HL(ch)?0:1},
  {name:'Three kinds',sc:2,terr:'cliff',gk:[4,9,1],hint:'Three groups: the ຫ letters, the grid and the eight extras.',g:['ຫ letters: ອ ຫ ຮ + silent ຫ','the grid: ກ … ມ','extras: ດ ບ ຝ ຟ ຢ ລ ວ ຣ'],cat:ch=>R(ch)>=6?0:R(ch)<4?1:2},
@@ -78,6 +86,7 @@ const LV=[
 {name:'More words',sc:3,terr:'forest',gk:[1],mode:'combine',comb:{tiles:['◌າ','◌ີ','◌ູ','ໄ◌','ໃ◌','◌ໍ'],rounds:6,word:1},intro:'More words! Build each one the ferry captain asks for. Watch the spelling: ໄ and ໃ sound the same, and so do ຂ and ຄ.',hint:'Only about twenty words use ໃ, like ໃຈ (heart). Most words use ໄ.',g:['Words are letters plus vowel signs.','You built the words your party could spell!']},
 {name:'Word tablet',sc:0,terr:'cliff',gk:[6],mode:'combine',comb:{tiles:['◌າ','◌ີ','◌ູ','◌ື','ໂ◌','ໃ◌'],rounds:6,hide:true,word:1},intro:'The tablet shows only the sound of a word. Read the IPA, build the word, and you will find out what it means!',hint:'Split the sound: the first symbol is the consonant, the rest is the vowel.',g:['Words are letters plus vowel signs.','You decoded every word from its sound!']}
 ];
+const FAM={'Mid class':'classgate','High gate':'classgate','Low gate':'classgate','Sound check':'sound','IPA tablet':'sound','Consonants':'cons','IPA hunt':'cons','Loopless 1':'loop','Loopless 3':'loop','Build sounds':'build','Build more':'build','First words':'words','More words':'words','Word tablet':'words','Trace 1':'trace','Trace 2':'trace'},fam=i=>FAM[LV[i].name]||LV[i].name;let usedFam=new Set();
 // overworld map: every journey builds a fresh 10-level road. Levels are chosen just before you reach them, so they fit the letters you have recruited.
 // path A = consonant road, path B = vowel road; both lead to the same finale
 let TC={};try{TC=JSON.parse(localStorage.getItem('llc-tc')||'{}')}catch(e){}
@@ -89,24 +98,23 @@ let winMsg='',NODES=[],EDGES=[],NA=-1,NB=-1,NSPLIT=-1,NEND=9,plays=0,usedLv=new 
 try{plays=+localStorage.getItem('llc-plays')||0}catch(e){}
 const lvIdx=n=>LV.findIndex(l=>l.name===n),hasP=p=>party.some(c=>c.phase===p),hasExt=()=>party.some(c=>R(c.ch)===5||R(c.ch)===6),hasVow=()=>party.some(c=>R(c.ch)>=6),onlyGrid=()=>!party.some(c=>R(c.ch)>=5),canWord=t=>WORDS.some(w=>party.some(c=>c.ch===w.c)&&t.includes(w.v));
 // [level, plays needed before it can appear, can it be played with this party?, road it suits]
-const META=[['Consonants',0],['Sound check',0],['Mid class',0],['Nose gate',0],['Puff gate',0],['Lip gate',0],['Three classes',0],['Ordered',0,0,0],['Draw sounds',0,()=>party.length>0&&party.every(c=>tc(c.ch)>=1)],
+const META=[['Consonants',0],['Sound check',0],['Mid class',0],['Nose gate',0],['Puff gate',0],['Lip gate',0],['Three classes',0],['High gate',0],['Low gate',0],['Class twins',0],['Class hunt',0],['Class order',1,hasVow],['Ordered',0,0,0],['Draw sounds',0,()=>party.length>0&&party.every(c=>tc(c.ch)>=1)],
  ['Loopless 1',1],['Rows',1,hasExt,0],['IPA hunt',1],
  ['Glide',2,hasExt,0],['IPA tablet',2],['Build sounds',2],['Loopless 2',2],['Silent ຫ',2,hasVow,0],
  ['Three kinds',3,()=>hasExt()&&hasVow(),0],['Build more',3],['First words',3,()=>canWord(['◌າ','◌ີ','◌ູ','ໄ◌'])],['More words',3,()=>canWord(['◌າ','◌ີ','◌ູ','ໄ◌','ໃ◌','◌ໍ'])],['Word tablet',3,()=>canWord(['◌າ','◌ີ','◌ູ','◌ື','ໂ◌','ໃ◌'])],['Loopless 3',3]]
  .map(([n,mp,ok,road])=>({i:lvIdx(n),mp,ok:ok||(()=>true),road})).filter(m=>m.i>=0);
 // the more journeys you have finished, the harder the levels that can appear (and the more likely they are)
 function pickLevel(o={}){
- const cap=Math.min(plays,o.cap===undefined?9:o.cap);const fits=m=>{if(!m.ok())return false;const L=LV[m.i];if(L.cat&&!L.gk.every((_,gi)=>party.some(c=>L.cat(c.ch)===gi)))return false;if(L.seq==='cons'&&!party.some(a=>party.some(b=>a!==b&&cons(a.ch)===cons(b.ch))))return false;if(L.seq==='feet'&&party.filter(c=>R(c.ch)<7).length<3)return false;return true};
- let c=META.filter(m=>m.mp<=cap&&!usedLv.has(m.i)&&fits(m)&&!(m.road&&o.road&&m.road!==o.road));
- if(!c.length)c=META.filter(m=>m.mp<=cap&&fits(m));if(!c.length)c=META.filter(m=>m.mp<=plays&&fits(m));if(!c.length)c=META.filter(m=>m.mp===0&&fits(m));if(!c.length)c=META.filter(m=>m.mp===0);
+ const cap=Math.min(plays,o.cap===undefined?9:o.cap);const fits=m=>{if(!m.ok())return false;const L=LV[m.i];if(L.cat&&!L.gk.every((_,gi)=>party.some(c=>L.cat(c.ch)===gi)))return false;if(L.seq==='cons'&&!party.some(a=>party.some(b=>a!==b&&cons(a.ch)===cons(b.ch))))return false;if(L.seq==='twin'&&party.filter(c=>TWIN[c.ch]).length<3)return false;if(L.seq==='cls'&&new Set(party.map(c=>CLS(c.ch))).size<2)return false;return true},fresh=m=>!usedLv.has(m.i)&&!usedFam.has(fam(m.i));
+ let c=[];for(const ok of [m=>m.mp<=cap&&fresh(m)&&fits(m),m=>m.mp<=plays&&fresh(m)&&fits(m),m=>fresh(m)&&fits(m),m=>fresh(m)&&m.ok(),m=>!usedLv.has(m.i)&&fits(m),m=>!usedLv.has(m.i),m=>m.mp===0]){c=META.filter(ok);if(c.length)break}
  const w=m=>(1+(plays>0?m.mp*1.5:0))*(plays>0&&m.mp===Math.min(plays,3)?2:1)*(o.fin?1+m.mp:1)*(m.road&&m.road===o.road?3:1);
  let t=c.reduce((s,m)=>s+w(m),0)*Math.random();for(const m of c){t-=w(m);if(t<=0)return m.i}return c[c.length-1].i}
 function resolveNode(n){
  if(n.t!=='lv'||n.lv>=0)return;let i;
  if(n.fix&&!(n.fix==='Trace 1'&&!runTr.a.length)&&!(n.fix==='Trace 2'&&!runTr.b.length))i=lvIdx(n.fix);else i=pickLevel({fin:n.fin,cap:n.id<3?1:n.id<7?2:9});
- usedLv.add(i);n.lv=i;const prev=NODES.filter(q=>q.t==='lv'&&q.lv>=0&&q.id!==n.id).map(q=>LV[q.lv].sc);let s;do{s=Math.random()*6|0}while(prev.length&&s===prev[prev.length-1]);LV[i].sc=s}
+ usedLv.add(i);usedFam.add(fam(i));n.lv=i;const prev=NODES.filter(q=>q.t==='lv'&&q.lv>=0&&q.id!==n.id).map(q=>LV[q.lv].sc);let s;do{s=Math.random()*6|0}while(prev.length&&s===prev[prev.length-1]);LV[i].sc=s}
 function buildRun(){
- usedLv=new Set();planTrace();
+ usedLv=new Set();usedFam=new Set(['trace']);planTrace();
  const d=Array.from({length:10},(_,k)=>{const a=(105+k*32)*Math.PI/180;return[Math.round(480+385*Math.cos(a)),Math.round(318+180*Math.sin(a))]});
  NODES=d.map(([x,y],id)=>({t:'lv',lv:-1,x,y,after:id?[id-1]:[],fin:id>=8?1:0,fix:id===0?'Trace 1':id===3?'Trace 2':null,id}));
  EDGES=d.slice(1).map((_,k)=>[k,k+1]);
@@ -133,8 +141,8 @@ function wipe(cx,cy,cb){tr={ph:0,t:0,cb}}
 /* ---------- levels ---------- */
 function loadLevel(i){
  lvl=i;mistakes=0;busy=false;sel=null;selT=null;prog=0;wordsDone=[];party=party.filter(c=>!c.guest);timers=[];parts=[];state='play';shuffle(party);tp=null;
- const L=LV[i],n=L.g.length,single=!!L.mode,ys=single?[500]:n===2?[410,535]:[385,462,540];const T=lay();lvWords=L.comb&&L.comb.word?pickWords(L):[];trT=L.tr?(L.tr.guide?party.filter(c=>(L.tr.half===0?runTr.a:runTr.b).includes(c.ch)):shuffle(party.filter(c=>tc(c.ch)>=1)).slice(0,6)):[];party.forEach(c=>{c.dim=L.seq==='feet'?R(c.ch)>=7:!!L.tr&&!trT.includes(c)});
- guards=L.gk.map((k,j)=>({kp:KP[gkMap(k,L)],x:L.mode==='combine'?640:480,q:[],inc:0,judging:false,df:L.seq==='muol'?MFONT:(L.seq==='muol2'||L.seq==='feet')?KFONT:IFONT,y:ys[j],s:single?1:n===2?.7:.5,mood:'idle',moodT:0,shake:0,say:'',sayT:0,tgt:'',disp:'',flip:0}));
+ const L=LV[i],n=L.g.length,single=!!L.mode,ys=single?[500]:n===2?[410,535]:[385,462,540];const T=lay();lvWords=L.comb&&L.comb.word?pickWords(L):[];trT=L.tr?(L.tr.guide?party.filter(c=>(L.tr.half===0?runTr.a:runTr.b).includes(c.ch)):shuffle(party.filter(c=>tc(c.ch)>=1)).slice(0,6)):[];party.forEach(c=>{c.dim=L.seq==='twin'?!TWIN[c.ch]:!!L.tr&&!trT.includes(c)});
+ guards=L.gk.map((k,j)=>({kp:KP[gkMap(k,L)],x:L.mode==='combine'?640:480,q:[],inc:0,judging:false,df:L.seq==='muol'?MFONT:(L.seq==='muol2'||L.seq==='twin')?KFONT:IFONT,y:ys[j],s:single?1:n===2?.7:.5,mood:'idle',moodT:0,shake:0,say:'',sayT:0,tgt:'',disp:'',flip:0}));
  tiles=L.mode==='combine'?L.comb.tiles.map((v,k)=>{const t=mkChar(v,300+(k%3)*75,500-(k/3|0)*80,k);t.tile=1;t.disp=v;return t}):[];
  party.forEach((c,k)=>{c.hx=T.x0+(k%T.c)*T.dx;c.hy=T.y0+(k/T.c|0)*T.dy;c.mu=(L.seq==='muol2');c.st='idle';c.lane=-1;c.rot=0;c.show=null;c.tagT=0;c.x=-80;c.y=c.hy;c.anim=null;later(k*.1,()=>moveTo(c,c.hx,c.hy,.9,50))});
  if(single)nextTarget();
