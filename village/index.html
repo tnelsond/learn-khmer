@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#1b2a2f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Village of Words</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE: hushed, mysterious, warm — a Myst-like wander through a Cambodian village at golden hour.
+   IDEA: an old palm-leaf manuscript (sleuk rith) — UI panels read like lacquered palm leaves with gold ink.
+   PICTURE: the 3D world itself fills the screen; UI floats on its edges.
+   COLOUR and TYPE: lacquer black-green #14201f, palm-leaf gold #e8c477, laterite #b4532a; Khmer in Battambang, English in Cormorant Garamond.
+   LAYOUT: full-bleed canvas; objective top, joystick bottom-left, cast/act bottom-right, panels slide from bottom. */
+@font-face{font-family:"Battambang";src:url(battambang.ttf) format("truetype");font-display:swap}
+:root{--lac:#14201f;--lac2:#1f3130;--gold:#e8c477;--gold2:#f6e3b0;--lat:#b4532a;--ink:#f4ead2;--kh:"Battambang","Noto Sans Khmer","Khmer OS",serif;--en:"Cormorant Garamond",Georgia,serif;--ui:Inter,system-ui,sans-serif;
+--st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px);--sl:env(safe-area-inset-left,0px);--sr:env(safe-area-inset-right,0px)}
+*{box-sizing:border-box;min-width:0;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;overflow:hidden;background:#0c1414;color:var(--ink);font:16px/1.45 var(--ui);touch-action:none;user-select:none;-webkit-user-select:none;overscroll-behavior:none}
+canvas{display:block;position:fixed;inset:0;width:100%;height:100%}
+.kh{font-family:var(--kh)}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.hide{display:none!important}
+.leaf{background:linear-gradient(180deg,rgba(31,49,48,.94),rgba(20,32,31,.96));border:1px solid rgba(232,196,119,.45);border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.45),inset 0 1px 0 rgba(246,227,176,.12)}
+/* HUD */
+#hud{position:fixed;inset:0;pointer-events:none}
+#hud>*{pointer-events:auto}
+#obj{position:fixed;top:calc(10px + var(--st));left:calc(10px + var(--sl));right:calc(110px + var(--sr));max-width:520px;padding:8px 12px;font:600 14px/1.35 var(--ui);pointer-events:none}
+#obj small{display:block;color:var(--gold);font:italic 500 13px var(--en);letter-spacing:.02em}
+#obj .kh{color:var(--gold2)}
+#topbtns{position:fixed;top:calc(10px + var(--st));right:calc(10px + var(--sr));display:flex;gap:8px}
+.ib{width:44px;height:44px;border-radius:12px;display:grid;place-items:center}
+.ib svg{width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:1.8}
+#count{position:absolute;bottom:-6px;right:-6px;background:var(--lat);color:#fff;border-radius:9px;font:600 11px var(--ui);padding:1px 5px}
+#compass{position:fixed;bottom:calc(26px + var(--sb));left:50%;transform:translateX(-50%);width:min(34vw,260px);height:22px;border-radius:11px;overflow:hidden;pointer-events:none;background:rgba(20,32,31,.55);border:1px solid rgba(232,196,119,.3)}
+#compass i{position:absolute;top:4px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold)}
+#compass b{position:absolute;top:2px;font:600 11px var(--ui);color:rgba(244,234,210,.6);margin-left:-4px}
+#cross{position:fixed;left:50%;top:50%;width:6px;height:6px;margin:-3px;border-radius:50%;background:rgba(246,227,176,.7);pointer-events:none}
+#joy{position:fixed;left:0;bottom:0;width:45vw;height:55vh;pointer-events:auto}
+#joyring{position:fixed;width:110px;height:110px;margin:-55px;border-radius:50%;border:2px solid rgba(232,196,119,.45);background:rgba(20,32,31,.25);pointer-events:none}
+#joyknob{position:absolute;left:50%;top:50%;width:46px;height:46px;margin:-23px;border-radius:50%;background:rgba(232,196,119,.55)}
+#joyhint{position:fixed;left:calc(28px + var(--sl));bottom:calc(28px + var(--sb));width:96px;height:96px;border-radius:50%;border:2px dashed rgba(232,196,119,.3);pointer-events:none;display:grid;place-items:center;font:12px var(--ui);color:rgba(244,234,210,.5);text-align:center}
+#actions{position:fixed;right:calc(16px + var(--sr));bottom:calc(20px + var(--sb));display:flex;flex-direction:column;align-items:flex-end;gap:12px}
+#act{min-height:48px;padding:8px 18px;border-radius:24px;font:600 15px var(--ui);max-width:60vw}
+#act .kh{color:var(--gold2);margin-left:4px}
+#cast{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 40% 35%,#f6e3b0,#c99a3d 60%,#7a5a1d);box-shadow:0 0 0 3px rgba(20,32,31,.7),0 0 24px rgba(232,196,119,.6);color:#2a1c05;font:700 13px var(--ui);line-height:1.1;text-align:center}
+#cast .kh{font-size:20px;display:block}
+#toast{position:fixed;left:50%;top:32%;transform:translate(-50%,-50%);padding:12px 18px;text-align:center;pointer-events:none;opacity:0;transition:opacity .35s;max-width:86vw}
+#toast.on{opacity:1}
+#toast .big{font:700 40px/1.3 var(--kh);color:var(--gold2);display:block}
+#toast .rom{font:italic 500 16px var(--en);color:var(--gold)}
+#toast .tx{font:500 18px var(--en)}
+/* panels */
+.panel{position:fixed;left:calc(8px + var(--sl));right:calc(8px + var(--sr));bottom:calc(8px + var(--sb));max-width:760px;margin:0 auto;padding:14px 14px 12px}
+#dlg .who{font:700 18px var(--en);color:var(--gold);display:flex;gap:8px;align-items:baseline}
+#dlg .who .kh{font:600 17px var(--kh);color:var(--gold2)}
+#dlg .who em{font:italic 500 13px var(--en);color:rgba(244,234,210,.6);margin-left:auto}
+#line{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:flex-end;margin:10px 0 6px;min-height:56px}
+.w{display:inline-flex;flex-direction:column;align-items:center;padding:3px 4px;border-radius:8px;cursor:pointer}
+.w:active,.w.play{background:rgba(232,196,119,.18)}
+.w b{font:500 24px/1.5 var(--kh);color:var(--ink)}
+.w u{font:italic 500 12px var(--en);color:var(--gold);text-decoration:none;opacity:.85}
+.w i{font:600 12px/1.2 var(--ui);color:rgba(244,234,210,.75);font-style:normal;max-width:9em;text-align:center}
+.w.known b{text-decoration:underline dotted rgba(232,196,119,.7);text-underline-offset:6px}
+.p{font:500 24px var(--kh);color:var(--gold)}
+#dlgbar{display:flex;gap:10px;justify-content:flex-end;margin-top:8px}
+.btn{min-height:44px;padding:8px 18px;border-radius:22px;border:1px solid rgba(232,196,119,.55);font:600 14px var(--ui)}
+.btn.pri{background:var(--gold);color:#22180a;border-color:var(--gold)}
+#pop{position:fixed;padding:8px 12px;z-index:20;pointer-events:none;text-align:center;transform:translate(-50%,-100%)}
+#pop b{font:500 22px var(--kh);display:block;color:var(--gold2)}
+#pop u{font:italic 500 14px var(--en);text-decoration:none;color:var(--gold)}
+#pop i{display:block;font:600 13px var(--ui);font-style:normal}
+/* keyboard */
+#kb{padding:10px}
+#kbtop{display:flex;align-items:center;gap:8px}
+#typed{flex:1;min-height:56px;border-radius:10px;background:rgba(0,0,0,.3);border:1px solid rgba(232,196,119,.3);display:flex;align-items:center;padding:0 12px;font:500 30px/1.4 var(--kh);color:var(--gold2);position:relative;overflow:hidden}
+#ghost{position:absolute;left:12px;color:rgba(246,227,176,.22);pointer-events:none}
+#typed span{position:relative}
+#kbmsg{font:italic 500 15px var(--en);color:var(--gold);min-height:1.4em;margin:6px 2px}
+#keys{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:5px}
+.k{height:46px;border-radius:9px;background:rgba(246,227,176,.08);border:1px solid rgba(232,196,119,.2);font:500 22px var(--kh);color:var(--ink);display:grid;place-items:center;padding:0}
+.k:active{background:rgba(232,196,119,.35)}
+.k.next{background:rgba(232,196,119,.4);border-color:var(--gold);box-shadow:0 0 12px rgba(232,196,119,.6)}
+.k.fn{font:600 13px var(--ui);background:rgba(180,83,42,.35)}
+.k.fn.next{background:rgba(232,196,119,.5)}
+.k.go{background:var(--gold);color:#22180a;font:700 14px var(--ui)}
+#known{display:flex;gap:6px;overflow-x:auto;padding:2px 0 8px;scrollbar-width:none}
+#known button{flex:none;min-height:36px;padding:2px 12px;border-radius:18px;border:1px solid rgba(232,196,119,.35);font:500 17px var(--kh)}
+#known button.sel{background:rgba(232,196,119,.25)}
+/* book */
+#book{top:calc(8px + var(--st));display:flex;flex-direction:column}
+#book header{display:flex;align-items:center;gap:6px;margin-bottom:8px;flex-wrap:wrap}
+#book h2{margin:0;font:700 22px var(--en);color:var(--gold);flex:1 1 100%}
+#book header .btn{margin-left:auto}
+.tab{min-height:40px;padding:4px 14px;border-radius:20px;border:1px solid rgba(232,196,119,.35);font:600 13px var(--ui)}
+.tab.on{background:var(--gold);color:#22180a}
+#bookbody{overflow-y:auto;flex:1;display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;align-content:start;touch-action:pan-y}
+.card{border-radius:10px;padding:8px;background:rgba(246,227,176,.06);border:1px solid rgba(232,196,119,.2);text-align:left}
+.card b{font:500 22px/1.5 var(--kh);display:block;color:var(--gold2)}
+.card u{font:italic 500 14px var(--en);text-decoration:none;color:var(--gold)}
+.card i{display:block;font:500 13px var(--ui);font-style:normal}
+.card.lock{opacity:.35}
+.card.spell{border-color:var(--gold)}
+.card .dim{opacity:.7;font-size:12px}
+.card.quest strong{display:block;font:700 17px var(--en);color:var(--gold)}
+.card.quest.done{opacity:.45}
+#money{height:44px;padding:0 12px;white-space:nowrap;display:flex;align-items:center;gap:4px;font:600 15px var(--ui);color:var(--gold2);pointer-events:none}
+#ride{position:fixed;top:calc(62px + var(--st));right:calc(10px + var(--sr));padding:6px 10px;display:flex;gap:8px;align-items:center;font:600 12px var(--ui);pointer-events:none}
+#ride .bar{width:70px;height:8px;border-radius:4px;background:rgba(0,0,0,.4);overflow:hidden}
+#fuel{height:100%;background:linear-gradient(90deg,#c0302a,#e8c477)}
+#ride em{color:#ff9a7a;font-style:normal}
+#shop{top:calc(8px + var(--st));display:flex;flex-direction:column;overflow-y:auto;touch-action:pan-y}
+.shophead{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.shophead .kh{font:600 20px var(--kh);color:var(--gold2)}
+#wallet{flex:1;font:13px var(--ui)}#wallet b{font:600 18px var(--kh);color:var(--gold2)}
+.items{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+.item{border-radius:10px;padding:8px;background:rgba(246,227,176,.06);border:1px solid rgba(232,196,119,.25);text-align:left;display:flex;flex-direction:column;gap:2px}
+.item.sel{border-color:var(--gold);background:rgba(232,196,119,.15)}
+.item b{font:500 20px/1.4 var(--kh);color:var(--gold2)}.item i{font:12px var(--ui);font-style:normal;opacity:.75}
+.item .tag{align-self:flex-start;margin-top:4px;padding:1px 8px;border-radius:8px;background:#f6e3b0;color:#3a2a10;font:600 15px var(--kh)}
+.say{display:flex;flex-wrap:wrap;gap:4px 8px;margin:10px 0 4px;min-height:46px;align-items:flex-end}
+.pile{font:13px var(--ui)}.pile b{font:600 22px var(--kh);color:var(--gold2)}
+.notes{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;margin:8px 0}
+.note{height:48px;border-radius:6px;border:1px solid rgba(0,0,0,.3);font:600 16px var(--kh);color:#2a1a08;box-shadow:inset 0 0 0 3px rgba(255,255,255,.25)}
+.note:disabled{opacity:.3}
+.n100{background:#c8b8e0}.n500{background:#e8a0a0}.n1000{background:#a8c8e8}.n2000{background:#b8d8a0}.n5000{background:#e8c890}.n10000{background:#90b8b0}
+.shopbar{display:flex;gap:10px;justify-content:flex-end}
+.shopmsg{font:italic 500 16px var(--en);color:var(--gold)}
+@media(max-width:600px){.notes{grid-template-columns:repeat(3,minmax(0,1fr))}}
+#bookfoot{display:flex;gap:8px;justify-content:space-between;align-items:center;margin-top:8px;font:13px var(--ui);color:rgba(244,234,210,.7)}
+/* title & ending */
+.screen{position:fixed;inset:0;display:grid;place-items:center;padding:24px;background:radial-gradient(ellipse at 50% 30%,rgba(20,32,31,.55),rgba(8,12,12,.92));z-index:30;text-align:center}
+.screen h1{margin:0;font:700 clamp(36px,9vw,64px)/1.05 var(--en);color:var(--gold2);text-wrap:balance}
+.screen .khT{font:500 clamp(28px,7vw,44px)/1.6 var(--kh);color:var(--gold)}
+.screen p{font:500 19px/1.5 var(--en);max-width:34em;margin:14px auto;color:var(--ink)}
+.screen .row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.screen .tip{font:13px var(--ui);color:rgba(244,234,210,.6);max-width:30em;margin:18px auto 0}
+#endtxt{max-height:70vh;overflow-y:auto;touch-action:pan-y}
+#endtxt .kh{color:var(--gold2)}
+@media(max-width:600px){.w b{font-size:21px}.k{height:42px;font-size:20px}#keys{gap:4px}#cast{width:70px;height:70px}}
+@media(max-height:520px){#keys{grid-template-columns:repeat(12,minmax(0,1fr))}.k{height:36px;font-size:19px}#typed{min-height:44px;font-size:24px}#kbmsg{margin:2px;min-height:1.2em;font-size:14px}#kb{padding:8px}#known button{min-height:32px}#line{min-height:40px;margin:4px 0}.w b{font-size:20px}#dlg{padding:10px 12px}#dlgbar{margin-top:4px}.btn{min-height:40px}#book{top:calc(4px + var(--st))}#shop{top:calc(4px + var(--st));padding:8px 10px}.note{height:38px}.items{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}.item b{font-size:17px}}
+@media(prefers-reduced-motion:reduce){#toast{transition:none}}
+</style>
+</head>
+<body>
+<div id="hud" class="hide">
+  <div id="obj" class="leaf"></div>
+  <div id="topbtns">
+    <div id="money" class="leaf"></div>
+    <button class="ib leaf" id="bookbtn" aria-label="Word book" style="position:relative"><svg viewBox="0 0 24 24"><path d="M4 5c3-1.5 6-1.5 8 .5 2-2 5-2 8-.5v14c-3-1.5-6-1.5-8 .5-2-2-5-2-8-.5z"/><path d="M12 5.5v14"/></svg><span id="count">0</span></button>
+  </div>
+  <div id="compass"></div>
+  <div id="ride" class="leaf hide"><span>Fuel</span><div class="bar"><div id="fuel"></div></div><b id="spd"></b><em id="tyre"></em></div>
+  <div id="cross"></div>
+  <div id="joy"></div>
+  <div id="joyhint">drag to<br>walk</div>
+  <div id="joyring" class="hide"><div id="joyknob"></div></div>
+  <div id="actions">
+    <button id="act" class="leaf hide"></button>
+    <button id="cast" aria-label="Speak a word"><span class="kh">និយាយ</span>speak</button>
+  </div>
+</div>
+<div id="toast" class="leaf"></div>
+<div id="pop" class="leaf hide"></div>
+
+<div id="dlg" class="panel leaf hide">
+  <div class="who"></div>
+  <div id="line"></div>
+    <div id="dlgbar"><button class="btn" id="hear">Hear it</button><button class="btn pri" id="next">Next</button></div>
+</div>
+
+<div id="kb" class="panel leaf hide">
+  <div id="known"></div>
+  <div id="kbtop"><div id="typed"><span id="ghost"></span><span id="tx"></span></div><button class="btn" id="kbclose">Close</button></div>
+  <div id="kbmsg"></div>
+  <div id="keys"></div>
+</div>
+
+<div id="shop" class="panel leaf hide"></div>
+
+<div id="book" class="panel leaf hide">
+  <header><h2>Word book</h2><button class="tab on" data-t="quests">Quests</button><button class="tab" data-t="spells">Spells</button><button class="tab" data-t="words">Words</button><button class="tab" data-t="bag">Bag</button><button class="tab hide" data-t="clues">Clues</button><button class="btn" id="bookclose">Close</button></header>
+  <div id="bookbody"></div>
+  <div id="bookfoot"><span id="bookstat"></span><button class="btn" id="reset">New game</button></div>
+</div>
+
+<div id="title" class="screen">
+  <div>
+    <div class="khT">ភូមិពាក្យ</div>
+    <h1>Village of Words</h1>
+    <p>You wake beneath a stilt house in a Cambodian village. You don't know how you got here. In your hand is a stone carved with letters you can't yet read.</p><p style="font-size:16px">Earn riel, shop at the market, ride a motorbike to town, and find the hidden word stones.</p>
+    <div class="row"><button class="btn pri" id="start">Wake up</button><button class="btn hide" id="newg">Start over</button></div>
+    <div class="tip">Drag the left side to walk, the right side to look. Tap words to hear them. Speak Khmer words to work magic. Headphones help.</div>
+  </div>
+</div>
+
+<div id="ending" class="screen hide">
+  <div id="endtxt"></div>
+</div>
+
+<script type="module" src="game.js"></script>
+</body>
+</html>
