@@ -1,5 +1,5 @@
 import re,os,subprocess,json,base64,sys
-K='' + os.environ.get('PEAKSLAB_KHMER', '../peakslab_sources/khmer') + ''
+K = os.environ.get('PEAKSLAB_KHMER', '../peakslab_sources/khmer')  # path to a peakslab_sources/khmer checkout
 src=open('village/content.js',encoding='utf8').read()
 toks=sorted(set(re.findall('[ក-្ៗៜ៝]+',src)))
 def load(p,col=0):
