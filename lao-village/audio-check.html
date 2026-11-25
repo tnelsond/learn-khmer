@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lao audio check</title>
+<style>
+/* VOICE: a plain working checklist. IDEA: a reviewer's word list. PICTURE: the list itself.
+   COLOUR and TYPE: black on white, Noto Sans Lao for Lao. LAYOUT: one column of rows, filters on top. */
+@font-face{font-family:"Noto Sans Lao";src:url(noto-sans-lao-400.woff2) format("woff2")}
+:root{color-scheme:light dark;--bg:light-dark(#fff,#151515);--ink:light-dark(#151515,#eee);--mut:light-dark(#666,#aaa);--line:light-dark(#e3e3e3,#333)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,sans-serif;padding:16px;max-width:820px;margin-inline:auto}
+h1{font-size:32px;line-height:1.05;margin:8px 0}
+p{color:var(--mut)}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+button{font:inherit;min-height:44px;padding:6px 14px;border-radius:22px;border:1px solid var(--line);background:none;color:inherit;cursor:pointer}
+button.on{background:var(--ink);color:var(--bg)}
+.row{display:grid;grid-template-columns:48px minmax(0,1fr) minmax(0,1.2fr);gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.row b{font:500 24px "Noto Sans Lao",sans-serif}
+.row i{font-style:normal;color:var(--mut);font-size:14px}
+.play{width:44px;height:44px;padding:0;border-radius:50%}
+.none{opacity:.5}
+</style></head><body>
+<h1>Lao word audio</h1>
+<p>Every word the Lao game uses, how its audio was made, and a play button. "cut" clips were cut automatically out of a longer recording, and "spliced" ones joined from parts. These are the ones worth listening to.</p>
+<div class="bar" id="f"></div>
+<div id="list"></div>
+<script type="module">
+import { AUDIO, ROM } from './audio.js';
+import { VOCAB } from './content.js';
+const how = await (await fetch('audio-sources.json')).json();
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const words = Object.keys(VOCAB);
+const kind = w => !AUDIO[w] ? 'missing' : (how[w] || '').split(' ')[0];
+let filter = 'all';
+const kinds = ['all', 'recorded', 'cut', 'spliced', 'missing'];
+function render() {
+  document.getElementById('f').innerHTML = kinds.map(k => `<button class="${k === filter ? 'on' : ''}" data-k="${k}">${k} (${k === 'all' ? words.length : words.filter(w => kind(w) === k).length})</button>`).join('');
+  document.querySelectorAll('#f button').forEach(b => b.onclick = () => { filter = b.dataset.k; render(); });
+  document.getElementById('list').innerHTML = words.filter(w => filter === 'all' || kind(w) === filter).map(w => `<div class="row${AUDIO[w] ? '' : ' none'}"><button class="play" data-w="${esc(w)}" ${AUDIO[w] ? '' : 'disabled'} aria-label="Play">&#9654;</button><div><b>${esc(w)}</b> <i>${esc(ROM[w] || '')}</i><br><i>${esc(VOCAB[w])}</i></div><i>${esc(how[w] || 'no audio')}</i></div>`).join('');
+  document.querySelectorAll('.play').forEach(b => b.onclick = () => new Audio('data:audio/mpeg;base64,' + AUDIO[b.dataset.w]).play());
+}
+render();
+</script>
+</body></html>
