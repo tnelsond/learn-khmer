@@ -112,7 +112,10 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .card.quest strong{display:block;font:700 17px var(--en);color:var(--gold)}
 .card.quest.done{opacity:.45}
 #money{height:44px;padding:0 12px;white-space:nowrap;display:flex;align-items:center;gap:4px;font:600 15px var(--ui);color:var(--gold2);pointer-events:none}
-#ride{position:fixed;top:calc(62px + var(--st));right:calc(10px + var(--sr));padding:6px 10px;display:flex;gap:8px;align-items:center;font:600 12px var(--ui);pointer-events:none}
+#hearts{position:fixed;top:calc(60px + var(--st));right:calc(10px + var(--sr));height:30px;padding:0 8px;display:flex;align-items:center;gap:1px;font:18px var(--ui);pointer-events:none}
+#hearts span{color:rgba(244,234,210,.25)}#hearts span.on{color:#e0503a;text-shadow:0 0 6px rgba(224,80,58,.6)}
+#hurt{position:fixed;inset:0;pointer-events:none;opacity:0;background:radial-gradient(ellipse at center,transparent 45%,rgba(200,30,20,.55));z-index:5}
+#ride{position:fixed;top:calc(96px + var(--st));right:calc(10px + var(--sr));padding:6px 10px;display:flex;gap:8px;align-items:center;font:600 12px var(--ui);pointer-events:none}
 #ride .bar{width:70px;height:8px;border-radius:4px;background:rgba(0,0,0,.4);overflow:hidden}
 #fuel{height:100%;background:linear-gradient(90deg,#c0302a,#e8c477)}
 #ride em{color:#ff9a7a;font-style:normal}
@@ -133,7 +136,7 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .n100{background:#c8b8e0}.n500{background:#e8a0a0}.n1000{background:#a8c8e8}.n2000{background:#b8d8a0}.n5000{background:#e8c890}.n10000{background:#90b8b0}
 .shopbar{display:flex;gap:10px;justify-content:flex-end}
 .shopmsg{font:italic 500 16px var(--en);color:var(--gold)}
-@media(max-width:600px){.notes{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:600px){#hearts{font-size:15px}#money{padding:0 8px;font-size:13px}.notes{grid-template-columns:repeat(3,minmax(0,1fr))}}
 #bookfoot{display:flex;gap:8px;justify-content:space-between;align-items:center;margin-top:8px;font:13px var(--ui);color:rgba(244,234,210,.7)}
 /* title & ending */
 .screen{position:fixed;inset:0;display:grid;place-items:center;padding:24px;background:radial-gradient(ellipse at 50% 30%,rgba(20,32,31,.55),rgba(8,12,12,.92));z-index:30;text-align:center}
@@ -156,6 +159,7 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
     <div id="money" class="leaf"></div>
     <button class="ib leaf" id="bookbtn" aria-label="Word book" style="position:relative"><svg viewBox="0 0 24 24"><path d="M4 5c3-1.5 6-1.5 8 .5 2-2 5-2 8-.5v14c-3-1.5-6-1.5-8 .5-2-2-5-2-8-.5z"/><path d="M12 5.5v14"/></svg><span id="count">0</span></button>
   </div>
+  <div id="hearts" class="leaf" aria-label="Health"></div>
   <div id="compass"></div>
   <div id="ride" class="leaf hide"><span>Fuel</span><div class="bar"><div id="fuel"></div></div><b id="spd"></b><em id="tyre"></em></div>
   <div id="cross"></div>
@@ -167,6 +171,7 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
     <button id="cast" aria-label="Speak a word"><span class="kh">និយាយ</span>speak</button>
   </div>
 </div>
+<div id="hurt"></div>
 <div id="toast" class="leaf"></div>
 <div id="pop" class="leaf hide"></div>
 

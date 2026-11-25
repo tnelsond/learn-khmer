@@ -1,9 +1,9 @@
 import * as THREE from './three.module.min.js';
-import { VOCAB, SPELLS, NPCS, TALK, STONES, HEADS, DOOR_ORDER, EXAMINE, SIGNS, SHOPS } from './content.js';
+import { VOCAB, SPELLS, NPCS, TALK, STONES, HEADS, DOOR_ORDER, EXAMINE, SIGNS, SHOPS, ENEMIES } from './content.js';
 import { AUDIO, ROM as ROM0 } from './audio.js';
 
 try { await Promise.race([document.fonts.load('40px Battambang', 'ក'), new Promise(r => setTimeout(r, 2500))]); } catch (e) { }
-const ROM = Object.assign({ 'អ៊ុំ': 'ʔum', 'អ៊ុំស្រី': 'ʔum.sreʲ' }, ROM0);
+const ROM = Object.assign({ 'អ៊ំស្រី': 'ʊm.srəj' }, ROM0);
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const norm = s => s.normalize('NFC').replace(/[​‌‍\s]/g, '').replace(/្ត/g, '្ដ');
@@ -21,7 +21,7 @@ function numWords(n) {
 /* ---------------- state & save ---------------- */
 const SAVE = 'vow-save-2';
 function freshState() {
-  return { known: [], heard: [], spells: [], uses: {}, casts: {}, flags: {}, heads: [], stones: [], revealed: [], door: [], pos: [0.6, -1.3], yaw: -2.64, night: false, boatSide: 'west', money: 0, bag: {}, moto: { x: -11, z: -16, yaw: 0.5, fuel: 30, flat: true, fallen: false }, kidColor: null };
+  return { known: [], heard: [], spells: [], uses: {}, casts: {}, flags: {}, heads: [], stones: [], revealed: [], door: [], hp: 5, stolen: 0, visited: [], pos: [0.6, -1.3], yaw: -2.64, night: false, boatSide: 'west', money: 0, bag: {}, moto: { x: -11, z: -16, yaw: 0.5, fuel: 30, flat: true, fallen: false }, kidColor: null };
 }
 function load() { try { const j = JSON.parse(localStorage.getItem(SAVE)); if (j && j.known) { const f = freshState(); return Object.assign(f, j, { moto: Object.assign(f.moto, j.moto || {}) }); } } catch (e) { } return null; }
 let S = load();
@@ -29,8 +29,11 @@ const hadSave = !!S; if (!S) S = freshState();
 function save() { try { S.pos = [player.x, player.z]; S.yaw = player.yaw; S.moto.x = moto.x; S.moto.z = moto.z; S.moto.yaw = moto.yaw; localStorage.setItem(SAVE, JSON.stringify(S)); } catch (e) { } }
 const F = S.flags;
 const known = w => S.known.includes(w);
-function learn(w, quiet) { if (!VOCAB[w] || known(w)) return false; S.known.push(w); updateHUD(); if (!quiet) toast(w, 'New word: ' + VOCAB[w]); return true; }
+function learn(w, quiet) { if (!VOCAB[w] || known(w)) return false; S.known.push(w); updateHUD(); checkWarp(w); if (!quiet) toast(w, 'New word: ' + VOCAB[w]); return true; }
 function hear(w) { if (VOCAB[w] && !S.heard.includes(w)) S.heard.push(w); }
+// Places you can warp to: you must have been there AND know the word.
+let PLACES = {};
+function checkWarp(w) { const p = PLACES[w]; if (p && known(w) && S.visited.includes(w) && !S.spells.includes(w)) { S.spells.push(w); setTimeout(() => toast(w, `Spell learned: say ${w} to return to ${p.name} from anywhere.`), 2900); chime([523, 659, 784, 1046]); } }
 function teachSpell(w) { if (!S.spells.includes(w)) S.spells.push(w); learn(w, true); }
 function use(spell, id) { const u = S.uses[spell] || (S.uses[spell] = []); if (!u.includes(id)) { u.push(id); return true; } return false; }
 function addItem(w, n = 1) { S.bag[w] = (S.bag[w] || 0) + n; if (S.bag[w] <= 0) delete S.bag[w]; }
@@ -141,9 +144,10 @@ const POND = { x: 15, z: -55, r: 7 };
 const riverX = z => -55 + 6 * Math.sin(z * 0.025);
 const smooth = t => t <= 0 ? 0 : t >= 1 ? 1 : t * t * (3 - 2 * t);
 const inPaddy = (x, z) => x > -6 && x < 56 && z > 28 && z < 82;
+const inGold = (x, z) => x > 34 && x < 68 && z > -118 && z < -86;
 const inTown = (x, z) => x > 140 && x < 248 && Math.abs(z) < 60;
 function segDist(px, pz, ax, az, bx, bz) { const dx = bx - ax, dz = bz - az, t = Math.max(0, Math.min(1, ((px - ax) * dx + (pz - az) * dz) / (dx * dx + dz * dz))); return Math.hypot(px - ax - t * dx, pz - az - t * dz); }
-const PATHS = [[0, 0, 30, -38], [0, 0, 50, 8], [0, 0, 18, 34], [18, 34, 46, 86], [0, 0, -46, 10], [-62, 10, -88, -12], [-88, -12, -100, -20], [0, 0, -44, -30], [50, 8, 68, 20], [30, -38, 15, -50], [0, 0, -16, -10], [50, 8, 100, 3]];
+const PATHS = [[0, 0, 30, -38], [0, 0, 50, 8], [0, 0, 18, 34], [18, 34, 46, 86], [0, 0, -46, 10], [-62, 10, -88, -12], [-88, -12, -100, -20], [0, 0, -44, -30], [50, 8, 68, 20], [30, -38, 15, -50], [0, 0, -16, -10], [50, 8, 100, 3], [30, -46, 22, -78], [22, -78, 8, -96], [8, -96, -6, -110], [22, -78, 36, -90]];
 const ROADS = [[100, 3, 250, 0], [200, -46, 200, 46], [160, 0, 160, -24]];
 function pathDist(x, z) { let d = 1e9; for (const p of PATHS) d = Math.min(d, segDist(x, z, ...p)); return d; }
 function roadDist(x, z) { let d = 1e9; for (const p of ROADS) d = Math.min(d, segDist(x, z, ...p)); return d; }
@@ -151,6 +155,8 @@ function baseH(x, z) {
   let h = 0.9 + 0.5 * Math.sin(x * 0.045) * Math.cos(z * 0.038) + 0.3 * Math.sin(x * 0.11 + z * 0.07);
   const dv = Math.hypot(x, z); h = 0.9 + (h - 0.9) * (0.35 + 0.65 * smooth((dv - 15) / 30));
   if (inPaddy(x, z)) { const e = Math.min(x + 6, 56 - x, z - 28, 82 - z); h = 0.5 + (h - 0.5) * (1 - smooth(e / 5)); }
+  if (x > -22 && x < 34 && z > -124 && z < -78) { const e = Math.min(x + 22, 34 - x, z + 124, -78 - z); h = 0.9 + (h - 0.9) * (0.3 + 0.7 * (1 - smooth(e / 8))); }
+  if (inGold(x, z)) { const e = Math.min(x - 34, 68 - x, z + 118, -86 - z); h = 0.55 + (h - 0.55) * (1 - smooth(e / 4)); }
   if (x > 132) h = 0.9 + (h - 0.9) * (1 - smooth((x - 132) / 10)) * 1; // flat town
   const dt = Math.hypot(x - TEMPLE.x, z - TEMPLE.z); h = 0.9 + (h - 0.9) * smooth((dt - 11) / 15); h += (TEMPLE.h - 0.9) * smooth(1 - (dt - 11) / 36); // flat hilltop, no ledge
   const rd = Math.abs(x - riverX(z)); if (rd < 13) h = h * smooth(rd / 13) + (-2.6) * (1 - smooth(rd / 13));
@@ -174,6 +180,7 @@ const WATER_Y = -0.7;
     tmp.copy(cGrass).lerp(cGrass2, 0.5 + 0.5 * Math.sin(x * 0.3) * Math.cos(z * 0.27));
     if (h < 0.1) tmp.lerp(cSand, smooth((0.1 - h) / 0.8));
     if (inPaddy(x, z)) tmp.copy(cPaddy);
+    if (inGold(x, z)) tmp.set(0x9a7a3a);
     if (h > 3) tmp.lerp(cHill, 0.5);
     if (inTown(x, z)) tmp.lerp(cConc, .6);
     const pd = pathDist(x, z); if (pd < 2.2) tmp.lerp(cDirt, smooth(1 - pd / 2.2) * 0.9);
@@ -204,21 +211,53 @@ const near = (x, z, r) => Math.hypot(x - player.x, z - player.z) < r;
 const dist = (x, z) => Math.hypot(x - player.x, z - player.z);
 
 /* ---------------- village ---------------- */
+const HOUSES = {}; let inside = null;
+const L2W = (h, lx, lz) => [h.x + lx * Math.cos(h.rot) + lz * Math.sin(h.rot), h.z - lx * Math.sin(h.rot) + lz * Math.cos(h.rot)];
+const W2L = (h, x, z) => { const dx = x - h.x, dz = z - h.z; return [dx * Math.cos(h.rot) - dz * Math.sin(h.rot), dx * Math.sin(h.rot) + dz * Math.cos(h.rot)]; };
+let houseN = 0;
+// Stilt houses are hollow: say ឡើង at the ladder to climb in, ចុះ to climb down.
 function stiltHouse(x, z, rot, wall, roof = 0x8a3b22, opts = {}) {
-  const g = new THREE.Group(); g.position.set(x, groundH(x, z), z); g.rotation.y = rot; scene.add(g);
-  const W = 7, D = 5.5, FH = 2.6;
-  for (const px of [-W / 2 + .3, 0, W / 2 - .3]) for (const pz of [-D / 2 + .3, D / 2 - .3]) { cyl(.14, .16, FH + 3, 0x5a3a22, px, (FH + 3) / 2 - .4, pz, g); const wp = new THREE.Vector3(px, 0, pz).applyAxisAngle(new THREE.Vector3(0, 1, 0), rot); circles.push({ x: x + wp.x, z: z + wp.z, r: .3 }); }
+  const id = opts.id || 'h' + (houseN++);
+  const g = new THREE.Group(); const gy = groundH(x, z); g.position.set(x, gy, z); g.rotation.y = rot; scene.add(g);
+  const W = 7, D = 5.5, FH = 2.6, WH = 2.3, t = .12, DW = 1.2;
+  for (const px of [-W / 2 + .3, 0, W / 2 - .3]) for (const pz of [-D / 2 + .3, D / 2 - .3]) { cyl(.14, .16, FH + .2, 0x5a3a22, px, FH / 2 - .2, pz, g); const wp = new THREE.Vector3(px, 0, pz).applyAxisAngle(new THREE.Vector3(0, 1, 0), rot); circles.push({ x: x + wp.x, z: z + wp.z, r: .3 }); }
   box(W, .25, D, 0x6e4a2a, 0, FH, 0, g);
-  const w = box(W - .2, 2.2, D - .2, wall, 0, FH + 1.2, 0, g); colorables.push({ mesh: w });
-  for (const wx of [-2, 2]) box(1, .8, .05, 0x2a1a10, wx, FH + 1.4, D / 2 - .05, g);
-  box(1, 1.7, .05, 0x3a2414, 0, FH + 1, D / 2 - .05, g);
+  box(W - .3, .02, D - .3, 0x8a6a42, 0, FH + .13, 0, g);
+  const wm = new THREE.MeshLambertMaterial({ color: wall, flatShading: true });
+  const y = FH + .12 + WH / 2;
+  box(W, WH, t, wm, 0, y, -D / 2 + t / 2, g); box(t, WH, D, wm, -W / 2 + t / 2, y, 0, g); box(t, WH, D, wm, W / 2 - t / 2, y, 0, g);
+  const sw = (W - DW) / 2; box(sw, WH, t, wm, -(DW / 2 + sw / 2), y, D / 2 - t / 2, g); box(sw, WH, t, wm, DW / 2 + sw / 2, y, D / 2 - t / 2, g);
+  colorables.push({ mesh: box(DW, .5, t, wm, 0, FH + .12 + WH - .25, D / 2 - t / 2, g), own: wm });
+  for (const wx of [-2.2, 2.2]) box(1, .8, .05, 0x2a1a10, wx, FH + 1.4, D / 2 + .01, g);
+  box(.05, .8, 1, 0x2a1a10, -W / 2 - .01, FH + 1.4, 0, g); box(.05, .8, 1, 0x2a1a10, W / 2 + .01, FH + 1.4, 0, g);
   const lad = new THREE.Group(); lad.position.set(0, FH / 2, D / 2 + 1); lad.rotation.x = -0.45; g.add(lad);
   box(.08, FH * 1.15, .08, 0x5a3a22, -.4, 0, 0, lad); box(.08, FH * 1.15, .08, 0x5a3a22, .4, 0, 0, lad); for (let i = -2; i <= 2; i++) box(.8, .06, .1, 0x5a3a22, 0, i * .5, 0, lad);
-  const r = new THREE.Mesh(new THREE.CylinderGeometry(2.6, 2.6, W + 1, 3, 1), M(roof)); r.rotation.z = Math.PI / 2; r.rotation.x = Math.PI / 6 + Math.PI; r.scale.set(1, 1, 1.25); r.position.set(0, FH + 3.4, 0); g.add(r);
-  for (const s of [-1, 1]) { const h = new THREE.Mesh(new THREE.ConeGeometry(.12, 1, 4), M(roof)); h.position.set(s * (W / 2 + .6), FH + 5, 0); h.rotation.z = -s * .5; g.add(h); }
+  // gable roof: two sloped panels + closed triangular ends (clear headroom inside)
+  const ridge = FH + 4.12, a = Math.atan(1.7 / 3), L = 3.3 / Math.cos(a);
+  for (const s of [-1, 1]) { const p = box(W + 1, .12, L, M(roof, { side: THREE.DoubleSide }), 0, ridge - 1.65 * Math.tan(a), s * 1.65, g); p.rotation.x = s * a; }
+  { const top = FH + .12 + WH, tri = new THREE.BufferGeometry(); tri.setAttribute('position', new THREE.Float32BufferAttribute([0, top, -D / 2, 0, top, D / 2, 0, ridge, 0], 3)); tri.computeVertexNormals();
+    for (const s of [-1, 1]) { const m = new THREE.Mesh(tri, new THREE.MeshLambertMaterial({ color: wall, side: THREE.DoubleSide })); m.position.x = s * (W / 2 - .06); g.add(m); } }
+  box(W - .2, .04, D - .2, 0x4a3420, 0, FH + .12 + WH, 0, g); // ceiling
+  for (const s of [-1, 1]) { const h = new THREE.Mesh(new THREE.ConeGeometry(.12, 1, 4), M(roof)); h.position.set(s * (W / 2 + .6), ridge + .4, 0); h.rotation.z = -s * .5; g.add(h); }
+  const fy = FH + .13; // furniture: bed, cupboard, low table, mat
+  box(.95, .35, 1.9, 0x7a5232, W / 2 - .75, fy + .18, -D / 2 + 1.2, g); box(.85, .1, 1.8, 0xe8e0d0, W / 2 - .75, fy + .4, -D / 2 + 1.2, g); box(.6, .12, .35, 0xd8a0a0, W / 2 - .75, fy + .5, -D / 2 + .5, g);
+  box(.8, 1.6, .45, 0x5a3a22, -W / 2 + .55, fy + .8, -D / 2 + .4, g);
+  box(.9, .28, .6, 0x6a4a2a, -1.2, fy + .14, .2, g);
+  box(2, .02, 1.6, [0xc23b3b, 0x3a6fb0, 0xd8a020, 0x3a8a4a][houseN % 4], .3, fy + .01, .3, g);
   if (opts.hammock) box(2.4, .08, .9, 0xc23b3b, 0, 1, -0.5, g);
+  const h = { id, g, x, z, rot, gy, FH, W, D, floor: gy + FH + .13 };
+  HOUSES[id] = h;
+  const [fx, fz] = L2W(h, 0, D / 2 + 2.1), [bx, bz] = L2W(h, W / 2 - .75, -D / 2 + 1.2), [ex, ez] = L2W(h, 0, D / 2 - .7);
+  h.foot = [fx, fz];
+  interact.push({ x: fx, z: fz, r: 2.3, label: () => 'Climb up', kh: 'ឡើង', act: () => openKB('ឡើង'), on: () => !moto.riding && !boatState.riding });
+  interact.push({ house: id, x: bx, z: bz, r: 1.7, label: () => 'Sleep', kh: 'ដេក', act: () => openKB('ដេក') });
+  interact.push({ house: id, x: ex, z: ez, r: 1.4, label: () => 'Climb down', kh: 'ចុះ', act: () => openKB('ចុះ') });
   return g;
 }
+const roomLight = new THREE.PointLight(0xffd8a0, 0, 9, 1.2); scene.add(roomLight);
+function enterHouse(h, lx = 0, lz = h.D / 2 - 1, yaw = 0) { inside = h; roomLight.position.set(h.x, h.floor + 2, h.z); roomLight.intensity = 2.2; const [x, z] = L2W(h, lx, lz); player.x = x; player.z = z; player.yaw = h.rot + yaw; player.pitch = -.1; camY = h.floor + EYE; }
+function exitHouse() { const h = inside; inside = null; roomLight.intensity = 0; player.x = h.foot[0]; player.z = h.foot[1]; player.yaw = h.rot; camY = groundH(player.x, player.z) + EYE; }
+function moveInside(dx, dz) { const h = inside; let [lx, lz] = W2L(h, player.x + dx, player.z + dz); lx = Math.max(-h.W / 2 + .45, Math.min(h.W / 2 - .45, lx)); lz = Math.max(-h.D / 2 + .45, Math.min(h.D / 2 - .45, lz)); [player.x, player.z] = L2W(h, lx, lz); }
 let _crown;
 function palmCrown() { if (_crown) return _crown; const leaves = []; for (let i = 0; i < 14; i++) { const c = new THREE.ConeGeometry(.9, 3.2, 3); c.scale(1, 1, .25); c.translate(0, 1.6, 0); c.rotateZ(rnd(.9, 1.6)); c.rotateY(i / 14 * Math.PI * 2); leaves.push(c); } leaves.push(new THREE.SphereGeometry(.7, 6, 4)); return _crown = mergeGeos(leaves); }
 function palm(x, z, s = 1, coco = false) {
@@ -238,10 +277,13 @@ function tree(x, z, s = 1, dark = false) {
   const f2 = new THREE.Mesh(new THREE.IcosahedronGeometry(1.8 * s, 0), M(dark ? 0x264a22 : 0x4e8233)); f2.position.set(1.2 * s, 5 * s, .6); g.add(f2);
   circles.push({ x, z, r: .6 * s }); return g;
 }
-stiltHouse(0, -2, 0, 0xc9a46a, 0x8a3b22, { hammock: true });
-stiltHouse(-18, -12, 0.6, 0xa8b49a); stiltHouse(14, -20, -0.4, 0xd7c19a, 0x6b3a2a); stiltHouse(-20, 20, 2.4, 0xb89870);
+stiltHouse(0, -2, 0, 0xc9a46a, 0x8a3b22, { hammock: true, id: 'yay' });
+stiltHouse(-18, -12, 0.6, 0xa8b49a, 0x8a3b22, { id: 'aunt' }); stiltHouse(14, -20, -0.4, 0xd7c19a, 0x6b3a2a); stiltHouse(-20, 20, 2.4, 0xb89870);
 stiltHouse(24, 14, -1.2, 0x9fb0b8, 0x7a3020); stiltHouse(-12, -36, 0.2, 0xc8b07a); stiltHouse(-30, 6, 1.6, 0xa4886a); stiltHouse(38, -12, 0.9, 0xc9b89a, 0x6e2e1e);
 box(1.6, .05, 2.2, 0xd8c27a, 0.5, groundH(.5, -1) + .03, -1.5);
+// Mango Village (ភូមិស្វាយ), north of the school
+stiltHouse(6, -100, 0.2, 0xd8b878, 0x7a3020, { id: 'chief' }); stiltHouse(-10, -94, 0.8, 0xb8c8a0, 0x8a3b22, { id: 'n2' });
+stiltHouse(20, -107, -0.5, 0xc8a8a0); stiltHouse(-4, -113, 0.1, 0xa8b8c8, 0x6b3a2a); stiltHouse(24, -93, -1.2, 0xe0c890);
 // hearth under Yay's house
 const hearthPos = { x: -1.6, z: -2.8 };
 for (let i = 0; i < 3; i++) { const a = i * 2.1; box(.3, .3, .3, 0x6a6a60, hearthPos.x + Math.cos(a) * .35, groundH(hearthPos.x, hearthPos.z) + .15, hearthPos.z + Math.sin(a) * .35); }
@@ -249,7 +291,7 @@ cyl(.35, .25, .35, 0x2a2a2a, hearthPos.x, groundH(hearthPos.x, hearthPos.z) + .4
 const hearthFire = new THREE.Mesh(new THREE.ConeGeometry(.22, .5, 6), new THREE.MeshBasicMaterial({ color: 0xff9030 })); hearthFire.position.set(hearthPos.x, groundH(hearthPos.x, hearthPos.z) + .25, hearthPos.z); hearthFire.visible = !!F.hearth; scene.add(hearthFire);
 circles.push({ x: hearthPos.x, z: hearthPos.z, r: .5 });
 
-const avoid = (x, z) => pathDist(x, z) < 3.5 || roadDist(x, z) < 5 || Math.hypot(x, z) < 9 || inPaddy(x + 0, z) || Math.abs(x - riverX(z)) < 12 || Math.hypot(x - TEMPLE.x, z - TEMPLE.z) < 16 || Math.hypot(x - POND.x, z - POND.z) < 11 || (x > 40 && x < 72 && z > -4 && z < 26) || (x > 20 && x < 50 && z > -56 && z < -30) || inTown(x, z) || (x > 104 && x < 148) || HEADS.some(h => Math.hypot(x - h.pos[0], z - h.pos[1]) < 6) || STONES.some(s => Math.hypot(x - s[1], z - s[2]) < 3);
+const avoid = (x, z) => pathDist(x, z) < 3.5 || roadDist(x, z) < 5 || Math.hypot(x, z) < 9 || inPaddy(x + 0, z) || Math.abs(x - riverX(z)) < 12 || Math.hypot(x - TEMPLE.x, z - TEMPLE.z) < 16 || Math.hypot(x - POND.x, z - POND.z) < 11 || (x > 40 && x < 72 && z > -4 && z < 26) || (x > 20 && x < 50 && z > -56 && z < -30) || inTown(x, z) || (x > 104 && x < 148) || (x > -24 && x < 70 && z > -122 && z < -66) || HEADS.some(h => Math.hypot(x - h.pos[0], z - h.pos[1]) < 6) || STONES.some(s => Math.hypot(x - s[1], z - s[2]) < 3);
 { let n = 0, tries = 0; while (n < (isMobile ? 80 : 120) && tries++ < 3000) { const x = rnd(-118, 108), z = rnd(-118, 118); if (avoid(x, z)) continue; Math.random() < .6 ? palm(x, z) : tree(x, z, rnd(.8, 1.3)); n++; } }
 for (let i = 0; i < 10; i++) palm(-9 + rnd(-1, 1), 30 + i * 5.5, 1.2);
 for (let i = 0; i < 8; i++) palm(10 + i * 6, 85 + rnd(-1, 1), 1.15);
@@ -420,6 +462,7 @@ for (const sg of SIGNS) {
   const p = textPlane(sg.word, 3.4, 1.1, { size: 92, color: '#ffffff', bg: sg.color });
   const y = groundH(sg.x, sg.z) + 3.4; p.position.set(sg.x, y, sg.z);
   if (sg.z < 0) p.rotation.y = 0; else p.rotation.y = Math.PI;
+  if (sg.word === 'ភូមិស្វាយ') { for (const s of [-1.5, 1.5]) cyl(.08, .08, 3.4, 0x5a3a22, sg.x + s, groundH(sg.x, sg.z) + 1.7, sg.z - .05); p.position.y = groundH(sg.x, sg.z) + 3; }
   if (sg.word === 'ក្រុង') { p.rotation.y = -Math.PI / 2; cyl(.08, .08, 3, 0x6a6a6a, sg.x, groundH(sg.x, sg.z) + 1.5, sg.z); p.position.y = groundH(sg.x, sg.z) + 3; }
   if (sg.word === 'សាំង') { cyl(.12, .12, 6, 0x888888, sg.x, groundH(sg.x, sg.z) + 3, sg.z - .2); p.position.y = groundH(sg.x, sg.z) + 6; }
   if (sg.word === 'ជួសជុល') p.position.y = groundH(sg.x, sg.z) + 4.1;
@@ -430,7 +473,9 @@ for (const sg of SIGNS) {
 /* ---------------- people & animals ---------------- */
 const npcObjs = {};
 for (const [id, n] of Object.entries(NPCS)) {
-  const g = new THREE.Group(); const [x, z] = n.pos; g.position.set(x, groundH(x, z), z); scene.add(g);
+  if (n.hidden) continue;
+  const hh = n.house ? HOUSES[n.house] : null; const [x, z] = hh ? L2W(hh, n.pos[0], n.pos[1]) : n.pos;
+  const g = new THREE.Group(); g.position.set(x, hh ? hh.floor : groundH(x, z), z); scene.add(g);
   const body = new THREE.Group(); g.add(body); const sc = n.small ? .68 : 1; body.scale.setScalar(sc);
   const skin = 0xa8734a;
   if (n.robe) { cyl(.35, .7, 1.2, n.color, 0, .6, 0, body, 8); const head = new THREE.Mesh(new THREE.SphereGeometry(.28, 10, 8), M(skin)); head.position.y = 1.45; body.add(head); const sash = box(.8, .9, .1, 0xc0601a, 0, .85, .1, body); sash.rotation.z = .5; }
@@ -444,9 +489,9 @@ for (const [id, n] of Object.entries(NPCS)) {
     if (n.old) body.rotation.x = .12;
   }
   const label = textSprite(n.km, { size: 54, w: 384, h: 96, scale: .55, bg: 'rgba(20,32,31,.7)' }); label.position.y = (n.robe ? 2.1 : 2.45) * sc + .2; g.add(label);
-  npcObjs[id] = { g, body, n, home: [x, z] };
-  circles.push({ x, z, r: .6 });
-  interact.push({ x, z, r: 4.2, label: () => 'Talk to', kh: n.km, act: () => talkTo(id), on: () => id !== 'monk' || F.lamps });
+  npcObjs[id] = { g, body, n, home: [x, z], y: g.position.y };
+  if (!hh) circles.push({ x, z, r: .6 });
+  interact.push({ house: n.house, x, z, r: hh ? 3 : 4.2, label: () => 'Talk to', kh: n.km, act: () => talkTo(id), on: () => id !== 'monk' || F.lamps });
 }
 npcObjs.monk.g.position.y = T.h + RF; npcObjs.monk.body.scale.y = .8;
 // kid's ball
@@ -479,8 +524,9 @@ placeMoto();
 
 /* ---------------- word stones ---------------- */
 const stoneObjs = [];
-for (const [w, x, z, mode, hint] of STONES) {
-  let y = mode === 'temple' ? T.h + RF : mode === 'night' && w === 'ផ្កាឈូក' ? WATER_Y + .1 : mode === 'far' ? WATER_Y + .1 : groundH(x, z);
+for (let [w, x, z, mode, hint, hid] of STONES) {
+  const sh = mode === 'house' ? HOUSES[hid] : null; if (sh) [x, z] = L2W(sh, x, z);
+  let y = sh ? sh.floor : mode === 'temple' ? T.h + RF : mode === 'night' && w === 'ផ្កាឈូក' ? WATER_Y + .1 : mode === 'far' ? WATER_Y + .1 : groundH(x, z);
   const g = new THREE.Group(); g.position.set(x, y, z); scene.add(g);
   const st = new THREE.Mesh(new THREE.DodecahedronGeometry(.32, 0), new THREE.MeshLambertMaterial({ color: 0xc8b88a, emissive: 0x2a1e06 })); st.scale.set(.8, 1.3, .8); st.position.y = .4; g.add(st);
   const glyph = textSprite(w, { size: 64, w: 512, h: 128, scale: .5 }); glyph.position.y = 1.1; g.add(glyph);
@@ -488,9 +534,9 @@ for (const [w, x, z, mode, hint] of STONES) {
   if (mode === 'mud') { cover = new THREE.Mesh(new THREE.SphereGeometry(.55, 7, 5), M(0x5a4028)); cover.scale.y = .7; cover.position.y = .35; g.add(cover); }
   if (mode === 'fallen') st.rotation.z = Math.PI / 2;
   const o = { w, x, z, g, st, glyph, cover, mode, hint, y0: y };
-  o.got = S.stones.includes(w); o.ok = S.revealed.includes(w) || ['plain', 'night', 'temple'].includes(mode);
+  o.got = S.stones.includes(w); o.ok = S.revealed.includes(w) || ['plain', 'night', 'temple', 'house'].includes(mode);
   stoneObjs.push(o); styleStone(o);
-  interact.push({ get x() { return o.g.position.x; }, get z() { return o.g.position.z; }, r: w === 'ផ្កាឈូក' ? 9 : 2.2, label: () => !o.ok ? stoneLabel(o) : o.got ? 'Hear the stone' : 'Read the word stone', kh: null, act: () => readStone(o), on: () => stoneVisible(o) && (o.ok || o.mode !== 'dig') });
+  interact.push({ house: hid, get x() { return o.g.position.x; }, get z() { return o.g.position.z; }, r: w === 'ផ្កាឈូក' ? 9 : 2.2, label: () => !o.ok ? stoneLabel(o) : o.got ? 'Hear the stone' : 'Read the word stone', kh: null, act: () => readStone(o), on: () => stoneVisible(o) && (o.ok || o.mode !== 'dig') });
 }
 function stoneLabel(o) { return { mud: 'A lump of mud', dark: 'Something in the darkness', fallen: 'A stone lying face down', far: '', dig: '', secret: '' }[o.mode] || 'A stone'; }
 function stoneVisible(o) { if (o.mode === 'night' && nightT < .5) return false; if (o.mode === 'temple' && !F.lamps) return false; if ((o.mode === 'dig' || o.mode === 'secret') && !o.ok) return false; return true; }
@@ -505,8 +551,8 @@ function reveal(o, msg) { if (o.ok) return; o.ok = true; if (!S.revealed.include
 function readStone(o) {
   if (!o.ok) { toast('', { mud: 'Caked in mud. Maybe water would wash it.', dark: 'Too dark to see. You need light.', fallen: 'It lies face down. If only it would stand.' }[o.mode] || 'Hidden.'); return; }
   const isNew = !o.got; o.got = true; if (!S.stones.includes(o.w)) S.stones.push(o.w); styleStone(o);
-  learn(o.w, true); if (SPELLS[o.w]) teachSpell(o.w);
-  playWord(o.w); toast(o.w, (SPELLS[o.w] ? 'Spell learned: ' : isNew ? 'New word: ' : '') + VOCAB[o.w]);
+  const warp = !!PLACES[o.w]; learn(o.w, true); if (SPELLS[o.w] && !warp) teachSpell(o.w);
+  playWord(o.w); toast(o.w, (SPELLS[o.w] && !warp ? 'Spell learned: ' : isNew ? 'New word: ' : '') + VOCAB[o.w]);
   if (isNew) chime([523, 784, 1046]); save(); refreshObjective();
 }
 const stoneByWord = w => stoneObjs.find(o => o.w === w);
@@ -535,8 +581,17 @@ function blocked(x, z, r = .35) {
   for (const b of boxes) if (b.on && x > b.x0 - r && x < b.x1 + r && z > b.z0 - r && z < b.z1 + r) return true;
   return false;
 }
+// how far a point at radius r is pushed into solid things (0 = free)
+function overlap(x, z, r) {
+  let o = 0;
+  for (const c of circles) { const d = Math.hypot(x - c.x, z - c.z); o = Math.max(o, c.r + r - d); }
+  for (const b of boxes) if (b.on) { const e = Math.min(x - (b.x0 - r), (b.x1 + r) - x, z - (b.z0 - r), (b.z1 + r) - z); o = Math.max(o, e); }
+  return o;
+}
+function hardBlocked(x, z) { return x < -126 || x > 246 || Math.abs(z) > 126 || (baseH(x, z) < -0.25 && groundH(x, z) < 0.3); }
 function canStep(x0, z0, x1, z1, r) {
-  if (blocked(x1, z1, r) && !blocked(x0, z0, r)) return false;
+  if (hardBlocked(x1, z1) && !hardBlocked(x0, z0)) return false;
+  const o1 = overlap(x1, z1, r); if (o1 > 0 && o1 >= overlap(x0, z0, r) - 1e-4) return false; // only allow moves that get you out
   const d = Math.hypot(x1 - x0, z1 - z0) || 1e-6, dh = groundH(x1, z1) - groundH(x0, z0);
   if (dh > .8) return false;
   const th = baseH(x1, z1) - baseH(x0, z0); // steep natural slopes (hills) only; stone steps are fine
@@ -547,8 +602,10 @@ let stuckFrames = 0;
 function tryMove(dx, dz) {
   // escape hatch: if you've pushed against something for a while, the slope rule is relaxed
   const loose = stuckFrames > 45;
-  const s = (nx, nz) => { if (!(canStep(player.x, player.z, nx, nz, .28) || (loose && !blocked(nx, nz, .2) && groundH(nx, nz) - groundH(player.x, player.z) < 1.2))) return false; player.x = nx; player.z = nz; return true; };
-  if (s(player.x + dx, player.z + dz) || s(player.x + dx, player.z) || s(player.x, player.z + dz)) stuckFrames = 0; else stuckFrames++;
+  const s = (nx, nz) => { if (!(canStep(player.x, player.z, nx, nz, .28) || (loose && !hardBlocked(nx, nz) && overlap(nx, nz, .28) <= 0 && groundH(nx, nz) - groundH(player.x, player.z) < 1.2))) return false; player.x = nx; player.z = nz; return true; };
+  const n = Math.max(1, Math.ceil(Math.hypot(dx, dz) / .2)); let moved = false;
+  for (let i = 0; i < n; i++) { const ok = s(player.x + dx / n, player.z + dz / n) || s(player.x + dx / n, player.z) || s(player.x, player.z + dz / n); if (!ok) break; moved = true; }
+  if (moved) stuckFrames = 0; else stuckFrames++;
 }
 let camY = groundH(player.x, player.z) + EYE;
 
@@ -578,11 +635,15 @@ addEventListener('keydown', e => {
   if (e.code === 'KeyB') openBook();
 });
 addEventListener('keyup', e => { input.keys[e.code] = false; });
+function releaseAll() { input.keys = {}; joyEnd(); lookId = null; if (moto.riding) moto.speed *= .5; }
+addEventListener('blur', releaseAll); document.addEventListener('visibilitychange', () => { if (document.hidden) releaseAll(); });
+addEventListener('pagehide', releaseAll); addEventListener('contextmenu', releaseAll);
+cv.addEventListener('pointercancel', () => { lookId = null; }); cv.addEventListener('lostpointercapture', () => { lookId = null; });
 
 /* ---------------- HUD ---------------- */
 let toastT;
 function toast(km, en) { const t = $('#toast'); t.innerHTML = (km ? `<span class="big">${esc(km)}</span>${ROM[km] ? `<span class="rom">${esc(ROM[km])}</span><br>` : ''}` : '') + (en ? `<span class="tx">${esc(en)}</span>` : ''); t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 2800); }
-function updateHUD() { $('#count').textContent = S.known.length; $('#money').innerHTML = `<span class="kh">${khNum(S.money)}</span> ៛`; }
+function updateHUD() { $('#hearts').innerHTML = Array.from({ length: 5 }, (_, i) => `<span class="${i < S.hp ? 'on' : ''}">\u2665</span>`).join(''); $('#count').textContent = S.known.length; $('#money').innerHTML = `<span class="kh">${khNum(S.money)}</span> ៛`; }
 function objective() {
   if (F.ended) { const left = STONES.length - S.stones.length; return [`Explore freely. ${left} word stones remain. Open the book for quests.`, 'The village is yours', null]; }
   if (!F.met) return ['Someone is waiting under the house. Talk to her.', 'You wake up', NPCS.yay.pos];
@@ -652,7 +713,7 @@ function talkTo(id) {
     if (F.ended) return talk('yay_end');
     if (!F.met) return talk('yay_intro', () => { F.met = 1; teachSpell('ទឹក'); toast('ទឹក', 'Spell learned: water'); chime(); });
     if (!F.flowers) return talk('yay_wait');
-    if (!F.errand) return talk('yay_errand', () => { F.errand = 1; pay(5000); toast('', 'Grandma gives you ' + khNum(5000) + ' ៛'); });
+    if (!F.errand) return talk('yay_errand', () => { F.errand = 1; teachSpell('ឡើង'); teachSpell('ចុះ'); pay(5000); toast('', 'Grandma gives you ' + khNum(5000) + ' ៛'); });
     if (!F.fish) { if (has('ត្រី')) return talk('yay_fish', () => { F.fish = 1; addItem('ត្រី', -1); }); return talk('yay_wait_fish'); }
     if (F.hearthAsk && !F.hearth) return talk('yay_hearth');
     if (S.spells.includes('ភ្លើង') && !F.hearth) return talk('yay_hearth', () => { F.hearthAsk = 1; });
@@ -703,6 +764,20 @@ function talkTo(id) {
   if (id === 'che') { if (!F.che) return talk('che_intro', () => { F.che = 1; openShop('che'); }); return openShop('che'); }
   if (id === 'hia') { if (F.hiaLit && !F.hiaPaid) { F.hiaPaid = 1; pay(2000); return talk('hia_paid'); } if (F.hiaLit) return talk('hia_idle'); F.hiaAsk = 1; return talk('hia_day'); }
   if (id === 'ee') { if (F.eeDone && !F.eePaid) { F.eePaid = 1; pay(1000); return talk('ee_paid'); } if (F.eePaid) return talk('ee_paid'); F.eeAsk = 1; return talk('ee_ask'); }
+  if (id === 'chief') {
+    if (!F.chief) return talk('chief_intro', () => { F.chief = 1; F.thiefAsk = 1; teachSpell('ឈប់'); toast('ឈប់', 'Spell learned: stop'); chime(); });
+    if (F.thiefCaught && !F.thief) return talk('chief_thanks', () => { F.thief = 1; pay(5000); });
+    if (!F.thiefCaught) return talk('chief_wait');
+    return talk('chief_idle');
+  }
+  if (id === 'farmer') {
+    if (F.harvest) return talk('farmer_idle');
+    if (!F.harvestAsk && !F.chief) return talk('farmer_early');
+    if (!F.harvestAsk) { F.harvestAsk = 1; F.harvestN = 5 + Math.floor(Math.random() * 5); }
+    const N = F.harvestN;
+    if ((S.bag['បាច់'] || 0) >= N) return talk('farmer_done', () => { addItem('បាច់', -N); F.harvest = 1; pay(4000); });
+    return talk([['farmer', `ជួយ ខ្ញុំ កាត់ ស្រូវ ${numWords(N)} បាច់ ។`]]);
+  }
   if (id === 'tacha') {
     if (F.coco) return talk('tacha_idle');
     if (F.cocoAsk && has('ដូង')) return talk('tacha_done', () => { F.coco = 1; addItem('ដូង', -1); pay(5000); });
@@ -716,6 +791,7 @@ function dinner() {
   talk('aunt_dinner', () => {
     F.dinner = 1; for (const id of Object.keys(spots)) { const h = npcObjs[id].home; npcObjs[id].g.position.set(h[0], groundH(h[0], h[1]), h[1]); }
     npcObjs.yay.g.position.y = groundH(NPCS.yay.pos[0], NPCS.yay.pos[1]);
+    for (const id of Object.keys(spots)) npcObjs[id].g.position.y = npcObjs[id].y;
     pay(2000); toast('ម៉ូតូ', 'Uncle lends you his motorbike. Its tyre is flat — the mechanic is in town, east past the hills.'); chime();
   });
 }
@@ -730,7 +806,7 @@ function quests() {
   add('The fish errand', F.fish, !F.sok ? 'Learn numbers from សុខ at the market.' : !has('ត្រី') && !F.fish ? 'Buy one fish from the market seller.' : 'Bring the fish to Grandma.', F.errand);
   add('The stone’s secret', F.ended, objective()[0], F.fish);
   add('Family dinner', F.dinner, `Invite Aunt’s family: her father ${F.inv_ta ? '✓' : ''}, her husband ${F.inv_fisher ? '✓' : ''}, her children ${F.inv_sok ? '✓' : ''}. Then return to her.`, F.aunt);
-  add('A ride of your own', F.fixed && F.fueled, `${F.fixed ? '✓' : 'Get the flat tyre fixed by the mechanic (ជាង) in town.'} ${F.fueled ? '✓' : 'Fill the tank at the petrol station (សាំង).'}`, F.dinner);
+  add('A ride of your own', F.fixed && F.fueled, `${F.fixed ? '✓' : 'Get the flat tyre fixed by the mechanic (ជាង) in town.'} ${F.fueled ? '✓' : 'Buy petrol (សាំង) at the station in town or a bottle at the market.'}`, F.dinner);
   add('Great-grandma’s wish', F.tuot, 'She wants white flowers. Make flowers bloom near her, then make them white.', F.tuotAsk);
   add('The hungry boy', F.kidFed, 'He wants to eat. Cake from the market or a magic bowl of rice?', true && (F.kidFed || F.sok));
   add('A ball for the boy', F.ballDone, F.ballGiven ? `He wants the ball painted ${VOCAB[S.kidColor] ? 'a colour he names' : ''}. Listen to him.` : 'He wants a ball. Che’s shop in town sells them.', F.ballAsk);
@@ -741,7 +817,10 @@ function quests() {
   add('Hia’s lanterns', F.hiaPaid, 'Hia wants his shop lanterns lit — at night.', F.hiaAsk);
   add('Flowers for Ee', F.eePaid, 'Ee wants red flowers.', F.eeAsk);
   add('Coconut water', F.coco, 'The old man at the café wants a coconut from the village. Call one down from a coconut palm.', F.cocoAsk);
-  add('The dog’s friend', F.dogFriend, 'The old man says the dog can find word stones. Feed it.', F.coco || F.dogFriend);
+  add('Mango Village', F.chief, 'Find the village chief of ភូមិស្វាយ, north of the school. He lives up in his house.', S.visited.includes('ភូមិស្វាយ') || F.chief);
+  add('The golden harvest', F.harvest, `Cut bundles of rice (${S.bag['បាច់'] || 0} so far). How many did the farmer ask for?`, F.harvestAsk);
+  add('The night thief', F.thief, F.thiefCaught ? 'Tell the chief.' : 'Catch the thief on the roads at night: say ឈប់!', F.thiefAsk);
+  add('The dog\u2019s friend', F.dogFriend, 'The old man says the dog can find word stones. Feed it.', F.coco || F.dogFriend);
   return q;
 }
 
@@ -751,11 +830,13 @@ const NOTES = [100, 500, 1000, 2000, 5000, 10000];
 function openShop(id) {
   shop = { id, sel: null, pile: 0 }; uiOpen = 'shop'; joyEnd(); $('#shop').classList.remove('hide'); renderShop();
 }
-function shopLine(item, price, kind) { return kind === 'full' ? `ពេញ ធុង ${numWords(price)} រៀល ។` : kind === 'fix' ? `ជួស កង់ ${numWords(price)} រៀល ។` : kind === 'bottle' ? `សាំង មួយ ដប ${numWords(price)} រៀល ។` : `${item} ${numWords(price)} រៀល ។`; }
+function shopLine(item, price, kind) { return kind === 'amt' ? `ចាក់ សាំង ${numWords(price)} រៀល ។` : kind === 'full' ? `ពេញ ធុង ${numWords(price)} រៀល ។` : kind === 'fix' ? `ជួស កង់ ${numWords(price)} រៀល ។` : kind === 'bottle' ? `សាំង មួយ ដប ${numWords(price)} រៀល ។` : `${item} ${numWords(price)} រៀល ។`; }
+const LITRE = 4000, PER_LITRE = 25; // riel per litre at the station; % of tank per litre
+function shopItems(id) { return SHOPS[id].map(([w, p, kind]) => kind === 'full' ? [w, Math.max(500, Math.ceil((100 - moto.fuel) / PER_LITRE * LITRE / 500) * 500), kind] : [w, p, kind]); }
 function renderShop() {
-  const items = SHOPS[shop.id], who = NPCS[shop.id === 'vendor' ? 'vendor' : shop.id].km;
+  const items = shopItems(shop.id), who = NPCS[shop.id === 'vendor' ? 'vendor' : shop.id].km;
   let h = `<div class="shophead"><span class="kh">${esc(who)}</span><span id="wallet">You have <b class="kh">${khNum(S.money)}</b> ៛</span><button class="btn" id="shopclose">Leave</button></div><div class="items">`;
-  h += items.map(([w, p, kind], i) => `<button class="item${shop.sel === i ? ' sel' : ''}" data-i="${i}"><b class="kh">${esc(kind === 'full' ? 'ពេញ ធុង' : kind === 'fix' ? 'ជួស កង់' : kind === 'bottle' ? 'សាំង មួយ ដប' : w)}</b><i>${known(w) ? esc(VOCAB[w]) : '?'}</i><span class="tag kh">${khNum(p)} ៛</span></button>`).join('');
+  h += items.map(([w, p, kind], i) => `<button class="item${shop.sel === i ? ' sel' : ''}" data-i="${i}"><b class="kh">${esc(kind === 'full' ? 'ពេញ ធុង' : kind === 'fix' ? 'ជួស កង់' : kind === 'bottle' ? 'សាំង មួយ ដប' : kind === 'amt' ? 'សាំង' : w)}</b><i>${known(w) ? esc(VOCAB[w]) : '?'}</i><span class="tag kh">${khNum(p)} ៛</span></button>`).join('');
   h += '</div>';
   if (shop.sel != null) {
     const [w, p, kind] = items[shop.sel];
@@ -769,16 +850,18 @@ function renderShop() {
 }
 let sayText = '';
 function renderSay() { const el = $('#sayline'); if (!el) return; const tk = tokens(sayText); el.innerHTML = tk.map((t, i) => isPunct(t.km) ? `<span class="p">${esc(t.km)}</span>` : `<span class="w${known(t.km) ? ' known' : ''}" data-i="${i}"><b>${esc(t.km)}</b></span>`).join(''); el.querySelectorAll('.w').forEach(e => e.onclick = () => { hearing++; playWord(tk[+e.dataset.i].km); wordPop(e, tk[+e.dataset.i]); }); }
-function sayShop(text) { const [w, p, kind] = SHOPS[shop.id][shop.sel]; sayText = text || shopLine(w, p, kind); tokens(sayText).forEach(t => hear(t.km)); renderSay(); hearLine('#sayline', tokens(sayText)); }
+function sayShop(text) { const [w, p, kind] = shopItems(shop.id)[shop.sel]; sayText = text || shopLine(w, p, kind); tokens(sayText).forEach(t => hear(t.km)); renderSay(); hearLine('#sayline', tokens(sayText)); }
 function buy() {
-  const [w, p, kind] = SHOPS[shop.id][shop.sel];
+  const [w, p, kind] = shopItems(shop.id)[shop.sel];
+  if (['amt', 'full', 'bottle'].includes(kind) && F.dinner && moto.fuel >= 99.5) return sayShop('ធុង ពេញ ហើយ !');
   if (kind === 'fix' && !moto.flat) return sayShop('កង់ ល្អ ។ ម៉ូតូ ល្អ !');
-  if ((kind === 'full' || kind === 'bottle') && !F.dinner) return sayShop('ម៉ូតូ ? អត់ ម៉ូតូ ទេ ?');
+  if (['amt', 'full', 'bottle'].includes(kind) && !F.dinner) return sayShop('ម៉ូតូ ? អត់ ម៉ូតូ ទេ ?');
   if (shop.pile < p) { sayShop('លុយ មិន គ្រប់ ទេ ។'); chime([300, 220], .4, 'triangle', .06); return; }
   const change = shop.pile - p; S.money -= p; shop.pile = 0; updateHUD();
   if (kind === 'fix') { moto.flat = false; F.fixed = 1; placeMoto(); }
   else if (kind === 'full') { moto.fuel = 100; F.fueled = 1; }
-  else if (kind === 'bottle') { moto.fuel = Math.min(100, moto.fuel + 50); F.fueled = F.fueled || 0; }
+  else if (kind === 'amt') { moto.fuel = Math.min(100, moto.fuel + p / LITRE * PER_LITRE); F.fueled = 1; }
+  else if (kind === 'bottle') { moto.fuel = Math.min(100, moto.fuel + PER_LITRE); F.fueled = 1; }
   else { addItem(w); }
   const isNew = learn(w, true);
   chime([660, 990], .5);
@@ -794,8 +877,9 @@ const CONS = 'ក ខ គ ឃ ង ច ឆ ជ ឈ ញ ដ ឋ ឌ ឍ ណ ត �
 const VOWS = 'ា ិ ី ឹ ឺ ុ ូ ួ ើ ឿ ៀ េ ែ ៃ ោ ៅ ំ ះ ់ ៉ ៊ ័ ៌ ឥ ឪ ឲ ឫ'.split(' ');
 const isDep = c => c >= 'ា' && c <= '៓';
 let kbPage = 0, typed = '', guide = null;
-function openKB() {
+function openKB(force) {
   if (uiOpen) return; uiOpen = 'kb'; typed = ''; $('#kb').classList.remove('hide'); joyEnd(); if (moto.riding) moto.speed = 0;
+  if (typeof force === 'string') { guide = force; renderKnown(); renderKB(); $('#kbmsg').textContent = `Say ${force} \u2014 ${VOCAB[force] || ''}.`; return; }
   let g = null;
   if (F.met && !F.flowers) g = 'ទឹក'; else if (F.metKru && !F.sign) g = 'ឈរ'; else if (F.door && !F.lamps) g = 'ភ្លើង'; else if (F.monk && !F.ended) g = 'ស្រុក';
   guide = g && ((S.casts[g] || 0) < 2) ? g : null;
@@ -840,10 +924,38 @@ function done(spell, id, km, msg) { const n = use(spell, id); toast(km || spell,
 function cast(w) {
   const [ax, az] = front(); const npcNear = (id, r = 7) => { const p = npcObjs[id].g.position; return near(p.x, p.z, r); };
   if (w === 'ស្រុក') { if (F.monk && !F.ended && near(T.x - 2.4, T.z, 6)) return ending(); floatWord(w); toast(w, 'You think of home, far away.'); return; }
+  if (w === 'ចេក' && has('ចេក')) { const m = enemies.find(e => e.type === 'monkey' && e.state !== 'gone' && near(e.x, e.z, 12)); if (m) { addItem('ចេក', -1); m.state = 'flee'; m.t = 3; toast(w, 'The monkey snatches the banana and scampers off, delighted.'); return; } }
   if (!SPELLS[w]) { floatWord(w); toast(w, `You say “${VOCAB[w]}”. Nothing magical happens — but it sounds right.`); return; }
   if (!S.spells.includes(w)) { floatWord(w); toast(w, 'The word glows faintly… you haven’t learned its power yet.'); return; }
   chime();
+  if (PLACES[w]) return warpTo(w);
+  if (enemyCast(w)) return;
   switch (w) {
+    case 'ឡើង': {
+      if (inside) { toast(w, 'You are already up in the house.'); return; }
+      const h = Object.values(HOUSES).find(h => near(h.foot[0], h.foot[1], 3.4));
+      if (h) { enterHouse(h); return done(w, 'house', w, 'You climb the ladder into the house.'); }
+      const me = player.x > riverX(player.z) ? 'east' : 'west';
+      if (F.kru2 && !boatState.riding && !boatState.moving && boatState.side === me && near(boat.position.x, DOCKZ, 7)) { boatState.riding = true; player.x = boat.position.x; player.z = DOCKZ; return done(w, 'boat', w, 'You climb into the boat. Say ទៅ.'); }
+      floatWord(w); toast(w, 'There is nothing to climb here.'); return;
+    }
+    case 'ចុះ':
+      if (inside) { exitHouse(); return done(w, 'house', w, 'You climb back down the ladder.'); }
+      if (boatState.riding && !boatState.moving) { boatState.riding = false; const s = boatState.side; player.x = DOCK[s].x - (s === 'east' ? 2 : -2); player.z = DOCKZ; return done(w, 'boat', w, 'You step out onto the dock.'); }
+      if (moto.riding) { dismount(); return done(w, 'moto', w, 'You get off the motorbike.'); }
+      toast(w, 'You crouch down for a moment.'); return;
+    case 'ឈប់':
+      if (moto.riding) { moto.speed = 0; toast(w, 'The motorbike stops.'); return; }
+      floatWord(w); toast(w, 'Nothing here is moving.'); return;
+    case 'ដេក': {
+      const bed = inside && (() => { const [bx, bz] = L2W(inside, inside.W / 2 - .75, -inside.D / 2 + 1.2); return near(bx, bz, 2.6); })();
+      if (!bed) { toast(w, 'You need a bed. Climb up into a house.'); return; }
+      S.hp = 5; updateHUD(); use(w, 'heal');
+      if (nightT > .5) { nightGoal = 0; S.night = false; use(w, 'morning'); toast(w, 'You sleep soundly and wake at sunrise, rested.'); }
+      else toast(w, 'You nap on the bed and wake up rested.');
+      return;
+    }
+
     case 'ទឹក': {
       rain(player.x, player.z);
       if (near(-2, 5, 7) && !F.flowers) { F.flowers = 1; blooms.forEach(({ b, stem }, i) => anim(1.2, k => { stem.rotation.z = .9 * (1 - k); b.position.set(i * .9 + .3 * (1 - k), .8 + .25 * k, 0); if (k > .5) b.material = M(0xf06080); })); return done(w, 'flowers', w, 'The flowers lift their heads.'); }
@@ -898,6 +1010,7 @@ function cast(w) {
       if (F.ended && npcNear('monk')) { use(w, 'monk'); return done(w, 'monk', w, 'You offer rice to the monk. He smiles and blesses you.'); }
       if (near(dogS.x, dogS.z, 10)) { F.dogFriend = 1; dogS.sit = false; return done(w, 'dog', w, 'The dog gobbles the rice and won’t leave your side. It sniffs the ground…'); }
       if (chickens.some(c => near(c.x, c.z, 12))) { chickens.forEach(c => { c.tx = ax + rnd(-1, 1); c.tz = az + rnd(-1, 1); }); return done(w, 'chickens', w, 'The chickens rush to peck the rice.'); }
+      if (S.hp < 5) { S.hp = Math.min(5, S.hp + 1); updateHUD(); return done(w, 'eat', w, 'You eat the warm rice. You feel better.'); }
       return done(w, 'bowl', w, 'A bowl of rice appears.');
     }
     case 'ផ្កា': {
@@ -908,7 +1021,6 @@ function cast(w) {
     }
     case 'យប់': nightGoal = 1; S.night = true; return done(w, 'night', w, 'Night falls. Some things only show themselves in the dark…');
     case 'ថ្ងៃ': nightGoal = 0; S.night = false; return done(w, 'day', w, 'The sun returns.');
-    case 'ផ្ទះ': if (moto.riding) dismount(); burst(player.x, camY, player.z, 0xf6e3b0, 50); player.x = 0.6; player.z = -1.3; player.yaw = -2.64; boatState.riding = false; return done(w, 'home', w, 'You are back under Grandma’s house.');
   }
   if (COLORS[w]) {
     const c = COLORS[w];
@@ -927,7 +1039,7 @@ function cast(w) {
       return done(w, 'paint', w, 'The flowers change colour.'); }
     let best = null, bd = 14;
     for (const o of colorables) { const pp = new THREE.Vector3(); o.mesh.getWorldPosition(pp); const d = dist(pp.x, pp.z); if (d < bd && inFront(pp.x, pp.z, 14, .5)) { bd = d; best = o; } }
-    if (best) { best.mesh.material = best.mesh.material.clone(); best.mesh.material.color.set(c); const pp = new THREE.Vector3(); best.mesh.getWorldPosition(pp); burst(pp.x, pp.y, pp.z, c, 40); return done(w, 'paint', w, `It turns ${VOCAB[w].split(';')[0]}.`); }
+    if (best) { if (best.own) best.own.color.set(c); else { best.mesh.material = best.mesh.material.clone(); best.mesh.material.color.set(c); } const pp = new THREE.Vector3(); best.mesh.getWorldPosition(pp); burst(pp.x, pp.y, pp.z, c, 40); return done(w, 'paint', w, `It turns ${VOCAB[w].split(';')[0]}.`); }
     burst(ax, groundH(ax, az) + 1, az, c, 60); toast(w, 'Colour swirls in the air.');
   }
 }
@@ -976,8 +1088,11 @@ function rideTick(dt) {
   const target = thr > 0 ? thr * max : thr * 3; moto.speed += (target - moto.speed) * Math.min(1, dt * (thr ? 1.6 : 2.5));
   moto.yaw -= st * dt * 2.2 * Math.min(1, Math.abs(moto.speed) / 4) * Math.sign(moto.speed || 1);
   const fx = Math.sin(moto.yaw), fz = Math.cos(moto.yaw); const nx = moto.x + fx * moto.speed * dt, nz = moto.z + fz * moto.speed * dt;
-  if (canStep(moto.x, moto.z, nx, nz, .5)) { const d = Math.hypot(nx - moto.x, nz - moto.z); moto.x = nx; moto.z = nz; moto.fuel = Math.max(0, moto.fuel - d * .12); if (moto.fuel === 0 && d > 0) toast('សាំង', 'អស់ សាំង ! Out of petrol. Buy a bottle at the market or fill up in town.'); }
-  else { if (Math.abs(moto.speed) > 12) { moto.fallen = true; dismount(); placeMoto(); toast('', 'Crash! The motorbike tips over. Lift it, or tell it to stand.'); chime([200, 120], .6, 'sawtooth', .05); return; } moto.speed = 0; }
+  let hit = false; { const n = Math.max(1, Math.ceil(Math.hypot(nx - moto.x, nz - moto.z) / .25)), sx = (nx - moto.x) / n, sz = (nz - moto.z) / n;
+    for (let i = 0; i < n; i++) { if (!canStep(moto.x, moto.z, moto.x + sx, moto.z + sz, .5)) { hit = true; break; } moto.x += sx; moto.z += sz; moto.fuel = Math.max(0, moto.fuel - Math.hypot(sx, sz) * .012); } }
+  if (moto.fuel === 0 && Math.abs(moto.speed) > .5 && !moto.emptyMsg) { moto.emptyMsg = 1; toast('សាំង', 'អស់ សាំង ! Out of petrol. Buy a bottle at the market or fill up in town.'); }
+  if (moto.fuel > 0) moto.emptyMsg = 0;
+  if (hit) { if (Math.abs(moto.speed) > 12) { moto.fallen = true; dismount(); placeMoto(); toast('', 'Crash! The motorbike tips over. Lift it, or tell it to stand.'); chime([200, 120], .6, 'sawtooth', .05); return; } moto.speed = 0; }
   if (!moto.flat && Math.abs(moto.speed) > 6 && Math.random() < dt / (onRoad ? 500 : 40)) { moto.flat = true; toast('កង់', 'Pop! កង់ បែក — a flat tyre. Find the mechanic (ជាង) in town.'); chime([180, 90], .5, 'square', .05); }
   player.x = moto.x; player.z = moto.z; player.yaw = moto.yaw + Math.PI;
   placeMoto(); motoBody.rotation.z = -st * Math.min(.35, Math.abs(moto.speed) / 30); wheels.forEach(wh => wh.rotation.x += moto.speed * dt * 3);
@@ -987,7 +1102,7 @@ function rideTick(dt) {
 
 /* ---------------- ending ---------------- */
 function ending() {
-  F.ended = 1; teachSpell('ផ្ទះ'); learn('ជីដូន', true); learn('ស្រុក', true); save(); chime([262, 330, 392, 523, 659, 784], 3, 'triangle', .1);
+  F.ended = 1; learn('ជីដូន', true); learn('ស្រុក', true); save(); chime([262, 330, 392, 523, 659, 784], 3, 'triangle', .1);
   burst(T.x - 2.4, T.h + 3, T.z, 0xf6e3b0, 120, 4);
   const lines = TALK.monk.map(([, km]) => tokens(km).filter(t => !isPunct(t.km)).map(t => `<span class="kh">${esc(t.km)}</span> <i>${esc(t.gl || '')}</i>`).join(' · '));
   setTimeout(() => {
@@ -995,7 +1110,7 @@ function ending() {
     $('#endtxt').innerHTML = `<div class="khT">ស្រុក</div><h1>Homeland</h1>
     <p>The stone in your hand grows warm, and at last you can read it. Your grandmother — <span class="kh">ជីដូន</span> — was born in this village and left it long ago. She carved one wish into a word stone: that her grandchild would one day return and speak her language.</p>
     <p>Now you understand what the monk said:<br>${lines.join('<br>')}</p>
-    <p>${STONES.length - S.stones.length} word stones and many errands still wait. You learned the spell <span class="kh">ផ្ទះ</span>: it takes you back to Grandma’s house from anywhere.</p>
+    <p>${STONES.length - S.stones.length} word stones and many errands still wait. Say the name of a place you have been — <span class="kh">ផ្ទះ</span>, <span class="kh">ផ្សារ</span>, <span class="kh">វត្ត</span> — and the word will carry you there.</p>
     <div class="row"><button class="btn pri" id="keepgo">Keep exploring</button></div>`;
     $('#ending').classList.remove('hide');
     $('#keepgo').onclick = () => { $('#ending').classList.add('hide'); uiOpen = null; refreshObjective(); };
@@ -1004,6 +1119,7 @@ function ending() {
 
 /* ---------------- book ---------------- */
 let bookTab = 'quests';
+const FOOD = { 'ចេក': 1, 'ពងមាន់': 1, 'ស្វាយ': 1, 'នំ': 2, 'ដូង': 1 };
 function openBook() { if (uiOpen) return; uiOpen = 'book'; joyEnd(); $('#book').classList.remove('hide'); renderBook(); }
 function renderBook() {
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.t === bookTab));
@@ -1012,10 +1128,10 @@ function renderBook() {
   if (bookTab === 'quests') h = quests().sort((a, b) => a.done - b.done).map(q => `<div class="card quest${q.done ? ' done' : ''}"><strong>${esc(q.title)}</strong><i>${q.done ? 'Done' : esc(q.text)}</i></div>`).join('');
   else if (bookTab === 'spells') h = Object.keys(SPELLS).map(w => S.spells.includes(w) ? `<button class="card spell" data-w="${esc(w)}"><b>${esc(w)}</b><u>${esc(ROM[w] || '')}</u><i>${esc(VOCAB[w])}</i><i class="dim">${esc(SPELLS[w].d)} · uses found ${(S.uses[w] || []).length}/${SPELLS[w].uses.length}</i></button>` : `<div class="card lock"><b>?</b><i>Undiscovered spell</i></div>`).join('');
   else if (bookTab === 'words') h = S.known.map(w => `<button class="card" data-w="${esc(w)}"><b>${esc(w)}</b><u>${esc(ROM[w] || '')}</u><i>${esc(VOCAB[w] || '')}</i></button>`).join('') || '<p>No words yet.</p>';
-  else if (bookTab === 'bag') { h = `<div class="card"><b class="kh">${khNum(S.money)} ៛</b><i>Money</i></div>` + Object.entries(S.bag).map(([w, n]) => { const label = w === 'ត្រីឆ្លាត' ? 'ត្រី' : w; return `<button class="card" data-w="${esc(label)}"><b>${esc(label)} × ${khNum(n)}</b><i>${known(label) ? esc(VOCAB[label]) : '?'}</i></button>`; }).join('') + (F.dinner ? `<div class="card"><b class="kh">ម៉ូតូ</b><i>Fuel ${Math.round(moto.fuel)}% ${moto.flat ? '· flat tyre' : ''}</i></div>` : ''); }
+  else if (bookTab === 'bag') { h = `<div class="card"><b class="kh">${khNum(S.money)} ៛</b><i>Money</i></div>` + Object.entries(S.bag).map(([w, n]) => { const label = w === 'ត្រីឆ្លាត' ? 'ត្រី' : w; return `<button class="card" data-w="${esc(label)}"><b>${esc(label)} \u00d7 ${khNum(n)}</b><i>${known(label) ? esc(VOCAB[label]) : '?'}${FOOD[label] ? ' \u00b7 tap to eat' : ''}</i></button>`; }).join('') + (F.dinner ? `<div class="card"><b class="kh">ម៉ូតូ</b><i>Fuel ${Math.round(moto.fuel)}% ${moto.flat ? '· flat tyre' : ''}</i></div>` : ''); }
   else if (bookTab === 'clues') h = stoneObjs.filter(o => !o.got).map(o => `<div class="card"><b>?</b><i>${esc(o.hint)}</i></div>`).join('') || '<p>You have found every stone.</p>';
   $('#bookbody').innerHTML = h;
-  $('#bookbody').querySelectorAll('[data-w]').forEach(b => b.onclick = () => playWord(b.dataset.w));
+  $('#bookbody').querySelectorAll('[data-w]').forEach(b => b.onclick = () => { const w = b.dataset.w; playWord(w); if (bookTab === 'bag' && FOOD[w] && has(w) && S.hp < 5) { addItem(w, -1); S.hp = Math.min(5, S.hp + FOOD[w]); updateHUD(); toast(w, 'You eat it. You feel better.'); renderBook(); } });
   $('#bookstat').textContent = `${S.known.length}/${Object.keys(VOCAB).length} words · ${S.spells.length} spells · ${S.stones.length}/${STONES.length} stones`;
 }
 document.querySelectorAll('.tab').forEach(t => t.onclick = () => { bookTab = t.dataset.t; renderBook(); });
@@ -1036,7 +1152,7 @@ function frame(now) {
     if (K.KeyW || K.ArrowUp) mz -= 1; if (K.KeyS || K.ArrowDown) mz += 1; if (K.KeyA) mx -= 1; if (K.KeyD) mx += 1;
     if (K.ArrowLeft) player.yaw += 2 * dt; if (K.ArrowRight) player.yaw -= 2 * dt;
     const l = Math.hypot(mx, mz); if (l > 1) { mx /= l; mz /= l; }
-    if (l > .05) { if (player.swiftT > 0) player.swiftT -= dt; const sp = (player.swiftT > 0 ? 10 : 5) * dt; const s = Math.sin(player.yaw), c = Math.cos(player.yaw); tryMove((mx * c + mz * s) * sp, (-mx * s + mz * c) * sp); }
+    if (l > .05) { if (player.swiftT > 0) player.swiftT -= dt; const sp = (player.swiftT > 0 ? 10 : 5) * dt; const s = Math.sin(player.yaw), c = Math.cos(player.yaw); (inside ? moveInside : tryMove)((mx * c + mz * s) * sp, (-mx * s + mz * c) * sp); }
   }
   // camera
   if (moto.riding) {
@@ -1044,7 +1160,7 @@ function frame(now) {
     const cx = moto.x - Math.sin(a) * 5.5, cz = moto.z - Math.cos(a) * 5.5, cy = Math.max(groundH(cx, cz) + 1, gy0 + 2.8);
     camera.position.lerp(new THREE.Vector3(cx, cy, cz), Math.min(1, dt * 6)); camera.lookAt(moto.x + Math.sin(a) * 3, gy0 + 1.2, moto.z + Math.cos(a) * 3); camY = gy0 + EYE;
   } else {
-    const gy = boatState.riding || (boatState.moving && Math.abs(player.x - boat.position.x) < .1) ? boat.position.y + .6 : groundH(player.x, player.z);
+    const gy = boatState.riding || (boatState.moving && Math.abs(player.x - boat.position.x) < .1) ? boat.position.y + .6 : inside ? inside.floor : groundH(player.x, player.z);
     camY += (gy + EYE - camY) * Math.min(1, dt * 10);
     camera.position.set(player.x, camY + (input.jx || input.jy ? Math.sin(t * 9) * .03 : 0), player.z);
     camera.rotation.set(0, 0, 0); camera.rotateY(player.yaw); camera.rotateX(player.pitch);
@@ -1066,7 +1182,7 @@ function frame(now) {
   for (const [id, o] of Object.entries(npcObjs)) { const dx = player.x - o.g.position.x, dz = player.z - o.g.position.z; if (dx * dx + dz * dz < 64) o.body.rotation.y += ((Math.atan2(dx, dz)) - o.body.rotation.y) * .1; o.g.visible = id !== 'monk' || F.lamps; }
   if (ball.visible) { const k = npcObjs.kid.g.position; ball.position.set(k.x + .6, k.y + .25 + (F.ballDone ? Math.abs(Math.sin(t * 3)) * 1.5 : 0), k.z + .3); }
   // dog
-  dogTick(dt, t);
+  dogTick(dt, t); enemyTick(dt, t); if (started) healTick(dt);
   for (const c of chickens) { if (c.tx != null) { const dx = c.tx - c.x, dz = c.tz - c.z, d = Math.hypot(dx, dz); if (d < .3 || Math.hypot(c.x - c.hx, c.z - c.hz) > 25) c.tx = null; else { c.x += dx / d * dt * 3; c.z += dz / d * dt * 3; c.a = Math.atan2(dz, dx); } } else { c.a += rnd(-.2, .2); c.x += Math.cos(c.a) * dt * .8; c.z += Math.sin(c.a) * dt * .8; if (Math.hypot(c.x - c.hx, c.z - c.hz) > 7) c.a = Math.atan2(c.hz - c.z, c.hx - c.x); } c.c.position.set(c.x, groundH(c.x, c.z) + Math.abs(Math.sin(t * 8 + c.a)) * .05, c.z); c.c.rotation.y = -c.a; }
   // buffalo
   { const dx = bufS.tx - bufS.x, dz = bufS.tz - bufS.z, d = Math.hypot(dx, dz); if (d > .3 && !bufS.lie) { bufS.x += dx / d * dt * 1.2; bufS.z += dz / d * dt * 1.2; buffalo.rotation.y = Math.atan2(-dz, dx); bufLegs.forEach((l, i) => l.rotation.z = Math.sin(t * 6 + i * 1.6) * .3); } buffalo.position.set(bufS.x, .5 - (bufS.lie ? .5 : 0), bufS.z); bufCol.x = bufS.x; bufCol.z = bufS.z; }
@@ -1077,10 +1193,10 @@ function frame(now) {
   if (started) {
     let best = null, bd = 1e9;
     if (moto.riding) best = dismountIt;
-    else if (!uiOpen && !boatState.riding) for (const it of interact) { if (it.on && !it.on()) continue; const d = dist(it.x, it.z); if (d < it.r && d < bd) { bd = d; best = it; } }
+    else if (!uiOpen && !boatState.riding) for (const it of interact) { if ((it.house || null) !== (inside ? inside.id : null)) continue; if (it.on && !it.on()) continue; const d = dist(it.x, it.z); if (d < it.r && d < bd) { bd = d; best = it; } }
     const lbl = best ? best.label() + (best.kh ? '|' + best.kh : '') : '';
     if (best !== curInteract || lbl !== $('#act').dataset.l) { curInteract = best; const a = $('#act'); a.dataset.l = lbl; if (best) { a.innerHTML = esc(best.label()) + (best.kh ? ` <span class="kh">${esc(best.kh)}</span>` : ''); a.classList.remove('hide'); } else a.classList.add('hide'); }
-    drawCompass();
+    drawCompass(); visitTick(dt);
     if ((saveT += dt) > 4) { saveT = 0; S.moto.fuel = moto.fuel; S.moto.flat = moto.flat; S.moto.fallen = moto.fallen; save(); }
     if ((ambT -= dt) < 0) { ambT = rnd(1.5, 5); ambience(); }
   }
@@ -1096,6 +1212,135 @@ function dogTick(dt, t) {
   if (!dogS.sit) { const dx = dogS.tx - dogS.x, dz = dogS.tz - dogS.z, d = Math.hypot(dx, dz); if (d > .3) { const sp = Math.min(d, (F.dogFriend ? 7 : 4) * dt); dogS.x += dx / d * sp; dogS.z += dz / d * sp; dog.rotation.y = Math.atan2(-dz, dx); dogLegs.forEach((lg, i) => lg.rotation.z = Math.sin(t * 14 + i * 1.6) * .5); } else if (!F.dogFriend && (dogS.t -= dt) < 0) { dogS.t = rnd(2, 6); dogS.tx = dogS.x + rnd(-6, 6); dogS.tz = dogS.z + rnd(-6, 6); if (blocked(dogS.tx, dogS.tz) || Math.hypot(dogS.tx, dogS.tz) > 30) { dogS.tx = 4; dogS.tz = 8; } } }
   dog.position.set(dogS.x, groundH(dogS.x, dogS.z), dogS.z); dog.children[0].position.y = dogS.sit ? .35 : .5; tail.rotation.z = .6 + Math.sin(t * 12) * .4;
 }
+/* ---------------- health ---------------- */
+let regenT = 0, hurtT = 0;
+function damage(n, word) {
+  if (S.hp <= 0) return; S.hp = Math.max(0, S.hp - n); updateHUD(); hurtT = .5; chime([160, 110], .35, 'square', .06);
+  try { if (navigator.vibrate) navigator.vibrate(80); } catch (e) { }
+  if (S.hp === 0) setTimeout(faint, 600);
+}
+function faint() {
+  if (moto.riding) dismount(); boatState.riding = false; closeAll();
+  const h = HOUSES.yay; enterHouse(h, h.W / 2 - 1.6, -h.D / 2 + 1.4, Math.PI / 2); S.hp = 5; updateHUD();
+  toast('', 'Everything goes dark… You wake up in Grandma’s house.'); setTimeout(() => talk('yay_faint'), 1200);
+}
+function healTick(dt) { if (S.hp < 5 && S.hp > 0) { if ((regenT += dt) > 45) { regenT = 0; S.hp++; updateHUD(); } } else regenT = 0; hurtT = Math.max(0, hurtT - dt); $('#hurt').style.opacity = hurtT * 1.6; }
+
+/* ---------------- enemies ---------------- */
+const ECFG = { snake: { speed: 2.4, aggro: 7, reach: 1.1, cd: 2, respawn: 60 }, monkey: { speed: 5.5, aggro: 11, reach: 1.2, cd: 1.5, respawn: 90 }, bees: { aggro: 6, cd: 2.5, respawn: 120 }, thief: { speed: 3.4, aggro: 15, reach: 1.3, cd: 1, respawn: 150 } };
+function personMesh(color) { const g = new THREE.Group(); cyl(.22, .26, .8, 0x1a1a22, 0, .4, 0, g); cyl(.28, .32, .75, color, 0, 1.15, 0, g); const hd = new THREE.Mesh(new THREE.SphereGeometry(.26, 10, 8), M(0x1a1a1a)); hd.position.y = 1.78; g.add(hd); box(.3, .06, .05, 0xd8d0b0, 0, 1.82, .24, g); return g; }
+const enemies = ENEMIES.map(e => {
+  const o = Object.assign({ x: e.at[0], z: e.at[1], state: 'idle', t: 0, cd: 0, frozenT: 0, calmT: 0, wx: e.at[0], wz: e.at[1] }, e);
+  const g = new THREE.Group(); scene.add(g); o.mesh = g;
+  if (e.type === 'snake') { o.segs = []; for (let i = 0; i < 8; i++) { const s = new THREE.Mesh(new THREE.SphereGeometry(.13 - i * .008, 7, 5), M(i ? 0x4a6a2a : 0x5a7a2a)); s.position.set(-i * .2, .12, 0); g.add(s); o.segs.push(s); } box(.05, .04, .2, 0xe0c020, .08, .2, 0, g); }
+  if (e.type === 'monkey') { const b = new THREE.Mesh(new THREE.SphereGeometry(.32, 8, 6), M(0x7a5030)); b.position.y = .5; b.scale.y = 1.2; g.add(b); const h = new THREE.Mesh(new THREE.SphereGeometry(.22, 8, 6), M(0x8a6040)); h.position.set(.1, .95, 0); g.add(h); box(.05, .1, .2, 0xd8b090, .3, .93, 0, g); const tl = new THREE.Mesh(new THREE.TorusGeometry(.35, .05, 4, 10, 3.5), M(0x7a5030)); tl.position.set(-.35, .5, 0); tl.rotation.y = Math.PI / 2; g.add(tl); }
+  if (e.type === 'bees') { tree(e.at[0] + 1.5, e.at[1], 1.1); const hive = new THREE.Mesh(new THREE.ConeGeometry(.45, .9, 8), M(0x8a6a2a)); hive.rotation.x = Math.PI; hive.position.set(e.at[0] + 1.2, groundH(e.at[0], e.at[1]) + 2.7, e.at[1] + .6); scene.add(hive); const bg = new THREE.BufferGeometry(); o.bp = new Float32Array(40 * 3); bg.setAttribute('position', new THREE.BufferAttribute(o.bp, 3)); o.pts = new THREE.Points(bg, new THREE.PointsMaterial({ color: 0xf0c020, size: .07 })); o.pts.frustumCulled = false; scene.add(o.pts); o.hx = e.at[0] + 1.2; o.hz = e.at[1] + .6; o.hy = groundH(e.at[0], e.at[1]) + 2.4; }
+  if (e.type === 'thief') g.add(personMesh(0x222228));
+  return o;
+});
+const seenEnemy = new Set();
+function announce(e) { if (seenEnemy.has(e.word)) return; seenEnemy.add(e.word); hear(e.word); toast(e.word + ' !', ''); playWord(e.word); }
+const ePos = e => e.type === 'bees' ? [e.hx, e.hz] : [e.x, e.z];
+function enemyCast(w) {
+  const list = enemies.filter(e => e.state !== 'gone' && !(e.night && nightT < .5) && !(e.type === 'thief' && (F.thief || F.thiefCaught)) && dist(...ePos(e)) < 13);
+  if (!list.length) return false;
+  list.sort((a, b) => dist(...ePos(a)) - dist(...ePos(b)));
+  for (const e of list) {
+    if (w === 'ឈប់') { if (e.type === 'thief') { catchThief(e); use(w, 'thief'); return true; } e.frozenT = 8; use(w, e.type); chime([1200, 900], .6, 'triangle', .08); toast(w, { snake: 'The snake freezes mid-slither.', monkey: 'The monkey stops dead, blinking.', bees: 'The bees hang still in the air.' }[e.type]); return true; }
+    if (w === 'ទៅ' && ['snake', 'monkey', 'thief'].includes(e.type) && !boatState.riding && !moto.riding) { e.state = 'flee'; e.t = 4; use(w, e.type); toast(w, { snake: 'The snake slithers away.', monkey: 'The monkey scampers off.', thief: 'The thief runs into the dark.' }[e.type]); return true; }
+    if (w === 'ភ្លើង' && ['snake', 'bees', 'thief'].includes(e.type)) { campfire(...front(2)); if (e.type === 'bees') e.calmT = 120; else { e.state = 'flee'; e.t = 4; } use(w, e.type); toast(w, { snake: 'The snake recoils from the flames and flees.', bees: 'Smoke drifts into the hive. The bees settle down.', thief: 'The light startles the thief, who runs off.' }[e.type]); return true; }
+    if (w === 'ទឹក' && e.type === 'bees') { rain(e.hx, e.hz); e.calmT = 120; use(w, 'bees'); toast(w, 'Rain drenches the hive. The bees crawl back inside.'); return true; }
+  }
+  return false;
+}
+function catchThief(e) {
+  e.state = 'gone'; e.t = 1e9; F.thiefCaught = 1; chime([523, 659, 784]);
+  talk('thief_caught', () => { const back = S.stolen; S.stolen = 0; if (back) { pay(back); toast('', `He gives back the ${khNum(back)} ៛ he stole from you.`); } save(); refreshObjective(); });
+}
+function enemyTick(dt, t) {
+  const active = started && !uiOpen && !inside && !moto.riding && !boatState.riding && S.hp > 0;
+  for (const e of enemies) {
+    const C = ECFG[e.type]; let vis = true;
+    if (e.night && nightT < .5) vis = false;
+    if (e.type === 'thief' && (F.thief || F.thiefCaught)) vis = false;
+    if (e.state === 'gone') { vis = false; if ((e.t -= dt) <= 0) { e.state = 'idle'; e.x = e.at[0]; e.z = e.at[1]; } }
+    e.mesh.visible = vis && e.type !== 'bees';
+    if (e.type === 'bees') {
+      const calm = e.calmT > 0; if (calm) e.calmT -= dt; const d = dist(e.hx, e.hz);
+      if (e.frozenT > 0) e.frozenT -= dt;
+      const chasing = active && !calm && e.frozenT <= 0 && d < C.aggro;
+      for (let i = 0; i < 40; i++) { const a = t * (calm ? .5 : 3) + i * 1.7, r = calm ? .3 : .9; let cx = e.hx, cy = e.hy, cz = e.hz; if (chasing) { const dx = e.hx - player.x, dz = e.hz - player.z, l = Math.hypot(dx, dz) || 1; cx = player.x + dx / l * 1.8; cz = player.z + dz / l * 1.8; cy = camY - .2; } e.bp[i * 3] = cx + Math.cos(a + i) * r * (1 + (i % 3) * .3); e.bp[i * 3 + 1] = cy + Math.sin(a * 1.3 + i) * r * .6; e.bp[i * 3 + 2] = cz + Math.sin(a + i * 2) * r; }
+      e.pts.geometry.attributes.position.needsUpdate = true; e.pts.material.size = calm ? .04 : .07;
+      if (chasing) { announce(e); if ((e.cd -= dt) <= 0) { e.cd = C.cd; damage(1, e.word); } } else e.cd = .8;
+      continue;
+    }
+    if (!vis) continue;
+    if (e.frozenT > 0) { e.frozenT -= dt; e.mesh.position.set(e.x, groundH(e.x, e.z), e.z); continue; }
+    const d = dist(e.x, e.z); let tx = null, tz = null, sp = 0;
+    if (e.state === 'flee') { const a = Math.atan2(e.z - player.z, e.x - player.x); tx = e.x + Math.cos(a) * 5; tz = e.z + Math.sin(a) * 5; sp = (C.speed || 3) * 1.4; if ((e.t -= dt) <= 0) { e.state = 'gone'; e.t = C.respawn; } }
+    else if (active && d < C.aggro) {
+      e.state = 'chase'; announce(e); tx = player.x; tz = player.z; sp = C.speed;
+      if (d < C.reach && (e.cd -= dt) <= 0) {
+        e.cd = C.cd;
+        if (e.type === 'snake') damage(1, e.word);
+        else if (e.type === 'monkey') { if (has('ចេក')) { addItem('ចេក', -1); toast('ស្វា', 'The monkey grabs your banana and runs!'); } else if (S.money >= 500) { const amt = Math.min(1000, S.money); S.money -= amt; updateHUD(); toast('ស្វា', `The monkey snatches ${khNum(amt)} ៛ and runs!`); } else damage(1, e.word); e.state = 'flee'; e.t = 4; }
+        else if (e.type === 'thief') { const amt = Math.min(2000, S.money); if (amt) { S.money -= amt; S.stolen += amt; updateHUD(); toast('ចោរ', `The thief grabs ${khNum(amt)} ៛ and runs! Say ឈប់ to stop him.`); } else damage(1, e.word); e.state = 'flee'; e.t = 5; }
+      }
+    }
+    else { e.state = 'idle'; if (Math.hypot(e.x - e.wx, e.z - e.wz) < .4 || Math.random() < dt * .2) { e.wx = e.at[0] + rnd(-4, 4); e.wz = e.at[1] + rnd(-4, 4); } tx = e.wx; tz = e.wz; sp = (C.speed || 2) * .35; }
+    if (tx != null) { const dx = tx - e.x, dz = tz - e.z, l = Math.hypot(dx, dz); if (l > .05) { const nx = e.x + dx / l * Math.min(l, sp * dt), nz = e.z + dz / l * Math.min(l, sp * dt); if (!hardBlocked(nx, nz)) { e.x = nx; e.z = nz; } e.mesh.rotation.y = Math.atan2(-dz, dx); } }
+    e.mesh.position.set(e.x, groundH(e.x, e.z), e.z);
+    if (e.segs) e.segs.forEach((s, i) => s.position.z = Math.sin(t * 8 - i * .9) * .12);
+    if (e.type === 'monkey') e.mesh.position.y += Math.abs(Math.sin(t * (e.state === 'idle' ? 4 : 10))) * .3;
+  }
+}
+
+/* ---------------- the golden harvest (Mango Village) ---------------- */
+{
+  const gm = new THREE.ConeGeometry(.16, .9, 4); gm.translate(0, .45, 0); const N = isMobile ? 380 : 650; const im = new THREE.InstancedMesh(gm, M(0xd8b040), N); const m = new THREE.Matrix4();
+  for (let i = 0; i < N; i++) { m.makeScale(1, rnd(.7, 1.2), 1); m.setPosition(rnd(35, 67), .55, rnd(-117, -87)); im.setMatrixAt(i, m); } scene.add(im);
+  for (let x = 35; x <= 67; x += 8) box(.5, .3, 31, 0x8a6a3a, x, .62, -102);
+}
+const clumps = [];
+for (let i = 0; i < 14; i++) {
+  const x = 38 + (i % 5) * 6 + rnd(-1, 1), z = -112 + Math.floor(i / 5) * 9 + rnd(-1, 1), g = new THREE.Group(); g.position.set(x, groundH(x, z), z); scene.add(g);
+  const stalks = []; for (let k = 0; k < 9; k++) { const c = new THREE.Mesh(new THREE.ConeGeometry(.12, 1.4, 4), M(0xe8c050)); c.position.set(rnd(-.35, .35), .7, rnd(-.35, .35)); c.rotation.z = rnd(-.25, .25); g.add(c); stalks.push(c); }
+  box(.8, .12, .8, 0x9a8040, 0, .06, 0, g);
+  const cl = { g, x, z, stalks, cut: !!F.harvest }; stalks.forEach(s => s.visible = !cl.cut); clumps.push(cl);
+  interact.push({ x, z, r: 1.9, label: () => 'Cut the rice', kh: 'កាត់', act: () => cutClump(cl), on: () => !cl.cut });
+}
+function cutClump(cl) {
+  if (!F.harvestAsk) { toast('ស្រូវ', 'Ripe golden rice. Whose field is this? Maybe the farmer nearby will say.'); return; }
+  cl.cut = true; cl.stalks.forEach(s => s.visible = false);
+  addItem('បាច់'); learn('កាត់', true); learn('បាច់', true); burst(cl.x, groundH(cl.x, cl.z) + .8, cl.z, 0xf0d060, 25, 2); chime([700, 900], .3);
+  toast('បាច់', `You cut a bundle of rice: ${khNum(S.bag['បាច់'])}`); save(); refreshObjective();
+}
+
+PLACES = {
+  'ផ្ទះ': { name: 'Grandma\u2019s house', dest: [0.6, -1.3, -2.64], in: (x, z) => Math.hypot(x, z) < 8 },
+  'សាលា': { name: 'the school', dest: [31, -36, 0], in: (x, z) => Math.hypot(x - 32, z + 43) < 13 },
+  'ផ្សារ': { name: 'the market', dest: [41, 8, -1.57], in: (x, z) => Math.hypot(x - 53, z - 9) < 14 },
+  'ស្រែ': { name: 'the rice fields', dest: [17, 30, Math.PI], in: (x, z) => inPaddy(x, z) },
+  'ទន្លេ': { name: 'the river dock', dest: [DOCK.east.x + 3, DOCKZ + 2, 1.57], in: (x, z) => Math.hypot(x - DOCK.east.x, z - DOCKZ) < 10 },
+  'វត្ត': { name: 'the temple', dest: [T.x + 7, T.z, 1.57], in: (x, z) => Math.hypot(x - T.x, z - T.z) < 13 },
+  'ភូមិស្វាយ': { name: 'Mango Village', dest: [16, -86, 0.6], in: (x, z) => Math.hypot(x - 8, z + 100) < 16 },
+  'ក្រុង': { name: 'the town', dest: [172, 2, -1.57], in: (x, z) => inTown(x, z) },
+};
+if (S.spells.includes('ផ្ទះ') && !S.visited.includes('ផ្ទះ')) S.visited.push('ផ្ទះ'); // older saves
+if (F.errand) { if (!S.spells.includes('ឡើង')) S.spells.push('ឡើង'); if (!S.spells.includes('ចុះ')) S.spells.push('ចុះ'); }
+if (S.hp == null) S.hp = 5;
+function warpTo(w) {
+  const p = PLACES[w], [x, z, yaw] = p.dest;
+  if (boatState.riding || boatState.moving) { toast(w, 'Not while you are on the boat.'); return; }
+  inside = null; roomLight.intensity = 0;
+  burst(player.x, camY, player.z, 0xf6e3b0, 50);
+  if (moto.riding) { moto.x = x; moto.z = z; moto.yaw = yaw + Math.PI; moto.speed = 0; placeMoto(); }
+  player.x = x; player.z = z; player.yaw = yaw; player.pitch = -.05; camY = groundH(x, z) + EYE; stuckFrames = 0;
+  setTimeout(() => burst(x, groundH(x, z) + 1.5, z, 0xf6e3b0, 50), 50);
+  done(w, 'warp', w, `The word carries you to ${p.name}.`);
+}
+let visitT = 0;
+function visitTick(dt) { if ((visitT -= dt) > 0) return; visitT = .5; for (const [w, p] of Object.entries(PLACES)) if (!S.visited.includes(w) && p.in(player.x, player.z)) { S.visited.push(w); checkWarp(w); } }
 $('#act').onclick = () => curInteract && curInteract.act();
 requestAnimationFrame(frame);
 
@@ -1105,10 +1350,10 @@ $('#newg').onclick = () => { try { localStorage.removeItem(SAVE); } catch (e) { 
 $('#start').onclick = () => {
   unlockAudio(); setTimeout(() => playWord('ខ្ញុំ'), 150);
   $('#title').classList.add('hide'); $('#hud').classList.remove('hide'); started = true;
-  if (!isMobile) $('#joyhint').innerHTML = 'WASD<br>to walk';
+  if (!isMobile) { $('#joyhint').innerHTML = 'WASD to walk<br>drag to look'; joy.style.display = 'none'; }
   updateHUD(); refreshObjective();
   if (!F.met) setTimeout(() => toast('', 'You wake up on a mat under a house on stilts…'), 400);
 };
 if ('serviceWorker' in navigator) { try { navigator.serviceWorker.register('sw.js').catch(() => { }); } catch (e) { } }
 if (F.door) sockets.forEach((s, i) => { const c = HEADS[i].color; s.material.color.set(c); s.material.emissive.set(c); });
-window.__game = { canStep, blocked, groundH, baseH, playWord, voice, dogS, S, F, player, moto, cast, talkTo, teachSpell, pay, addItem, openShop, mount, dismount, stoneObjs };
+window.__game = { THREE, scene, camera, enemies, HOUSES, enterHouse, get inside() { return inside; }, clumps, damage, warpTo, shopItems, overlap, input, canStep, blocked, groundH, baseH, playWord, voice, dogS, S, F, player, moto, cast, talkTo, teachSpell, pay, addItem, openShop, mount, dismount, stoneObjs };
