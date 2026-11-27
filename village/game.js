@@ -1,6 +1,8 @@
 import * as THREE from './three.module.min.js';
 import { VOCAB, SPELLS, NPCS, TALK, STONES, HEADS, DOOR_ORDER, EXAMINE, SIGNS, SHOPS, ENEMIES } from './content.js';
 import { AUDIO, ROM as ROM0 } from './audio.js';
+import { peakAudio } from './peakaudio.js';
+import { PEAK, VOICE } from './peakconfig.js';
 
 try { await Promise.race([document.fonts.load('40px Battambang', 'ក'), new Promise(r => setTimeout(r, 2500))]); } catch (e) { }
 const ROM = Object.assign({ 'អ៊ំស្រី': 'ʊm.srəj' }, ROM0);
@@ -84,7 +86,26 @@ async function playBuf(w) {
   const b = await getBuf(w); const src = actx.createBufferSource(); src.buffer = b; src.connect(actx.destination);
   return await new Promise(res => { src.onended = () => res(true); src.start(); setTimeout(() => res(true), b.duration * 1000 + 400); });
 }
+// Words are said by PeakSlab's engine: peak.wasm finds the word's recordings in the audio slabs
+// (peakconfig.js), tnefar.wasm makes the speech, in the voice of whoever is speaking. Words not in
+// the slabs fall back to a clip (AUDIO), then to the device's voice.
+let peak = null, speaking = null;
+const peakReady = peakAudio(PEAK).then(p => (peak = p)).catch(e => { console.warn('PeakSlab audio unavailable:', e); return null; });
+function playPcm(s, rate) {
+  ensureAudio(); if (!actx) return Promise.resolve(false);
+  const b = actx.createBuffer(1, s.length, 16000); b.copyToChannel(s, 0);
+  const src = actx.createBufferSource(); src.buffer = b; src.playbackRate.value = rate; src.connect(actx.destination);
+  return new Promise(res => { src.onended = () => res(true); src.start(); setTimeout(() => res(true), b.duration / rate * 1000 + 300); });
+}
+async function peakSay(w) {
+  if (!peak) await Promise.race([peakReady, new Promise(r => setTimeout(r, 4000))]);
+  if (!peak) return null;
+  const [i, rate] = VOICE[speaking] || [0, 1], sp = peak.speakers;
+  const s = peak.samples(w, sp.length ? sp[i % sp.length] : '');
+  return s ? playPcm(s, rate) : null;
+}
 async function playWord(w) {
+  { const r = await peakSay(w); if (r !== null) return r; }
   if (AUDIO[w]) {
     const r = await playClip(w);
     if (r !== null) return r;
@@ -676,7 +697,7 @@ const isPunct = t => /^[។!?:«»….,៛]+$/.test(t) || t === '...';
 function tokens(line) { return line.split(' ').filter(Boolean).map(t => { const m = t.match(/^(.*)\{(.*)\}$/); return m ? { km: m[1], gl: m[2] } : { km: t, gl: VOCAB[t] }; }); }
 function talk(id, after) { if (typeof id === 'string') id = TALK[id]; dlg = { lines: id, i: 0, after }; uiOpen = 'dlg'; joyEnd(); $('#dlg').classList.remove('hide'); showLine(); }
 function showLine() {
-  const [who, km] = dlg.lines[dlg.i], n = NPCS[who];
+  const [who, km] = dlg.lines[dlg.i], n = NPCS[who]; speaking = who;
   $('#dlg .who').innerHTML = `<span class="kh">${esc(n.km)}</span><em>${n.bilingual ? 'tap a word to see what it means' : 'speaks only Khmer'}</em>`;
   const tk = tokens(km);
   $('#line').innerHTML = tk.map((t, i) => {
@@ -850,7 +871,7 @@ function renderShop() {
 }
 let sayText = '';
 function renderSay() { const el = $('#sayline'); if (!el) return; const tk = tokens(sayText); el.innerHTML = tk.map((t, i) => isPunct(t.km) ? `<span class="p">${esc(t.km)}</span>` : `<span class="w${known(t.km) ? ' known' : ''}" data-i="${i}"><b>${esc(t.km)}</b></span>`).join(''); el.querySelectorAll('.w').forEach(e => e.onclick = () => { hearing++; playWord(tk[+e.dataset.i].km); wordPop(e, tk[+e.dataset.i]); }); }
-function sayShop(text) { const [w, p, kind] = shopItems(shop.id)[shop.sel]; sayText = text || shopLine(w, p, kind); tokens(sayText).forEach(t => hear(t.km)); renderSay(); hearLine('#sayline', tokens(sayText)); }
+function sayShop(text) { speaking = shop.id; const [w, p, kind] = shopItems(shop.id)[shop.sel]; sayText = text || shopLine(w, p, kind); tokens(sayText).forEach(t => hear(t.km)); renderSay(); hearLine('#sayline', tokens(sayText)); }
 function buy() {
   const [w, p, kind] = shopItems(shop.id)[shop.sel];
   if (['amt', 'full', 'bottle'].includes(kind) && F.dinner && moto.fuel >= 99.5) return sayShop('ធុង ពេញ ហើយ !');
@@ -1138,7 +1159,7 @@ document.querySelectorAll('.tab').forEach(t => t.onclick = () => { bookTab = t.d
 $('#bookbtn').onclick = () => openBook(); $('#bookclose').onclick = () => closeAll();
 let resetArm = 0;
 $('#reset').onclick = () => { if (!resetArm) { resetArm = 1; $('#reset').textContent = 'Tap again to erase'; setTimeout(() => { resetArm = 0; $('#reset').textContent = 'New game'; }, 3000); return; } try { localStorage.removeItem(SAVE); } catch (e) { } location.reload(); };
-function closeAll() { ['#dlg', '#kb', '#book', '#shop'].forEach(s => $(s).classList.add('hide')); uiOpen = null; hearing++; }
+function closeAll() { speaking = null; ['#dlg', '#kb', '#book', '#shop'].forEach(s => $(s).classList.add('hide')); uiOpen = null; hearing++; }
 
 /* ---------------- loop ---------------- */
 let curInteract = null, last = performance.now(), saveT = 0, ambT = 0, started = false;
@@ -1356,4 +1377,4 @@ $('#start').onclick = () => {
 };
 if ('serviceWorker' in navigator) { try { navigator.serviceWorker.register('sw.js').catch(() => { }); } catch (e) { } }
 if (F.door) sockets.forEach((s, i) => { const c = HEADS[i].color; s.material.color.set(c); s.material.emissive.set(c); });
-window.__game = { THREE, scene, camera, enemies, HOUSES, enterHouse, get inside() { return inside; }, clumps, damage, warpTo, shopItems, overlap, input, canStep, blocked, groundH, baseH, playWord, voice, dogS, S, F, player, moto, cast, talkTo, teachSpell, pay, addItem, openShop, mount, dismount, stoneObjs };
+window.__game = { get peak() { return peak; }, setSpeaking: v => (speaking = v), THREE, scene, camera, enemies, HOUSES, enterHouse, get inside() { return inside; }, clumps, damage, warpTo, shopItems, overlap, input, canStep, blocked, groundH, baseH, playWord, voice, dogS, S, F, player, moto, cast, talkTo, teachSpell, pay, addItem, openShop, mount, dismount, stoneObjs };

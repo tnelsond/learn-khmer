@@ -2,6 +2,7 @@ import * as THREE from './three.module.min.js';
 import { VOCAB, SPELLS, NPCS, TALK, STONES, HEADS, DOOR_ORDER, EXAMINE, SIGNS, SHOPS, ENEMIES } from './content.js';
 import { AUDIO, ROM as ROM0 } from './audio.js';
 import { peakAudio } from './peakaudio.js';
+import { PEAK, VOICE } from './peakconfig.js';
 
 try { await Promise.race([document.fonts.load('40px "Noto Sans Lao"', 'ກ'), new Promise(r => setTimeout(r, 2500))]); } catch (e) { }
 const ROM = ROM0;
@@ -86,18 +87,11 @@ async function playBuf(w) {
   const b = await getBuf(w); const src = actx.createBufferSource(); src.buffer = b; src.connect(actx.destination);
   return await new Promise(res => { src.onended = () => res(true); src.start(); setTimeout(() => res(true), b.duration * 1000 + 400); });
 }
-// Lao words are said by PeakSlab's engine: peak.wasm finds the word's recordings in the Lao audio
-// slab, tnefar.wasm makes the speech. The newest slab comes from peakslab.org where the page may
-// fetch it; otherwise the copy beside the game. Words not in the slab fall back to a clip (AUDIO),
-// then to the device's Lao voice.
+// Words are said by PeakSlab's engine: peak.wasm finds the word's recordings in the audio slabs
+// (peakconfig.js), tnefar.wasm makes the speech, in the voice of whoever is speaking. Words not in
+// the slabs fall back to a clip (AUDIO), then to the device's voice.
 let peak = null, speaking = null;
-const peakReady = peakAudio({ sources: ['https://peakslab.org/', './'], slab: 'lao/aux/lo-audio-tnefar.slab', bufmax: 1 << 20 })
-  .then(p => (peak = p)).catch(e => { console.warn('PeakSlab audio unavailable:', e); return null; });
-// Each character's voice: which of the slab's speakers they prefer (an index, so a slab with more
-// speakers gives more voices; a word only one speaker recorded is said by them) and a pitch.
-const VOICE = { yay: [0, .94], kru: [1, 1], aunt: [0, 1.02], tuot: [0, .88], sok: [0, 1.1], kid: [0, 1.18], vendor: [0, 1.04],
-  ta: [1, .9], fisher: [1, .97], monk: [1, .86], jang: [1, 1.03], gas: [0, 1.06], che: [0, 1.07], hia: [1, 1.05], ee: [0, .96],
-  chief: [1, .94], farmer: [1, 1], thief: [1, 1.08], tacha: [1, .9] };
+const peakReady = peakAudio(PEAK).then(p => (peak = p)).catch(e => { console.warn('PeakSlab audio unavailable:', e); return null; });
 function playPcm(s, rate) {
   ensureAudio(); if (!actx) return Promise.resolve(false);
   const b = actx.createBuffer(1, s.length, 16000); b.copyToChannel(s, 0);

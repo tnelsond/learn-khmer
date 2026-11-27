@@ -3,54 +3,58 @@
 <title>Lao audio check</title>
 <style>
 /* VOICE: a plain working checklist. IDEA: a reviewer's word list. PICTURE: the list itself.
-   COLOUR and TYPE: black on white, Noto Sans Lao for Lao. LAYOUT: one column of rows, filters on top. */
+   COLOUR and TYPE: black on white, the game's script font for its words. LAYOUT: one column of rows, filters on top. */
 @font-face{font-family:"Noto Sans Lao";src:url(noto-sans-lao-400.woff2) format("woff2")}
+:root{--script:"Noto Sans Lao"}
 :root{color-scheme:light dark;--bg:light-dark(#fff,#151515);--ink:light-dark(#151515,#eee);--mut:light-dark(#666,#aaa);--line:light-dark(#e3e3e3,#333)}
 :root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,sans-serif;padding:16px;max-width:860px;margin-inline:auto}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,sans-serif;padding:16px;max-width:900px;margin-inline:auto}
 h1{font-size:32px;line-height:1.05;margin:8px 0}
 p{color:var(--mut)}
 .bar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
 button{font:inherit;min-height:44px;padding:6px 14px;border-radius:22px;border:1px solid var(--line);background:none;color:inherit;cursor:pointer}
 button.on{background:var(--ink);color:var(--bg)}
-.row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
-.row b{font:500 24px "Noto Sans Lao",sans-serif}
+.row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.row b{font:500 24px var(--script),sans-serif}
 .row i{font-style:normal;color:var(--mut);font-size:14px}
 .plays{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
-.plays button{font-size:14px}
+.plays button{font-size:14px;min-height:40px}
 .none{opacity:.5}
+@media(max-width:600px){.row{grid-template-columns:minmax(0,1fr)}.plays{justify-content:flex-start}}
 </style></head><body>
 <h1>Lao word audio</h1>
-<p id="src">Loading PeakSlab's engine and the Lao audio slab…</p>
+<p id="src">Loading PeakSlab's engine and the audio slabs…</p>
 <div class="bar" id="f"></div>
 <div id="list"></div>
 <script type="module">
 import { peakAudio } from './peakaudio.js';
-import { AUDIO, ROM, FALLBACK_SOURCE } from './audio.js';
+import { PEAK, SPEAKER_NAMES } from './peakconfig.js';
+import { AUDIO, ROM } from './audio.js';
 import { VOCAB } from './content.js';
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const NAMES = { '': 'thesaurus.la', '1': 'Bible reader' };
+const name = s => SPEAKER_NAMES[s] || s;
 let P = null, ctx = null, filter = 'all';
-try { P = await peakAudio({ sources: ['https://peakslab.org/', './'], slab: 'lao/aux/lo-audio-tnefar.slab', bufmax: 1 << 20 }); } catch (e) { }
-document.getElementById('src').textContent = P ? `Recordings from ${P.source === './' ? 'the copy of the slab beside the game' : 'peakslab.org'}, through PeakSlab's own engine. Speakers: ${P.speakers.map(s => NAMES[s] || 'voice ' + s).join(', ')}. Words not in the slab use a fallback clip cut from a longer recording, or nothing.` : 'PeakSlab’s engine could not be loaded here.';
+try { P = await peakAudio(PEAK); } catch (e) { }
+document.getElementById('src').textContent = P ? `Recordings from ${P.source === './' ? 'the slabs beside the game' : 'peakslab.org'}, through PeakSlab's own engine. Speakers: ${P.speakers.map(name).join(', ')}. A word nobody recorded is tried as two recorded parts, then a fallback clip, then nothing.` : 'PeakSlab’s engine could not be loaded here.';
 const words = Object.keys(VOCAB);
-// which speakers have the word (their own recording or two recorded parts), else fallback / none
-const who = {}; for (const w of words) { who[w] = []; if (P) { const seen = new Set(); for (const s of P.speakers) { const a = P.samples(w, s); if (a && !seen.has(a.length)) { seen.add(a.length); who[w].push(s); } } } }
-const kind = w => who[w].length > 1 ? 'two speakers' : who[w].length ? 'one speaker' : AUDIO[w] ? 'fallback clip' : 'missing';
-const kinds = ['all', 'two speakers', 'one speaker', 'fallback clip', 'missing'];
+const who = Object.fromEntries(words.map(w => [w, P ? P.who(w) : []]));
+const kind = w => who[w].length > 1 ? 'several speakers' : who[w].length ? 'one speaker' : P && P.has(w) ? 'from parts' : AUDIO[w] ? 'fallback clip' : 'missing';
+const kinds = ['all', 'several speakers', 'one speaker', 'from parts', 'fallback clip', 'missing'];
 function play(w, s) {
   ctx ??= new (window.AudioContext || window.webkitAudioContext)();
   if (s === 'clip') return new Audio('data:audio/mpeg;base64,' + AUDIO[w]).play();
-  const a = P.samples(w, s), b = ctx.createBuffer(1, a.length, 16000); b.copyToChannel(a, 0);
+  const a = P.samples(w, s); if (!a) return;
+  const b = ctx.createBuffer(1, a.length, 16000); b.copyToChannel(a, 0);
   const src = ctx.createBufferSource(); src.buffer = b; src.connect(ctx.destination); src.start();
 }
 function render() {
   document.getElementById('f').innerHTML = kinds.map(k => `<button class="${k === filter ? 'on' : ''}" data-k="${k}">${k} (${k === 'all' ? words.length : words.filter(w => kind(w) === k).length})</button>`).join('');
   document.querySelectorAll('#f button').forEach(b => b.onclick = () => { filter = b.dataset.k; render(); });
   document.getElementById('list').innerHTML = words.filter(w => filter === 'all' || kind(w) === filter).map(w => {
-    const btns = who[w].map(s => `<button data-w="${esc(w)}" data-s="${s}">&#9654; ${esc(NAMES[s] || 'voice ' + s)}</button>`).join('') || (AUDIO[w] ? `<button data-w="${esc(w)}" data-s="clip">&#9654; fallback clip</button>` : '<i>no audio</i>');
-    return `<div class="row${kind(w) === 'missing' ? ' none' : ''}"><div><b>${esc(w)}</b> <i>${esc(ROM[w] || '')}</i><br><i>${esc(VOCAB[w])}${FALLBACK_SOURCE[w] && !who[w].length ? ' · ' + esc(FALLBACK_SOURCE[w]) : ''}</i></div><div class="plays">${btns}</div></div>`;
+    const k = kind(w);
+    const btns = k === 'from parts' ? `<button data-w="${esc(w)}" data-s="">&#9654; from parts</button>` : who[w].map(s => `<button data-w="${esc(w)}" data-s="${esc(s)}">&#9654; ${esc(name(s))}</button>`).join('') || (AUDIO[w] ? `<button data-w="${esc(w)}" data-s="clip">&#9654; fallback clip</button>` : '<i>no audio</i>');
+    return `<div class="row${k === 'missing' ? ' none' : ''}"><div><b>${esc(w)}</b> <i>${esc(ROM[w] || '')}</i><br><i>${esc(VOCAB[w])}</i></div><div class="plays">${btns}</div></div>`;
   }).join('');
   document.querySelectorAll('.plays button').forEach(b => b.onclick = () => play(b.dataset.w, b.dataset.s));
 }
