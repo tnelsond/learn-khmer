@@ -342,6 +342,7 @@ let hero = null, heroId = null;
 const player = { x: 0, z: 0, yaw: 0, y: 0, carry: null };
 function setHero(id, x, z, yaw = 0) {
   if (hero) world.remove(hero.g);
+  for (let i = solids.length - 1; i >= 0; i--) if (Math.hypot(solids[i].x - x, solids[i].z - z) < solids[i].r + 1.2) solids.splice(i, 1);
   heroId = id; hero = person(HEROES[id]); world.add(hero.g); CAST.me.km = HEROES[id].name; CAST.me.v = HERO_V[id];
   player.x = x; player.z = z; player.yaw = yaw; player.y = groundAt(x, z); camYaw = yaw + Math.PI; drop();
 }
@@ -695,7 +696,9 @@ function animLimbs(m, sp, dt, e) { const o = e || m; o.walkT = (o.walkT || 0) + 
   if (m.knees) m.knees.forEach((k, i) => { const want = sp ? Math.max(0, Math.sin(o.walkT + (i % 2 ? Math.PI : 0) - 1.3)) * 1.2 : 0; k.rotation.x += (want - k.rotation.x) * Math.min(1, dt * 14); }); if (m.arms) m.arms.forEach((r, i) => { if (m === hero && (player.carry || player.raise)) r.rotation.x += (-2.6 - r.rotation.x) * Math.min(1, dt * 10); else r.rotation.x += ((i ? -a : a) - r.rotation.x) * Math.min(1, dt * 12); }); }
 function tryMove(dx, dz) {
   const r = .45; let nx = player.x + dx, nz = player.z + dz;
-  const hit = (x, z) => solids.some(s => Math.hypot(x - s.x, z - s.z) < s.r + r) || ents.some(e => e.solid && !e.hide && e.g.visible && Math.hypot(x - e.x, z - e.z) < e.solid + r) || (waterY > -50 && groundAt(x, z) < waterY - .6 && !floors.some(f => x > f.x0 && x < f.x1 && z > f.z0 && z < f.z1)) || Math.hypot(x, z) > bound;
+  // a move is blocked only if it ends inside something AND goes deeper in: you can always walk out of an overlap
+  const px = player.x, pz = player.z, deeper = (x, z, cx, cz, rr) => { const d = Math.hypot(x - cx, z - cz); return d < rr && d < Math.hypot(px - cx, pz - cz) - 1e-4; };
+  const hit = (x, z) => solids.some(s => deeper(x, z, s.x, s.z, s.r + r)) || ents.some(e => e.solid && !e.hide && e.g.visible && deeper(x, z, e.x, e.z, e.solid + r)) || (waterY > -50 && groundAt(x, z) < waterY - .6 && groundAt(x, z) < groundAt(px, pz) && !floors.some(f => x > f.x0 && x < f.x1 && z > f.z0 && z < f.z1)) || (Math.hypot(x, z) > bound && Math.hypot(x, z) > Math.hypot(px, pz));
   if (!hit(nx, nz)) { player.x = nx; player.z = nz; } else if (!hit(nx, player.z)) player.x = nx; else if (!hit(player.x, nz)) player.z = nz;
   if (clampFn) { const [x, z] = clampFn(player.x, player.z); player.x = x; player.z = z; }
 }
@@ -1563,7 +1566,7 @@ samsonFox.build = () => {
   setSky(0x4a8ad8, 0xf0d0a0, 0xe8d0a8, 1, true); scene.fog.near = 45; scene.fog.far = 190;
   H = vineH; bound = 85; terrain(200, 50, (x, z, y) => z < -30 ? 0xd8b850 : 0x7a9a40);
   for (let i = 0; i < 25; i++) { const x = rnd(-75, 75), z = rnd(-25, 75); if (Math.hypot(x, z) < 10) continue; place(tree({ s: rnd(.7, 1.1) }).g, x, z, 0, .7); }
-  for (let i = 0; i < 10; i++) { const x = rnd(-70, 70), z = rnd(-25, 70); place(bush(0x4a7a2a), x, z, 0, 1.2); }
+  for (let i = 0; i < 10; i++) { const x = rnd(-70, 70), z = rnd(-25, 70); if (Math.hypot(x - 3, z - 6) < 10) continue; place(bush(0x4a7a2a), x, z, 0, 1.2); }
 };
 async function samsonFox() {
   await leapIn('helper', 3, 6, Math.PI);
