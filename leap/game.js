@@ -3,7 +3,7 @@
 const LIB = document.querySelector('meta[name=lib]').content;
 const FONTS = document.querySelector('meta[name=fonts]').content;
 const THREE = await import(LIB + 'three.module.min.js');
-const { peakAudio } = await import(LIB + 'peakaudio.js');
+const { peakAudio } = await import(document.querySelector('meta[name=peakjs]')?.content || LIB + 'peakaudio.js');
 for (const [fam, url] of [['Battambang', LIB + 'battambang.ttf'], ['Moul', FONTS + 'muol.woff']]) { try { const f = new FontFace(fam, `url(${url})`); document.fonts.add(f); f.load().catch(() => { }); } catch (e) { } }
 try { await Promise.race([document.fonts.load('30px Battambang', 'ក'), new Promise(r => setTimeout(r, 2000))]); } catch (e) { }
 
@@ -29,6 +29,8 @@ function save() { try { localStorage.setItem(SAVE, JSON.stringify(S)); } catch (
 
 /* ---------------- audio ---------------- */
 let actx;
+function unlockAudio() { try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) { } ensureAudio(); }
+addEventListener('pointerdown', unlockAudio, true); addEventListener('keydown', unlockAudio, true);
 function ensureAudio() { try { if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)(); if (actx.state === 'suspended') actx.resume(); } catch (e) { } }
 function tone(freqs, dur = .6, type = 'sine', vol = .1, glide = 0) {
   if (!actx) return; const t = actx.currentTime;
@@ -59,7 +61,8 @@ function playPcm(s, rate) {
 function sayTTS(w, lang) {
   const v = lang ? speechSynthesis.getVoices().find(v => v.lang.toLowerCase().startsWith(lang)) : kmVoice;
   if (!v) return wait(.4).then(() => false);
-  return new Promise(res => { const u = new SpeechSynthesisUtterance(w); u.voice = v; u.lang = v.lang; u.onend = () => res(true); u.onerror = () => res(false); speechSynthesis.speak(u); setTimeout(() => res(true), 3000); });
+  try { speechSynthesis.cancel(); } catch (e) { }
+  return new Promise(res => { const u = new SpeechSynthesisUtterance(w); u.voice = v; u.lang = v.lang; u.rate = .9; u.onend = () => res(true); u.onerror = () => res(false); speechSynthesis.speak(u); setTimeout(() => res(true), Math.max(3000, w.length * 160)); });
 }
 async function playWord(w, lang) {
   if (lang) { try { return await sayTTS(w, lang); } catch (e) { return false; } }
@@ -277,7 +280,7 @@ function setHero(id, x, z, yaw = 0) {
 }
 function carry(obj) { drop(); player.carry = obj; obj.position.set(0, 2.25, .1); hero.b.add(obj); }
 function drop() { if (player.carry) { player.carry.parent && player.carry.parent.remove(player.carry); player.carry = null; } }
-let camYaw = 0, camPitch = .32, camDist = 7.5, cine = null;
+let camYaw = 0, camOff = 0, camPitch = .32, camDist = 7.5, cine = null;
 function camTo(pos, look, dur = 1.5) { cine = { from: camera.position.clone(), to: new THREE.Vector3(...pos), lookFrom: cineLook.clone(), look: new THREE.Vector3(...look), t: 0, dur }; return wait(dur); }
 function camFree() { cine = null; }
 const cineLook = new THREE.Vector3();
@@ -295,7 +298,7 @@ joy.addEventListener('pointerdown', e => { if (ui) return; ensureAudio(); joy.se
 joy.addEventListener('pointermove', e => { if (e.pointerId === joyId) joyMove(e.clientX, e.clientY); });
 for (const ev of ['pointerup', 'pointercancel']) joy.addEventListener(ev, e => { if (e.pointerId === joyId) joyEnd(); });
 cv.addEventListener('pointerdown', e => { if (ui) return; ensureAudio(); lookId = e.pointerId; lookLast = { x: e.clientX, y: e.clientY }; cv.setPointerCapture(e.pointerId); });
-cv.addEventListener('pointermove', e => { if (e.pointerId !== lookId) return; const k = e.pointerType === 'mouse' ? .005 : .008; camYaw -= (e.clientX - lookLast.x) * k; camPitch = clamp(camPitch + (e.clientY - lookLast.y) * k * .6, .05, 1.1); lookLast = { x: e.clientX, y: e.clientY }; });
+cv.addEventListener('pointermove', e => { if (e.pointerId !== lookId) return; const k = e.pointerType === 'mouse' ? .005 : .008; camOff -= (e.clientX - lookLast.x) * k; camPitch = clamp(camPitch + (e.clientY - lookLast.y) * k * .6, .05, 1.1); lookLast = { x: e.clientX, y: e.clientY }; });
 for (const ev of ['pointerup', 'pointercancel', 'lostpointercapture']) cv.addEventListener(ev, () => { lookId = null; });
 addEventListener('keydown', e => {
   if (ui === 'kb') return kbKey(e);
@@ -357,6 +360,8 @@ async function hearLine(text, lang) {
   if (lang) { await wait(.2); if (my === hearing) playWord(text, lang); return; }
   const els = [...$('#line').querySelectorAll('.w')], tk = tokens(text);
   await wait(.15);
+  // whole phrases through the device's Khmer voice when it has one; otherwise word by word through tnefar
+  if (kmVoice) { const line = tk.map(t => t.km).filter(w => !isPunct(w) || w === '។').join(' ').replace(/ ។/g, '។'); els.forEach(e => e.classList.add('play')); try { await sayTTS(line); } catch (e) { } els.forEach(e => e.classList.remove('play')); return; }
   for (const el of els) { if (my !== hearing) return; el.classList.add('play'); await playWord(tk[+el.dataset.i].km); el.classList.remove('play'); await wait(.05); }
 }
 function pop(el, w) {
@@ -493,10 +498,11 @@ function frame(now) {
     }
     let l = Math.hypot(mx, mz); if (l > 1) { mx /= l; mz /= l; l = 1; }
     if (l > .08) {
-      const s = Math.sin(camYaw), c = Math.cos(camYaw);
-      const dx = (-s * -mz + c * mx), dz = (-c * -mz - s * mx), sp = 6.5 * l * dt;
-      tryMove(dx * sp, dz * sp);
-      const ty = Math.atan2(dx, dz); let d = ty - player.yaw; while (d > Math.PI) d -= Math.PI * 2; while (d < -Math.PI) d += Math.PI * 2; player.yaw += d * Math.min(1, dt * 12);
+      // tank controls: the stick turns you and walks you; the camera stays behind
+      player.yaw -= mx * 2.6 * dt;
+      const f = -mz * (mz > 0 ? .5 : 1), sp = 6.5 * f * dt;
+      tryMove(Math.sin(player.yaw) * sp, Math.cos(player.yaw) * sp);
+      l = Math.max(Math.abs(f), Math.abs(mx) * .5);
     }
     player.y += (groundAt(player.x, player.z) - player.y) * Math.min(1, dt * 14);
     hero.g.position.set(player.x, player.y, player.z); hero.g.rotation.y = player.yaw;
@@ -505,6 +511,8 @@ function frame(now) {
   // camera
   if (cine) { cine.t = Math.min(cine.dur, cine.t + dt); const k = ease(cine.t / cine.dur); camera.position.lerpVectors(cine.from, cine.to, k); cineLook.lerpVectors(cine.lookFrom, cine.look, k); camera.lookAt(cineLook); }
   else if (hero) {
+    camOff *= Math.pow(.15, dt); if (lookId == null) camOff *= Math.pow(.1, dt);
+    camYaw = turn(camYaw, player.yaw + Math.PI + camOff, dt * .9);
     const tx = player.x, ty = player.y + 1.5, tz = player.z;
     V3.set(tx + Math.sin(camYaw) * Math.cos(camPitch) * camDist, ty + Math.sin(camPitch) * camDist, tz + Math.cos(camYaw) * Math.cos(camPitch) * camDist);
     V3.y = Math.max(V3.y, groundAt(V3.x, V3.z) + .6);
@@ -1021,4 +1029,4 @@ anims.push((dt, t) => { if (!started) { camera.rotation.y = t * .03; } else retu
 function begin() { ensureAudio(); $('#title').classList.add('hide'); stars.material.opacity = 0; const ch = S.ch >= CHAPTERS.length ? 0 : S.ch; playChapter(ch).catch(e => console.error(e)); }
 $('#start').onclick = begin;
 $('#again').onclick = () => { S.ch = 0; save(); begin(); };
-window.LEAP = { S, acts, speakers, pressA: () => { curAct = curAct || acts[0]; pressA(); }, dlgTap, trig: () => trigRes && trigRes('x'), get ui() { return ui; }, player, ents, reachers, get started() { return started; }, speak: w => { typed = w; speakTyped(); }, warp: (x, z) => { player.x = x; player.z = z; }, get goal() { return atXZ(goalAt); }, atXZ };
+window.LEAP = { S, acts, speakers, pressA: () => { curAct = curAct || acts[0]; pressA(); }, dlgTap, trig: () => trigRes && trigRes('x'), get ui() { return ui; }, player, ents, reachers, get started() { return started; }, speak: w => { typed = w; speakTyped(); }, get audio() { return peak ? peak.source + ' ' + peak.speakers.length : 'none'; }, warp: (x, z) => { player.x = x; player.z = z; }, get goal() { return atXZ(goalAt); }, atXZ };
