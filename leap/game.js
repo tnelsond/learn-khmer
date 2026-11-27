@@ -8,6 +8,7 @@ for (const [fam, url] of [['Battambang', LIB + 'battambang.ttf'], ['Moul', FONTS
 try { await Promise.race([document.fonts.load('30px Battambang', 'ក'), new Promise(r => setTimeout(r, 2000))]); } catch (e) { }
 
 const { IPA } = await import('./ipa.js');
+const { BAD } = await import('./badrec.js');
 const $ = s => document.querySelector(s);
 const ipaOf = w => IPA[w] || '';
 const kw = w => `<b>${esc(w)}</b><u>${esc(ipaOf(w))}</u>`;
@@ -73,8 +74,12 @@ async function playWord(w, lang) {
   if (peak && kmVoice && !peak.who(w).length) { try { return await sayTTS(w); } catch (e) { } }
   if (peak) {
     const [i, f0] = (SP[speaking] || SP.me).v, sp = peak.speakers, pref = sp.length ? sp[i % sp.length] : '';
-    const s = peak.samples(w, pref);
-    if (s) { const who = peak.who(w), used = who.includes(pref) ? pref : who[0] || pref; return playPcm(s, clamp(f0 / (SPK_F0[used] || 130), .7, 1.6)); }
+    // skip clips that hold more than the word; among the clean ones, the reader nearest this character's pitch
+    const who = peak.who(w), clean = who.filter(r => !(BAD[w] || []).includes(r));
+    const near = r => Math.abs(Math.log(f0 / (SPK_F0[r] || 130)));
+    const used = clean.includes(pref) ? pref : clean.length ? clean.sort((a, b) => near(a) - near(b))[0] : who.includes(pref) ? pref : who[0] || pref;
+    const s = peak.samples(w, used);
+    if (s) return playPcm(s, clamp(f0 / (SPK_F0[used] || 130), .7, 1.6));
   }
   try { return await sayTTS(w); } catch (e) { return false; }
 }
