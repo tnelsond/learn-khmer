@@ -41,7 +41,7 @@ button:focus-visible{outline:3px solid var(--c);outline-offset:2px}
 #joyring{position:fixed;width:118px;height:118px;margin:-59px;border-radius:50%;border:3px solid rgba(200,212,255,.5);background:rgba(11,16,48,.35);pointer-events:none!important}
 #joyknob{position:absolute;left:50%;top:50%;width:50px;height:50px;margin:-25px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#ddd,#888);box-shadow:0 3px 0 #444}
 #joyhint{position:fixed;left:calc(30px + var(--l));bottom:calc(30px + var(--bt));width:96px;height:96px;border-radius:50%;border:3px dashed rgba(200,212,255,.35);pointer-events:none!important;display:grid;place-items:center;font-size:14px;color:rgba(255,255,255,.6)}
-#btns{position:fixed;right:calc(14px + var(--r));bottom:calc(18px + var(--bt));display:grid;grid-template-columns:auto auto;align-items:end;gap:10px}
+#btns{position:fixed;right:calc(14px + var(--r));bottom:calc(18px + var(--bt));display:grid;align-items:end;gap:10px}
 .nb{display:flex;flex-direction:column;align-items:center;gap:2px}
 .nb span{font:700 14px/1.4 var(--kh);text-shadow:0 2px 3px #000;max-width:9em;text-align:center}
 .nb button{border-radius:50%;display:grid;place-items:center;font:700 26px/1 Arial,sans-serif;box-shadow:0 4px 0 rgba(0,0,0,.45),0 0 0 3px rgba(0,0,0,.35)}
@@ -150,7 +150,7 @@ button:focus-visible{outline:3px solid var(--c);outline-offset:2px}
   <div id="joyhint">ដើរ</div>
   <div id="joyring" class="hide"><div id="joyknob"></div></div>
   <div id="btns">
-    <div class="nb" id="nB"><button id="bB" aria-label="និយាយ">B</button><span>និយាយ</span></div>
+    
     <div class="nb off" id="nA"><button id="bA" aria-label="ធ្វើ">A</button><span id="lA">&nbsp;</span></div>
   </div>
 </div>
