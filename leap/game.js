@@ -375,6 +375,7 @@ function say(who, text, o = {}) {
   if (who === 'al') return Promise.resolve(); // no narrator: the scene carries it
   if (who === 'me' && !o.chosen && !text.includes('*')) return choose(text); // you pick what you say
   return new Promise(res => {
+    $('#kb').classList.add('hide'); $('#book').classList.add('hide'); // a line that pops up closes the keyboard/book
     ui = 'dlg'; joyEnd(); speaking = who; curLine = { who, text, o };
     const fx = !!o.lang;
     $('#who').textContent = CAST[who]?.km || who; $('#dlg').classList.remove('hide'); $('#hear').classList.remove('hide');
@@ -418,6 +419,7 @@ async function choose(text) {
 }
 function choiceBox(opts) {
   return new Promise(res => {
+    $('#kb').classList.add('hide'); $('#book').classList.add('hide');
     ui = 'dlg'; joyEnd(); speaking = 'me'; dlgRes = trigRes = null; hearing++;
     $('#who').textContent = CAST.me.km; $('#dlg').classList.remove('hide'); $('#more').classList.add('hide'); $('#hear').classList.add('hide');
     $('#line').innerHTML = opts.map((t, i) => `<div class="ch"><button class="chh" data-i="${i}" aria-label="ស្ដាប់"><svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8.5a5 5 0 010 7"/></svg></button><button class="cht" data-i="${i}">${t.split(' ').filter(Boolean).map(w => isPunct(w) ? `<span class="p">${esc(w)}</span>` : `<span class="tk">${kw(w)}</span>`).join(' ')}</button></div>`).join('');
@@ -805,11 +807,11 @@ async function adam() {
   for (const [kind, word] of ZOO) {
     const a = animal(kind); const a0 = Math.atan2(player.z, player.x) + rnd(-1, 1); const e = ent(a, player.x + Math.cos(a0) * 26, player.z + Math.sin(a0) * 26, { speed: 4 }); tag(word, a.g);
     goal(`សត្វ មក ។ មើល !`, e);
-    await walk(e, player.x + 2.5, player.z + 2.5); e.yaw = Math.atan2(player.x - e.x, player.z - e.z);
-    e.follow = 'player'; e.gap = 2.6;
-    await say('me', `*${word} ?`);
-    goal(`និយាយ « ${word} » ។`, e);
-    await speakAt([word]); burst(e.x, e.y + 1.5, e.z, 0xf2c51c, 40, 2.5); good();
+    // listening for the name from the moment the animal appears: say it early and it still counts
+    let gotName = false; const heard = speakAt([word]).then(() => { gotName = true; });
+    await Promise.race([walk(e, player.x + 2.5, player.z + 2.5), heard]);
+    e.follow = 'player'; e.gap = 2.6; e.yaw = Math.atan2(player.x - e.x, player.z - e.z);
+    if (!gotName) { await say('me', `*${word} ?`); goal(`និយាយ « ${word} » ។`, e); await heard; } burst(e.x, e.y + 1.5, e.z, 0xf2c51c, 40, 2.5); good();
     toast(word); await wait(1.2);
     e.follow = null; named.push(e); wander(e, 10);
   }
