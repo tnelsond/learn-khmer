@@ -20,7 +20,9 @@ const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const ease = t => t < .5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2;
 const KD = '០១២៣៤៥៦៧៨៩', khNum = n => String(n).replace(/\d/g, d => KD[d]);
 const NUMW = ['', 'មួយ', 'ពីរ', 'បី', 'បួន', 'ប្រាំ', 'ប្រាំមួយ', 'ប្រាំពីរ', 'ប្រាំបី', 'ប្រាំបួន', 'ដប់'];
-const NUMS = Object.fromEntries(NUMW.map((w, i) => [w, i]).filter(x => x[0])); NUMS['សែសិប'] = 40;
+const TENS = { 20: 'ម្ភៃ', 30: 'សាមសិប', 40: 'សែសិប', 50: 'ហាសិប', 60: 'ហុកសិប', 70: 'ចិតសិប', 80: 'ប៉ែតសិប', 90: 'កៅសិប', 100: 'មួយរយ' };
+const NUMWORD = n => n <= 10 ? NUMW[n] : TENS[n];
+const NUMS = Object.fromEntries([...NUMW.map((w, i) => [w, i]).filter(x => x[0]), ...Object.entries(TENS).map(([n, w]) => [w, +n])]);
 const wait = s => new Promise(r => setTimeout(r, s * 1000));
 const isMobile = matchMedia('(pointer:coarse)').matches;
 
@@ -151,10 +153,13 @@ function person(o = {}) {
   const sk = o.skin ?? 0xb07a50, top = o.top ?? 0x8a6a4a, bot = o.bottom ?? top;
   const mat = c => o.glow ? MB(o.glow, { transparent: true, opacity: .55, blending: THREE.AdditiveBlending, depthWrite: false }) : MS(c);
   const legs = [], arms = [];
-  for (const s of [-1, 1]) { const p = pivot(b, s * .13, .74, 0); capsule(.1, .5, mat(sk), 0, -.36, 0, p); const f = sph(.12, mat(0x4a3420), 0, -.7, .06, p, 8, 6); f.scale.set(.9, .5, 1.4); legs.push(p); }
+  const knees = [], feet = [];
+  for (const s of [-1, 1]) { const p = pivot(b, s * .13, .74, 0); capsule(.1, .2, mat(o.robe ? bot : sk), 0, -.18, 0, p, 5); const k = pivot(p, 0, -.37, 0); capsule(.085, .2, mat(sk), 0, -.17, 0, k, 5); const f = sph(.12, mat(o.barefoot ? sk : 0x4a3420), 0, -.34, .06, k, 6, 4); f.scale.set(.9, .5, 1.4); legs.push(p); knees.push(k); feet.push(f); }
   if (o.robe) mesh(new THREE.CylinderGeometry(.27, .5, 1.1, 7), mat(bot), 0, .6, 0, b); else { const h = sph(.27, mat(bot), 0, .76, 0, b); h.scale.set(1, .7, .85); }
   const t = mesh(new THREE.CylinderGeometry(.25, .29, .74, 7), mat(top), 0, 1.12, 0, b); sph(.25, mat(top), 0, 1.46, 0, b).scale.set(1.15, .45, .9);
-  for (const s of [-1, 1]) { const p = pivot(b, s * .36, 1.42, 0); capsule(.075, .46, mat(o.sleeve ?? top), 0, -.28, 0, p); sph(.085, mat(sk), 0, -.6, 0, p, 8, 6); arms.push(p); }
+  if (o.coat) [0xd03a2a, 0xf2c51c, 0x2a8a4a, 0x2f5fd0].forEach((c, i) => mesh(new THREE.CylinderGeometry(.262 + i * .008, .27 + i * .008, .12, 7), mat(c), 0, .86 + i * .17, 0, b));
+  for (const s of [-1, 1]) { const p = pivot(b, s * .31, 1.4, 0); sph(.1, mat(o.sleeve ?? top), 0, 0, 0, p, 5, 3); capsule(.075, .4, mat(o.sleeve ?? top), 0, -.26, 0, p, 4); sph(.085, mat(sk), 0, -.56, 0, p, 5, 3); arms.push(p); }
+  if (o.staff) { const st = mesh(new THREE.CylinderGeometry(.035, .035, 2.2, 5), mat(0x6a4424), 0, -.5, .05, arms[1]); st.rotation.x = .1; }
   const head = grp(0, 1.8, 0, b);
   sph(.26, mat(sk), 0, 0, 0, head, 7, 5).scale.set(.95, 1.05, .95);
   if (!o.glow) { for (const s of [-1, 1]) { sph(.045, 0x1a1010, s * .09, .03, .23, head, 8, 6); } sph(.04, sk, 0, -.04, .26, head, 8, 6); }
@@ -162,7 +167,7 @@ function person(o = {}) {
   if (o.cloth != null) { const c = mesh(new THREE.SphereGeometry(.3, 7, 3, 0, Math.PI * 2, 0, Math.PI * .6), mat(o.cloth), 0, .02, -.02, head); c.rotation.x = -.5; mesh(new THREE.CylinderGeometry(.24, .34, .5, 7, 1, true), mat(o.cloth), 0, -.2, -.1, head); }
   if (o.beard != null) { const bd = mesh(new THREE.ConeGeometry(.2, .42, 6), mat(o.beard), 0, -.32, .14, head); bd.rotation.x = Math.PI + .2; }
   if (o.leaves) for (let i = 0; i < 8; i++) { const a = i / 8 * Math.PI * 2; const l = mesh(new THREE.ConeGeometry(.1, .36, 6), mat(0x3f8a2a), Math.sin(a) * .25, .6, Math.cos(a) * .2, b); l.rotation.x = Math.PI; }
-  return { g, b, legs, arms, head };
+  return { g, b, legs, arms, head, knees, feet };
 }
 function animal(kind) {
   const g = new THREE.Group(), b = grp(0, 0, 0, g), legs = [];
@@ -234,10 +239,13 @@ function gate() { const g = new THREE.Group(); for (const s of [-1, 1]) box(1, 6
 
 // pictures for words: tapping a word shows its picture (comprehensible input, no translation)
 const HEROES = {
-  adam: { name: 'អ័ដាម', skin: 0xb07850, top: 0xb07850, bottom: 0x3f8a2a, hair: 0x2a1a10, leaves: true },
-  eve: { name: 'អេវ៉ា', skin: 0xc08a60, top: 0xc08a60, bottom: 0x3f8a2a, hair: 0x3a2010, female: true, leaves: true },
+  adam: { name: 'អ័ដាម', skin: 0xb07850, top: 0xb07850, bottom: 0xb07850, hair: 0x2a1a10, barefoot: true },
+  eve: { name: 'អេវ៉ា', skin: 0xc08a60, top: 0xc08a60, bottom: 0xc08a60, hair: 0x3a2010, female: true, barefoot: true },
   noah: { name: 'ណូអេ', skin: 0xa07050, top: 0x7a5a3a, bottom: 0x8a6a44, robe: true, cloth: 0xe0d8c0, beard: 0xf0f0f0 },
   builder: { name: 'អ្នកសង់', skin: 0x9a6a44, top: 0xc8a878, bottom: 0x8a6a4a, hair: 0x1a1010, cloth: 0xb03a2a },
+  jacob: { name: 'យ៉ាកុប', skin: 0xa07050, top: 0x6a4a8a, bottom: 0x8a7a5a, robe: true, cloth: 0xd8c8a0, beard: 0x3a2a1a },
+  joseph: { name: 'យ៉ូសែប', skin: 0xb07a50, top: 0xe0d8c0, bottom: 0xe0d8c0, robe: true, hair: 0x2a1a10 },
+  moses: { name: 'ម៉ូសេ', skin: 0xa07050, top: 0x8a5a3a, bottom: 0x8a6a44, robe: true, cloth: 0xe8e0c8, beard: 0xd8d8d8, staff: true },
   abram: { name: 'អាប់រ៉ាម', skin: 0xa07050, top: 0x3a5a9a, bottom: 0xe0d8c0, robe: true, cloth: 0xf0ead8, beard: 0xc8c8c8 },
 };
 // v: [preferred reader (index into peak.speakers), target pitch in Hz]. Words are pitch-shifted to the
@@ -249,9 +257,10 @@ const CAST = {
   wife: { km: 'ប្រពន្ធ', v: [0, 212] }, son: { km: 'សិម', v: [5, 136] }, nb: { km: 'អ្នកជិតខាង', v: [1, 128] },
   boss: { km: 'មេការ', v: [2, 100] }, friend: { km: 'មិត្ត', v: [4, 142] }, w1: { km: 'អ្នកសង់', v: [5, 130] },
   sarai: { km: 'សារ៉ាយ', v: [0, 208] }, sarah: { km: 'សារ៉ា', v: [0, 208] }, lot: { km: 'ឡុត', v: [3, 125] }, guest: { km: 'ភ្ញៀវ', v: [2, 112] },
-  isaac: { km: 'អ៊ីសាក', v: [0, 275] }, angel: { km: 'ទេវតា', v: [1, 145] },
+  isaac: { km: 'អ៊ីសាក', v: [0, 275] }, father: { km: 'យ៉ាកុប', v: [3, 110] }, bro: { km: 'បងប្រុស', v: [5, 130] }, trader: { km: 'ឈ្មួញ', v: [1, 125] },
+  pharaoh: { km: 'ផារ៉ោន', v: [2, 105] }, people: { km: 'ប្រជាជន', v: [4, 140] }, angel: { km: 'ទេវតា', v: [1, 145] },
 };
-const HERO_V = { adam: [3, 120], eve: [0, 228], noah: [4, 104], builder: [5, 126], abram: [2, 100] };
+const HERO_V = { adam: [3, 120], eve: [0, 228], noah: [4, 104], builder: [5, 126], abram: [2, 100], jacob: [3, 118], joseph: [5, 140], moses: [2, 100] };
 const SP = CAST;
 const P = {
   person: () => person({ skin: 0xb07a50, top: 0x8a6a4a, hair: 0x2a1a10 }).g,
@@ -276,6 +285,11 @@ const PIC = {
   'តង់': () => tent(), 'នំបុ័ង': () => bread(), 'ភ្នំ': () => { const m = cone(2, 2.4, 0x8a7a5a, 0, 0, 0, null, 5); return m; }, 'អាសនា': () => altar(), 'ដាវ': () => { const g = new THREE.Group(); box(.15, 2, .05, MB(0xffa030), 0, 1, 0, g); box(.6, .1, .1, 0x8a6a30, 0, 0, 0, g); return g; },
   'ទ្វារ': () => { const g = new THREE.Group(); box(1.4, 2.2, .2, 0x6a4424, 0, 1.1, 0, g); return g; }, 'ព្រៃ': () => bush(), 'ទីក្រុង': () => { const g = new THREE.Group(); for (let i = 0; i < 5; i++) box(1, rnd(.8, 2), 1, brickM, (i % 3 - 1) * 1.2, .5, Math.floor(i / 3) * 1.2, g); return g; },
   'ភ្ញៀវ': () => person({ skin: 0xb07a50, top: 0xf0f0f0, robe: true, cloth: 0xf0f0f0 }).g, 'ឡុត': () => person({ skin: 0xa07050, top: 0x5a7a3a, robe: true, cloth: 0xd8c8a0, beard: 0x3a2a1a }).g,
+  'ជណ្ដើរ': () => ladder(6), 'ថ្ម': () => rock(.8), 'អាវ': () => person({ coat: true, top: 0xd03a2a }).g, 'រណ្ដៅ': () => { const g = new THREE.Group(); mesh(new THREE.CylinderGeometry(1, 1, .3, 8), 0x7a6a50, 0, 0, 0, g); mesh(new THREE.CircleGeometry(.9, 8).rotateX(-Math.PI / 2), MB(0x0a0808), 0, .16, 0, g); return g; },
+  'ប្រាក់': () => { const g = new THREE.Group(); for (let i = 0; i < 5; i++) cyl(.3, .3, .06, 0xd8d8e0, (i % 3 - 1) * .5, i * .07, (i % 2) * .4, g, 8); return g; }, 'ផារ៉ោន': () => { const p = person({ skin: 0x9a6a44, top: 0xf0f0e8, robe: true, cloth: 0x2f5fd0 }); cone(.22, .6, 0xf2c51c, 0, .5, 0, p.head, 5); return p.g; },
+  'គុម្ពោត': () => { const b = bush(0x4a6a2a); const f = fire(); f.position.y = .7; b.add(f); return b; }, 'ដំបង': () => cyl(.06, .06, 2.2, 0x6a4424, 0, 0, 0, null, 5), 'សមុទ្រ': () => box(3, .6, 2, new THREE.MeshLambertMaterial({ color: 0x2a6ab0, map: waterTex })),
+  'យ៉ាកុប': () => person(HEROES.jacob).g, 'យ៉ូសែប': () => person({ ...HEROES.joseph, coat: true, top: 0xd03a2a }).g, 'ម៉ូសេ': () => person(HEROES.moses).g, 'ធាត់': () => { const a = animal('cow'); a.b.scale.set(1.7, 1.15, 1.05); return a.g; }, 'ស្គម': () => { const a = animal('cow'); a.b.scale.set(.5, 1, .95); return a.g; },
+  'ស្បែកជើង': () => { const g = new THREE.Group(); for (const s of [-1, 1]) box(.3, .08, .6, 0x4a3420, s * .25, 0, 0, g); return g; },
   'សម្លៀកបំពាក់': () => { const g = new THREE.Group(); cyl(.4, .7, 1.4, 0x8a5a30, 0, 0, 0, g, 6); return g; },
 };
 
@@ -284,7 +298,7 @@ let world = new THREE.Group(); scene.add(world);
 let H = () => 0, bound = 80, clampFn = null;
 const solids = [], ents = [], acts = [], floors = [];
 let ground = null, water = null, waterY = -100;
-function clearWorld() { track = null; scene.remove(world); world = new THREE.Group(); scene.add(world); solids.length = ents.length = acts.length = floors.length = 0; ground = water = null; waterY = -100; clampFn = null; tags = {}; anims.length = 0; stars.material.opacity = 0; marker(null); }
+function clearWorld() { track = null; yOverride = null; player.raise = false; scene.remove(world); world = new THREE.Group(); scene.add(world); solids.length = ents.length = acts.length = floors.length = 0; ground = water = null; waterY = -100; clampFn = null; tags = {}; anims.length = 0; stars.material.opacity = 0; marker(null); }
 const groundAt = (x, z) => { let h = H(x, z); for (const f of floors) if (x > f.x0 && x < f.x1 && z > f.z0 && z < f.z1) h = Math.max(h, f.y()); return h; };
 function terrain(size, seg, color) {
   const geo = new THREE.PlaneGeometry(size, size, seg, seg).rotateX(-Math.PI / 2), p = geo.attributes.position, cols = new Float32Array(p.count * 3), c = new THREE.Color();
@@ -392,6 +406,14 @@ function say(who, text, o = {}) {
 }
 // Your lines are chosen. Alternatives that would stall the story ('strict') get a pause and you choose again.
 const ALT = {
+  'ខ្ញុំ ហត់ ណាស់ ។ យប់ ហើយ ។': { alt: ['ខ្ញុំ ចង់ ហែល ទឹក ។'] },
+  'ព្រះជាម្ចាស់ នៅ ទីនេះ ! ខ្ញុំ មិន ដឹង ទេ ។': { alt: ['វា គ្រាន់ តែ ជា សុបិន ។'], strict: true },
+  'អរគុណ ប៉ា ! អាវ ស្អាត ណាស់ !': { alt: ['ខ្ញុំ មិន ចូលចិត្ត ពណ៌ ទេ ។'] },
+  'ប៉ា ! ជួយ ខ្ញុំ ផង !': { alt: ['ខ្ញុំ ចង់ ទៅ អេស៊ីប !'] },
+  'ប្រាំពីរ ឆ្នាំ មាន ស្បៀង ច្រើន ។ ប្រាំពីរ ឆ្នាំ ទៀត គ្មាន ស្បៀង ។': { alt: ['គោ ចូលចិត្ត ស្មៅ ។'], strict: true },
+  'ខ្ញុំ នឹង ទៅ ។': { alt: ['ខ្ញុំ មិន ចេះ និយាយ ទេ ...'] },
+  'កុំ ខ្លាច ! ព្រះជាម្ចាស់ នឹង ជួយ យើង ។': { alt: ['រត់ ! រត់ !'], strict: true },
+  'ព្រះជាម្ចាស់ ជា កម្លាំង របស់ ខ្ញុំ ។': { alt: ['ទឹក ត្រជាក់ ណាស់ ។'] },
   'ខ្ញុំ មិន យល់ ទេ !': { alt: ['បាទ ! ល្អ ណាស់ !'], strict: true },
   'ខ្ញុំ មិន យល់ អ្វី ទាំងអស់ !': { alt: ['ខ្ញុំ យល់ ហើយ !'], strict: true },
   'ខ្ញុំ មិន ដឹង ទេ ។ ព្រះជាម្ចាស់ នឹង បង្ហាញ ។': { alt: ['យើង ទៅ ផ្សារ ។'], strict: true },
@@ -587,7 +609,7 @@ function frame(now) {
       tryMove(dx * sp, dz * sp);
       player.yaw = Math.atan2(dx, dz);
     }
-    player.y += (groundAt(player.x, player.z) - player.y) * Math.min(1, dt * 14);
+    player.y += ((yOverride ?? groundAt(player.x, player.z)) - player.y) * Math.min(1, dt * 14);
     hero.g.position.set(player.x, player.y, player.z); hero.g.rotation.y = player.yaw;
     animLimbs(hero, l > .08 ? l : 0, dt);
   }
@@ -640,7 +662,8 @@ function frame(now) {
 function turn(a, b, k) { let d = b - a; while (d > Math.PI) d -= Math.PI * 2; while (d < -Math.PI) d += Math.PI * 2; return a + d * Math.min(1, k * 6); }
 function animLimbs(m, sp, dt, e) { const o = e || m; o.walkT = (o.walkT || 0) + dt * 10 * (sp ? 1 : 0);
   // a little up-and-down with every step
-  if (m.b) { if (sp) { m.b.position.y = Math.abs(Math.sin(o.walkT)) * (m.legs.length > 2 ? .07 : .1) * Math.min(1, sp + .3); o.bobbing = true; } else if (o.bobbing) { m.b.position.y = 0; o.bobbing = false; } } const a = sp ? Math.sin(o.walkT) * .7 * Math.min(1, sp + .3) : 0; m.legs.forEach((l, i) => l.rotation.x += ((i % 2 ? a : -a) * (m.legs.length > 2 && i > 1 ? -1 : 1) - l.rotation.x) * Math.min(1, dt * 12)); if (m.arms) m.arms.forEach((r, i) => { if (m === hero && player.carry) r.rotation.x += (-2.6 - r.rotation.x) * Math.min(1, dt * 10); else r.rotation.x += ((i ? -a : a) - r.rotation.x) * Math.min(1, dt * 12); }); }
+  if (m.b) { if (sp) { m.b.position.y = Math.abs(Math.sin(o.walkT)) * (m.legs.length > 2 ? .07 : .1) * Math.min(1, sp + .3); o.bobbing = true; } else if (o.bobbing) { m.b.position.y = 0; o.bobbing = false; } } const a = sp ? Math.sin(o.walkT) * .7 * Math.min(1, sp + .3) : 0; m.legs.forEach((l, i) => l.rotation.x += ((i % 2 ? a : -a) * (m.legs.length > 2 && i > 1 ? -1 : 1) - l.rotation.x) * Math.min(1, dt * 12));
+  if (m.knees) m.knees.forEach((k, i) => { const want = sp ? Math.max(0, Math.sin(o.walkT + (i % 2 ? Math.PI : 0) - 1.3)) * 1.2 : 0; k.rotation.x += (want - k.rotation.x) * Math.min(1, dt * 14); }); if (m.arms) m.arms.forEach((r, i) => { if (m === hero && (player.carry || player.raise)) r.rotation.x += (-2.6 - r.rotation.x) * Math.min(1, dt * 10); else r.rotation.x += ((i ? -a : a) - r.rotation.x) * Math.min(1, dt * 12); }); }
 function tryMove(dx, dz) {
   const r = .45; let nx = player.x + dx, nz = player.z + dz;
   const hit = (x, z) => solids.some(s => Math.hypot(x - s.x, z - s.z) < s.r + r) || ents.some(e => e.solid && !e.hide && e.g.visible && Math.hypot(x - e.x, z - e.z) < e.solid + r) || (waterY > -50 && groundAt(x, z) < waterY - .6 && !floors.some(f => x > f.x0 && x < f.x1 && z > f.z0 && z < f.z1)) || Math.hypot(x, z) > bound;
@@ -666,6 +689,9 @@ const CHAPTERS = [
   { title: 'ទូក ធំ', ref: 'លោកុប្បត្តិ ៦–៩', who: 'ណូអេ', run: noah },
   { title: 'ប៉ម បាបិល', ref: 'លោកុប្បត្តិ ១១', who: 'អ្នកសង់', run: babel },
   { title: 'ផ្កាយ និង ខ្សាច់', ref: 'លោកុប្បត្តិ ១២–២២', who: 'អាប់រ៉ាម', run: abram },
+  { title: 'ជណ្ដើរ យ៉ាកុប', ref: 'លោកុប្បត្តិ ២៨', who: 'យ៉ាកុប', run: jacob },
+  { title: 'អាវ ពណ៌ ច្រើន', ref: 'លោកុប្បត្តិ ៣៧–៤១', who: 'យ៉ូសែប', run: joseph },
+  { title: 'សមុទ្រ ក្រហម', ref: 'និក្ខមនំ ៣ · ១៤', who: 'ម៉ូសេ', run: moses },
 ];
 async function leapIn(heroKey, x, z, yaw, intro) {
   setHero(heroKey, x, z, yaw); showAl(false);
@@ -691,7 +717,7 @@ async function playChapter(n) {
 }
 
 /* ---- 0. creation: the world forms as the words are spoken ---- */
-const edenH = (x, z) => { const r = Math.hypot(x, z); const hills = 1.6 + Math.sin(x * .07) * 1.4 + Math.cos(z * .06) * 1.2 + Math.sin((x + z) * .13) * .5; const river = Math.max(0, 1 - Math.abs(z - 22 - Math.sin(x * .08) * 4) / 4) * 3; return hills - river - Math.max(0, r - 70) * .35; };
+const edenH = (x, z) => { const r = Math.hypot(x > 0 ? x * .5 : x, z); /* the land runs on east of the garden */ const hills = 1.6 + Math.sin(x * .07) * 1.4 + Math.cos(z * .06) * 1.2 + Math.sin((x + z) * .13) * .5; const river = Math.max(0, 1 - Math.abs(z - 22 - Math.sin(x * .08) * 4) / 4) * 3; return hills - river - Math.max(0, r - 70) * .35; };
 const edenCol = (x, z, y) => y < .4 ? 0xd8c890 : y > 3.2 ? 0x4a9a3a : 0x5aac3a;
 const FRUITS = [[14, 6], [-12, 10], [20, -12], [-18, -8], [6, 18], [-6, -38], [24, 10], [-26, 4], [10, -30], [30, -24], [-30, -22], [-4, 30]];
 function buildEden(trees = true) {
@@ -831,7 +857,7 @@ async function adam() {
 }
 
 /* ---- 2. Eve and the forbidden fruit ---- */
-eve.build = () => { setSky(0x3a7ae0, 0xf0d8b0, 0xe8d8b8, 1, true); scene.fog.near = 40; scene.fog.far = 160; buildEden(); const g = gate(); place(g, 66, 0, Math.PI / 2); for (const z of [-12, -8, -4, 4, 8, 12]) solids.push({ x: 66, z, r: 2 }); };
+eve.build = () => { setSky(0x3a7ae0, 0xf0d8b0, 0xe8d8b8, 1, true); scene.fog.near = 40; scene.fog.far = 160; buildEden(); const g = gate(); place(g, 48, 0, Math.PI / 2); for (const z of [-12, -8, -4, 4, 8, 12]) solids.push({ x: 48, z, r: 2 }); bound = 95; };
 async function eve() {
   await leapIn('eve', -6, 8, Math.PI);
   const adamE = npc('adam', HEROES.adam, -3, 10, Math.PI);
@@ -851,7 +877,11 @@ async function eve() {
   goal('ឲ្យ ផ្លែ ទៅ អ័ដាម ។', adamE);
   adamE.follow = null; walk(adamE, 4, -16, 3);
   await act('ឲ្យ ផ្លែ', adamE, 3.5); drop();
-  await talk([['adam', '...'], ['al', 'អ័ដាម ក៏ ហូប ដែរ ។'], ['me', 'អូយ ... យើង ខ្លាច ។'], ['adam', 'យើង ត្រូវ លាក់ ខ្លួន !']]);
+  // their eyes are opened: fig leaves (Genesis 3:7)
+  world.remove(hero.g); hero = person({ ...HEROES.eve, leaves: true, top: 0x3f8a2a }); world.add(hero.g);
+  world.remove(adamE.g); adamE.m = person({ ...HEROES.adam, leaves: true }); adamE.g = adamE.m.g; world.add(adamE.g);
+  burst(player.x, player.y + 1, player.z, 0x3f8a2a, 30, 2); cap('ស្លឹកឈើ');
+  await talk([['adam', '...'], ['me', 'អូយ ... យើង ខ្លាច ។'], ['adam', 'យើង ត្រូវ លាក់ ខ្លួន !']]);
   setSky(0x2a2a50, 0xc06040, 0x7a5050, .45);
   const bushes = [[-22, 12], [-26, 16], [-18, 18]]; for (const [x, z] of bushes) { const b = bush(); b.scale.setScalar(1.6); place(b, x, z); tag('ព្រៃ', b); }
   godGlow(true, [0, 12, -6]);
@@ -869,10 +899,10 @@ async function eve() {
   world.remove(adamE.g); adamE.m = person({ ...HEROES.adam, leaves: false, top: 0x8a5a30, bottom: 0x7a4a28 }); adamE.g = adamE.m.g; world.add(adamE.g);
   await talk([['al', 'មើល ! ព្រះជាម្ចាស់ ធ្វើ សម្លៀកបំពាក់ ឲ្យ អ្នក ។'], ['al', 'ព្រះជាម្ចាស់ នៅ តែ ស្រឡាញ់ អ្នក ។']]);
   adamE.follow = 'player'; adamE.gap = 2.2;
-  const cher = ent(person({ glow: 0xffffff, scale: 1.4 }), 68, 0, { solid: 0, fly: .3 }); tag('ទេវតា', cher.g);
+  const cher = ent(person({ glow: 0xffffff, scale: 1.4 }), 52, 0, { solid: 0, fly: .3 }); tag('ទេវតា', cher.g);
   const sw = new THREE.Group(); box(.15, 2.4, .05, MB(0xff8020), 0, 1.2, 0, sw); cher.g.add(sw); sw.position.set(.7, 1.2, .4); anims.push((dt, t) => { sw.rotation.z = Math.sin(t * 6) * .4; if (Math.random() < .3) emit(cher.x + .7, cher.y + 2.4, cher.z + .4, rnd(-1, 1), 2, rnd(-1, 1), 0xff8020, .5); });
-  goal('ចេញ ទៅ ទិស ខាងកើត ។', [62, 0]);
-  await reach([62, 0], 5);
+  goal('ចេញ ទៅ ទិស ខាងកើត ។', [58, 0]);
+  await reach([58, 0], 5);
   await talk([['angel', 'ទេវតា ការពារ ផ្លូវ ទៅ ដើមឈើ ជីវិត ។'], ['al', 'រឿង នេះ ក្រៀមក្រំ ... ប៉ុន្តែ រឿង មិន ទាន់ ចប់ ទេ ។'], ['al', 'ថ្ងៃ មួយ ព្រះជាម្ចាស់ នឹង ជួយ មនុស្ស ។ ដល់ ពេល លោត ។']]);
   await next(3);
 }
@@ -1088,10 +1118,11 @@ async function abram() {
   godGlow(true, [-40, 30, -10]);
   await talk([['god', 'អាប់រ៉ាម ! មើល ទៅ លើ មេឃ ។'], ['god', 'រាប់ ផ្កាយ ។ តើ អ្នក រាប់ បាន ទេ ?']]);
   goal('រាប់ ផ្កាយ ។', null);
-  for (let n = 1; n <= 10; n++) {
+  const COUNT = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+  for (const n of COUNT) {
     await act(`រាប់ ផ្កាយ`, [player.x, player.z], 999);
-    const a = rnd(0, 6.28); burst(player.x + Math.cos(a) * 20, 40, player.z + Math.sin(a) * 20, 0xfff4a0, 20, 2);
-    speaking = 'me'; playWord(NUMW[n]); toast(khNum(n), NUMW[n]); goal(`រាប់ ផ្កាយ ... ${NUMW[n]}`);
+    for (let j = 0; j < (n > 10 ? 10 : 1); j++) { const a = rnd(0, 6.28); burst(player.x + Math.cos(a) * 20, 40 + rnd(-5, 10), player.z + Math.sin(a) * 20, 0xfff4a0, 14, 2); }
+    stars.material.size = 2 + n / 50; speaking = 'me'; playWord(NUMWORD(n)); toast(khNum(n), NUMWORD(n)); goal(`រាប់ ផ្កាយ ... ${NUMWORD(n)}`);
   }
   stars.material.size = 3;
   await talk([['me', 'ផ្កាយ ច្រើន ណាស់ ! ខ្ញុំ រាប់ មិន អស់ ទេ !'], ['god', 'កូនចៅ អ្នក នឹង ច្រើន ដូច ផ្កាយ ។'], ['god', 'ឈ្មោះ អ្នក មិន មែន អាប់រ៉ាម ទៀត ទេ ។ ឈ្មោះ អ្នក គឺ អ័ប្រាហាំ ។'], ['god', 'ឈ្មោះ សារ៉ាយ គឺ សារ៉ា ។']]);
@@ -1145,14 +1176,206 @@ async function abram() {
   await talk([['me', 'ព្រះជាម្ចាស់ ផ្គត់ផ្គង់ !'], ['isaac', 'ប៉ា ! ព្រះជាម្ចាស់ ផ្គត់ផ្គង់ កូនចៀម !']]);
   godGlow(true, [-60, 40, -80]);
   await talk([['god', 'អ្នក មិន ហាម កូន របស់ អ្នក ទេ ។'], ['god', 'កូនចៅ អ្នក នឹង ច្រើន ដូច ផ្កាយ នៅ លើ មេឃ ដូច ខ្សាច់ នៅ មាត់ សមុទ្រ ។'], ['god', 'តាម កូនចៅ អ្នក គ្រប់ ប្រជាជាតិ នឹង បាន ពរ ។'], ['al', 'រឿង ទៅ មុខ ហើយ ។ ប៉ុន្តែ រឿង មិន ទាន់ ចប់ ទេ ...']]);
-  done(6); await next(6);
+  await next(6);
+}
+
+/* ---- 6. Jacob's ladder ---- */
+function ladder(h = 60) { const g = new THREE.Group(), m = MB(0xfff0b0, { transparent: true, opacity: .85, fog: false }); for (const s of [-1, 1]) mesh(new THREE.BoxGeometry(.2, h, .2), m, s * 1.2, h / 2, 0, g); for (let y = 1; y < h; y += 1.6) mesh(new THREE.BoxGeometry(2.4, .12, .12), m, 0, y, 0, g); return g; }
+const hillsH = (x, z) => 1 + Math.sin(x * .06) * 2 + Math.cos(z * .05) * 1.6 + Math.sin((x + z) * .12) * .5;
+jacob.build = () => {
+  setSky(0x3a4a8a, 0xf0a060, 0xd89870, .8, true); scene.fog.near = 40; scene.fog.far = 170;
+  H = hillsH; bound = 80; terrain(200, 50, (x, z, y) => y > 3 ? 0xa89060 : 0xb8a070);
+  for (let i = 0; i < 40; i++) { const x = rnd(-70, 70), z = rnd(-70, 70); if (Math.hypot(x, z) < 12) continue; place(rock(rnd(.5, 1.6), 0x9a8a70), x, z, rnd(0, 6), 1); }
+  for (let i = 0; i < 14; i++) { const x = rnd(-70, 70), z = rnd(-70, 70); if (Math.hypot(x, z) < 14) continue; place(tree({ s: rnd(.7, 1), leaf: 0x5a7a3a }).g, x, z, 0, .7); }
+};
+async function jacob() {
+  await leapIn('jacob', 0, 10, Math.PI);
+  await arrive([]);
+  await say('me', 'ខ្ញុំ ហត់ ណាស់ ។ យប់ ហើយ ។');
+  const pillow = rock(.45, 0x8a8478); place(pillow, 5, 3); tag('ថ្ម', pillow);
+  goal('យក ថ្ម មួយ ។', [5, 3]);
+  await act('យក ថ្ម', [5, 3], 3); world.remove(pillow); carry(rock(.3, 0x8a8478));
+  goal('ដាក់ ថ្ម នៅ ក្រោម ក្បាល ។', [0, 0]);
+  await act('ដាក់ ថ្ម', [0, 0], 3.5); drop(); place(pillow, 0, -.7);
+  setSky(0x02041a, 0x0a1440, 0x0a1030, .2); await tween(2, k => stars.material.opacity = k);
+  goal('ដេក ។', [0, 0]);
+  await act('ដេក', [0, 0], 3.5);
+  player.x = 0; player.z = .3; player.yaw = 0;
+  await camTo([6, H(0, 0) + 4, 6], [0, H(0, 0) + .5, 0], 1);
+  await tween(1, k => { hero.b.rotation.x = -k * Math.PI / 2; hero.b.position.y = k * .3; }); toast('ដេក'); await wait(1);
+  // the dream
+  const f = $('#flash'); f.style.background = 'radial-gradient(circle,#fff8d8,#f2c51c 40%,#3a2a6a)'; await tween(.8, k => f.style.opacity = k * .7); await tween(.8, k => f.style.opacity = .7 * (1 - k)); f.style.background = '';
+  await camTo([16, H(0, 0) + 6, 18], [0, 20, -16], 1.5);
+  godGlow(true, [0, 64, -32]);
+  await say('god', 'មើល *ជណ្ដើរ !');
+  const ld = ladder(64); place(ld, 0, -10); ld.rotation.x = -.3; tag('ជណ្ដើរ', ld); ld.scale.y = .01; await tween(2, k => ld.scale.y = Math.max(.01, k)); cap('ជណ្ដើរ');
+  const angels = [];
+  for (let i = 0; i < 6; i++) { const a = ent(person({ glow: 0xffffff }), 0, -10, { solid: 0 }); a.t0 = i / 6; a.dir = 0; a.tick = dt => { a.t0 = (a.t0 + dt * .07 * a.dir + 1) % 1; const y = a.t0 * 60; a.flyAbs = H(0, -10) + y * Math.cos(.3); a.z = -10 - y * Math.sin(.3); a.x = i % 2 ? .5 : -.5; }; angels.push(a); tag('ទេវតា', a.g); }
+  await say('god', 'ទេវតា *ឡើង ...'); angels.forEach(a => a.dir = 1); cap('ឡើង'); await wait(3);
+  await say('god', 'ទេវតា *ចុះ ...'); angels.forEach(a => a.dir = -1); cap('ចុះ'); await wait(3);
+  angels.forEach((a, i) => a.dir = i % 2 ? 1 : -1);
+  await talk([['god', 'យើង ជា ព្រះ របស់ អ័ប្រាហាំ និង អ៊ីសាក ។'], ['god', 'ដី នេះ យើង នឹង ឲ្យ អ្នក និង កូនចៅ អ្នក ។'], ['god', 'យើង នៅ ជាមួយ អ្នក ។ យើង នឹង ការពារ អ្នក ។']]);
+  for (const a of angels) { world.remove(a.g); ents.splice(ents.indexOf(a), 1); } world.remove(ld); godGlow(false);
+  setSky(0x4a8ad8, 0xf8d0a0, 0xe8d0b0, 1); await tween(1.5, k => stars.material.opacity = 1 - k);
+  await camTo([6, H(0, 0) + 4, 6], [0, H(0, 0) + .5, 0], 1);
+  await tween(1, k => { hero.b.rotation.x = -(1 - k) * Math.PI / 2; hero.b.position.y = (1 - k) * .3; }); camFree();
+  await say('me', 'ព្រះជាម្ចាស់ នៅ ទីនេះ ! ខ្ញុំ មិន ដឹង ទេ ។');
+  goal('បញ្ឈរ ថ្ម ។', [0, -.7]);
+  await act('បញ្ឈរ ថ្ម', [0, -.7], 3.5);
+  world.remove(pillow); const pillar = mesh(new THREE.CylinderGeometry(.35, .45, 2.2, 6), 0x8a8478); place(pillar, 0, -.7, 0, .6, 1.1); tag('ថ្ម', pillar); pillar.scale.y = .2; await tween(1, k => pillar.scale.y = .2 + .8 * k); good();
+  toast('បេតអែល'); speaking = 'god'; await sayPhrase('ឈ្មោះ កន្លែង នេះ គឺ បេតអែល ។'); await wait(.5);
+  await next(7);
+}
+
+/* ---- 7. Joseph: the coat, the pit, Pharaoh's dream ---- */
+const fieldH = (x, z) => 1 + Math.sin(x * .05) * 1.4 + Math.cos(z * .06) * 1.2;
+joseph.build = () => {
+  setSky(0x4a8ad8, 0xf0dcb0, 0xe8d8b0, 1, true); scene.fog.near = 50; scene.fog.far = 190;
+  H = fieldH; bound = 95; terrain(220, 50, () => 0x7aa040);
+  for (let i = 0; i < 30; i++) { const x = rnd(-80, 80), z = rnd(-80, 80); if (Math.hypot(x, z) < 12 || Math.hypot(x - 42, z + 26) < 16) continue; place(tree({ s: rnd(.7, 1.2) }).g, x, z, 0, .7); }
+  const t = tent(0x5a3a2a); place(t, -6, -4, 0, 2.4);
+};
+function buildEgypt() {
+  setSky(0x3a7ad8, 0xf8e0a0, 0xf0d8a0, 1, true);
+  H = (x, z) => .5 + Math.sin(x * .04) * .6 + Math.cos(z * .05) * .5 - (z < -36 ? Math.min(3, (-36 - z) * .3) : 0);
+  bound = 90; terrain(220, 50, (x, z, y) => y < -.5 ? 0x5a8a4a : 0xe0c080); addWater(-1.6, 0x3a7ab0);
+  for (const [x, z, s] of [[-50, 30, 14], [-25, 48, 18], [32, 50, 12]]) { const p = cone(s, s * .95, 0xd8c080, x, H(x, z) + s * .47, z, world, 4); p.rotation.y = Math.PI / 4; }
+  for (let i = 0; i < 5; i++) for (const sx of [-1, 1]) { const z = 6 - i * 4.5; cyl(.6, .7, 7, 0xe8d8b0, sx * 5, H(sx * 5, z) + 3.5, z, world, 7); solids.push({ x: sx * 5, z, r: .8 }); }
+  place(box(2.2, 2.6, 1.4, 0xd8a830), 0, -17, 0, 1.4, 1.3);
+}
+let yOverride = null;
+async function joseph() {
+  await leapIn('joseph', 2, 6, Math.PI);
+  const dad = npc('father', { ...HEROES.jacob, beard: 0xd8d8d8 }, -2, 2, 0);
+  await arrive([]);
+  await talk([['father', 'យ៉ូសែប កូន ប្រុស ប៉ា !'], ['father', 'ប៉ា ស្រឡាញ់ កូន ណាស់ ។'], ['father', 'នេះ ជា *អាវ សម្រាប់ កូន ។']]);
+  world.remove(hero.g); hero = person({ ...HEROES.joseph, coat: true, top: 0xd03a2a, bottom: 0x2f5fd0 }); world.add(hero.g); burst(player.x, player.y + 1.2, player.z, 0xf2c51c, 40, 2); good(); cap('អាវ');
+  await say('me', 'អរគុណ ប៉ា ! អាវ ស្អាត ណាស់ !');
+  await talk([['father', 'បងប្រុស កូន នៅ វាល ជាមួយ ចៀម ។'], ['father', 'ទៅ មើល ពួកគេ ។']]);
+  const bros = [0x6a4a2a, 0x3a5a3a, 0x5a3a5a, 0x8a6a3a].map((c, i) => npc('bro', { skin: 0xa07050, top: c, robe: true, beard: 0x2a1a10, cloth: 0xc8b898 }, 38 + (i % 2) * 3, -32 + i * 1.5, 0));
+  for (let i = 0; i < 8; i++) { const a = animal('sheep'); const e = ent(a, 44 + rnd(-6, 6), -38 + rnd(-5, 5)); wander(e, 4); tag('ចៀម', a.g); }
+  const pit = new THREE.Group(); mesh(new THREE.CylinderGeometry(1.6, 1.7, .5, 8, 1, true), new THREE.MeshLambertMaterial({ color: 0x7a6a50, side: THREE.DoubleSide, flatShading: true }), 0, .15, 0, pit); mesh(new THREE.CircleGeometry(1.55, 8).rotateX(-Math.PI / 2), MB(0x0a0808), 0, .06, 0, pit); place(pit, 46, -20); tag('រណ្ដៅ', pit); solids.push({ x: 46, z: -20, r: 1.4 });
+  goal('ទៅ រក បងប្រុស ។', bros[0]);
+  await reach([40, -28], 7);
+  await talk([['bro', 'មើល ! អ្នក សុបិន មក ហើយ !'], ['bro', 'យក *អាវ របស់ គាត់ !']]);
+  world.remove(hero.g); hero = person(HEROES.joseph); world.add(hero.g); tone([300, 200], .6, 'triangle', .06);
+  const coatO = person({ coat: true, top: 0xd03a2a }).g; coatO.scale.setScalar(.6); bros[0].m.b.add(coatO); coatO.position.set(.4, .6, .3); coatO.rotation.z = 1.2;
+  await say('bro', 'បោះ គាត់ ទៅ ក្នុង *រណ្ដៅ !');
+  // down in the pit
+  solids.splice(solids.findIndex(q => q.x === 46 && q.z === -20), 1);
+  const pitFloor = H(46, -20) - 3;
+  player.x = 46; player.z = -20; yOverride = pitFloor;
+  clampFn = (x, z) => { const dx = x - 46, dz = z + 20, d = Math.hypot(dx, dz); return d > .9 ? [46 + dx / d * .9, -20 + dz / d * .9] : [x, z]; };
+  track = () => [[46, H(46, -20) + 5, -15.5], [46, pitFloor + 1, -20]];
+  cap('រណ្ដៅ'); await wait(2);
+  const traders = [0, 1].map(i => npc('trader', { skin: 0x8a5a3a, top: 0xa04030, robe: true, cloth: 0xffffff, beard: 0x1a1010 }, 90, -10 + i * 3, -Math.PI / 2));
+  const tc = [0, 1].map(i => ent(animal('camel'), 93, -12 + i * 3, { speed: 6 }));
+  traders.forEach((t, i) => walk(t, 51, -21 + i * 2.5, 7)); tc.forEach((c, i) => walk(c, 55, -19 + i * 3, 7)); tc.forEach(c => tag('អូដ្ឋ', c.g));
+  track = () => [[52, H(46, -20) + 7, -8], [47, H(46, -20) + .5, -20]];
+  await wait(3);
+  await talk([['bro', 'មើល ! *ឈ្មួញ !'], ['bro', 'កុំ សម្លាប់ គាត់ ។ លក់ គាត់ !'], ['trader', 'ម្ភៃ *ប្រាក់ ។']]);
+  for (let i = 0; i < 20; i++) setTimeout(() => burst(49, H(49, -21) + 1.8, -21, 0xe0e0f0, 3, 1.5), i * 90);
+  toast('២០', 'ម្ភៃ ប្រាក់'); speaking = 'trader'; await sayPhrase('ម្ភៃ ប្រាក់');
+  goal('ឡើង ពី រណ្ដៅ ។', null);
+  await act('ឡើង', [46, -20], 99);
+  yOverride = null; clampFn = null; track = null; player.x = 49; player.z = -19;
+  await say('me', 'ប៉ា ! ជួយ ខ្ញុំ ផង !');
+  // Egypt, years later
+  goal(''); const f = $('#flash'); f.style.background = '#000'; await tween(1.2, k => f.style.opacity = k);
+  clearWorld(); hero = null; buildEgypt(); setHero('joseph', 0, 12, Math.PI);
+  const ph = npc('pharaoh', { skin: 0x9a6a44, top: 0xf0f0e8, robe: true, cloth: 0x2f5fd0 }, 0, -15.6, 0); cone(.22, .6, 0xf2c51c, 0, .5, 0, ph.m.head, 5); tag('ផារ៉ោន', ph.g);
+  await tween(1.2, k => f.style.opacity = 1 - k); f.style.background = '';
+  toast('អេស៊ីប', 'ច្រើន ឆ្នាំ ក្រោយ ...'); speaking = 'god'; await sayPhrase('ច្រើន ឆ្នាំ ក្រោយ ។ ស្រុក អេស៊ីប ។');
+  goal('ទៅ ជួប ផារ៉ោន ។', ph);
+  await reach([0, -12.5], 3.5);
+  await talk([['pharaoh', 'យ៉ូសែប ! ខ្ញុំ សុបិន ។ គ្មាន អ្នក ណា យល់ ទេ ។']]);
+  await camTo([14, 7, -28], [0, 0, -44], 1.5);
+  await say('pharaoh', 'គោ *ធាត់ ប្រាំពីរ ក្បាល ...');
+  const fat = [], thin = [];
+  for (let i = 0; i < 7; i++) { const a = animal('cow'); a.b.scale.set(1.7, 1.15, 1.05); const e = ent(a, -12 + i * 4, -50, { speed: 2 }); walk(e, -12 + i * 4, -40); fat.push(e); tag('ធាត់', a.g); }
+  cap('ធាត់'); await wait(3);
+  await say('pharaoh', 'គោ *ស្គម ប្រាំពីរ ក្បាល ...');
+  for (let i = 0; i < 7; i++) { const a = animal('cow'); a.b.scale.set(.5, 1, .95); const e = ent(a, -10 + i * 4, -52, { speed: 2 }); walk(e, -10 + i * 4, -43); thin.push(e); tag('ស្គម', a.g); }
+  cap('ស្គម'); await wait(3);
+  await say('pharaoh', 'គោ ស្គម *ស៊ី គោ ធាត់ !');
+  for (const e of fat) { burst(e.x, e.y + 1, e.z, 0xffffff, 20, 2); world.remove(e.g); ents.splice(ents.indexOf(e), 1); } cap('ស៊ី'); await wait(1.5);
+  await say('pharaoh', 'តើ វា មាន ន័យ អ្វី ?');
+  await say('me', 'ប្រាំពីរ ឆ្នាំ មាន ស្បៀង ច្រើន ។ ប្រាំពីរ ឆ្នាំ ទៀត គ្មាន ស្បៀង ។');
+  camFree();
+  await talk([['pharaoh', 'អ្នក មាន ប្រាជ្ញា ណាស់ !'], ['pharaoh', 'អ្នក នឹង ធ្វើ ជា មេ លើ ស្រុក អេស៊ីប ទាំងមូល ។']]);
+  world.remove(hero.g); hero = person({ ...HEROES.joseph, top: 0xf0f0e8, cloth: 0xf2c51c }); world.add(hero.g);
+  const chain = mesh(new THREE.TorusGeometry(.3, .05, 3, 8), MB(0xf2c51c), 0, 1.45, 0, hero.b); chain.rotation.x = Math.PI / 2; burst(player.x, player.y + 1.5, player.z, 0xf2c51c, 50, 2); good();
+  toast('', 'យ៉ូសែប សង្គ្រោះ មនុស្ស ជា ច្រើន ។'); await sayPhrase('យ៉ូសែប សង្គ្រោះ មនុស្ស ជា ច្រើន ។');
+  await next(8);
+}
+
+/* ---- 8. Moses: the burning bush, the Red Sea ---- */
+const horebH = (x, z) => { const d = Math.hypot(x, z + 45); return 1 + 18 * Math.exp(-d * d / 500) + Math.sin(x * .07) * 1.2 + Math.cos(z * .06); };
+moses.build = () => {
+  setSky(0x4a8ad8, 0xf0d0a0, 0xe0c8a0, 1, true); scene.fog.near = 50; scene.fog.far = 190;
+  H = horebH; bound = 85; terrain(220, 50, (x, z, y) => y > 10 ? 0x9a8a70 : 0xb8a070);
+  for (let i = 0; i < 30; i++) { const x = rnd(-70, 70), z = rnd(-70, 70); if (Math.hypot(x, z - 4) < 18) continue; place(rock(rnd(.6, 1.8), 0x9a8a70), x, z, rnd(0, 6), 1); }
+};
+async function moses() {
+  await leapIn('moses', 0, 20, Math.PI);
+  for (let i = 0; i < 6; i++) { const a = animal('sheep'); const e = ent(a, rnd(-6, 6), 24 + rnd(-3, 3)); wander(e, 4); tag('ចៀម', a.g); }
+  await arrive([]);
+  const bushO = bush(0x4a6a2a); const fl = fire(); fl.scale.setScalar(1.6); fl.position.y = .7; bushO.add(fl); place(bushO, 0, -8); tag('គុម្ពោត', bushO); tag('ភ្លើង', fl); solids.push({ x: 0, z: -8, r: 1.4 });
+  anims.push((dt, t) => { fl.scale.y = 1.6 + Math.sin(t * 12) * .3; if (Math.random() < .4) emit(rnd(-.8, .8), H(0, -8) + 1.6, -8 + rnd(-.8, .8), 0, 2, 0, 0xff8020, .8, 0); });
+  goal('មើល គុម្ពោត ឆេះ ។', [0, -8]);
+  await reach([0, -8], 7);
+  await camTo([player.x + 4, player.y + 2.5, player.z + 3], [0, H(0, -8) + 1, -8], 1.2);
+  await say('god', 'ម៉ូសេ ! ម៉ូសេ !');
+  await say('me', 'ខ្ញុំ នៅ ទីនេះ ។');
+  await talk([['god', 'កុំ ចូល មក ជិត ។'], ['god', 'ដោះ ស្បែកជើង ចេញ ។ ទីនេះ ជា ដី បរិសុទ្ធ ។']]);
+  camFree(); goal('ដោះ ស្បែកជើង ។', null);
+  await act('ដោះ ស្បែកជើង', [player.x, player.z], 99);
+  hero.feet.forEach(f => f.material = M(HEROES.moses.skin)); const sand = [0, 1].map(i => { const s = box(.2, .06, .34, 0x4a3420); place(s, player.x + .8 + i * .3, player.z + .6); return s; }); tag('ស្បែកជើង', sand[0]); cap('ស្បែកជើង'); good();
+  await talk([['god', 'យើង ឃើញ ប្រជាជន យើង នៅ ស្រុក អេស៊ីប ។ ពួកគេ យំ ។'], ['god', 'ទៅ ! នាំ ប្រជាជន យើង ចេញ ពី ស្រុក អេស៊ីប ។']]);
+  await say('me', 'ខ្ញុំ នឹង ទៅ ។');
+  // the Red Sea
+  goal(''); const f = $('#flash'); f.style.background = '#000'; await tween(1.2, k => f.style.opacity = k);
+  clearWorld(); hero = null;
+  setSky(0x3a6ab0, 0xe0c8a0, 0xd0c0a0, .9, true);
+  H = (x, z) => z > -8 ? .8 + Math.sin(x * .05) * .5 : z < -70 ? .8 + Math.cos(x * .06) * .5 : -3; bound = 120;
+  terrain(260, 64, (x, z, y) => y < 0 ? 0xc8b890 : 0xd8c088);
+  const wm = new THREE.MeshLambertMaterial({ color: 0x2a6ab0, map: waterTex.clone(), transparent: true, opacity: .85 }); wm.map.needsUpdate = true; wm.map.repeat.set(10, 5);
+  const halves = [-1, 1].map(s => mesh(new THREE.BoxGeometry(120, 4, 62), wm, s * 60, -1, -39, world)); halves.forEach(h => tag('សមុទ្រ', h));
+  setHero('moses', 0, 2, Math.PI); clampFn = (x, z) => [x, Math.max(z, -7)];
+  const crowd = []; for (let i = 0; i < 14; i++) { const e = npc('people', { skin: 0xa07050, top: [0x8a5a3a, 0x3a5a8a, 0x8a3a3a, 0x5a7a3a, 0xc8b080][i % 5], robe: true, cloth: 0xe0d0b0, small: i % 4 === 0 }, rnd(-9, 9), rnd(6, 15), Math.PI); e.talk = null; crowd.push(e); }
+  for (let i = 0; i < 3; i++) { const c = grp(); box(1.6, .8, 1.2, 0xb03a2a, 0, .9, 0, c); for (const s of [-1, 1]) { const w = cyl(.5, .5, .12, 0x5a3a20, s * .9, .5, 0, c, 8); w.rotation.z = Math.PI / 2; } const hz = animal('horse').g; hz.position.set(0, 0, 2.2); c.add(hz); c.rotation.y = Math.PI; place(c, -10 + i * 10, 70); anims.push(dt => { if (c.position.z > 34) { c.position.z -= dt * 6; c.position.y = H(c.position.x, c.position.z); if (Math.random() < .3) emit(c.position.x, c.position.y + .3, c.position.z + 1, rnd(-1, 1), 1, 2, 0xd8c088, .8, 0); } }); tag('ទាហាន', c); }
+  await tween(1.2, k => f.style.opacity = 1 - k); f.style.background = '';
+  toast('សមុទ្រ ក្រហម'); speaking = 'god'; await sayPhrase('សមុទ្រ ក្រហម');
+  await talk([['people', 'មើល ! *ទាហាន អេស៊ីប មក !'], ['people', 'យើង នឹង ស្លាប់ !']]);
+  await say('me', 'កុំ ខ្លាច ! ព្រះជាម្ចាស់ នឹង ជួយ យើង ។');
+  await say('god', 'ម៉ូសេ ! លើក *ដំបង របស់ អ្នក !');
+  goal('លើក ដំបង នៅ មាត់ សមុទ្រ ។', [0, -6]);
+  await act('លើក ដំបង', [0, -6], 4);
+  player.raise = true; cap('ដំបង'); tone([80, 120], 3, 'sawtooth', .05, 1.5);
+  await camTo([18, 10, 6], [0, 0, -40], 1.5);
+  await tween(4, k => { halves[0].position.x = -60 - k * 4.5; halves[1].position.x = 60 + k * 4.5; halves.forEach(h => { h.scale.y = 1 + k * 2; h.position.y = -1 + k * 4; }); });
+  player.raise = false; camFree(); cap('សមុទ្រ');
+  clampFn = (x, z) => z < -8 ? [clamp(x, -3.5, 3.5), z] : [x, z];
+  crowd[0].follow = 'player'; crowd[0].gap = 2.2; crowd.forEach((e, i) => { if (i) { e.follow = crowd[i - 1]; e.gap = 1.6; } });
+  goal('ដើរ កាត់ សមុទ្រ ។', [0, -76]);
+  await reach([0, -76], 5);
+  clampFn = (x, z) => [x, Math.min(z, -71)];
+  await wait(2); crowd.forEach(e => { e.follow = null; if (e.z > -71) { e.x = rnd(-8, 8); e.z = rnd(-80, -73); } });
+  await say('god', 'លើក ដំបង ម្ដង ទៀត ។');
+  await act('លើក ដំបង', [player.x, player.z], 99); player.raise = true;
+  await camTo([14, 9, -86], [0, 0, -40], 1.2);
+  await tween(2.5, k => { halves[0].position.x = -64.5 + k * 4.5; halves[1].position.x = 64.5 - k * 4.5; halves.forEach(h => { h.scale.y = 3 - k * 2; h.position.y = 3 - k * 4; }); });
+  player.raise = false; cap('ទឹក'); camFree();
+  await talk([['people', 'ព្រះជាម្ចាស់ សង្គ្រោះ យើង !']]);
+  await say('me', 'ព្រះជាម្ចាស់ ជា កម្លាំង របស់ ខ្ញុំ ។');
+  await next(9);
 }
 
 async function ending() {
   started = false; $('#hud').classList.add('hide'); setSky(0x02041a, 0x0a1440, 0x0a1030, .2, true); stars.material.opacity = 1;
   $('#flash').style.opacity = 0;
   const n = Object.keys(S.seen).length;
-  $('#endtxt').innerHTML = `<div class="sub">ដំណើរឆ្លងកាល</div><h1>មិន ទាន់ ចប់ ទេ ...</h1><p>អ្នក ជា អ័ដាម អេវ៉ា ណូអេ អ្នកសង់ និង អ័ប្រាហាំ ។</p><p>អ្នក ឃើញ ពាក្យ ខ្មែរ <b style="color:var(--c);font-size:26px">${khNum(n)}</b> ពាក្យ ។</p><p class="sub">លោត បន្ទាប់ ៖ យ៉ាកុប · យ៉ូសែប · ម៉ូសេ</p><div class="row"><button class="btn pri big" id="replay">ចាប់ផ្ដើម ម្ដង ទៀត</button><button class="btn big" id="words">ពាក្យ</button></div>`;
+  $('#endtxt').innerHTML = `<div class="sub">ដំណើរឆ្លងកាល</div><h1>មិន ទាន់ ចប់ ទេ ...</h1><p>អ្នក ជា អ័ដាម អេវ៉ា ណូអេ អ្នកសង់ អ័ប្រាហាំ យ៉ាកុប យ៉ូសែប និង ម៉ូសេ ។</p><p>អ្នក ឃើញ ពាក្យ ខ្មែរ <b style="color:var(--c);font-size:26px">${khNum(n)}</b> ពាក្យ ។</p><p class="sub">លោត បន្ទាប់ ៖ ដាវីឌ · យ៉ូណាស · ដានីយ៉ែល</p><div class="row"><button class="btn pri big" id="replay">ចាប់ផ្ដើម ម្ដង ទៀត</button><button class="btn big" id="words">ពាក្យ</button></div>`;
   $('#end').classList.remove('hide');
   $('#replay').onclick = () => { S.ch = 0; save(); location.reload(); };
   $('#words').onclick = () => { $('#end').classList.add('hide'); $('#hud').classList.remove('hide'); started = true; bookTab = 'words'; openBook(); $('#bookclose').onclick = () => { closeAll(); $('#hud').classList.add('hide'); $('#end').classList.remove('hide'); }; };
