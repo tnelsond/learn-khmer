@@ -67,11 +67,16 @@ button:focus-visible{outline:3px solid var(--c);outline-offset:2px}
 #line .chh svg{width:22px;height:22px;stroke:var(--line);fill:none;stroke-width:2}
 #line .cht{flex:1;text-align:left;min-height:48px;padding:4px 14px;border-radius:12px;background:rgba(47,95,208,.35);border:2px solid rgba(154,180,255,.6);font:400 21px/1.6 var(--kh)}
 #line .cht:active{background:rgba(242,197,28,.35)}
+#line .w,#obj .w,.cht .tk{display:inline-flex;flex-direction:column;align-items:center;vertical-align:top}
+#line .w b,#obj .w b,.cht .tk b{font-weight:400}
+#line u,#obj u,.cht u,#pop u,.card u{display:block;text-decoration:none;font:italic 400 13px/1.3 "Charis SIL","Doulos SIL","Noto Serif",Georgia,serif;color:#a8c8ff;white-space:nowrap}
+#obj u{font-size:11px}#pop u{font-size:15px}
+.cht{display:flex;flex-wrap:wrap;gap:2px 8px;align-items:flex-start}
 #line .fx{font-family:system-ui,sans-serif;color:#ffb0a0}
 @keyframes glow{50%{background:rgba(242,197,28,.35);box-shadow:0 0 14px rgba(242,197,28,.8)}}
 #more{position:absolute;right:16px;bottom:8px;width:0;height:0;border:9px solid transparent;border-top:12px solid var(--c);border-bottom:0;animation:bob .6s ease-in-out infinite alternate}
 @keyframes bob{to{transform:translateY(4px)}}
-#hear{position:absolute;right:44px;bottom:4px;width:44px;height:44px;display:grid;place-items:center}
+#hear{position:absolute;right:14px;top:-24px;width:46px;height:46px;border-radius:50%;background:#1a2470;border:2px solid rgba(200,212,255,.6);display:grid;place-items:center}
 #hear svg{width:24px;height:24px;stroke:var(--line);fill:none;stroke-width:2}
 #pop{position:fixed;padding:6px 10px;z-index:20;pointer-events:none!important;text-align:center;transform:translate(-50%,-100%);min-width:84px}
 #pop img{display:block;width:96px;height:96px;margin:0 auto;image-rendering:auto;border-radius:8px;background:rgba(255,255,255,.08)}

@@ -7,7 +7,10 @@ const { peakAudio } = await import(document.querySelector('meta[name=peakjs]')?.
 for (const [fam, url] of [['Battambang', LIB + 'battambang.ttf'], ['Moul', FONTS + 'muol.woff']]) { try { const f = new FontFace(fam, `url(${url})`); document.fonts.add(f); f.load().catch(() => { }); } catch (e) { } }
 try { await Promise.race([document.fonts.load('30px Battambang', 'ក'), new Promise(r => setTimeout(r, 2000))]); } catch (e) { }
 
+const { IPA } = await import('./ipa.js');
 const $ = s => document.querySelector(s);
+const ipaOf = w => IPA[w] || '';
+const kw = w => `<b>${esc(w)}</b><u>${esc(ipaOf(w))}</u>`;
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const norm = s => s.normalize('NFC').replace(/[​-‍\s]/g, '').replace(/្ត/g, '្ដ');
 const rnd = (a, b) => a + Math.random() * (b - a);
@@ -333,7 +336,7 @@ function reach(at, r = 4) { return new Promise(res => reachers.push({ at, r, res
 const isPunct = t => /^[។!?:«»….,៖()\/០-៩]+$/.test(t) || t === '...';
 function tokens(text) { return text.split(' ').filter(Boolean).map(t => ({ km: t.replace(/^\*/, ''), trig: t.startsWith('*') })); }
 const isKh = s => /[ក-៿]/.test(s);
-function wordsHTML(text, fx) { return tokens(text).map((t, i) => isPunct(t.km) ? `<span class="p">${esc(t.km)}</span>` : fx || !isKh(t.km) ? `<span class="fx">${esc(t.km)}</span>` : `<span class="w${t.trig ? ' trig' : S.seen[t.km] ? ' seen' : ' new'}" data-i="${i}">${esc(t.km)}</span>`).join(''); }
+function wordsHTML(text, fx) { return tokens(text).map((t, i) => isPunct(t.km) ? `<span class="p">${esc(t.km)}</span>` : fx || !isKh(t.km) ? `<span class="fx">${esc(t.km)}</span>` : `<span class="w${t.trig ? ' trig' : S.seen[t.km] ? ' seen' : ' new'}" data-i="${i}">${kw(t.km)}</span>`).join(''); }
 function bindWords(el, tk) { el.querySelectorAll('.w').forEach(w => w.onclick = ev => { ev.stopPropagation(); ensureAudio(); const t = tk[+w.dataset.i]; if (t.trig && trigRes) return trigRes(t.km); hearing++; speaking = speaking || 'me'; playWord(t.km); pop(w, t.km); flashTag(t.km); }); }
 function seeWords(text) { let n = false; for (const t of tokens(text)) if (!isPunct(t.km) && isKh(t.km)) { if (!S.seen[t.km]) n = true; S.seen[t.km] = (S.seen[t.km] || 0) + 1; } $('#count').textContent = khNum(Object.keys(S.seen).length); return n; }
 let dlgRes = null, trigRes = null, hearing = 0, curLine = null;
@@ -379,7 +382,7 @@ function choiceBox(opts) {
   return new Promise(res => {
     ui = 'dlg'; joyEnd(); speaking = 'me'; dlgRes = trigRes = null; hearing++;
     $('#who').textContent = CAST.me.km; $('#dlg').classList.remove('hide'); $('#more').classList.add('hide'); $('#hear').classList.add('hide');
-    $('#line').innerHTML = opts.map((t, i) => `<div class="ch"><button class="chh" data-i="${i}" aria-label="ស្ដាប់"><svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8.5a5 5 0 010 7"/></svg></button><button class="cht" data-i="${i}">${esc(t)}</button></div>`).join('');
+    $('#line').innerHTML = opts.map((t, i) => `<div class="ch"><button class="chh" data-i="${i}" aria-label="ស្ដាប់"><svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8.5a5 5 0 010 7"/></svg></button><button class="cht" data-i="${i}">${t.split(' ').filter(Boolean).map(w => isPunct(w) ? `<span class="p">${esc(w)}</span>` : `<span class="tk">${kw(w)}</span>`).join(' ')}</button></div>`).join('');
     $('#line').querySelectorAll('.chh').forEach(b => b.onclick = e => { e.stopPropagation(); speaking = 'me'; sayPhrase(opts[+b.dataset.i]); });
     $('#line').querySelectorAll('.cht').forEach(b => b.onclick = e => { e.stopPropagation(); $('#dlg').classList.add('hide'); ui = null; res(opts[+b.dataset.i]); });
   });
@@ -399,7 +402,7 @@ async function hearLine(text, lang) {
 }
 function pop(el, w) {
   const p = $('#pop'), r = el.getBoundingClientRect(), img = thumb(w), n = NUMS[w];
-  p.innerHTML = (img ? `<img src="${img}" alt="">` : n ? `<span class="num">${khNum(n)}</span>` : '') + `<b>${esc(w)}</b>`;
+  p.innerHTML = (img ? `<img src="${img}" alt="">` : n ? `<span class="num">${khNum(n)}</span>` : '') + `<b>${esc(w)}</b><u>${esc(ipaOf(w))}</u>`;
   p.style.left = clamp(r.left + r.width / 2, 70, innerWidth - 70) + 'px'; p.style.top = Math.max(img ? 150 : 70, r.top - 6) + 'px'; p.classList.remove('hide');
   clearTimeout(p._t); p._t = setTimeout(() => p.classList.add('hide'), 2400);
 }
@@ -475,7 +478,7 @@ function renderBook() {
   if (bookTab === 'words') {
     body.className = '';
     const ws = Object.keys(S.seen);
-    body.innerHTML = ws.map((w, i) => { const n = NUMS[w]; return `<button class="card" data-i="${i}">${PIC[w] ? `<img data-w="${esc(w)}" alt="">` : n ? `<span class="num">${khNum(n)}</span>` : '<span class="blank"></span>'}<b>${esc(w)}</b><small>× ${khNum(S.seen[w])}</small></button>`; }).join('');
+    body.innerHTML = ws.map((w, i) => { const n = NUMS[w]; return `<button class="card" data-i="${i}">${PIC[w] ? `<img data-w="${esc(w)}" alt="">` : n ? `<span class="num">${khNum(n)}</span>` : '<span class="blank"></span>'}<b>${esc(w)}</b><u>${esc(ipaOf(w))}</u><small>× ${khNum(S.seen[w])}</small></button>`; }).join('');
     body.querySelectorAll('.card').forEach(c => c.onclick = () => { speaking = 'me'; playWord(ws[+c.dataset.i]); });
     const imgs = [...body.querySelectorAll('img[data-w]')]; let k = 0; const step = () => { const t0 = performance.now(); while (k < imgs.length && performance.now() - t0 < 12) { imgs[k].src = thumb(imgs[k].dataset.w) || ''; k++; } if (k < imgs.length && ui === 'book') requestAnimationFrame(step); }; step();
   } else {
