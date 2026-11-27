@@ -62,6 +62,11 @@ button:focus-visible{outline:3px solid var(--c);outline-offset:2px}
 #line .p{color:var(--line)}
 #line .w.seen{color:#fff}#line .w.new{color:#9fe0ff}
 #line .w.trig{color:var(--c);animation:glow 1s ease-in-out infinite;padding:0 6px;border:2px solid var(--c)}
+#line .ch{flex:1 1 100%;display:flex;gap:8px;align-items:center}
+#line .chh{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;border:2px solid rgba(200,212,255,.4)}
+#line .chh svg{width:22px;height:22px;stroke:var(--line);fill:none;stroke-width:2}
+#line .cht{flex:1;text-align:left;min-height:48px;padding:4px 14px;border-radius:12px;background:rgba(47,95,208,.35);border:2px solid rgba(154,180,255,.6);font:400 21px/1.6 var(--kh)}
+#line .cht:active{background:rgba(242,197,28,.35)}
 #line .fx{font-family:system-ui,sans-serif;color:#ffb0a0}
 @keyframes glow{50%{background:rgba(242,197,28,.35);box-shadow:0 0 14px rgba(242,197,28,.8)}}
 #more{position:absolute;right:16px;bottom:8px;width:0;height:0;border:9px solid transparent;border-top:12px solid var(--c);border-bottom:0;animation:bob .6s ease-in-out infinite alternate}

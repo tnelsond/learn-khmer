@@ -113,52 +113,54 @@ const brickM = new THREE.MeshLambertMaterial({ map: brickTex, flatShading: true 
 function faceTex(skin) { const c = document.createElement('canvas'); c.width = c.height = 16; const g = c.getContext('2d'); g.fillStyle = '#' + new THREE.Color(skin).getHexString(); g.fillRect(0, 0, 16, 16); g.fillStyle = '#1a1010'; g.fillRect(4, 6, 2, 3); g.fillRect(10, 6, 2, 3); g.fillStyle = '#fff'; g.fillRect(4, 6, 1, 1); g.fillRect(10, 6, 1, 1); g.fillStyle = 'rgba(80,20,20,.6)'; g.fillRect(6, 11, 4, 1); const t = new THREE.CanvasTexture(c); t.magFilter = THREE.LinearFilter; t.minFilter = THREE.LinearFilter; t.generateMipmaps = false; return t; }
 
 /* ---------------- models ---------------- */
-// chunky N64 people. o: skin, top, bottom, hair, robe, beard, cloth (headcloth), female, small, glow
+// rounder N64 people and animals: smooth-shaded capsules and spheres, a few more polygons
+const MS = c => typeof c === 'number' ? (MC['s' + c] || (MC['s' + c] = new THREE.MeshLambertMaterial({ color: c }))) : c;
+const capsule = (r, len, c, x, y, z, p, seg = 8) => mesh(new THREE.CapsuleGeometry(r, len, 3, seg), MS(c), x, y, z, p);
+const sph = (r, c, x, y, z, p, w = 10, h = 8) => mesh(new THREE.SphereGeometry(r, w, h), MS(c), x, y, z, p);
 function person(o = {}) {
   const g = new THREE.Group(), b = grp(0, 0, 0, g); b.scale.setScalar(o.small ? .66 : o.scale || 1);
   const sk = o.skin ?? 0xb07a50, top = o.top ?? 0x8a6a4a, bot = o.bottom ?? top;
-  const mat = c => o.glow ? MB(o.glow, { transparent: true, opacity: .55, blending: THREE.AdditiveBlending, depthWrite: false }) : c;
+  const mat = c => o.glow ? MB(o.glow, { transparent: true, opacity: .55, blending: THREE.AdditiveBlending, depthWrite: false }) : MS(c);
   const legs = [], arms = [];
-  for (const s of [-1, 1]) { const p = pivot(b, s * .13, .72, 0); box(.19, .72, .22, mat(sk), 0, -.36, 0, p); box(.21, .1, .3, mat(0x4a3420), 0, -.7, .04, p); legs.push(p); }
-  if (o.robe) cyl(.27, .5, 1.1, mat(bot), 0, .6, 0, b, 6); else box(.48, .3, .3, mat(bot), 0, .74, 0, b);
-  cyl(.27, .3, .72, mat(top), 0, 1.12, 0, b, 5);
-  for (const s of [-1, 1]) { const p = pivot(b, s * .36, 1.42, 0); box(.15, .6, .16, mat(o.sleeve ?? top), 0, -.28, 0, p); ball(.09, mat(sk), 0, -.62, 0, p, 5, 3); arms.push(p); }
-  const head = grp(0, 1.78, 0, b);
-  const hm = o.glow ? mat(0) : [M(sk), M(sk), M(sk), M(sk), new THREE.MeshLambertMaterial({ map: faceTex(sk) }), M(sk)];
-  mesh(new THREE.BoxGeometry(.46, .48, .44), hm, 0, 0, 0, head);
-  if (o.hair != null) { box(.5, .16, .48, mat(o.hair), 0, .26, -.02, head); box(.5, .36, .14, mat(o.hair), 0, .06, -.22, head); if (o.female) box(.52, .6, .16, mat(o.hair), 0, -.22, -.22, head); }
-  if (o.cloth != null) { box(.54, .18, .52, mat(o.cloth), 0, .28, 0, head); box(.56, .5, .14, mat(o.cloth), 0, -.02, -.24, head); }
-  if (o.beard != null) cone(.2, .42, mat(o.beard), 0, -.34, .17, head, 5).rotation.x = Math.PI;
-  if (o.leaves) for (let i = 0; i < 6; i++) { const l = cone(.12, .34, mat(0x3f8a2a), Math.cos(i) * .24, .62, Math.sin(i * 1.1) * .16, b, 3); l.rotation.x = Math.PI; }
+  for (const s of [-1, 1]) { const p = pivot(b, s * .13, .74, 0); capsule(.1, .5, mat(sk), 0, -.36, 0, p); const f = sph(.12, mat(0x4a3420), 0, -.7, .06, p, 8, 6); f.scale.set(.9, .5, 1.4); legs.push(p); }
+  if (o.robe) mesh(new THREE.CylinderGeometry(.27, .5, 1.1, 12), mat(bot), 0, .6, 0, b); else { const h = sph(.27, mat(bot), 0, .76, 0, b); h.scale.set(1, .7, .85); }
+  const t = mesh(new THREE.CylinderGeometry(.25, .29, .74, 12), mat(top), 0, 1.12, 0, b); sph(.25, mat(top), 0, 1.46, 0, b).scale.set(1.15, .45, .9);
+  for (const s of [-1, 1]) { const p = pivot(b, s * .36, 1.42, 0); capsule(.075, .46, mat(o.sleeve ?? top), 0, -.28, 0, p); sph(.085, mat(sk), 0, -.6, 0, p, 8, 6); arms.push(p); }
+  const head = grp(0, 1.8, 0, b);
+  sph(.26, mat(sk), 0, 0, 0, head, 14, 10).scale.set(.95, 1.05, .95);
+  if (!o.glow) { for (const s of [-1, 1]) { sph(.045, 0x1a1010, s * .09, .03, .23, head, 8, 6); sph(.016, 0xffffff, s * .09 - .015, .05, .27, head, 6, 4); } sph(.04, sk, 0, -.04, .26, head, 8, 6); }
+  if (o.hair != null) { const h = mesh(new THREE.SphereGeometry(.28, 14, 8, 0, Math.PI * 2, 0, Math.PI * .55), mat(o.hair), 0, .02, -.03, head); h.rotation.x = -.35; if (o.female) capsule(.2, .4, mat(o.hair), 0, -.22, -.15, head); }
+  if (o.cloth != null) { const c = mesh(new THREE.SphereGeometry(.3, 14, 8, 0, Math.PI * 2, 0, Math.PI * .6), mat(o.cloth), 0, .02, -.02, head); c.rotation.x = -.5; mesh(new THREE.CylinderGeometry(.24, .34, .5, 12, 1, true), mat(o.cloth), 0, -.2, -.1, head); }
+  if (o.beard != null) { const bd = mesh(new THREE.ConeGeometry(.2, .42, 10), mat(o.beard), 0, -.32, .14, head); bd.rotation.x = Math.PI + .2; }
+  if (o.leaves) for (let i = 0; i < 8; i++) { const a = i / 8 * Math.PI * 2; const l = mesh(new THREE.ConeGeometry(.1, .36, 6), mat(0x3f8a2a), Math.sin(a) * .25, .6, Math.cos(a) * .2, b); l.rotation.x = Math.PI; }
   return { g, b, legs, arms, head };
 }
-// quadrupeds and friends; models face +z
 function animal(kind) {
   const g = new THREE.Group(), b = grp(0, 0, 0, g), legs = [];
-  const Q = { cow: [0x8a5a3a, 1.7, .8, .9, .75], sheep: [0xf2eee0, 1.1, .8, .8, .45], lion: [0xd0a050, 1.6, .7, .8, .7], elephant: [0x8a8a92, 2.6, 1.7, 1.8, 1.3], camel: [0xc8a06a, 1.8, .7, .9, 1.4], ram: [0xe8e2d0, 1.2, .8, .85, .5], horse: [0x6a4a30, 1.8, .6, .8, 1.0] }[kind];
   if (kind === 'monkey') {
-    for (const s of [-1, 1]) { const p = pivot(b, s * .14, .4, 0); box(.14, .4, .14, 0x6a4424, 0, -.2, 0, p); legs.push(p); }
-    ball(.3, 0x7a5030, 0, .65, 0, b, 6, 4); const h = ball(.24, 0x7a5030, 0, 1.05, .05, b, 6, 4); ball(.14, 0xd8b088, 0, 1.0, .22, b, 5, 3);
-    for (const s of [-1, 1]) ball(.08, 0xd8b088, s * .24, 1.08, .05, b, 4, 3);
-    const t = cyl(.04, .04, .8, 0x6a4424, 0, .7, -.35, b, 4); t.rotation.x = -.8; return { g, b, legs, head: h };
+    for (const s of [-1, 1]) { const p = pivot(b, s * .14, .42, 0); capsule(.07, .26, 0x6a4424, 0, -.2, 0, p); legs.push(p); }
+    sph(.3, 0x7a5030, 0, .68, 0, b).scale.y = 1.15; const h = sph(.24, 0x7a5030, 0, 1.08, .05, b); sph(.15, 0xd8b088, 0, 1.03, .2, b).scale.z = .6;
+    for (const s of [-1, 1]) { sph(.08, 0xd8b088, s * .24, 1.1, .05, b, 8, 6); sph(.035, 0x1a1010, s * .07, 1.12, .25, b, 6, 4); }
+    const t = mesh(new THREE.TorusGeometry(.35, .04, 6, 12, Math.PI * 1.3), MS(0x6a4424), 0, .7, -.4, b); t.rotation.y = Math.PI / 2; return { g, b, legs, head: h };
   }
-  const [c, L, W, H, legH] = Q;
-  for (const sx of [-1, 1]) for (const sz of [-1, 1]) { const p = pivot(b, sx * W * .32, legH, sz * L * .36); box(.16 * W / .7 + .04, legH, .18 * W / .7 + .04, kind === 'sheep' || kind === 'ram' ? 0x2a2a2a : c, 0, -legH / 2, 0, p); legs.push(p); }
-  const body = kind === 'sheep' || kind === 'ram' ? mesh(new THREE.IcosahedronGeometry(.6, 0), c, 0, legH + H * .45, 0, b) : box(W, H, L, c, 0, legH + H / 2, 0, b);
-  if (kind === 'sheep' || kind === 'ram') body.scale.set(W / 1.1, H / 1.2, L / 1.1);
-  const head = grp(0, legH + H * .8, L / 2 + .1, b);
-  const hc = kind === 'sheep' || kind === 'ram' ? 0x2a2a2a : c;
-  if (kind === 'elephant') { box(1.1, 1.1, .9, c, 0, .2, .3, head); const tr = cyl(.14, .24, 1.3, c, 0, -.5, .8, head, 5); tr.rotation.x = .3; for (const s of [-1, 1]) { const e = box(.1, .9, .8, 0x7a7a84, s * .62, .3, .1, head); e.rotation.y = s * .4; } for (const s of [-1, 1]) { const t = cone(.07, .5, 0xf0f0e0, s * .3, -.3, .8, head, 4); t.rotation.x = 1.9; } }
-  else if (kind === 'camel') { const n = box(.3, 1.2, .3, c, 0, .4, .1, head); n.rotation.x = .4; box(.36, .34, .6, c, 0, 1.0, .45, head); ball(.42, c, 0, legH + H + .15, 0, b, 6, 3).scale.y = .8; }
-  else if (kind === 'horse') { const n = box(.3, .9, .35, c, 0, .3, 0, head); n.rotation.x = .5; box(.3, .3, .7, c, 0, .7, .4, head); box(.08, .8, .4, 0x2a1a10, 0, .6, -.1, head); }
-  else { box(.42, .42, .5, hc, 0, .05, .15, head); }
-  if (kind === 'cow') { for (const s of [-1, 1]) { const h = cone(.06, .3, 0xf0e8d0, s * .26, .36, .1, head, 4); h.rotation.z = -s * .8; } }
-  if (kind === 'ram') for (const s of [-1, 1]) { const h = mesh(new THREE.TorusGeometry(.17, .07, 3, 6, 4.5), 0xc8b888, s * .26, .18, .05, head); h.rotation.y = s * Math.PI / 2; }
-  if (kind === 'lion') { const m = mesh(new THREE.DodecahedronGeometry(.48, 0), 0x8a4a18, 0, .05, .02, head); m.scale.z = .7; box(.4, .4, .5, c, 0, .02, .22, head); }
-  const tail = cyl(.04, .04, .7, kind === 'lion' ? 0x8a4a18 : c, 0, legH + H * .6, -L / 2 - .2, b, 3); tail.rotation.x = .5;
+  const [c, L, W, H, legH] = { cow: [0x8a5a3a, 1.7, .8, .9, .75], sheep: [0xf2eee0, 1.1, .8, .8, .45], lion: [0xd0a050, 1.6, .7, .8, .7], elephant: [0x8a8a92, 2.6, 1.7, 1.8, 1.3], camel: [0xc8a06a, 1.8, .7, .9, 1.4], ram: [0xe8e2d0, 1.2, .8, .85, .5], horse: [0x6a4a30, 1.8, .6, .8, 1.0] }[kind];
+  const woolly = kind === 'sheep' || kind === 'ram', lc = woolly ? 0x2a2a2a : c, lr = W * .15 + .02;
+  for (const sx of [-1, 1]) for (const sz of [-1, 1]) { const p = pivot(b, sx * W * .3, legH + .05, sz * L * .32); capsule(lr, Math.max(.05, legH - lr * 2), lc, 0, -legH / 2, 0, p); legs.push(p); }
+  const body = capsule(Math.min(W, H) / 2, Math.max(.1, L - Math.min(W, H)), c, 0, legH + H / 2, 0, b, 10); body.rotation.x = Math.PI / 2; body.scale.x = W / Math.min(W, H) * 1.0;
+  if (woolly) for (let i = 0; i < 7; i++) sph(.28, c, rnd(-.25, .25), legH + H * .55 + rnd(-.1, .2), rnd(-.4, .4), b, 8, 6);
+  const head = grp(0, legH + H * .85, L / 2 + .05, b);
+  const hc = woolly ? 0x2a2a2a : c, eye = (x, y, z) => { for (const s of [-1, 1]) sph(.04, 0x1a1010, s * x, y, z, head, 6, 4); };
+  if (kind === 'elephant') { sph(.62, c, 0, .2, .25, head); const tr = mesh(new THREE.CylinderGeometry(.12, .24, 1.3, 10), MS(c), 0, -.5, .75, head); tr.rotation.x = .3; for (const s of [-1, 1]) { const e = sph(.5, 0x7a7a84, s * .6, .3, .1, head); e.scale.set(.2, 1, .9); const t = mesh(new THREE.ConeGeometry(.07, .5, 8), MS(0xf0f0e0), s * .3, -.3, .8, head); t.rotation.x = 1.9; } eye(.32, .35, .7); }
+  else if (kind === 'camel') { const n = capsule(.15, .9, c, 0, .4, .15, head); n.rotation.x = .4; const hh = sph(.22, c, 0, 1.0, .45, head); hh.scale.z = 1.6; eye(.12, 1.08, .55); sph(.42, c, 0, legH + H + .1, 0, b).scale.y = .8; }
+  else if (kind === 'horse') { const n = capsule(.17, .6, c, 0, .3, 0, head); n.rotation.x = .5; const hh = sph(.18, c, 0, .7, .4, head); hh.scale.z = 2.2; eye(.12, .78, .45); const m = capsule(.05, .6, 0x2a1a10, 0, .55, -.12, head); m.rotation.x = .5; }
+  else { const hh = sph(.25, hc, 0, .05, .18, head); hh.scale.set(1, .95, 1.25); eye(.13, .12, .4); }
+  if (kind === 'cow') for (const s of [-1, 1]) { const h = mesh(new THREE.ConeGeometry(.05, .3, 8), MS(0xf0e8d0), s * .22, .3, .1, head); h.rotation.z = -s * .8; }
+  if (kind === 'ram') for (const s of [-1, 1]) { const h = mesh(new THREE.TorusGeometry(.16, .06, 6, 12, 4.5), MS(0xc8b888), s * .24, .16, .08, head); h.rotation.y = s * Math.PI / 2; }
+  if (kind === 'lion') { const m = sph(.46, 0x8a4a18, 0, .05, .02, head); m.scale.z = .7; sph(.26, c, 0, .02, .26, head).scale.z = 1.1; eye(.12, .1, .48); }
+  const tail = capsule(.04, .55, kind === 'lion' ? 0x8a4a18 : c, 0, legH + H * .6, -L / 2 - .15, b, 6); tail.rotation.x = .5;
   return { g, b, legs, head };
 }
-function snake() { const g = new THREE.Group(), segs = []; for (let i = 0; i < 9; i++) { const s = box(.22, .2, .32, i % 2 ? 0x3a7a2a : 0xc8a020, 0, .12, -i * .28, g); segs.push(s); } const h = box(.32, .24, .38, 0x3a7a2a, 0, .16, .3, g); box(.06, .04, .3, 0xd02020, 0, .12, .56, g); for (const s of [-1, 1]) box(.06, .06, .04, 0xffe040, s * .1, .26, .48, g); return { g, segs, head: h }; }
+function snake() { const g = new THREE.Group(), segs = []; for (let i = 0; i < 12; i++) { const s = sph(.14 - i * .006, i % 2 ? 0x3a7a2a : 0xc8a020, 0, .12, -i * .2, g, 8, 6); s.scale.z = 1.4; segs.push(s); } const h = sph(.17, 0x3a7a2a, 0, .16, .26, g); h.scale.set(1.1, .8, 1.4); for (const s of [-1, 1]) sph(.035, 0xffe040, s * .09, .24, .4, g, 6, 4); return { g, segs, head: h }; }
 function bird(c = 0xf0f0f0) { const g = new THREE.Group(); const b = ball(.22, c, 0, 0, 0, g, 5, 3); b.scale.z = 1.6; ball(.13, c, 0, .12, .3, g, 4, 3); cone(.05, .14, 0xe0a020, 0, .1, .45, g, 3).rotation.x = Math.PI / 2; const wings = []; for (const s of [-1, 1]) { const p = pivot(g, s * .12, .05, 0); const w = box(.6, .04, .3, c, s * .3, 0, 0, p); wings.push(p); } return { g, wings }; }
 function fish(c = 0xff8030) { const g = new THREE.Group(); const b = mesh(new THREE.OctahedronGeometry(.4, 0), c, 0, 0, 0, g); b.scale.set(.5, .7, 1.2); const t = cone(.25, .4, c, 0, 0, -.6, g, 3); t.rotation.x = -Math.PI / 2; return { g }; }
 function tree(o = {}) {
@@ -298,7 +300,7 @@ joy.addEventListener('pointerdown', e => { if (ui) return; ensureAudio(); joy.se
 joy.addEventListener('pointermove', e => { if (e.pointerId === joyId) joyMove(e.clientX, e.clientY); });
 for (const ev of ['pointerup', 'pointercancel']) joy.addEventListener(ev, e => { if (e.pointerId === joyId) joyEnd(); });
 cv.addEventListener('pointerdown', e => { if (ui) return; ensureAudio(); lookId = e.pointerId; lookLast = { x: e.clientX, y: e.clientY }; cv.setPointerCapture(e.pointerId); });
-cv.addEventListener('pointermove', e => { if (e.pointerId !== lookId) return; const k = e.pointerType === 'mouse' ? .005 : .008; camOff -= (e.clientX - lookLast.x) * k; camPitch = clamp(camPitch + (e.clientY - lookLast.y) * k * .6, .05, 1.1); lookLast = { x: e.clientX, y: e.clientY }; });
+cv.addEventListener('pointermove', e => { if (e.pointerId !== lookId) return; const k = e.pointerType === 'mouse' ? .005 : .008; camYaw -= (e.clientX - lookLast.x) * k; camPitch = clamp(camPitch + (e.clientY - lookLast.y) * k * .6, .05, 1.1); lookLast = { x: e.clientX, y: e.clientY }; });
 for (const ev of ['pointerup', 'pointercancel', 'lostpointercapture']) cv.addEventListener(ev, () => { lookId = null; });
 addEventListener('keydown', e => {
   if (ui === 'kb') return kbKey(e);
@@ -337,10 +339,11 @@ function seeWords(text) { let n = false; for (const t of tokens(text)) if (!isPu
 let dlgRes = null, trigRes = null, hearing = 0, curLine = null;
 function say(who, text, o = {}) {
   if (who === 'al') return Promise.resolve(); // no narrator: the scene carries it
+  if (who === 'me' && !o.chosen && !text.includes('*')) return choose(text); // you pick what you say
   return new Promise(res => {
     ui = 'dlg'; joyEnd(); speaking = who; curLine = { who, text, o };
     const fx = !!o.lang;
-    $('#who').textContent = CAST[who]?.km || who; $('#dlg').classList.remove('hide');
+    $('#who').textContent = CAST[who]?.km || who; $('#dlg').classList.remove('hide'); $('#hear').classList.remove('hide');
     $('#line').innerHTML = wordsHTML(text, fx); const tk = tokens(text); bindWords($('#line'), tk);
     if (!fx) seeWords(text);
     const trig = tk.some(t => t.trig);
@@ -350,6 +353,35 @@ function say(who, text, o = {}) {
     else dlgRes = () => fin();
     hearLine(text, o.lang);
     if (o.auto) setTimeout(() => dlgRes === null || fin(), o.auto * 1000);
+  });
+}
+// Your lines are chosen. Alternatives that would stall the story ('strict') get a pause and you choose again.
+const ALT = {
+  'ឆ្ងាញ់ !': { alt: ['ផ្លែឈើ ល្អ ណាស់ !'] },
+  'បាទ ។': { alt: ['ទេ !'], strict: true },
+  'ឆ្អឹង ពី ឆ្អឹង ខ្ញុំ ! សាច់ ពី សាច់ ខ្ញុំ !': { alt: ['អ្នក ជា នរណា ?'] },
+  'យើង ហូប ផ្លែឈើ បាន ។ ប៉ុន្តែ ផ្លែ ពី ដើមឈើ នេះ ... កុំ ហូប ។ យើង នឹង ស្លាប់ ។': { alt: ['ពស់ និយាយ បាន !'] , strict: true },
+  'អូយ ... យើង ខ្លាច ។': { alt: ['យើង សប្បាយ ណាស់ !'], strict: true },
+  'ពស់ បញ្ឆោត ខ្ញុំ ។': { alt: ['អ័ដាម ឲ្យ ខ្ញុំ ។'], strict: true },
+  'ទឹកជំនន់ នឹង មក ។': { alt: ['ខ្ញុំ ចូលចិត្ត ទូក ។'] },
+  'ដី ស្ងួត ហើយ !': { alt: ['ទឹក នៅ ច្រើន ។'], strict: true },
+};
+async function choose(text) {
+  const spec = ALT[text] || {}; let opts = [text, ...(spec.alt || [])];
+  for (;;) {
+    const pick = await choiceBox(opts.slice().sort(() => Math.random() - .5));
+    await say('me', pick, { chosen: true });
+    if (pick === text || !spec.strict) return;
+    tone([220, 170], .4, 'triangle', .05); toast('...'); await wait(1); opts = opts.filter(x => x !== pick);
+  }
+}
+function choiceBox(opts) {
+  return new Promise(res => {
+    ui = 'dlg'; joyEnd(); speaking = 'me'; dlgRes = trigRes = null; hearing++;
+    $('#who').textContent = CAST.me.km; $('#dlg').classList.remove('hide'); $('#more').classList.add('hide'); $('#hear').classList.add('hide');
+    $('#line').innerHTML = opts.map((t, i) => `<div class="ch"><button class="chh" data-i="${i}" aria-label="ស្ដាប់"><svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8.5a5 5 0 010 7"/></svg></button><button class="cht" data-i="${i}">${esc(t)}</button></div>`).join('');
+    $('#line').querySelectorAll('.chh').forEach(b => b.onclick = e => { e.stopPropagation(); speaking = 'me'; sayPhrase(opts[+b.dataset.i]); });
+    $('#line').querySelectorAll('.cht').forEach(b => b.onclick = e => { e.stopPropagation(); $('#dlg').classList.add('hide'); ui = null; res(opts[+b.dataset.i]); });
   });
 }
 async function talk(lines) { for (const l of lines) await say(...l); }
@@ -373,6 +405,8 @@ function pop(el, w) {
 }
 function flashTag(w) { for (const o of tags[w] || []) { const s = o.scale.clone(); let t = 0; anims.push(dt => { t += dt; const k = 1 + .25 * Math.sin(t * 12) * (1 - t / 1.2); o.scale.copy(s).multiplyScalar(k); if (t > 1.2) { o.scale.copy(s); return false; } }); } }
 let toastT;
+// a phrase out loud: the device's Khmer voice if it has one, else word by word through tnefar
+async function sayPhrase(text) { if (kmVoice) { try { return await sayTTS(text); } catch (e) { } } for (const w of text.split(' ')) if (w && !isPunct(w)) { await playWord(w); await wait(.05); } }
 function cap(w) { toast(w); speaking = 'god'; playWord(w); }
 function toast(big, small = '') { const t = $('#toast'); t.innerHTML = (big ? `<b>${esc(big)}</b>` : '') + (small ? `<i>${esc(small)}</i>` : ''); t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 2600); }
 
@@ -500,11 +534,11 @@ function frame(now) {
     }
     let l = Math.hypot(mx, mz); if (l > 1) { mx /= l; mz /= l; l = 1; }
     if (l > .08) {
-      // tank controls: the stick turns you and walks you; the camera stays behind
-      player.yaw -= mx * 2.6 * dt;
-      const f = -mz * (mz > 0 ? .5 : 1), sp = 6.5 * f * dt;
-      tryMove(Math.sin(player.yaw) * sp, Math.cos(player.yaw) * sp);
-      l = Math.max(Math.abs(f), Math.abs(mx) * .5);
+      // speed is exactly how far the stick is pushed; no acceleration
+      const s = Math.sin(camYaw), c = Math.cos(camYaw);
+      const dx = s * mz + c * mx, dz = c * mz - s * mx, sp = 6.5 * dt;
+      tryMove(dx * sp, dz * sp);
+      player.yaw = Math.atan2(dx, dz);
     }
     player.y += (groundAt(player.x, player.z) - player.y) * Math.min(1, dt * 14);
     hero.g.position.set(player.x, player.y, player.z); hero.g.rotation.y = player.yaw;
@@ -514,8 +548,9 @@ function frame(now) {
   if (track) { const [p, l] = track(); camera.position.lerp(V3.set(...p), Math.min(1, dt * 3)); cineLook.lerp(new THREE.Vector3(...l), Math.min(1, dt * 3)); camera.lookAt(cineLook); }
   else if (cine) { cine.t = Math.min(cine.dur, cine.t + dt); const k = ease(cine.t / cine.dur); camera.position.lerpVectors(cine.from, cine.to, k); cineLook.lerpVectors(cine.lookFrom, cine.look, k); camera.lookAt(cineLook); }
   else if (hero) {
-    camOff *= Math.pow(.15, dt); if (lookId == null) camOff *= Math.pow(.1, dt);
-    camYaw = turn(camYaw, player.yaw + Math.PI + camOff, dt * .9);
+    // the camera eases round behind you only while you walk, and gently
+    const moving = Math.hypot(input.jx, input.jy) > .08 || Object.values(input.keys).some(Boolean);
+    if (moving && lookId == null) camYaw = turn(camYaw, player.yaw + Math.PI, dt * .12);
     const tx = player.x, ty = player.y + 1.5, tz = player.z;
     V3.set(tx + Math.sin(camYaw) * Math.cos(camPitch) * camDist, ty + Math.sin(camPitch) * camDist, tz + Math.cos(camYaw) * Math.cos(camPitch) * camDist);
     V3.y = Math.max(V3.y, groundAt(V3.x, V3.z) + .6);
@@ -627,7 +662,7 @@ async function creation() {
   H = () => -20; goal('');
   const shot = (p, l, d = 1.6) => camTo(p, l, d);
   camera.position.set(0, 12, 50); cineLook.set(0, 12, 0); await shot([0, 12, 48], [0, 14, 0], .5);
-  const show = async (w, day) => { toast(w); speaking = 'god'; await playWord(w); await wait(.8); if (day) { toast(day); await wait(1.6); } };
+  const show = async (w, day) => { toast(w); speaking = 'god'; await playWord(w); await wait(.8); if (day) { toast(day); await sayPhrase(day); await wait(.8); } };
   // light
   await say('god', 'ចូរ ឲ្យ មាន *ពន្លឺ !'); good();
   const light = glowOrb(0xfff4c0, 5); light.position.set(0, 16, 0); light.scale.setScalar(.01); scene.add(light);
@@ -723,11 +758,11 @@ async function adam() {
     const a = animal(kind); const a0 = Math.atan2(player.z, player.x) + rnd(-1, 1); const e = ent(a, player.x + Math.cos(a0) * 26, player.z + Math.sin(a0) * 26, { speed: 4 }); tag(word, a.g);
     goal(`សត្វ មក ។ មើល !`, e);
     await walk(e, player.x + 2.5, player.z + 2.5); e.yaw = Math.atan2(player.x - e.x, player.z - e.z);
-    await camTo([(player.x + e.x) / 2 + 5, player.y + 2.5, (player.z + e.z) / 2 - 3], [(player.x + e.x) / 2, player.y + 1, (player.z + e.z) / 2], 1);
+    e.follow = 'player'; e.gap = 2.6;
     await say('me', `*${word} ?`);
     goal(`និយាយ « ${word} » ។`, e);
-    await speakAt([word], e, 9); burst(e.x, e.y + 1.5, e.z, 0xf2c51c, 40, 2.5); good();
-    toast(word); await wait(1.2); camFree();
+    await speakAt([word]); burst(e.x, e.y + 1.5, e.z, 0xf2c51c, 40, 2.5); good();
+    toast(word); await wait(1.2);
     e.follow = null; named.push(e); wander(e, 10);
   }
   await talk([['al', 'គោ ចៀម តោ ដំរី ស្វា ។ សត្វ មាន គូ ។'], ['al', 'ប៉ុន្តែ អ័ដាម ... អ្នក នៅ តែ ម្នាក់ ឯង ។'], ['god', 'មនុស្ស នៅ ម្នាក់ ឯង មិន ល្អ ទេ ។'], ['god', 'ដេក ចុះ អ័ដាម ។']]);
@@ -740,7 +775,7 @@ async function adam() {
   await tween(1.2, k => f.style.opacity = 1 - k); f.style.background = '';
   await talk([['al', 'ភ្ញាក់ ឡើង ! មើល !'], ['god', 'នេះ ជា ស្ត្រី ។ ជំនួយ សម្រាប់ អ្នក ។']]);
   goal('និយាយ « ស្ត្រី » ។', eveE);
-  await speakAt(['ស្ត្រី'], eveE, 8); good(); burst(eveE.x, eveE.y + 2, eveE.z, 0xff80c0, 50, 2);
+  await speakAt(['ស្ត្រី']); good(); burst(eveE.x, eveE.y + 2, eveE.z, 0xff80c0, 50, 2);
   await talk([['me', 'ឆ្អឹង ពី ឆ្អឹង ខ្ញុំ ! សាច់ ពី សាច់ ខ្ញុំ !'], ['eve', 'អ័ដាម !'], ['al', 'ល្អ ណាស់ ។ រឿង ទៅ មុខ ។ ដល់ ពេល លោត ។']]);
   await next(2);
 }
