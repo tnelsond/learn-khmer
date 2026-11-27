@@ -62,27 +62,41 @@ function playPcm(s, rate) {
   const src = actx.createBufferSource(); src.buffer = b; src.playbackRate.value = rate; src.connect(actx.destination);
   return new Promise(res => { src.onended = () => res(true); src.start(); setTimeout(() => res(true), b.duration / rate * 1000 + 300); });
 }
+// The device's voice. Tried even when no Khmer voice is listed (some engines still speak km-KH);
+// ttsWorks remembers whether it actually started, so a silent engine falls back to the recordings.
+let ttsWorks = null;
 function sayTTS(w, lang) {
-  const v = lang ? speechSynthesis.getVoices().find(v => v.lang.toLowerCase().startsWith(lang)) : kmVoice;
-  if (!v) return wait(.4).then(() => false);
+  if (!window.speechSynthesis) { if (!lang) ttsWorks = false; return Promise.resolve(false); }
+  const v = lang ? speechSynthesis.getVoices().find(v => v.lang.toLowerCase().replace('_', '-').startsWith(lang)) : kmVoice;
+  if (lang && !v) return wait(.4).then(() => false);
   try { speechSynthesis.cancel(); } catch (e) { }
-  return new Promise(res => { const u = new SpeechSynthesisUtterance(w); u.voice = v; u.lang = v.lang; u.rate = .9; if (!lang) { const f0 = (SP[speaking] || SP.me).v[1]; u.pitch = clamp(f0 / 170, .5, 1.7); } u.onend = () => res(true); u.onerror = () => res(false); speechSynthesis.speak(u); setTimeout(() => res(true), Math.max(3000, w.length * 160)); });
+  return new Promise(res => {
+    let started = false, done = false; const fin = ok => { if (!done) { done = true; res(ok); } };
+    const u = new SpeechSynthesisUtterance(w); if (v) u.voice = v; u.lang = v ? v.lang : 'km-KH'; u.rate = .9;
+    u.onstart = () => { started = true; if (!lang) { ttsWorks = true; ttsLabel?.(); } };
+    u.onend = () => fin(started); u.onerror = () => { if (!lang && !started && ttsWorks !== true) { ttsWorks = false; ttsLabel?.(); } fin(false); };
+    speechSynthesis.speak(u);
+    setTimeout(() => { if (!started) { if (!lang && ttsWorks !== true) { ttsWorks = false; ttsLabel?.(); } try { speechSynthesis.cancel(); } catch (e) { } fin(false); } }, 1800);
+    setTimeout(() => fin(true), Math.max(3000, w.length * 160));
+  });
 }
+const useTTS = () => S.tts && ttsWorks !== false;
+// The best recording of each word: clean dictionary clips first (kheng.info), then the others; never a clip
+// flagged in badrec.js; played as recorded (no pitch or speed change), so a word always sounds the same.
+const READERS = ['kheng:1', 'rith:', 'khsv:1', 'khsv:2', 'khsv:3', 'khsv:4'];
 async function playWord(w, lang) {
   if (lang) { try { return await sayTTS(w, lang); } catch (e) { return false; } }
-  if (S.tts && kmVoice) { try { return await sayTTS(w); } catch (e) { } } // the menu's system-voice option
+  if (useTTS() && await sayTTS(w)) return true;
   if (!peak) await Promise.race([peakReady, wait(4)]);
-  if (peak && kmVoice && !peak.who(w).length) { try { return await sayTTS(w); } catch (e) { } }
   if (peak) {
-    const [i, f0] = (SP[speaking] || SP.me).v, sp = peak.speakers, pref = sp.length ? sp[i % sp.length] : '';
-    // skip clips that hold more than the word; among the clean ones, the reader nearest this character's pitch
-    const who = peak.who(w), clean = who.filter(r => !(BAD[w] || []).includes(r));
-    const near = r => Math.abs(Math.log(f0 / (SPK_F0[r] || 130)));
-    const used = clean.includes(pref) ? pref : clean.length ? clean.sort((a, b) => near(a) - near(b))[0] : who.includes(pref) ? pref : who[0] || pref;
-    const s = peak.samples(w, used);
-    if (s) return playPcm(s, clamp(f0 / (SPK_F0[used] || 130), .7, 1.6));
+    const who = peak.who(w), clean = who.filter(r => !(BAD[w] || []).includes(r)), rank = r => (READERS.indexOf(r) + 99) % 99;
+    const used = (clean.length ? clean : who).sort((a, b) => rank(a) - rank(b))[0];
+    if (!used && (kmVoice || S.tts) && ttsWorks !== false && await sayTTS(w)) return true; // no recording of its own: try the device before gluing halves
+    const s = peak.samples(w, used || '');
+    if (s) return playPcm(s, 1);
   }
-  try { return await sayTTS(w); } catch (e) { return false; }
+  if ((kmVoice || S.tts) && ttsWorks !== false) { try { return await sayTTS(w); } catch (e) { } }
+  await wait(.3); return false;
 }
 
 /* ---------------- renderer: N64 resolution, blurred up ---------------- */
@@ -421,7 +435,7 @@ async function hearLine(text, lang) {
   const els = [...$('#line').querySelectorAll('.w')], tk = tokens(text);
   await wait(.15);
   // whole phrases through the device's Khmer voice when it has one; otherwise word by word through tnefar
-  if (kmVoice) { const line = tk.map(t => t.km).filter(w => !isPunct(w) || w === '។').join(' ').replace(/ ។/g, '។'); els.forEach(e => e.classList.add('play')); try { await sayTTS(line); } catch (e) { } els.forEach(e => e.classList.remove('play')); return; }
+  if (useTTS()) { const line = tk.map(t => t.km).filter(w => !isPunct(w) || w === '។').join(' ').replace(/ ។/g, '។'); els.forEach(e => e.classList.add('play')); try { await sayTTS(line); } catch (e) { } els.forEach(e => e.classList.remove('play')); return; }
   for (const el of els) { if (my !== hearing) return; el.classList.add('play'); await playWord(tk[+el.dataset.i].km); el.classList.remove('play'); await wait(.05); }
 }
 function pop(el, w) {
@@ -433,7 +447,7 @@ function pop(el, w) {
 function flashTag(w) { for (const o of tags[w] || []) { const s = o.scale.clone(); let t = 0; anims.push(dt => { t += dt; const k = 1 + .25 * Math.sin(t * 12) * (1 - t / 1.2); o.scale.copy(s).multiplyScalar(k); if (t > 1.2) { o.scale.copy(s); return false; } }); } }
 let toastT;
 // a phrase out loud: the device's Khmer voice if it has one, else word by word through tnefar
-async function sayPhrase(text) { if (kmVoice) { try { return await sayTTS(text); } catch (e) { } } for (const w of text.split(' ')) if (w && !isPunct(w)) { await playWord(w); await wait(.05); } }
+async function sayPhrase(text) { if (useTTS()) { try { if (await sayTTS(text)) return; } catch (e) { } } for (const w of text.split(' ')) if (w && !isPunct(w)) { await playWord(w); await wait(.05); } }
 function cap(w) { toast(w); speaking = 'god'; playWord(w); }
 function toast(big, small = '') { const t = $('#toast'); t.innerHTML = (big ? `<b>${esc(big)}</b>` : '') + (small ? `<i>${esc(small)}</i>` : ''); t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 2600); }
 
@@ -514,8 +528,8 @@ function renderBook() {
 document.querySelectorAll('.tab').forEach(t => t.onclick = () => { bookTab = t.dataset.t; renderBook(); });
 $('#bookbtn').onclick = openBook; $('#bookclose').onclick = closeAll;
 // system voice option (book footer and title screen)
-function ttsLabel() { const t = (S.tts ? 'សំឡេង ប្រព័ន្ធ ៖ បើក' : 'សំឡេង ប្រព័ន្ធ ៖ បិទ') + (kmVoice ? '' : ' (គ្មាន សំឡេង ខ្មែរ)'); document.querySelectorAll('.ttsbtn').forEach(b => { b.textContent = t; b.classList.toggle('pri', !!S.tts); }); }
-document.querySelectorAll('.ttsbtn').forEach(b => b.onclick = () => { S.tts = !S.tts; save(); ttsLabel(); ensureAudio(); speaking = 'me'; playWord('សំឡេង'); });
+var ttsLabel = function () { const t = (S.tts ? 'សំឡេង ប្រព័ន្ធ ៖ បើក' : 'សំឡេង ប្រព័ន្ធ ៖ បិទ') + (ttsWorks === false ? ' (គ្មាន សំឡេង ខ្មែរ)' : ''); document.querySelectorAll('.ttsbtn').forEach(b => { b.textContent = t; b.classList.toggle('pri', !!S.tts); }); }
+document.querySelectorAll('.ttsbtn').forEach(b => b.onclick = () => { S.tts = !S.tts; if (S.tts) ttsWorks = null; save(); ttsLabel(); ensureAudio(); speaking = 'me'; playWord('សួស្ដី'); });
 ttsLabel(); try { speechSynthesis.addEventListener('voiceschanged', () => setTimeout(ttsLabel, 50)); } catch (e) { }
 $('#reset').onclick = () => { S = { ch: 0, max: 0, seen: {}, said: [] }; save(); location.reload(); };
 
