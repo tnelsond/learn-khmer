@@ -70,6 +70,7 @@ function sayTTS(w, lang) {
 }
 async function playWord(w, lang) {
   if (lang) { try { return await sayTTS(w, lang); } catch (e) { return false; } }
+  if (S.tts && kmVoice) { try { return await sayTTS(w); } catch (e) { } } // the menu's system-voice option
   if (!peak) await Promise.race([peakReady, wait(4)]);
   if (peak && kmVoice && !peak.who(w).length) { try { return await sayTTS(w); } catch (e) { } }
   if (peak) {
@@ -512,6 +513,10 @@ function renderBook() {
 }
 document.querySelectorAll('.tab').forEach(t => t.onclick = () => { bookTab = t.dataset.t; renderBook(); });
 $('#bookbtn').onclick = openBook; $('#bookclose').onclick = closeAll;
+// system voice option (book footer and title screen)
+function ttsLabel() { const t = (S.tts ? 'សំឡេង ប្រព័ន្ធ ៖ បើក' : 'សំឡេង ប្រព័ន្ធ ៖ បិទ') + (kmVoice ? '' : ' (គ្មាន សំឡេង ខ្មែរ)'); document.querySelectorAll('.ttsbtn').forEach(b => { b.textContent = t; b.classList.toggle('pri', !!S.tts); }); }
+document.querySelectorAll('.ttsbtn').forEach(b => b.onclick = () => { S.tts = !S.tts; save(); ttsLabel(); ensureAudio(); speaking = 'me'; playWord('សំឡេង'); });
+ttsLabel(); try { speechSynthesis.addEventListener('voiceschanged', () => setTimeout(ttsLabel, 50)); } catch (e) { }
 $('#reset').onclick = () => { S = { ch: 0, max: 0, seen: {}, said: [] }; save(); location.reload(); };
 
 /* ---------------- effects ---------------- */

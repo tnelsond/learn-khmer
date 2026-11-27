@@ -120,7 +120,7 @@ button:focus-visible{outline:3px solid var(--c);outline-offset:2px}
 .chap small{color:var(--line)}
 .chap.lock{opacity:.35;pointer-events:none}
 .chap .n{flex:none;width:40px;height:40px;border-radius:50%;background:var(--a);display:grid;place-items:center;font:400 18px var(--ti)}
-#bookfoot{display:flex;justify-content:flex-end;margin-top:8px}
+#bookfoot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:8px}
 /* leap, title card, screens */
 #flash{position:fixed;inset:0;pointer-events:none;opacity:0;z-index:25;background:radial-gradient(circle at 50% 55%,#bfe8ff 0,#3a7cff 35%,#0a1a6a 75%,#050a30 100%)}
 #card{position:fixed;left:0;right:0;top:36%;text-align:center;pointer-events:none;z-index:26;opacity:0;transition:opacity .6s}
@@ -174,7 +174,7 @@ button:focus-visible{outline:3px solid var(--c);outline-offset:2px}
 <div id="book" class="box hide">
   <header><h2>សៀវភៅ</h2><button class="tab on" data-t="words">ពាក្យ</button><button class="tab" data-t="chaps">រឿង</button><button class="btn" id="bookclose">បិទ</button></header>
   <div id="bookbody"></div>
-  <div id="bookfoot"><button class="btn" id="reset">ចាប់ផ្ដើម ម្ដង ទៀត</button></div>
+  <div id="bookfoot"><button class="btn ttsbtn"></button><button class="btn" id="reset">ចាប់ផ្ដើម ម្ដង ទៀត</button></div>
 </div>
 
 <div id="flash"></div>
@@ -186,6 +186,7 @@ button:focus-visible{outline:3px solid var(--c);outline-offset:2px}
     <h1>ដំណើរឆ្លងកាល</h1>
     <p>អ្នក លោត ពី មនុស្ស ម្នាក់ ទៅ មនុស្ស ម្នាក់ ទៀត ។ ធ្វើ ឲ្យ រឿង ទៅ មុខ ។</p>
     <div class="row"><button class="btn pri big" id="start">ចាប់ផ្ដើម</button><button class="btn big hide" id="again">ចាប់ផ្ដើម ម្ដង ទៀត</button></div>
+    <div class="row"><button class="btn ttsbtn"></button></div>
     <div class="tip">អូស ខាង ឆ្វេង ដើម្បី ដើរ · អូស ខាង ស្ដាំ ដើម្បី មើល · ចុច ពាក្យ ដើម្បី ស្ដាប់ · ពាក់ កាស</div>
   </div>
 </div>
