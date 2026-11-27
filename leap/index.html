@@ -118,7 +118,7 @@ button:focus-visible{outline:3px solid var(--c);outline-offset:2px}
 .chap{display:flex;align-items:center;gap:12px;text-align:left;padding:10px 12px;border-radius:12px;background:rgba(200,212,255,.07);border:1px solid rgba(200,212,255,.25)}
 .chap strong{font:400 17px/1.9 var(--ti);color:var(--c);display:block}
 .chap small{color:var(--line)}
-.chap.lock{opacity:.35;pointer-events:none}
+
 .chap .n{flex:none;width:40px;height:40px;border-radius:50%;background:var(--a);display:grid;place-items:center;font:400 18px var(--ti)}
 #bookfoot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:8px}
 /* leap, title card, screens */
@@ -174,7 +174,7 @@ button:focus-visible{outline:3px solid var(--c);outline-offset:2px}
 <div id="book" class="box hide">
   <header><h2>សៀវភៅ</h2><button class="tab on" data-t="words">ពាក្យ</button><button class="tab" data-t="chaps">រឿង</button><button class="btn" id="bookclose">បិទ</button></header>
   <div id="bookbody"></div>
-  <div id="bookfoot"><button class="btn ttsbtn"></button><button class="btn" id="reset">ចាប់ផ្ដើម ម្ដង ទៀត</button></div>
+  <div id="bookfoot"><button class="btn" id="reset">ចាប់ផ្ដើម ម្ដង ទៀត</button></div>
 </div>
 
 <div id="flash"></div>
@@ -185,8 +185,7 @@ button:focus-visible{outline:3px solid var(--c);outline-offset:2px}
     <div class="sub">ព្រះគម្ពីរ · លោកុប្បត្តិ</div>
     <h1>ដំណើរឆ្លងកាល</h1>
     <p>អ្នក លោត ពី មនុស្ស ម្នាក់ ទៅ មនុស្ស ម្នាក់ ទៀត ។ ធ្វើ ឲ្យ រឿង ទៅ មុខ ។</p>
-    <div class="row"><button class="btn pri big" id="start">ចាប់ផ្ដើម</button><button class="btn big hide" id="again">ចាប់ផ្ដើម ម្ដង ទៀត</button></div>
-    <div class="row"><button class="btn ttsbtn"></button></div>
+    <div class="row"><button class="btn pri big" id="start">ចាប់ផ្ដើម</button><button class="btn big" id="pick">ជ្រើស រឿង</button><button class="btn big hide" id="again">ចាប់ផ្ដើម ម្ដង ទៀត</button></div>
     <div class="tip">អូស ខាង ឆ្វេង ដើម្បី ដើរ · អូស ខាង ស្ដាំ ដើម្បី មើល · ចុច ពាក្យ ដើម្បី ស្ដាប់ · ពាក់ កាស</div>
   </div>
 </div>
