@@ -45,6 +45,41 @@ rep("e.key >= '\u1780' && e.key <= '\u17ff'", "e.key >= '\u0e80' && e.key <= '\u
 
 rep("speechSynthesis.getVoices().find(v => /^km/i.test(v.lang))", "speechSynthesis.getVoices().find(v => /^lo/i.test(v.lang))")
 
+# ---- Lao word audio through PeakSlab's engine (peak.wasm + tnefar.wasm + the Lao audio slab)
+rep("import { AUDIO, ROM as ROM0 } from './audio.js';", "import { AUDIO, ROM as ROM0 } from './audio.js';\nimport { peakAudio } from './peakaudio.js';")
+rep("async function playWord(w) {\n  if (AUDIO[w]) {", """// Lao words are said by PeakSlab's engine: peak.wasm finds the word's recordings in the Lao audio
+// slab, tnefar.wasm makes the speech. The newest slab comes from peakslab.org where the page may
+// fetch it; otherwise the copy beside the game. Words not in the slab fall back to a clip (AUDIO),
+// then to the device's Lao voice.
+let peak = null, speaking = null;
+const peakReady = peakAudio({ sources: ['https://peakslab.org/', './'], slab: 'lao/aux/lo-audio-tnefar.slab', bufmax: 1 << 20 })
+  .then(p => (peak = p)).catch(e => { console.warn('PeakSlab audio unavailable:', e); return null; });
+// Each character's voice: which of the slab's speakers they prefer (an index, so a slab with more
+// speakers gives more voices; a word only one speaker recorded is said by them) and a pitch.
+const VOICE = { yay: [0, .94], kru: [1, 1], aunt: [0, 1.02], tuot: [0, .88], sok: [0, 1.1], kid: [0, 1.18], vendor: [0, 1.04],
+  ta: [1, .9], fisher: [1, .97], monk: [1, .86], jang: [1, 1.03], gas: [0, 1.06], che: [0, 1.07], hia: [1, 1.05], ee: [0, .96],
+  chief: [1, .94], farmer: [1, 1], thief: [1, 1.08], tacha: [1, .9] };
+function playPcm(s, rate) {
+  ensureAudio(); if (!actx) return Promise.resolve(false);
+  const b = actx.createBuffer(1, s.length, 16000); b.copyToChannel(s, 0);
+  const src = actx.createBufferSource(); src.buffer = b; src.playbackRate.value = rate; src.connect(actx.destination);
+  return new Promise(res => { src.onended = () => res(true); src.start(); setTimeout(() => res(true), b.duration / rate * 1000 + 300); });
+}
+async function peakSay(w) {
+  if (!peak) await Promise.race([peakReady, new Promise(r => setTimeout(r, 4000))]);
+  if (!peak) return null;
+  const [i, rate] = VOICE[speaking] || [0, 1], sp = peak.speakers;
+  const s = peak.samples(w, sp.length ? sp[i % sp.length] : '');
+  return s ? playPcm(s, rate) : null;
+}
+async function playWord(w) {
+  { const r = await peakSay(w); if (r !== null) return r; }
+  if (AUDIO[w]) {""")
+rep("  const [who, km] = dlg.lines[dlg.i], n = NPCS[who];", "  const [who, km] = dlg.lines[dlg.i], n = NPCS[who]; speaking = who;")
+rep("function sayShop(text) {", "function sayShop(text) { speaking = shop.id;")
+rep("function closeAll() {", "function closeAll() { speaking = null;")
+rep("window.__game = { THREE,", "window.__game = { get peak() { return peak; }, setSpeaking: v => (speaking = v), THREE,")
+
 # ---- money: kip (x10), notes, litre price
 for n in (5000, 3000, 2000, 1000, 4000):
     g = re.sub(rf'pay\({n}\)', f'pay({n * 10})', g)
@@ -120,7 +155,7 @@ kh = set(re.findall('[ក-៿]+', h))
 if kh: raise SystemExit('index.html: Khmer left: ' + ' '.join(kh))
 open(os.path.join(DST, 'index.html'), 'w', encoding='utf8').write(h)
 sw = open(os.path.join(SRC, 'sw.js'), encoding='utf8').read()
-sw = re.sub(r"const C='[^']+'", "const C='vow-lao-1'", sw).replace("'battambang.ttf'", "'noto-sans-lao-400.woff2','noto-sans-lao-700.woff2'")
+sw = re.sub(r"const C='[^']+'", "const C='vow-lao-1'", sw).replace("'battambang.ttf'", "'noto-sans-lao-400.woff2','noto-sans-lao-700.woff2','peakaudio.js','peak.wasm','tnefar.wasm','lao/aux/lo-audio-tnefar.slab'")
 open(os.path.join(DST, 'sw.js'), 'w', encoding='utf8').write(sw)
 for f in ('three.module.min.js', 'icon-192.png', 'icon-512.png'):
     shutil.copy(os.path.join(SRC, f), os.path.join(DST, f))
