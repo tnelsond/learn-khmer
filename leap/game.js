@@ -70,6 +70,7 @@ function sayTTS(w, lang) {
 async function playWord(w, lang) {
   if (lang) { try { return await sayTTS(w, lang); } catch (e) { return false; } }
   if (!peak) await Promise.race([peakReady, wait(4)]);
+  if (peak && kmVoice && !peak.who(w).length) { try { return await sayTTS(w); } catch (e) { } }
   if (peak) { const [i, rate] = (SP[speaking] || SP.me).v, sp = peak.speakers; const s = peak.samples(w, sp.length ? sp[i % sp.length] : ''); if (s) return playPcm(s, rate); }
   try { return await sayTTS(w); } catch (e) { return false; }
 }
@@ -117,24 +118,25 @@ function faceTex(skin) { const c = document.createElement('canvas'); c.width = c
 
 /* ---------------- models ---------------- */
 // rounder N64 people and animals: smooth-shaded capsules and spheres, a few more polygons
-const MS = c => typeof c === 'number' ? (MC['s' + c] || (MC['s' + c] = new THREE.MeshLambertMaterial({ color: c }))) : c;
-const capsule = (r, len, c, x, y, z, p, seg = 8) => mesh(new THREE.CapsuleGeometry(r, len, 3, seg), MS(c), x, y, z, p);
-const sph = (r, c, x, y, z, p, w = 10, h = 8) => mesh(new THREE.SphereGeometry(r, w, h), MS(c), x, y, z, p);
+// Ocarina-ish: flat-shaded, only a few more faces than boxes
+const MS = c => typeof c === 'number' ? M(c) : c;
+const capsule = (r, len, c, x, y, z, p, seg = 5) => mesh(new THREE.CapsuleGeometry(r, len, 1, Math.min(seg, 6)), MS(c), x, y, z, p);
+const sph = (r, c, x, y, z, p, w = 6, h = 4) => mesh(new THREE.SphereGeometry(r, Math.min(w, 7), Math.min(h, 5)), MS(c), x, y, z, p);
 function person(o = {}) {
   const g = new THREE.Group(), b = grp(0, 0, 0, g); b.scale.setScalar(o.small ? .66 : o.scale || 1);
   const sk = o.skin ?? 0xb07a50, top = o.top ?? 0x8a6a4a, bot = o.bottom ?? top;
   const mat = c => o.glow ? MB(o.glow, { transparent: true, opacity: .55, blending: THREE.AdditiveBlending, depthWrite: false }) : MS(c);
   const legs = [], arms = [];
   for (const s of [-1, 1]) { const p = pivot(b, s * .13, .74, 0); capsule(.1, .5, mat(sk), 0, -.36, 0, p); const f = sph(.12, mat(0x4a3420), 0, -.7, .06, p, 8, 6); f.scale.set(.9, .5, 1.4); legs.push(p); }
-  if (o.robe) mesh(new THREE.CylinderGeometry(.27, .5, 1.1, 12), mat(bot), 0, .6, 0, b); else { const h = sph(.27, mat(bot), 0, .76, 0, b); h.scale.set(1, .7, .85); }
-  const t = mesh(new THREE.CylinderGeometry(.25, .29, .74, 12), mat(top), 0, 1.12, 0, b); sph(.25, mat(top), 0, 1.46, 0, b).scale.set(1.15, .45, .9);
+  if (o.robe) mesh(new THREE.CylinderGeometry(.27, .5, 1.1, 7), mat(bot), 0, .6, 0, b); else { const h = sph(.27, mat(bot), 0, .76, 0, b); h.scale.set(1, .7, .85); }
+  const t = mesh(new THREE.CylinderGeometry(.25, .29, .74, 7), mat(top), 0, 1.12, 0, b); sph(.25, mat(top), 0, 1.46, 0, b).scale.set(1.15, .45, .9);
   for (const s of [-1, 1]) { const p = pivot(b, s * .36, 1.42, 0); capsule(.075, .46, mat(o.sleeve ?? top), 0, -.28, 0, p); sph(.085, mat(sk), 0, -.6, 0, p, 8, 6); arms.push(p); }
   const head = grp(0, 1.8, 0, b);
-  sph(.26, mat(sk), 0, 0, 0, head, 14, 10).scale.set(.95, 1.05, .95);
-  if (!o.glow) { for (const s of [-1, 1]) { sph(.045, 0x1a1010, s * .09, .03, .23, head, 8, 6); sph(.016, 0xffffff, s * .09 - .015, .05, .27, head, 6, 4); } sph(.04, sk, 0, -.04, .26, head, 8, 6); }
-  if (o.hair != null) { const h = mesh(new THREE.SphereGeometry(.28, 14, 8, 0, Math.PI * 2, 0, Math.PI * .55), mat(o.hair), 0, .02, -.03, head); h.rotation.x = -.35; if (o.female) capsule(.2, .4, mat(o.hair), 0, -.22, -.15, head); }
-  if (o.cloth != null) { const c = mesh(new THREE.SphereGeometry(.3, 14, 8, 0, Math.PI * 2, 0, Math.PI * .6), mat(o.cloth), 0, .02, -.02, head); c.rotation.x = -.5; mesh(new THREE.CylinderGeometry(.24, .34, .5, 12, 1, true), mat(o.cloth), 0, -.2, -.1, head); }
-  if (o.beard != null) { const bd = mesh(new THREE.ConeGeometry(.2, .42, 10), mat(o.beard), 0, -.32, .14, head); bd.rotation.x = Math.PI + .2; }
+  sph(.26, mat(sk), 0, 0, 0, head, 7, 5).scale.set(.95, 1.05, .95);
+  if (!o.glow) { for (const s of [-1, 1]) { sph(.045, 0x1a1010, s * .09, .03, .23, head, 8, 6); } sph(.04, sk, 0, -.04, .26, head, 8, 6); }
+  if (o.hair != null) { const h = mesh(new THREE.SphereGeometry(.28, 7, 3, 0, Math.PI * 2, 0, Math.PI * .55), mat(o.hair), 0, .02, -.03, head); h.rotation.x = -.35; if (o.female) capsule(.2, .4, mat(o.hair), 0, -.22, -.15, head); }
+  if (o.cloth != null) { const c = mesh(new THREE.SphereGeometry(.3, 7, 3, 0, Math.PI * 2, 0, Math.PI * .6), mat(o.cloth), 0, .02, -.02, head); c.rotation.x = -.5; mesh(new THREE.CylinderGeometry(.24, .34, .5, 7, 1, true), mat(o.cloth), 0, -.2, -.1, head); }
+  if (o.beard != null) { const bd = mesh(new THREE.ConeGeometry(.2, .42, 6), mat(o.beard), 0, -.32, .14, head); bd.rotation.x = Math.PI + .2; }
   if (o.leaves) for (let i = 0; i < 8; i++) { const a = i / 8 * Math.PI * 2; const l = mesh(new THREE.ConeGeometry(.1, .36, 6), mat(0x3f8a2a), Math.sin(a) * .25, .6, Math.cos(a) * .2, b); l.rotation.x = Math.PI; }
   return { g, b, legs, arms, head };
 }
@@ -144,21 +146,21 @@ function animal(kind) {
     for (const s of [-1, 1]) { const p = pivot(b, s * .14, .42, 0); capsule(.07, .26, 0x6a4424, 0, -.2, 0, p); legs.push(p); }
     sph(.3, 0x7a5030, 0, .68, 0, b).scale.y = 1.15; const h = sph(.24, 0x7a5030, 0, 1.08, .05, b); sph(.15, 0xd8b088, 0, 1.03, .2, b).scale.z = .6;
     for (const s of [-1, 1]) { sph(.08, 0xd8b088, s * .24, 1.1, .05, b, 8, 6); sph(.035, 0x1a1010, s * .07, 1.12, .25, b, 6, 4); }
-    const t = mesh(new THREE.TorusGeometry(.35, .04, 6, 12, Math.PI * 1.3), MS(0x6a4424), 0, .7, -.4, b); t.rotation.y = Math.PI / 2; return { g, b, legs, head: h };
+    const t = mesh(new THREE.TorusGeometry(.35, .04, 4, 7, Math.PI * 1.3), MS(0x6a4424), 0, .7, -.4, b); t.rotation.y = Math.PI / 2; return { g, b, legs, head: h };
   }
   const [c, L, W, H, legH] = { cow: [0x8a5a3a, 1.7, .8, .9, .75], sheep: [0xf2eee0, 1.1, .8, .8, .45], lion: [0xd0a050, 1.6, .7, .8, .7], elephant: [0x8a8a92, 2.6, 1.7, 1.8, 1.3], camel: [0xc8a06a, 1.8, .7, .9, 1.4], ram: [0xe8e2d0, 1.2, .8, .85, .5], horse: [0x6a4a30, 1.8, .6, .8, 1.0] }[kind];
   const woolly = kind === 'sheep' || kind === 'ram', lc = woolly ? 0x2a2a2a : c, lr = W * .15 + .02;
   for (const sx of [-1, 1]) for (const sz of [-1, 1]) { const p = pivot(b, sx * W * .3, legH + .05, sz * L * .32); capsule(lr, Math.max(.05, legH - lr * 2), lc, 0, -legH / 2, 0, p); legs.push(p); }
-  const body = capsule(Math.min(W, H) / 2, Math.max(.1, L - Math.min(W, H)), c, 0, legH + H / 2, 0, b, 10); body.rotation.x = Math.PI / 2; body.scale.x = W / Math.min(W, H) * 1.0;
+  const body = capsule(Math.min(W, H) / 2, Math.max(.1, L - Math.min(W, H)), c, 0, legH + H / 2, 0, b, 6); body.rotation.x = Math.PI / 2; body.scale.x = W / Math.min(W, H) * 1.0;
   if (woolly) for (let i = 0; i < 7; i++) sph(.28, c, rnd(-.25, .25), legH + H * .55 + rnd(-.1, .2), rnd(-.4, .4), b, 8, 6);
   const head = grp(0, legH + H * .85, L / 2 + .05, b);
   const hc = woolly ? 0x2a2a2a : c, eye = (x, y, z) => { for (const s of [-1, 1]) sph(.04, 0x1a1010, s * x, y, z, head, 6, 4); };
-  if (kind === 'elephant') { sph(.62, c, 0, .2, .25, head); const tr = mesh(new THREE.CylinderGeometry(.12, .24, 1.3, 10), MS(c), 0, -.5, .75, head); tr.rotation.x = .3; for (const s of [-1, 1]) { const e = sph(.5, 0x7a7a84, s * .6, .3, .1, head); e.scale.set(.2, 1, .9); const t = mesh(new THREE.ConeGeometry(.07, .5, 8), MS(0xf0f0e0), s * .3, -.3, .8, head); t.rotation.x = 1.9; } eye(.32, .35, .7); }
+  if (kind === 'elephant') { sph(.62, c, 0, .2, .25, head); const tr = mesh(new THREE.CylinderGeometry(.12, .24, 1.3, 6), MS(c), 0, -.5, .75, head); tr.rotation.x = .3; for (const s of [-1, 1]) { const e = sph(.5, 0x7a7a84, s * .6, .3, .1, head); e.scale.set(.2, 1, .9); const t = mesh(new THREE.ConeGeometry(.07, .5, 8), MS(0xf0f0e0), s * .3, -.3, .8, head); t.rotation.x = 1.9; } eye(.32, .35, .7); }
   else if (kind === 'camel') { const n = capsule(.15, .9, c, 0, .4, .15, head); n.rotation.x = .4; const hh = sph(.22, c, 0, 1.0, .45, head); hh.scale.z = 1.6; eye(.12, 1.08, .55); sph(.42, c, 0, legH + H + .1, 0, b).scale.y = .8; }
   else if (kind === 'horse') { const n = capsule(.17, .6, c, 0, .3, 0, head); n.rotation.x = .5; const hh = sph(.18, c, 0, .7, .4, head); hh.scale.z = 2.2; eye(.12, .78, .45); const m = capsule(.05, .6, 0x2a1a10, 0, .55, -.12, head); m.rotation.x = .5; }
   else { const hh = sph(.25, hc, 0, .05, .18, head); hh.scale.set(1, .95, 1.25); eye(.13, .12, .4); }
   if (kind === 'cow') for (const s of [-1, 1]) { const h = mesh(new THREE.ConeGeometry(.05, .3, 8), MS(0xf0e8d0), s * .22, .3, .1, head); h.rotation.z = -s * .8; }
-  if (kind === 'ram') for (const s of [-1, 1]) { const h = mesh(new THREE.TorusGeometry(.16, .06, 6, 12, 4.5), MS(0xc8b888), s * .24, .16, .08, head); h.rotation.y = s * Math.PI / 2; }
+  if (kind === 'ram') for (const s of [-1, 1]) { const h = mesh(new THREE.TorusGeometry(.16, .06, 4, 7, 4.5), MS(0xc8b888), s * .24, .16, .08, head); h.rotation.y = s * Math.PI / 2; }
   if (kind === 'lion') { const m = sph(.46, 0x8a4a18, 0, .05, .02, head); m.scale.z = .7; sph(.26, c, 0, .02, .26, head).scale.z = 1.1; eye(.12, .1, .48); }
   const tail = capsule(.04, .55, kind === 'lion' ? 0x8a4a18 : c, 0, legH + H * .6, -L / 2 - .15, b, 6); tail.rotation.x = .5;
   return { g, b, legs, head };
@@ -496,7 +498,7 @@ const anims = [];
 function tween(dur, f) { return new Promise(res => { let t = 0; anims.push(dt => { t = Math.min(dur, t + dt); f(ease(t / dur), t / dur); if (t >= dur) { res(); return false; } }); }); }
 const PN = 500, pPos = new Float32Array(PN * 3), pCol = new Float32Array(PN * 3), pData = [];
 const pGeo = new THREE.BufferGeometry(); pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3)); pGeo.setAttribute('color', new THREE.BufferAttribute(pCol, 3));
-const parts = new THREE.Points(pGeo, new THREE.PointsMaterial({ size: .35, vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending })); parts.frustumCulled = false; scene.add(parts);
+const parts = new THREE.Points(pGeo, new THREE.PointsMaterial({ size: .16, vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending })); parts.frustumCulled = false; scene.add(parts);
 for (let i = 0; i < PN; i++) { pData.push({ life: 0 }); pPos[i * 3 + 1] = -999; }
 let pI = 0;
 function emit(x, y, z, vx, vy, vz, c, life = 1.2, g = -2) { const d = pData[pI]; Object.assign(d, { x, y, z, vx, vy, vz, life, g }); const col = new THREE.Color(c); pCol.set([col.r, col.g, col.b], pI * 3); pI = (pI + 1) % PN; }
