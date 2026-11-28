@@ -147,8 +147,8 @@ function faceTex(skin) { const c = document.createElement('canvas'); c.width = c
 // rounder N64 people and animals: smooth-shaded capsules and spheres, a few more polygons
 // Ocarina-ish: flat-shaded, only a few more faces than boxes
 const MS = c => typeof c === 'number' ? M(c) : c;
-const capsule = (r, len, c, x, y, z, p, seg = 5) => mesh(new THREE.CapsuleGeometry(r, len, 1, Math.min(seg, 6)), MS(c), x, y, z, p);
-const sph = (r, c, x, y, z, p, w = 6, h = 4) => mesh(new THREE.SphereGeometry(r, Math.min(w, 7), Math.min(h, 5)), MS(c), x, y, z, p);
+const capsule = (r, len, c, x, y, z, p, seg = 4) => mesh(new THREE.CapsuleGeometry(r, len, 1, Math.min(seg, 4)), MS(c), x, y, z, p);
+const sph = (r, c, x, y, z, p, w = 5, h = 3) => mesh(new THREE.SphereGeometry(r, Math.min(w, 5), Math.min(h, 3)), MS(c), x, y, z, p);
 function person(o = {}) {
   const g = new THREE.Group(), b = grp(0, 0, 0, g); b.scale.setScalar(o.small ? .66 : o.scale || 1);
   const sk = o.skin ?? 0xb07a50, top = o.top ?? 0x8a6a4a, bot = o.bottom ?? top;
@@ -156,9 +156,9 @@ function person(o = {}) {
   const legs = [], arms = [];
   const knees = [], feet = [];
   for (const s of [-1, 1]) { const p = pivot(b, s * .13, .74, 0); capsule(.1, .2, mat(o.robe ? bot : sk), 0, -.18, 0, p, 5); const k = pivot(p, 0, -.37, 0); capsule(.085, .2, mat(sk), 0, -.17, 0, k, 5); const f = sph(.12, mat(o.barefoot ? sk : 0x4a3420), 0, -.34, .06, k, 6, 4); f.scale.set(.9, .5, 1.4); legs.push(p); knees.push(k); feet.push(f); }
-  if (o.robe) mesh(new THREE.CylinderGeometry(.27, .5, 1.1, 7), mat(bot), 0, .6, 0, b); else { const h = sph(.27, mat(bot), 0, .76, 0, b); h.scale.set(1, .7, .85); }
-  const t = mesh(new THREE.CylinderGeometry(.25, .29, .74, 7), mat(top), 0, 1.12, 0, b); sph(.25, mat(top), 0, 1.46, 0, b).scale.set(1.15, .45, .9);
-  if (o.coat) [0xd03a2a, 0xf2c51c, 0x2a8a4a, 0x2f5fd0].forEach((c, i) => mesh(new THREE.CylinderGeometry(.262 + i * .008, .27 + i * .008, .12, 7), mat(c), 0, .86 + i * .17, 0, b));
+  if (o.robe) mesh(new THREE.CylinderGeometry(.27, .5, 1.1, 5), mat(bot), 0, .6, 0, b); else { const h = sph(.27, mat(bot), 0, .76, 0, b); h.scale.set(1, .7, .85); }
+  const t = mesh(new THREE.CylinderGeometry(.25, .29, .74, 5), mat(top), 0, 1.12, 0, b); sph(.25, mat(top), 0, 1.46, 0, b).scale.set(1.15, .45, .9);
+  if (o.coat) [0xd03a2a, 0xf2c51c, 0x2a8a4a, 0x2f5fd0].forEach((c, i) => mesh(new THREE.CylinderGeometry(.262 + i * .008, .27 + i * .008, .12, 5), mat(c), 0, .86 + i * .17, 0, b));
   for (const s of [-1, 1]) { const p = pivot(b, s * .31, 1.4, 0); sph(.1, mat(o.sleeve ?? top), 0, 0, 0, p, 5, 3); capsule(.075, .4, mat(o.sleeve ?? top), 0, -.26, 0, p, 4); sph(.085, mat(sk), 0, -.56, 0, p, 5, 3); arms.push(p); }
   if (o.staff) { const st = mesh(new THREE.CylinderGeometry(.035, .035, 2.2, 5), mat(0x6a4424), 0, -.5, .05, arms[1]); st.rotation.x = .1; }
   const head = grp(0, 1.8, 0, b);
@@ -166,7 +166,7 @@ function person(o = {}) {
   mesh(new THREE.SphereGeometry(.29, 6, 2), mat(sk), 0, 0, 0, head).scale.set(1, 1.05, 1);
   if (!o.glow) { for (const s of [-1, 1]) mesh(new THREE.OctahedronGeometry(.045, 0), MS(0x1a1010), s * .085, .03, .2, head); mesh(new THREE.OctahedronGeometry(.04, 0), mat(sk), 0, -.05, .23, head); }
   if (o.hair != null) { const h = mesh(new THREE.SphereGeometry(.31, 6, 2, 0, Math.PI * 2, 0, Math.PI * .55), mat(o.hair), 0, .02, -.03, head); h.rotation.x = -.35; if (o.female) capsule(.2, .4, mat(o.hair), 0, -.22, -.15, head); }
-  if (o.cloth != null) { const c = mesh(new THREE.SphereGeometry(.33, 6, 2, 0, Math.PI * 2, 0, Math.PI * .6), mat(o.cloth), 0, .02, -.02, head); c.rotation.x = -.5; mesh(new THREE.CylinderGeometry(.24, .34, .5, 7, 1, true), mat(o.cloth), 0, -.2, -.1, head); }
+  if (o.cloth != null) { const c = mesh(new THREE.SphereGeometry(.33, 6, 2, 0, Math.PI * 2, 0, Math.PI * .6), mat(o.cloth), 0, .02, -.02, head); c.rotation.x = -.5; mesh(new THREE.CylinderGeometry(.24, .34, .5, 5, 1, true), mat(o.cloth), 0, -.2, -.1, head); }
   if (o.beard != null) { const bd = mesh(new THREE.ConeGeometry(.2, .42, 6), mat(o.beard), 0, -.32, .14, head); bd.rotation.x = Math.PI + .2; }
   if (o.leaves) for (let i = 0; i < 8; i++) { const a = i / 8 * Math.PI * 2; const l = mesh(new THREE.ConeGeometry(.1, .36, 6), mat(0x3f8a2a), Math.sin(a) * .25, .6, Math.cos(a) * .2, b); l.rotation.x = Math.PI; }
   return { g, b, legs, arms, head, knees, feet };
@@ -1924,7 +1924,7 @@ david.build = () => {
   setSky(0x4a8ad8, 0xf0dcb0, 0xe8d8b0, 1, true); scene.fog.near = 55; scene.fog.far = 210;
   H = elahH; bound = 95; terrain(220, 50, (x, z, y) => Math.abs(z) < 3 ? 0xa8a080 : 0x8aa050);
   const brook = mesh(new THREE.PlaneGeometry(200, 3).rotateX(-Math.PI / 2), new THREE.MeshLambertMaterial({ color: 0x3a7ad0, map: waterTex, transparent: true, opacity: .8 }), 0, .15, 0, world); tag('ជ្រោះ', brook);
-  for (let i = 0; i < 10; i++) { const t = tent(i % 2 ? 0x6a4a3a : 0x8a3a2a); place(t, -30 + i * 7, i % 2 ? 30 : -34, 0, 2.4); }
+  for (let i = 0; i < 10; i++) { const t = tent(i % 2 ? 0x6a4a3a : 0x8a3a2a); place(t, -30 + i * 7, i % 2 ? 42 : -36, 0, 2.4); }
 };
 async function david() {
   await leapIn('david', 0, 24, Math.PI);
