@@ -164,7 +164,9 @@ function person(o = {}) {
   const fem = !!o.female && !o.small, clothed = (o.top ?? 0x8a6a4a) !== (o.skin ?? 0xb07a50), pants = !o.robe && (o.bottom ?? o.top ?? 0x8a6a4a) !== (o.skin ?? 0xb07a50);
   // grown men stand about 10% taller than women
   const g = new THREE.Group(), b = grp(0, 0, 0, g); b.scale.setScalar(o.small ? .66 : (o.scale || 1) * (fem ? 1 : 1.1));
-  const sk = o.skin ?? 0xb07a50, top = o.top ?? 0x8a6a4a, bot = o.bottom ?? top;
+  // everyone's skin a shade lighter, so shaded faces stay readable; clothes that were "skin" follow it
+  const sk0 = o.skin ?? 0xb07a50, sk = new THREE.Color(sk0).lerp(new THREE.Color(0xffe2c4), .2).getHex(), SK = c => c === sk0 ? sk : c;
+  const top = SK(o.top ?? 0x8a6a4a), bot = SK(o.bottom ?? o.top ?? 0x8a6a4a);
   const mat = c => o.glow ? MB(o.glow, { transparent: true, opacity: .55, blending: THREE.AdditiveBlending, depthWrite: false }) : MS(c);
   const legs = [], arms = [], knees = [], feet = [], VM = () => o.glow ? mat(0) : VC;
   // women: legs ~16% longer, the rest of the body raised to sit on them
@@ -178,7 +180,7 @@ function person(o = {}) {
   if (o.robe) mesh(loft(fem ? [[1.0 + d, .21, .15, 0, bot], [.8 + d, .32, .22, 0, bot], [.08, .52, .4, 0, bot]] : [[1.0, .23, .15, 0, bot], [.8, .3, .22, 0, bot], [.3, .44, .36, 0, bot]], 6, false), VM(), 0, 0, 0, b);
   if (o.coat) [0xd03a2a, 0xf2c51c, 0x2a8a4a, 0x2f5fd0].forEach((c, i) => { const y0 = .86 + d + i * .16; mesh(loft([[y0, .25, .17, .015, c], [y0 + .12, .26, .175, .015, c]], 5, false), VC, 0, 0, 0, b); });
   // arms: shoulder, bicep, forearm, hand in one shape
-  const sl = o.sleeve ?? top;
+  const sl = SK(o.sleeve ?? top);
   for (const s of [-1, 1]) { const p = pivot(b, s * (fem ? .27 : .31), 1.4 + d, 0); mesh(loft([[.06, .08, .08, 0, sl], [-.06, .1, .09, 0, sl], [-.3, .065, .065, 0, sl], [-.52, .05, .05, .01, o.robe ? sl : sk], [-.68, .055, .035, .03, sk]], 4), VM(), 0, 0, 0, p); arms.push(p); }
   // legs: thigh and shin as separate shapes so the knee bends
   const lc = o.robe ? sk : pants ? bot : sk, fc = o.barefoot ? sk : 0x4a3420;
@@ -192,18 +194,19 @@ function person(o = {}) {
   const head = grp(0, 1.8 + d, 0, b);
   // the head: a six-sided double pyramid, 12 triangles, a flat face to the front
   // the lower faces point down and caught almost no light, which read as a beard: give the face its own softly lit skin
-  const hm = o.glow ? mat(sk) : MB(sk); // unlit: one even skin tone, no shading on the face
+  // shaded, with a little self-light so the down-facing chin faces don't go dark
+  const hm = o.glow ? mat(sk) : (HEADM[sk] ??= new THREE.MeshLambertMaterial({ color: sk, flatShading: true, emissive: new THREE.Color(sk).multiplyScalar(.3) }));
   mesh(new THREE.SphereGeometry(.29, 6, 2), hm, 0, 0, 0, head).scale.set(1, 1.05, 1);
   // every person gets one of several head shapes: broad, long, tall, small, square...
   const HS = [[1, 1, 1], [1.1, .9, 1], [.9, 1.14, .95], [1.04, 1.12, 1.04], [.94, .94, .94], [1.12, 1, 1.06], [.96, 1.06, 1.08]][(o.face ?? PERSON_N++) % 7];
   head.scale.set(...HS);
   if (!o.glow) { const mo = mesh(new THREE.BoxGeometry(.1, .022, .04), MB(0x5a2a22), 0, -.13, .15, head); mo.rotation.x = .55; }
-  if (!o.glow) { for (const s of [-1, 1]) mesh(new THREE.OctahedronGeometry(.045, 0), MS(0x1a1010), s * .085, .03, .2, head); mesh(new THREE.OctahedronGeometry(.04, 0), o.glow ? mat(sk) : MB(sk), 0, -.05, .23, head); }
+  if (!o.glow) { for (const s of [-1, 1]) mesh(new THREE.OctahedronGeometry(.045, 0), MS(0x1a1010), s * .085, .03, .2, head); const no = mesh(new THREE.ConeGeometry(.055, .13, 3), MS(new THREE.Color(sk).multiplyScalar(.88).getHex()), 0, -.03, .215, head); no.rotation.x = -.3; }
   if (!fem && o.cloth != null && o.hair == null) o = { ...o, hair: o.beard ?? 0x2a1a10 };
   if (o.hair != null) { const h = mesh(new THREE.SphereGeometry(.31, 6, 2, 0, Math.PI * 2, 0, Math.PI * .55), mat(o.hair), 0, .02, -.03, head); h.rotation.x = -.35; if (fem) capsule(.2, .4, mat(o.hair), 0, -.22, -.15, head); }
   if (fem && o.cloth != null) { const c = mesh(new THREE.SphereGeometry(.33, 6, 2, 0, Math.PI * 2, 0, Math.PI * .5), mat(o.cloth), 0, .05, -.08, head); c.rotation.x = -.6; mesh(new THREE.CylinderGeometry(.26, .34, .5, 5, 1, true, Math.PI * .6, Math.PI * .8), mat(o.cloth), 0, -.2, -.1, head); }
   if (o.beard != null) { const bd = mesh(new THREE.ConeGeometry(.2, .42, 6), mat(o.beard), 0, -.32, .14, head); bd.rotation.x = Math.PI + .2; }
-  if (o.leaves) for (let i = 0; i < 8; i++) { const a = i / 8 * Math.PI * 2; const l = mesh(new THREE.ConeGeometry(.1, .36, 6), mat(0x3f8a2a), Math.sin(a) * .25, .6, Math.cos(a) * .2, b); l.rotation.x = Math.PI; }
+  if (o.leaves) for (let i = 0; i < 10; i++) { const a = i / 10 * Math.PI * 2; const l = mesh(new THREE.ConeGeometry(.11, .42, 4), mat(0x3f8a2a), Math.sin(a) * (fem ? .31 : .25), .8 + d, Math.cos(a) * (fem ? .21 : .17), b); l.rotation.x = Math.PI; }
   return { g, b, legs, arms, head, knees, feet };
 }
 function animal(kind) {
