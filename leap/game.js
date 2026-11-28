@@ -2158,7 +2158,7 @@ async function jonah() {
   await say('me', 'ដោយសារ ខ្ញុំ ។ បោះ ខ្ញុំ ទៅ ក្នុង សមុទ្រ ។');
   goal('លោត ទៅ ក្នុង សមុទ្រ ។', null);
   await act('លោត', [player.x, player.z], 99);
-  floors.length = 0; clampFn = null; yOverride = -.6; player.x = 3.2; tone([400, 200], .5, 'triangle', .06); burst(player.x, 0, player.z, 0xffffff, 40, 3);
+  clampFn = null; yOverride = -.6; player.x = 3.2; // the deck stays under the sailors; only you go overboard tone([400, 200], .5, 'triangle', .06); burst(player.x, 0, player.z, 0xffffff, 40, 3);
   anims.splice(anims.indexOf(rock2), 1); sh.rotation.z = 0; waterY = 0; raining = 0; setSky(0x4a8ad8, 0xc0d8f0, 0xc8d8e8, .9);
   toast('', 'សមុទ្រ ស្ងប់ ។'); await sayPhrase('សមុទ្រ ស្ងប់ ។');
   // the great fish
@@ -2166,14 +2166,15 @@ async function jonah() {
   track = () => [[player.x + 16, 7, player.z + 18], [player.x + 6, 0, player.z]];
   await tween(2.5, k => { fe.x = player.x + 40 - k * 40; fe.flyAbs = -3 + Math.sin(k * Math.PI) * 2; });
   cap('ត្រី'); hero.g.visible = false;
-  const f = $('#flash'); f.style.background = '#000'; await tween(.5, k => f.style.opacity = k);
+  // inside the fish: a dark red belly behind the text box and buttons, not a black screen over them
+  const f = $('#flash'); f.style.background = 'radial-gradient(ellipse at 50% 45%,#7a2a24,#3a0c0a 60%,#160404)'; f.style.zIndex = 5; await tween(.5, k => f.style.opacity = k * .95);
   for (let d = 1; d <= 3; d++) { toast(`ថ្ងៃ ទី ${khNum(d)}`); await sayPhrase(`ថ្ងៃ ទី ${NUMW[d]}`); await wait(.5); }
   await say('me', 'ព្រះជាម្ចាស់ អើយ ! សូម ជួយ ខ្ញុំ ។ សេចក្ដី សង្គ្រោះ មក ពី ព្រះជាម្ចាស់ ។');
   // spat out on dry land
-  ents.splice(ents.indexOf(fe), 1); world.remove(big.g); world.remove(sh); sailors.forEach(s2 => { world.remove(s2.g); ents.splice(ents.indexOf(s2), 1); });
+  floors.length = 0; ents.splice(ents.indexOf(fe), 1); world.remove(big.g); world.remove(sh); sailors.forEach(s2 => { world.remove(s2.g); ents.splice(ents.indexOf(s2), 1); });
   track = null; yOverride = null; player.x = 0; player.z = 14; hero.g.visible = true; player.yaw = 0; camYaw = Math.PI;
   for (let i = 0; i < 10; i++) { const h = grp(); box(4, rnd(3, 6), 4, brickM, 0, 2, 0, h); place(h, -24 + (i % 5) * 12, 50 + Math.floor(i / 5) * 12, 0, 3); }
-  await tween(.5, k => f.style.opacity = 1 - k); f.style.background = '';
+  await tween(.5, k => f.style.opacity = .95 * (1 - k)); f.style.background = ''; f.style.zIndex = '';
   burst(0, 1.5, 14, 0x60a0ff, 50, 3); toast('', 'ត្រី ខ្ជាក់ យ៉ូណាស លើ ដី គោក ។'); await sayPhrase('ត្រី ខ្ជាក់ យ៉ូណាស លើ ដី ។');
   await say('god', 'យ៉ូណាស ! ទៅ ក្រុង *នីនីវេ ។');
   const folk = []; for (let i = 0; i < 12; i++) { const e = npc('people', { skin: 0x9a6a44, top: [0xc04040, 0x4060c0, 0xc0a040][i % 3], robe: true, cloth: 0xe0d0b0 }, rnd(-20, 20), rnd(34, 46), Math.PI); e.talk = null; folk.push(e); }
