@@ -1,0 +1,1563 @@
+# km	en	es	lo — translations for leap/ (build with tools/build_leap_i18n.py)
+លែង {0} ។	Let {0} go.	Suelta a {0}.	ປ່ອຍ {0} .
+មួយ	one	uno	ໜຶ່ງ
+ពីរ	two	dos	ສອງ
+បី	three	tres	ສາມ
+បួន	four	cuatro	ສີ່
+ប្រាំ	five	cinco	ຫ້າ
+ប្រាំមួយ	six	seis	ຫົກ
+ប្រាំពីរ	seven	siete	ເຈັດ
+ប្រាំបី	eight	ocho	ແປດ
+ប្រាំបួន	nine	nueve	ເກົ້າ
+ដប់	ten	diez	ສິບ
+ម្ភៃ	twenty	veinte	ຊາວ
+សាមសិប	thirty	treinta	ສາມສິບ
+សែសិប	forty	cuarenta	ສີ່ສິບ
+ហាសិប	fifty	cincuenta	ຫ້າສິບ
+ហុកសិប	sixty	sesenta	ຫົກສິບ
+ចិតសិប	seventy	setenta	ເຈັດສິບ
+ប៉ែតសិប	eighty	ochenta	ແປດສິບ
+កៅសិប	ninety	noventa	ເກົ້າສິບ
+មួយរយ	one hundred	cien	ໜຶ່ງຮ້ອຍ
+អ័ដាម	Adam	Adán	ອາດາມ
+អេវ៉ា	Eve	Eva	ເອວາ
+ណូអេ	Noah	Noé	ໂນອາ
+អ្នកសង់	builder	constructor	ຊ່າງກໍ່ສ້າງ
+យ៉ាកុប	Jacob	Jacob	ຢາໂຄບ
+យ៉ូសែប	Joseph	José	ໂຢເຊັບ
+ម៉ូសេ	Moses	Moisés	ໂມເຊ
+អេហ៊ូឌ	Ehud	Aod	ເອຮູດ
+សាំសុន	Samson	Sansón	ແຊມຊັນ
+ម៉ារាម	Miriam	María	ມີຣີອາມ
+រស់	Ruth	Rut	ນາງຣຸດ
+ដាវីឌ	David	David	ດາວິດ
+អេលីយ៉ា	Elijah	Elías	ເອລີຢາ
+យ៉ូណាស	Jonah	Jonás	ໂຢນາ
+សាដ្រាក់	Shadrach	Sadrac	ຊັດຣັກ
+ដានីយ៉ែល	Daniel	Daniel	ດານີເອນ
+គង្វាល	shepherd	pastor	ຜູ້ລ້ຽງແກະ
+ពេត្រុស	Peter	Pedro	ເປໂຕ
+ក្មេងប្រុស	boy	niño	ເດັກຊາຍ
+សាខេ	Zacchaeus	Zaqueo	ຊາກາຍ
+ម៉ារី ម៉ាក់ដាឡា	Mary Magdalene	María Magdalena	ມາຣີ ຊາວ ມັກດາລາ
+ព្រះយេស៊ូ	Jesus	Jesús	ພຣະເຢຊູ
+សាំយូអែល	Samuel	Samuel	ຊາມູເອນ
+អេលីសេ	Elisha	Eliseo	ເອລີຊາ
+ហូសេ	Hosea	Oseas	ໂຮເຊອາ
+ស្ទេផាន	Stephen	Esteban	ສະເທຟາໂນ
+ស៊ីម៉ូន	Simon	Simón	ຊີໂມນ
+មិត្ត ម្នាក់	a friend	un amigo	ໝູ່ ຄົນ ໜຶ່ງ
+អនទ្រេ	Andrew	Andrés	ອັນເດອາ
+អ្នក សាប ព្រោះ	sower	sembrador	ຜູ້ ຫວ່ານ
+សាសន៍ សាម៉ារី	Samaritan	samaritano	ຊາວ ຊາມາເຣຍ
+កូនប្រុស ពៅ	younger son	hijo menor	ລູກຊາຍ ຫລ້າ
+យ៉ូហាន	John	Juan	ໂຢຮັນ
+ភីលីព	Philip	Felipe	ຟີລິບ
+សូល	Saul	Saulo	ໂຊໂລ
+ប៉ុល	Paul	Pablo	ໂປໂລ
+អ្នកជំនួយ	helper	ayudante	ຜູ້ຊ່ວຍ
+អាប់រ៉ាម	Abram	Abram	ອັບຣາມ
+ព្រះជាម្ចាស់	God	Dios	ພຣະເຈົ້າ
+អាល់	Al	Al	ອານ
+ពស់	snake	serpiente	ງູ
+ប្រពន្ធ	wife	esposa	ເມຍ
+សិម	Shem	Sem	ເຊັມ
+អ្នកជិតខាង	neighbor	vecino	ເພື່ອນບ້ານ
+មេការ	foreman	capataz	ຫົວໜ້າ
+មិត្ត	friend	amigo	ໝູ່
+សារ៉ាយ	Sarai	Sarai	ຊາຣາຍ
+សារ៉ា	Sarah	Sara	ຊາຣາ
+ឡុត	Lot	Lot	ໂລດ
+ភ្ញៀវ	guest	invitado	ແຂກ
+អ៊ីសាក	Isaac	Isaac	ອີຊາກ
+បងប្រុស	older brother	hermano mayor	ອ້າຍ
+ឈ្មួញ	trader	mercader	ພໍ່ຄ້າ
+ផារ៉ោន	Pharaoh	Faraón	ຟາໂຣ
+អេក្លូន	Eglon	Eglón	ເອັກໂລນ
+អ្នកយាម	guard	guardia	ຍາມ
+ម្ដាយ	mother	madre	ແມ່
+បុត្រី ផារ៉ោន	Pharaoh's daughter	hija del faraón	ລູກສາວ ຟາໂຣ
+អ្នកបម្រើ	servant	sirvienta	ຄົນໃຊ້
+អើរ៉ុន	Aaron	Aarón	ອາໂຣນ
+ណាអូមី	Naomi	Noemí	ນາໂອມີ
+បូអូស	Boaz	Booz	ໂບອາດ
+កូលីយ៉ាត	Goliath	Goliat	ໂກລີອາດ
+ហោរា បាល	prophet of Baal	profeta de Baal	ຜູ້ທຳນວາຍ ບາອານ
+អ្នក បើក សំពៅ	sailor	marinero	ຄົນ ຂັບ ເຮືອ
+មីសាក់	Meshach	Mesac	ເມຊາກ
+អ័បេឌនេកោ	Abednego	Abed-nego	ອາເບດເນໂກ
+ស្ដេច	king	rey	ກະສັດ
+មន្ត្រី	official	oficial	ເຈົ້າໜ້າທີ່
+ម៉ារី	Mary	María	ມາຣີ
+ភ្ញៀវ បរទេស	foreign visitor	visitante extranjero	ແຂກ ຕ່າງ ປະເທດ
+អ្នក ធ្វើ ដំណើរ	traveler	viajero	ຄົນ ເດີນທາງ
+បុរស របួស	wounded man	hombre herido	ຜູ້ຊາຍ ບາດເຈັບ
+ម្ចាស់ ផ្ទះ សំណាក់	innkeeper	posadero	ເຈົ້າຂອງ ໂຮງແຮມ
+ឪពុក	father	padre	ພໍ່
+ពួក ចាស់ទុំ	elders	ancianos	ພວກ ຜູ້ເຖົ້າ
+អ្នក ខ្វិន	paralyzed man	paralítico	ຄົນ ເປັນ ອຳມະພາດ
+បុរស មាន អារក្ស	man with demons	endemoniado	ຊາຍ ທີ່ ມີ ຜີ
+ពួក ស្ត្រី	women	mujeres	ພວກ ຜູ້ຍິງ
+មេទ័ព	centurion	centurión	ນາຍຮ້ອຍ
+អ្នក ពិការ	lame man	cojo	ຄົນ ພິການ
+មន្ត្រី អេធីយ៉ូពី	Ethiopian official	funcionario etíope	ເຈົ້າໜ້າທີ່ ເອທິໂອເປຍ
+អ៊ីសាយ	Jesse	Isaí	ເຢຊີ
+អ្នក តាម ដាវីឌ	David's man	hombre de David	ຄົນ ຂອງ ດາວິດ
+ស្ត្រី មេម៉ាយ	widow	viuda	ແມ່ໝ້າຍ
+កូនប្រុស	son	hijo	ລູກຊາຍ
+កូមើរ	Gomer	Gomer	ໂກເມ
+ស្ត្រី ចិត្ត ល្អ	kind woman	mujer bondadosa	ຜູ້ຍິງ ໃຈດີ
+កូនេលាស	Cornelius	Cornelio	ໂກເນລີໂອ
+យុវជន	young man	joven	ຊາຍໜຸ່ມ
+សត្វ មាន ជីវិត	living creature	ser viviente	ສິ່ງ ມີ ຊີວິດ
+អាណានាស	Ananias	Ananías	ອານາເນຍ
+រ៉ូដា	Rhoda	Rode	ໂຣດາ
+ស៊ីឡាស	Silas	Silas	ສີລາ
+ឆ្មាំ គុក	jailer	carcelero	ຜູ້ ເຝົ້າ ຄຸກ
+អ្នក កោះ ម៉ាល់តា	man of Malta	hombre de Malta	ຊາວ ເກາະ ມັນຕາ
+សិស្ស	disciple	discípulo	ສາວົກ
+ប្រជាជន	people	gente	ປະຊາຊົນ
+ទេវតា	angel	ángel	ເທວະດາ
+ពន្លឺ	light	luz	ແສງ
+ងងឹត	darkness	oscuridad	ຄວາມມືດ
+មេឃ	sky	cielo	ທ້ອງຟ້າ
+ទឹក	water	agua	ນ້ຳ
+ដី	land	tierra	ດິນ
+ស្មៅ	grass	hierba	ຫຍ້າ
+ដើមឈើ	tree	árbol	ຕົ້ນໄມ້
+ផ្លែឈើ	fruit	fruta	ໝາກໄມ້
+ផ្លែ	fruit	fruto	ໝາກ
+ព្រះអាទិត្យ	sun	sol	ດວງອາທິດ
+ព្រះចន្ទ	moon	luna	ດວງເດືອນ
+ផ្កាយ	star	estrella	ດາວ
+ត្រី	fish	pez	ປາ
+បក្សី	bird	pájaro	ນົກ
+សត្វ	animal	animal	ສັດ
+មនុស្ស	person	persona	ຄົນ
+ស្ត្រី	woman	mujer	ຜູ້ຍິງ
+គោ	cow	vaca	ງົວ
+ចៀម	sheep	oveja	ແກະ
+តោ	lion	león	ສິງ
+ដំរី	elephant	elefante	ຊ້າງ
+ស្វា	monkey	mono	ລີງ
+អូដ្ឋ	camel	camello	ອູດ
+ចៀមឈ្មោល	ram	carnero	ແກະເຖິກ
+កូនចៀម	lamb	cordero	ລູກແກະ
+អ័ប្រាហាំ	Abraham	Abraham	ອັບຣາຮາມ
+ឈើ	wood	madera	ໄມ້
+ទូក	boat	barco	ເຮືອ
+ទឹកជំនន់	flood	diluvio	ນ້ຳຖ້ວມ
+ភ្លៀង	rain	lluvia	ຝົນ
+ព្រាប	dove	paloma	ນົກເຂົາ
+ស្លឹកឈើ	leaf	hoja	ໃບໄມ້
+ឥន្ទធនូ	rainbow	arcoíris	ຮຸ້ງ
+ឥដ្ឋ	brick	ladrillo	ດິນຈີ່
+ដីឥដ្ឋ	clay	barro	ດິນໜຽວ
+ប៉ម	tower	torre	ຫໍຄອຍ
+ភ្លើង	fire	fuego	ໄຟ
+តង់	tent	tienda	ຜ້າເຕັນ
+នំបុ័ង	bread	pan	ເຂົ້າຈີ່
+ភ្នំ	mountain	montaña	ພູເຂົາ
+អាសនា	altar	altar	ແທ່ນບູຊາ
+ដាវ	sword	espada	ດາບ
+ទ្វារ	door	puerta	ປະຕູ
+ព្រៃ	forest	bosque	ປ່າ
+ទីក្រុង	city	ciudad	ເມືອງ
+ជណ្ដើរ	ladder	escalera	ຂັ້ນໄດ
+ថ្ម	stone	piedra	ຫີນ
+អាវ	coat	manto	ເສື້ອ
+រណ្ដៅ	pit	pozo	ຂຸມ
+ប្រាក់	silver	plata	ເງິນ
+គុម្ពោត	bush	zarza	ພຸ່ມໄມ້
+ដំបង	staff	vara	ໄມ້ເທົ້າ
+សមុទ្រ	sea	mar	ທະເລ
+ធាត់	fat	gordo	ຕຸ້ຍ
+ស្គម	thin	flaco	ຈ່ອຍ
+ស្បែកជើង	sandals	sandalias	ເກີບ
+កញ្ជ្រាង	fox	zorra	ໝາຈອກ
+ស្រូវ	grain	trigo	ເຂົ້າ
+គប់ភ្លើង	torch	antorcha	ໄຕ້
+កន្ទុយ	tail	cola	ຫາງ
+ខ្សែ	rope	cuerda	ເຊືອກ
+ឆ្អឹង	bone	hueso	ກະດູກ
+សួយសារអាករ	tribute	tributo	ເຄື່ອງ ບັນນາການ
+ស្នែង	horn	cuerno	ເຂົາ
+ដៃ	hand	mano	ມື
+ភីលីស្ទីន	Philistines	filisteos	ຟີລິດສະຕິນ
+កន្ត្រក	basket	canasta	ກະຕ່າ
+ទារក	baby	bebé	ເດັກນ້ອຍ
+កង្កែប	frog	rana	ກົບ
+ម៉ាណា	manna	maná	ມານາ
+ក្រួច	hail	granizo	ໝາກເຫັບ
+បន្ទះ	tablet	tabla	ແຜ່ນ ຫີນ
+ភ្នំ ស៊ីណាយ	Mount Sinai	monte Sinaí	ພູ ຊີນາຍ
+មាស	gold	oro	ຄຳ
+ឈាម	blood	sangre	ເລືອດ
+ទន្លេ	river	río	ແມ່ນ້ຳ
+ម៉ូអាប់	Moab	Moab	ໂມອາບ
+ទឹកឃ្មុំ	honey	miel	ນ້ຳເຜິ້ງ
+ឃ្មុំ	bee	abeja	ເຜິ້ງ
+គ្រឿង សឹក	armor	armadura	ເຄື່ອງ ຫຸ້ມ ເກາະ
+សំពៅ	ship	barco	ກຳປັ່ນ
+ពពក	cloud	nube	ເມກ
+ឆ្កែ	dog	perro	ໝາ
+យេស៊ូ	Jesus	Jesús	ເຢຊູ
+ស្នូក	manger	pesebre	ຮາງ ຫຍ້າ
+ភ្លេង	music	música	ດົນຕີ
+ផ្នូរ	tomb	tumba	ອຸບໂມງ
+ឈើឆ្កាង	cross	cruz	ໄມ້ກາງແຂນ
+លា	donkey	burro	ລາ
+គ្រាប់ពូជ	seed	semilla	ເມັດພືດ
+បន្លា	thorns	espinos	ໜາມ
+ក្រុង	city	ciudad	ນະຄອນ
+បល្ល័ង្ក	throne	trono	ບັນລັງ
+ជើង ចង្កៀង	lampstand	candelero	ຂາ ຕະກຽງ
+ជ្រូក	pig	cerdo	ໝູ
+កន្ទេល	mat	camilla	ສາດ
+ដំបូល	roof	techo	ຫລັງຄາ
+ធូលី	dust	polvo	ຂີ້ຝຸ່ນ
+ច្រវាក់	chain	cadena	ໂສ້
+រទេះ	chariot	carro	ລົດມ້າ
+គុក	prison	cárcel	ຄຸກ
+ឧស	firewood	leña	ຟືນ
+សម្លៀកបំពាក់	clothes	ropa	ເຄື່ອງນຸ່ງ
+ខ្ញុំ ចង់ ធ្វើ ជា ដី ល្អ ។	I want to be good soil.	Quiero ser tierra buena.	ຂ້ອຍ ຢາກ ເປັນ ດິນ ດີ .
+ខ្ញុំ ចូលចិត្ត បន្លា ។	I like thorns.	Me gustan los espinos.	ຂ້ອຍ ມັກ ໜາມ .
+អាណិត គាត់ ណាស់ ! ខ្ញុំ នឹង ជួយ គាត់ ។	Poor man! I will help him.	¡Pobre hombre! Lo voy a ayudar.	ໜ້າ ສົງສານ ລາວ ແທ້ ! ຂ້ອຍ ຈະ ຊ່ວຍ ລາວ .
+មិន មែន រឿង ខ្ញុំ ទេ ។	That's not my business.	No es asunto mío.	ບໍ່ ແມ່ນ ເລື່ອງ ຂອງ ຂ້ອຍ .
+ចៀម មួយ បាត់ ! ខ្ញុំ ត្រូវ ទៅ រក វា ។	One sheep is lost! I have to go find it.	¡Falta una oveja! Tengo que ir a buscarla.	ແກະ ໂຕ ໜຶ່ງ ເສຍ ! ຂ້ອຍ ຕ້ອງ ໄປ ຊອກ ມັນ .
+កៅសិប ប្រាំបួន គ្រប់ គ្រាន់ ហើយ ។	Ninety-nine is enough.	Noventa y nueve son suficientes.	ເກົ້າສິບ ເກົ້າ ກໍ ພໍ ແລ້ວ .
+ខ្ញុំ នឹង ត្រឡប់ ទៅ រក ឪពុក ។ ខ្ញុំ នឹង និយាយ ថា ៖ ខ្ញុំ បាន ធ្វើ បាប ។	I will go back to my father. I will say: I have sinned.	Volveré a mi padre. Le diré: he pecado.	ຂ້ອຍ ຈະ ກັບ ໄປ ຫາ ພໍ່ . ຂ້ອຍ ຈະ ເວົ້າ ວ່າ : ຂ້ອຍ ໄດ້ ເຮັດ ບາບ .
+ខ្ញុំ នឹង នៅ ទីនេះ ជាមួយ ជ្រូក ។	I will stay here with the pigs.	Me quedaré aquí con los cerdos.	ຂ້ອຍ ຈະ ຢູ່ ນີ້ ກັບ ໝູ .
+ឪពុក ! ខ្ញុំ បាន ធ្វើ បាប ។ ខ្ញុំ មិន សម ជា កូន របស់ ឪពុក ទៀត ទេ ។	Father! I have sinned. I am no longer worthy to be your son.	¡Padre! He pecado. Ya no merezco ser tu hijo.	ພໍ່ ! ຂ້ອຍ ໄດ້ ເຮັດ ບາບ . ຂ້ອຍ ບໍ່ ສົມຄວນ ເປັນ ລູກ ຂອງ ພໍ່ ອີກ ແລ້ວ .
+ឪពុក ! ឲ្យ ប្រាក់ ខ្ញុំ ទៀត !	Father! Give me more money!	¡Padre! ¡Dame más dinero!	ພໍ່ ! ເອົາ ເງິນ ໃຫ້ ຂ້ອຍ ອີກ !
+អាម៉ែន ! សូម យាង មក ព្រះអម្ចាស់ យេស៊ូ !	Amen! Come, Lord Jesus!	¡Amén! ¡Ven, Señor Jesús!	ອາແມນ ! ເຊີນ ສະເດັດ ມາ ອົງພຣະຜູ້ເປັນເຈົ້າ ເຢຊູ !
+អាម៉ែន !	Amen!	¡Amén!	ອາແມນ !
+តោះ ឡើង លើ ដំបូល ផ្ទះ !	Let's go up on the roof!	¡Subamos al techo!	ໄປ ຂຶ້ນ ຫລັງຄາ ເຮືອນ ເທາະ !
+តោះ ទៅ ផ្ទះ វិញ ។	Let's go back home.	Volvamos a casa.	ກັບ ບ້ານ ເທາະ .
+ចូរ ប្រែ ចិត្ត ! នគរ ព្រះ មក ជិត ហើយ !	Repent! The kingdom of God is near!	¡Arrepiéntanse! ¡El reino de Dios está cerca!	ຈົ່ງ ກັບໃຈ ! ອານາຈັກ ຂອງ ພຣະເຈົ້າ ມາ ໃກ້ ແລ້ວ !
+ខ្ញុំ ហត់ ណាស់ ។	I'm very tired.	Estoy muy cansado.	ຂ້ອຍ ເມື່ອຍ ຫລາຍ .
+ព្រះអម្ចាស់ ! សូម្បី តែ អារក្ស ក៏ ស្ដាប់ យើង ក្នុង ព្រះនាម ព្រះអង្គ !	Lord! Even the demons obey us in your name!	¡Señor! ¡Hasta los demonios nos obedecen en tu nombre!	ອົງພຣະຜູ້ເປັນເຈົ້າ ! ແມ່ນ ແຕ່ ຜີ ກໍ ຟັງ ພວກເຮົາ ໃນ ພຣະນາມ ຂອງ ພຣະອົງ !
+ភូមិ ទី ពីរ អាក្រក់ ណាស់ !	The second village was awful!	¡El segundo pueblo fue horrible!	ບ້ານ ທີ ສອງ ບໍ່ ດີ ເລີຍ !
+ព្រះអម្ចាស់ ! បើ ពិត ជា ព្រះអង្គ សូម បង្គាប់ ឲ្យ ខ្ញុំ ដើរ លើ ទឹក មក រក ព្រះអង្គ ។	Lord! If it's really you, tell me to walk on the water to you.	¡Señor! Si de verdad eres tú, mándame ir a ti sobre el agua.	ອົງພຣະຜູ້ເປັນເຈົ້າ ! ຖ້າ ແມ່ນ ພຣະອົງ ແທ້ ຂໍ ສັ່ງ ໃຫ້ ຂ້ອຍ ຍ່າງ ເທິງ ນ້ຳ ໄປ ຫາ ພຣະອົງ .
+ខ្ញុំ នៅ ក្នុង ទូក ។	I'm staying in the boat.	Me quedo en el barco.	ຂ້ອຍ ຢູ່ ໃນ ເຮືອ .
+ខ្ញុំ មក ពី ស្រុក គីរេន ។ មាន រឿង អ្វី ?	I'm from Cyrene. What's going on?	Soy de Cirene. ¿Qué pasa?	ຂ້ອຍ ມາ ຈາກ ເມືອງ ກີເຣເນ . ມີ ເລື່ອງ ຫຍັງ ?
+ខ្ញុំ ចង់ ទៅ ផ្សារ ។	I want to go to the market.	Quiero ir al mercado.	ຂ້ອຍ ຢາກ ໄປ ຕະຫລາດ .
+ព្រះយេស៊ូ ស្លាប់ សម្រាប់ មនុស្ស គ្រប់ គ្នា ។	Jesus died for everyone.	Jesús murió por todos.	ພຣະເຢຊູ ສິ້ນພຣະຊົນ ເພື່ອ ທຸກ ຄົນ .
+ខ្ញុំ មិន យល់ ទេ ...	I don't understand...	No entiendo...	ຂ້ອຍ ບໍ່ ເຂົ້າໃຈ ...
+ចូរ ប្រែ ចិត្ត ហើយ ទទួល ពិធី ជ្រមុជ ទឹក ក្នុង ព្រះនាម ព្រះយេស៊ូគ្រីស្ទ !	Repent and be baptized in the name of Jesus Christ!	¡Arrepiéntanse y bautícense en el nombre de Jesucristo!	ຈົ່ງ ກັບໃຈ ແລະ ຮັບ ບັບຕິສະມາ ໃນ ພຣະນາມ ພຣະເຢຊູຄຣິດ !
+ទៅ ផ្ទះ វិញ ចុះ ។	Go home.	Váyanse a casa.	ກັບ ບ້ານ ໄປ .
+ខ្ញុំ គ្មាន ប្រាក់ ទេ ។ ប៉ុន្តែ ក្នុង ព្រះនាម ព្រះយេស៊ូ ចូរ ក្រោក ឡើង ហើយ ដើរ !	I have no money. But in the name of Jesus, get up and walk!	No tengo dinero. ¡Pero en el nombre de Jesús, levántate y anda!	ຂ້ອຍ ບໍ່ ມີ ເງິນ . ແຕ່ ໃນ ພຣະນາມ ພຣະເຢຊູ ຈົ່ງ ລຸກ ຂຶ້ນ ແລະ ຍ່າງ !
+សូម ទោស ខ្ញុំ គ្មាន អ្វី ទេ ។	Sorry, I have nothing.	Lo siento, no tengo nada.	ຂໍໂທດ ຂ້ອຍ ບໍ່ ມີ ຫຍັງ .
+តើ លោក យល់ អ្វី ដែល លោក អាន ទេ ?	Do you understand what you are reading?	¿Entiendes lo que lees?	ທ່ານ ເຂົ້າໃຈ ສິ່ງ ທີ່ ທ່ານ ອ່ານ ບໍ ?
+រទេះ លោក ស្អាត ណាស់ ។	Your chariot is very nice.	Tu carro es muy bonito.	ລົດມ້າ ຂອງ ທ່ານ ງາມ ຫລາຍ .
+លោក ម្ចាស់ ! លោក ជា នរណា ?	Lord! Who are you?	¡Señor! ¿Quién eres?	ພຣະອົງເຈົ້າ ! ທ່ານ ແມ່ນ ໃຜ ?
+ខ្ញុំ មិន ខ្លាច ទេ !	I'm not afraid!	¡No tengo miedo!	ຂ້ອຍ ບໍ່ ຢ້ານ !
+កុំ ធ្វើ បាប ខ្លួន ឯង ! យើង នៅ ទីនេះ ទាំងអស់ គ្នា !	Don't hurt yourself! We are all here!	¡No te hagas daño! ¡Todos estamos aquí!	ຢ່າ ທຳຮ້າຍ ຕົວ ເອງ ! ພວກເຮົາ ຢູ່ ນີ້ ທຸກ ຄົນ !
+តោះ រត់ !	Let's run!	¡Corramos!	ແລ່ນ ເທາະ !
+ចូរ ជឿ ព្រះអម្ចាស់ យេស៊ូ នោះ លោក នឹង បាន សង្គ្រោះ ទាំង គ្រួសារ លោក ។	Believe in the Lord Jesus, and you will be saved, you and your household.	Cree en el Señor Jesús, y serás salvo tú y tu casa.	ຈົ່ງ ເຊື່ອ ອົງພຣະຜູ້ເປັນເຈົ້າ ເຢຊູ ແລ້ວ ທ່ານ ຈະ ລອດ ພົ້ນ ທັງ ຄອບຄົວ ຂອງ ທ່ານ .
+ខ្ញុំ មិន ដឹង ទេ ។	I don't know.	No sé.	ຂ້ອຍ ບໍ່ ຮູ້ .
+ទេ ! ខ្ញុំ ជា មនុស្ស ។ ព្រះយេស៊ូ ការពារ ខ្ញុំ ។	No! I am a man. Jesus protects me.	¡No! Soy un hombre. Jesús me protege.	ບໍ່ ! ຂ້ອຍ ເປັນ ຄົນ . ພຣະເຢຊູ ປົກປ້ອງ ຂ້ອຍ .
+បាទ ! ខ្ញុំ ជា ព្រះ !	Yes! I am a god!	¡Sí! ¡Soy un dios!	ແມ່ນ ! ຂ້ອຍ ເປັນ ພຣະ !
+យើង មិន ក្រាប ថ្វាយបង្គំ រូប នេះ ទេ !	We will not bow down to this statue!	¡No nos inclinaremos ante esta estatua!	ພວກເຮົາ ຈະ ບໍ່ ກົ້ມ ຂາບ ຮູບ ນີ້ !
+បាទ ! យើង ក្រាប ។	Yes! We'll bow.	¡Sí! Nos inclinamos.	ແມ່ນ ! ພວກເຮົາ ຈະ ກົ້ມ ຂາບ .
+ខ្ញុំ នឹង អធិស្ឋាន ដល់ ព្រះ ខ្ញុំ ដូច ពី មុន ។	I will pray to my God as before.	Oraré a mi Dios como antes.	ຂ້ອຍ ຈະ ອະທິຖານ ຫາ ພຣະເຈົ້າ ຂອງ ຂ້ອຍ ຄື ເກົ່າ .
+ខ្ញុំ នឹង ឈប់ អធិស្ឋាន ។	I will stop praying.	Dejaré de orar.	ຂ້ອຍ ຈະ ເຊົາ ອະທິຖານ .
+ព្រះ របស់ ខ្ញុំ បាន ចាត់ ទេវតា មក បិទ មាត់ តោ ។	My God sent his angel and shut the lions' mouths.	Mi Dios envió a su ángel y cerró la boca de los leones.	ພຣະເຈົ້າ ຂອງ ຂ້ອຍ ໄດ້ ສົ່ງ ເທວະດາ ມາ ປິດ ປາກ ສິງ .
+តោ ទាំងនេះ ឃ្លាន ណាស់ !	These lions are very hungry!	¡Estos leones tienen mucha hambre!	ສິງ ເຫລົ່ານີ້ ຫິວ ຫລາຍ !
+លោកគ្រូ ! យើង ជិត ស្លាប់ ហើយ ! លោក មិន ខ្វល់ ទេ ឬ ?	Teacher! We're about to die! Don't you care?	¡Maestro! ¡Nos vamos a morir! ¿No te importa?	ອາຈານ ! ພວກເຮົາ ຈະ ຕາຍ ແລ້ວ ! ທ່ານ ບໍ່ ສົນໃຈ ບໍ ?
+ខ្ញុំ ចង់ ដេក ដែរ ។	I want to sleep too.	Yo también quiero dormir.	ຂ້ອຍ ກໍ ຢາກ ນອນ ຄືກັນ .
+នេះ ជា អាហារ របស់ ខ្ញុំ ។ យក ទៅ ។	This is my food. Take it.	Esta es mi comida. Tómala.	ນີ້ ແມ່ນ ອາຫານ ຂອງ ຂ້ອຍ . ເອົາ ໄປ .
+ទេ ! អាហារ នេះ ជា របស់ ខ្ញុំ !	No! This food is mine!	¡No! ¡Esta comida es mía!	ບໍ່ ! ອາຫານ ນີ້ ເປັນ ຂອງ ຂ້ອຍ !
+ព្រះអម្ចាស់ ! ខ្ញុំ នឹង ឲ្យ ទ្រព្យ ពាក់ កណ្ដាល ដល់ អ្នក ក្រ ។ ខ្ញុំ នឹង សង វិញ បួន ដង ។	Lord! I will give half of what I own to the poor. I will pay back four times as much.	¡Señor! Daré la mitad de mis bienes a los pobres. Devolveré cuatro veces más.	ອົງພຣະຜູ້ເປັນເຈົ້າ ! ຂ້ອຍ ຈະ ໃຫ້ ຊັບສິນ ເຄິ່ງ ໜຶ່ງ ແກ່ ຄົນ ທຸກຍາກ . ຂ້ອຍ ຈະ ຄືນ ໃຫ້ ສີ່ ເທົ່າ .
+ប្រាក់ ទាំងអស់ ជា របស់ ខ្ញុំ !	All the money is mine!	¡Todo el dinero es mío!	ເງິນ ທັງໝົດ ເປັນ ຂອງ ຂ້ອຍ !
+រ៉ាបូនី ! លោកគ្រូ !	Rabboni! Teacher!	¡Raboni! ¡Maestro!	ຣັບໂບນີ ! ອາຈານ !
+លោក ជា អ្នក ថែ សួន មែន ទេ ?	Are you the gardener?	¿Usted es el jardinero?	ທ່ານ ແມ່ນ ຄົນ ເຝົ້າ ສວນ ບໍ ?
+ខ្ញុំ បាន ឃើញ ព្រះអម្ចាស់ ! ព្រះអង្គ មាន ព្រះជន្ម រស់ ឡើង វិញ !	I have seen the Lord! He is alive again!	¡He visto al Señor! ¡Ha resucitado!	ຂ້ອຍ ໄດ້ ເຫັນ ອົງພຣະຜູ້ເປັນເຈົ້າ ! ພຣະອົງ ຄືນ ພຣະຊົນ ແລ້ວ !
+ពួក ភីលីស្ទីន ធ្វើ អាក្រក់ ដាក់ ខ្ញុំ ។ ខ្ញុំ នឹង តប វិញ ។	The Philistines did me wrong. I will pay them back.	Los filisteos me hicieron mal. Les devolveré el golpe.	ພວກ ຟີລິດສະຕິນ ເຮັດ ບໍ່ ດີ ຕໍ່ ຂ້ອຍ . ຂ້ອຍ ຈະ ຕອບ ແທນ .
+ខ្ញុំ ចូលចិត្ត ពួក ភីលីស្ទីន ។	I like the Philistines.	Me caen bien los filisteos.	ຂ້ອຍ ມັກ ພວກ ຟີລິດສະຕິນ .
+ទីណា ដែល អ្នក ទៅ ខ្ញុំ ក៏ ទៅ ដែរ ។ ព្រះ របស់ អ្នក ជា ព្រះ របស់ ខ្ញុំ ។	Where you go, I will go. Your God will be my God.	A donde tú vayas, iré yo. Tu Dios será mi Dios.	ບ່ອນ ໃດ ທີ່ ເຈົ້າ ໄປ ຂ້ອຍ ກໍ ຈະ ໄປ . ພຣະເຈົ້າ ຂອງ ເຈົ້າ ເປັນ ພຣະເຈົ້າ ຂອງ ຂ້ອຍ .
+លា ហើយ ណាអូមី ។	Goodbye, Naomi.	Adiós, Noemí.	ລາກ່ອນ ນາໂອມີ .
+ខ្ញុំ នឹង ទៅ ច្បាំង ជាមួយ គាត់ ។	I will go and fight him.	Iré a pelear con él.	ຂ້ອຍ ຈະ ໄປ ສູ້ ກັບ ລາວ .
+ខ្ញុំ ខ្លាច ណាស់ ។	I'm very scared.	Tengo mucho miedo.	ຂ້ອຍ ຢ້ານ ຫລາຍ .
+អ្នក មក ជាមួយ ដាវ ។ ខ្ញុំ មក ក្នុង ព្រះនាម ព្រះជាម្ចាស់ !	You come with a sword. I come in the name of the Lord!	Tú vienes con espada. ¡Yo vengo en el nombre del Señor!	ເຈົ້າ ມາ ພ້ອມ ດາບ . ຂ້ອຍ ມາ ໃນ ພຣະນາມ ຂອງ ພຣະເຈົ້າ !
+ខ្ញុំ រត់ ទៅ ផ្ទះ !	I'm running home!	¡Me voy corriendo a casa!	ຂ້ອຍ ແລ່ນ ກັບ ບ້ານ !
+ទេ ! ខ្ញុំ នឹង រត់ ទៅ ក្រុង តើស៊ីស ។	No! I will run away to Tarshish.	¡No! Huiré a Tarsis.	ບໍ່ ! ຂ້ອຍ ຈະ ໜີ ໄປ ເມືອງ ທາຊິດ .
+បាទ ។ ខ្ញុំ ទៅ នីនីវេ ។	Yes. I'm going to Nineveh.	Sí. Voy a Nínive.	ແມ່ນ . ຂ້ອຍ ໄປ ນີເນເວ .
+ដោយសារ ខ្ញុំ ។ បោះ ខ្ញុំ ទៅ ក្នុង សមុទ្រ ។	It's because of me. Throw me into the sea.	Es por mi culpa. Échenme al mar.	ຍ້ອນ ຂ້ອຍ . ໂຍນ ຂ້ອຍ ລົງ ທະເລ .
+មិន មែន ខ្ញុំ ទេ !	It's not me!	¡No soy yo!	ບໍ່ ແມ່ນ ຂ້ອຍ !
+ព្រះជាម្ចាស់ អើយ ! សូម ឆ្លើយ មក ! ឲ្យ គេ ដឹង ថា ព្រះអង្គ ជា ព្រះ ។	Lord! Answer me! Let them know that you are God.	¡Señor! ¡Respóndeme! Que sepan que tú eres Dios.	ພຣະເຈົ້າ ເອີຍ ! ຂໍ ຕອບ ມາ ! ໃຫ້ ພວກເຂົາ ຮູ້ ວ່າ ພຣະອົງ ເປັນ ພຣະເຈົ້າ .
+បាល អើយ ! ឆ្លើយ មក !	Baal! Answer!	¡Baal! ¡Responde!	ບາອານ ເອີຍ ! ຕອບ ມາ !
+ខ្ញុំ អាច រក ម្ដាយ ដោះ សម្រាប់ ទារក នេះ ។	I can find a nurse for this baby.	Puedo buscar una nodriza para este bebé.	ຂ້ອຍ ຊອກ ແມ່ນົມ ໃຫ້ ເດັກນ້ອຍ ນີ້ ໄດ້ .
+នោះ ជា ប្អូន ខ្ញុំ !	That's my little brother!	¡Ese es mi hermanito!	ນັ້ນ ແມ່ນ ນ້ອງ ຂອງ ຂ້ອຍ !
+ផារ៉ោន ! ឲ្យ ប្រជាជន ព្រះជាម្ចាស់ ចេញ ទៅ !	Pharaoh! Let the Lord's people go!	¡Faraón! ¡Deja ir al pueblo del Señor!	ຟາໂຣ ! ປ່ອຍ ປະຊາຊົນ ຂອງ ພຣະເຈົ້າ ໄປ !
+សូម ទោស ផារ៉ោន ។	Sorry, Pharaoh.	Perdón, faraón.	ຂໍໂທດ ຟາໂຣ .
+អ្នក រាល់ គ្នា ធ្វើ បាប ធំ !	You have all committed a great sin!	¡Todos ustedes han cometido un gran pecado!	ພວກເຈົ້າ ທຸກ ຄົນ ເຮັດ ບາບ ໃຫຍ່ !
+គោ មាស ស្អាត ណាស់ !	The golden calf is very pretty!	¡El becerro de oro es muy bonito!	ງົວ ຄຳ ງາມ ຫລາຍ !
+ព្រះជាម្ចាស់ មាន ព្រះហឫទ័យ មេត្តាករុណា ។	The Lord is merciful and gracious.	El Señor es misericordioso y clemente.	ພຣະເຈົ້າ ຊົງ ເມດຕາ ແລະ ກະລຸນາ .
+បាទ ។ ខ្ញុំ នឹង ទៅ ។	Yes. I will go.	Sí. Iré.	ແມ່ນ . ຂ້ອຍ ຈະ ໄປ .
+ខ្ញុំ ខ្លាច ស្ដេច ។	I'm afraid of the king.	Tengo miedo del rey.	ຂ້ອຍ ຢ້ານ ກະສັດ .
+ព្រះករុណា ! ខ្ញុំ មាន សារ សម្ងាត់ សម្រាប់ ព្រះអង្គ ។	Your Majesty! I have a secret message for you.	¡Majestad! Tengo un mensaje secreto para usted.	ຂ້າແດ່ ກະສັດ ! ຂ້ອຍ ມີ ຂ່າວ ລັບ ສຳລັບ ພຣະອົງ .
+ខ្ញុំ ចង់ ទៅ ផ្ទះ ។	I want to go home.	Quiero ir a casa.	ຂ້ອຍ ຢາກ ກັບ ບ້ານ .
+តាម ខ្ញុំ ! ព្រះជាម្ចាស់ ប្រគល់ ម៉ូអាប់ មក យើង ។	Follow me! The Lord has given Moab to us.	¡Síganme! El Señor nos ha entregado a Moab.	ຕາມ ຂ້ອຍ ມາ ! ພຣະເຈົ້າ ມອບ ໂມອາບ ໃຫ້ ພວກເຮົາ .
+ទៅ ផ្ទះ វិញ ។	Go back home.	Vuelvan a casa.	ກັບ ບ້ານ ໄປ .
+ចង ខ្ញុំ ចុះ ។ ប៉ុន្តែ កុំ សម្លាប់ ខ្ញុំ ។	Tie me up. But don't kill me.	Átenme. Pero no me maten.	ມັດ ຂ້ອຍ ເທາະ . ແຕ່ ຢ່າ ຂ້າ ຂ້ອຍ .
+កុំ ចង ខ្ញុំ !	Don't tie me up!	¡No me aten!	ຢ່າ ມັດ ຂ້ອຍ !
+ខ្ញុំ ទៅ ក្រុង ធីមណាត់ ។	I'm going to Timnah.	Voy a Timnat.	ຂ້ອຍ ໄປ ເມືອງ ທິມນາ .
+ខ្ញុំ ចង់ ដេក ។	I want to sleep.	Quiero dormir.	ຂ້ອຍ ຢາກ ນອນ .
+ខ្ញុំ ហត់ ណាស់ ។ យប់ ហើយ ។	I'm very tired. It's night.	Estoy muy cansado. Ya es de noche.	ຂ້ອຍ ເມື່ອຍ ຫລາຍ . ກາງຄືນ ແລ້ວ .
+ខ្ញុំ ចង់ ហែល ទឹក ។	I want to go swimming.	Quiero nadar.	ຂ້ອຍ ຢາກ ລອຍ ນ້ຳ .
+ព្រះជាម្ចាស់ នៅ ទីនេះ ! ខ្ញុំ មិន ដឹង ទេ ។	The Lord is here! I didn't know.	¡El Señor está aquí! Yo no lo sabía.	ພຣະເຈົ້າ ຢູ່ ນີ້ ! ຂ້ອຍ ບໍ່ ຮູ້ .
+វា គ្រាន់ តែ ជា សុបិន ។	It's only a dream.	Es solo un sueño.	ມັນ ເປັນ ພຽງ ຄວາມຝັນ .
+អរគុណ ប៉ា ! អាវ ស្អាត ណាស់ !	Thank you, Dad! The coat is beautiful!	¡Gracias, papá! ¡El manto es precioso!	ຂອບໃຈ ພໍ່ ! ເສື້ອ ງາມ ຫລາຍ !
+ខ្ញុំ មិន ចូលចិត្ត ពណ៌ ទេ ។	I don't like colors.	No me gustan los colores.	ຂ້ອຍ ບໍ່ ມັກ ສີ .
+ប៉ា ! ជួយ ខ្ញុំ ផង !	Dad! Help me!	¡Papá! ¡Ayúdame!	ພໍ່ ! ຊ່ວຍ ຂ້ອຍ ແດ່ !
+ខ្ញុំ ចង់ ទៅ អេស៊ីប !	I want to go to Egypt!	¡Quiero ir a Egipto!	ຂ້ອຍ ຢາກ ໄປ ເອຢິບ !
+ប្រាំពីរ ឆ្នាំ មាន ស្បៀង ច្រើន ។ ប្រាំពីរ ឆ្នាំ ទៀត គ្មាន ស្បៀង ។	Seven years of plenty. Then seven years with no food.	Siete años de abundancia. Luego siete años sin comida.	ເຈັດ ປີ ມີ ອາຫານ ຫລາຍ . ອີກ ເຈັດ ປີ ບໍ່ ມີ ອາຫານ .
+គោ ចូលចិត្ត ស្មៅ ។	Cows like grass.	A las vacas les gusta la hierba.	ງົວ ມັກ ຫຍ້າ .
+ខ្ញុំ នឹង ទៅ ។	I will go.	Iré.	ຂ້ອຍ ຈະ ໄປ .
+ខ្ញុំ មិន ចេះ និយាយ ទេ ...	I can't speak well...	No sé hablar bien...	ຂ້ອຍ ເວົ້າ ບໍ່ ເປັນ ...
+កុំ ខ្លាច ! ព្រះជាម្ចាស់ នឹង ជួយ យើង ។	Don't be afraid! The Lord will help us.	¡No tengan miedo! El Señor nos ayudará.	ຢ່າ ຢ້ານ ! ພຣະເຈົ້າ ຈະ ຊ່ວຍ ພວກເຮົາ .
+រត់ ! រត់ !	Run! Run!	¡Corran! ¡Corran!	ແລ່ນ ! ແລ່ນ !
+ព្រះជាម្ចាស់ ជា កម្លាំង របស់ ខ្ញុំ ។	The Lord is my strength.	El Señor es mi fuerza.	ພຣະເຈົ້າ ເປັນ ກຳລັງ ຂອງ ຂ້ອຍ .
+ទឹក ត្រជាក់ ណាស់ ។	The water is very cold.	El agua está muy fría.	ນ້ຳ ເຢັນ ຫລາຍ .
+ខ្ញុំ មិន យល់ ទេ !	I don't understand!	¡No entiendo!	ຂ້ອຍ ບໍ່ ເຂົ້າໃຈ !
+បាទ ! ល្អ ណាស់ !	Yes! Very good!	¡Sí! ¡Muy bien!	ແມ່ນ ! ດີ ຫລາຍ !
+ខ្ញុំ មិន យល់ អ្វី ទាំងអស់ !	I don't understand anything!	¡No entiendo nada!	ຂ້ອຍ ບໍ່ ເຂົ້າໃຈ ຫຍັງ ເລີຍ !
+ខ្ញុំ យល់ ហើយ !	I understand now!	¡Ahora entiendo!	ຂ້ອຍ ເຂົ້າໃຈ ແລ້ວ !
+ខ្ញុំ មិន ដឹង ទេ ។ ព្រះជាម្ចាស់ នឹង បង្ហាញ ។	I don't know. The Lord will show us.	No sé. El Señor proveerá.	ຂ້ອຍ ບໍ່ ຮູ້ . ພຣະເຈົ້າ ຈະ ສະແດງ ໃຫ້ ເຫັນ .
+យើង ទៅ ផ្សារ ។	We're going to the market.	Vamos al mercado.	ພວກເຮົາ ໄປ ຕະຫລາດ .
+ផ្កាយ ច្រើន ណាស់ ! ខ្ញុំ រាប់ មិន អស់ ទេ !	So many stars! I can't count them all!	¡Cuántas estrellas! ¡No las puedo contar!	ດາວ ຫລາຍ ແທ້ ! ຂ້ອຍ ນັບ ບໍ່ ໝົດ !
+ផ្កាយ មាន ដប់ ។	There are ten stars.	Hay diez estrellas.	ມີ ດາວ ສິບ ດວງ .
+ខ្ញុំ នៅ ទីនេះ ។	Here I am.	Aquí estoy.	ຂ້ອຍ ຢູ່ ນີ້ .
+ខ្ញុំ មិន ទៅ ទេ !	I'm not going!	¡No voy!	ຂ້ອຍ ບໍ່ ໄປ !
+ព្រះជាម្ចាស់ នឹង ផ្គត់ផ្គង់ កូនចៀម ។	God will provide the lamb.	Dios proveerá el cordero.	ພຣະເຈົ້າ ຈະ ຈັດ ຫາ ລູກແກະ ໃຫ້ .
+ទឹក ស្រក ហើយ !	The water is going down!	¡El agua está bajando!	ນ້ຳ ລົດ ລົງ ແລ້ວ !
+ព្រាប ឃ្លាន ។	The dove is hungry.	La paloma tiene hambre.	ນົກເຂົາ ຫິວ .
+ឆ្ងាញ់ !	Delicious!	¡Delicioso!	ແຊບ !
+ផ្លែឈើ ល្អ ណាស់ !	The fruit is very good!	¡La fruta es muy buena!	ໝາກໄມ້ ດີ ຫລາຍ !
+បាទ ។	Yes.	Sí.	ແມ່ນ .
+ទេ !	No!	¡No!	ບໍ່ !
+ឆ្អឹង ពី ឆ្អឹង ខ្ញុំ ! សាច់ ពី សាច់ ខ្ញុំ !	Bone of my bones! Flesh of my flesh!	¡Hueso de mis huesos! ¡Carne de mi carne!	ກະດູກ ຈາກ ກະດູກ ຂອງ ຂ້ອຍ ! ເນື້ອ ຈາກ ເນື້ອ ຂອງ ຂ້ອຍ !
+អ្នក ជា នរណា ?	Who are you?	¿Quién eres?	ເຈົ້າ ແມ່ນ ໃຜ ?
+យើង ហូប ផ្លែឈើ បាន ។ ប៉ុន្តែ ផ្លែ ពី ដើមឈើ នេះ ... កុំ ហូប ។ យើង នឹង ស្លាប់ ។	We may eat fruit. But the fruit from this tree... don't eat it. We will die.	Podemos comer fruta. Pero la fruta de este árbol... no la comas. Moriremos.	ພວກເຮົາ ກິນ ໝາກໄມ້ ໄດ້ . ແຕ່ ໝາກ ຈາກ ຕົ້ນ ນີ້ ... ຢ່າ ກິນ . ພວກເຮົາ ຈະ ຕາຍ .
+ពស់ និយាយ បាន !	The snake can talk!	¡La serpiente puede hablar!	ງູ ເວົ້າ ໄດ້ !
+អូយ ... យើង ខ្លាច ។	Oh... we're afraid.	Ay... tenemos miedo.	ໂອ້ຍ ... ພວກເຮົາ ຢ້ານ .
+យើង សប្បាយ ណាស់ !	We're so happy!	¡Estamos muy felices!	ພວກເຮົາ ມ່ວນ ຫລາຍ !
+ពស់ បញ្ឆោត ខ្ញុំ ។	The snake tricked me.	La serpiente me engañó.	ງູ ຫລອກ ຂ້ອຍ .
+អ័ដាម ឲ្យ ខ្ញុំ ។	Adam gave it to me.	Adán me lo dio.	ອາດາມ ໃຫ້ ຂ້ອຍ .
+ទឹកជំនន់ នឹង មក ។	The flood is coming.	El diluvio viene.	ນ້ຳຖ້ວມ ຈະ ມາ .
+ខ្ញុំ ចូលចិត្ត ទូក ។	I like boats.	Me gustan los barcos.	ຂ້ອຍ ມັກ ເຮືອ .
+ដី ស្ងួត ហើយ !	The ground is dry!	¡La tierra está seca!	ດິນ ແຫ້ງ ແລ້ວ !
+ទឹក នៅ ច្រើន ។	There's still a lot of water.	Todavía hay mucha agua.	ຍັງ ມີ ນ້ຳ ຫລາຍ .
+ចុច អក្សរ ដែល ភ្លឺ ។	Tap the glowing letter.	Toca la letra que brilla.	ກົດ ຕົວອັກສອນ ທີ່ ສ່ອງ ແສງ .
+សរសេរ ពាក្យ មួយ ហើយ និយាយ ។	Write a word and say it.	Escribe una palabra y dila.	ຂຽນ ຄຳ ໜຶ່ງ ແລ້ວ ເວົ້າ .
+និយាយ	Say it	Decir	ເວົ້າ
+... គ្មាន អ្វី កើត ឡើង ទេ ។	... nothing happens.	... no pasa nada.	... ບໍ່ ມີ ຫຍັງ ເກີດ ຂຶ້ນ .
+សំឡេង ប្រព័ន្ធ ៖ បើក	System voice: on	Voz del sistema: sí	ສຽງ ລະບົບ : ເປີດ
+សំឡេង ប្រព័ន្ធ ៖ បិទ	System voice: off	Voz del sistema: no	ສຽງ ລະບົບ : ປິດ
+(គ្មាន សំឡេង ខ្មែរ)	(no Khmer voice)	(sin voz jemer)	( ບໍ່ ມີ ສຽງ ຂະແມນ )
+សួស្ដី	hello	hola	ສະບາຍດີ
+ការបង្កើត	Creation	La creación	ການ ສ້າງ ໂລກ
+លោកុប្បត្តិ ១	Genesis 1	Génesis 1	ປະຖົມມະການ 1
+សួនច្បារ អេដែន	The Garden of Eden	El jardín del Edén	ສວນ ເອເດນ
+លោកុប្បត្តិ ២	Genesis 2	Génesis 2	ປະຖົມມະການ 2
+ផ្លែឈើ ហាម	The Forbidden Fruit	El fruto prohibido	ໝາກໄມ້ ຕ້ອງ ຫ້າມ
+លោកុប្បត្តិ ៣	Genesis 3	Génesis 3	ປະຖົມມະການ 3
+ទូក ធំ	The Big Boat	El gran barco	ເຮືອ ໃຫຍ່
+លោកុប្បត្តិ ៦–៩	Genesis 6–9	Génesis 6–9	ປະຖົມມະການ 6–9
+ប៉ម បាបិល	The Tower of Babel	La torre de Babel	ຫໍຄອຍ ບາເບນ
+លោកុប្បត្តិ ១១	Genesis 11	Génesis 11	ປະຖົມມະການ 11
+ផ្កាយ និង ខ្សាច់	Stars and Sand	Estrellas y arena	ດາວ ແລະ ຊາຍ
+លោកុប្បត្តិ ១២–២២	Genesis 12–22	Génesis 12–22	ປະຖົມມະການ 12–22
+ជណ្ដើរ យ៉ាកុប	Jacob's Ladder	La escalera de Jacob	ຂັ້ນໄດ ຂອງ ຢາໂຄບ
+លោកុប្បត្តិ ២៨	Genesis 28	Génesis 28	ປະຖົມມະການ 28
+អាវ ពណ៌ ច្រើន	The Coat of Many Colors	La túnica de colores	ເສື້ອ ຫລາຍ ສີ
+លោកុប្បត្តិ ៣៧–៤១	Genesis 37–41	Génesis 37–41	ປະຖົມມະການ 37–41
+ទារក ក្នុង កន្ត្រក	The Baby in the Basket	El bebé en la canasta	ເດັກນ້ອຍ ໃນ ກະຕ່າ
+និក្ខមនំ ២	Exodus 2	Éxodo 2	ອົບພະຍົບ 2
+គុម្ពោត ឆេះ	The Burning Bush	La zarza ardiente	ພຸ່ມໄມ້ ທີ່ ລຸກ ໄໝ້
+និក្ខមនំ ៣	Exodus 3	Éxodo 3	ອົບພະຍົບ 3
+គ្រោះកាច និង បុណ្យ រំលង	The Plagues and the Passover	Las plagas y la Pascua	ໄພພິບັດ ແລະ ປັດສະຄາ
+និក្ខមនំ ៧–១២	Exodus 7–12	Éxodo 7–12	ອົບພະຍົບ 7–12
+សមុទ្រ ក្រហម	The Red Sea	El mar Rojo	ທະເລ ແດງ
+និក្ខមនំ ១៤	Exodus 14	Éxodo 14	ອົບພະຍົບ 14
+ម៉ាណា និង ទឹក ពី ថ្ម	Manna and Water from the Rock	Maná y agua de la roca	ມານາ ແລະ ນ້ຳ ຈາກ ຫີນ
+និក្ខមនំ ១៦–១៧	Exodus 16–17	Éxodo 16–17	ອົບພະຍົບ 16–17
+និក្ខមនំ ១៩–២០ · ៣២	Exodus 19–20 · 32	Éxodo 19–20 · 32	ອົບພະຍົບ 19–20 · 32
+អេហ៊ូឌ និង អេក្លូន	Ehud and Eglon	Aod y Eglón	ເອຮູດ ແລະ ເອັກໂລນ
+ពួកចៅហ្វាយ ៣	Judges 3	Jueces 3	ຜູ້ປົກຄອງ 3
+សាំសុន និង តោ	Samson and the Lion	Sansón y el león	ແຊມຊັນ ແລະ ສິງ
+ពួកចៅហ្វាយ ១៤	Judges 14	Jueces 14	ຜູ້ປົກຄອງ 14
+កញ្ជ្រាង បីរយ	Three Hundred Foxes	Trescientas zorras	ໝາຈອກ ສາມ ຮ້ອຍ
+ពួកចៅហ្វាយ ១៥	Judges 15	Jueces 15	ຜູ້ປົກຄອງ 15
+ឆ្អឹង ថ្គាម លា	The Donkey's Jawbone	La quijada de burro	ກະດູກ ຄາງ ລາ
+ពួកចៅហ្វាយ ១៥–១៦	Judges 15–16	Jueces 15–16	ຜູ້ປົກຄອງ 15–16
+រស់ និង បូអូស	Ruth and Boaz	Rut y Booz	ນາງຣຸດ ແລະ ໂບອາດ
+នាង រស់ ១–៤	Ruth 1–4	Rut 1–4	ນາງຣຸດ 1–4
+ប្រេង តាំង	Anointed with Oil	Ungido con aceite	ເຈີມ ດ້ວຍ ນ້ຳມັນ
+១ សាំយូអែល ១៦	1 Samuel 16	1 Samuel 16	1 ຊາມູເອນ 16
+ដាវីឌ និង កូលីយ៉ាត	David and Goliath	David y Goliat	ດາວິດ ແລະ ໂກລີອາດ
+១ សាំយូអែល ១៧	1 Samuel 17	1 Samuel 17	1 ຊາມູເອນ 17
+ពិណ និង លំពែង	The Harp and the Spear	El arpa y la lanza	ພິນ ແລະ ຫອກ
+១ សាំយូអែល ១៨–១៩	1 Samuel 18–19	1 Samuel 18–19	1 ຊາມູເອນ 18–19
+ជាយ អាវ	The Corner of the Robe	La punta del manto	ແຈ ເສື້ອ
+១ សាំយូអែល ២៤	1 Samuel 24	1 Samuel 24	1 ຊາມູເອນ 24
+ក្អែក និង ស្ត្រី មេម៉ាយ	The Ravens and the Widow	Los cuervos y la viuda	ອີກາ ແລະ ແມ່ໝ້າຍ
+១ ពង្សាវតារក្សត្រ ១៧	1 Kings 17	1 Reyes 17	1 ກະສັດ 17
+ភ្លើង ពី មេឃ	Fire from Heaven	Fuego del cielo	ໄຟ ຈາກ ຟ້າ
+១ ពង្សាវតារក្សត្រ ១៨	1 Kings 18	1 Reyes 18	1 ກະສັດ 18
+សំឡេង ស្រទន់	The Gentle Whisper	El susurro apacible	ສຽງ ອ່ອນໆ
+១ ពង្សាវតារក្សត្រ ១៩	1 Kings 19	1 Reyes 19	1 ກະສັດ 19
+រទេះ ភ្លើង	The Chariot of Fire	El carro de fuego	ລົດມ້າ ໄຟ
+២ ពង្សាវតារក្សត្រ ២	2 Kings 2	2 Reyes 2	2 ກະສັດ 2
+យ៉ូណាស និង ត្រី ធំ	Jonah and the Big Fish	Jonás y el gran pez	ໂຢນາ ແລະ ປາ ໃຫຍ່
+យ៉ូណាស ១–៣	Jonah 1–3	Jonás 1–3	ໂຢນາ 1–3
+ហូសេ ស្រឡាញ់ ម្ដង ទៀត	Hosea Loves Again	Oseas ama otra vez	ໂຮເຊອາ ຮັກ ອີກ ເທື່ອ ໜຶ່ງ
+ហូសេ ១–៣	Hosea 1–3	Oseas 1–3	ໂຮເຊອາ 1–3
+ឡ ភ្លើង	The Fiery Furnace	El horno de fuego	ເຕົາ ໄຟ
+ដានីយ៉ែល ៣	Daniel 3	Daniel 3	ດານີເອນ 3
+រូង តោ	The Lions' Den	El foso de los leones	ຖ້ຳ ສິງ
+ដានីយ៉ែល ៦	Daniel 6	Daniel 6	ດານີເອນ 6
+ព្រះយេស៊ូ ប្រសូត	Jesus Is Born	Nace Jesús	ພຣະເຢຊູ ປະສູດ
+លូកា ២	Luke 2	Lucas 2	ລູກາ 2
+ចុះ តាម ដំបូល	Down through the Roof	Por el techo	ລົງ ທາງ ຫລັງຄາ
+ម៉ាកុស ២	Mark 2	Marcos 2	ມາຣະໂກ 2
+ម៉ាកុស ៤	Mark 4	Marcos 4	ມາຣະໂກ 4
+ខ្យល់ ព្យុះ ស្ងប់	The Storm Is Stilled	La tormenta se calma	ພາຍຸ ສະຫງົບ
+កងទ័ព និង ជ្រូក	Legion and the Pigs	Legión y los cerdos	ກອງທັບ ແລະ ໝູ
+ម៉ាកុស ៥	Mark 5	Marcos 5	ມາຣະໂກ 5
+ចាត់ សិស្ស ទៅ	Sending the Disciples	El envío de los discípulos	ສົ່ງ ສາວົກ ອອກ ໄປ
+ម៉ាកុស ៦ · លូកា ៩–១០	Mark 6 · Luke 9–10	Marcos 6 · Lucas 9–10	ມາຣະໂກ 6 · ລູກາ 9–10
+នំបុ័ង ប្រាំ ត្រី ពីរ	Five Loaves and Two Fish	Cinco panes y dos peces	ເຂົ້າຈີ່ ຫ້າ ກ້ອນ ປາ ສອງ ໂຕ
+យ៉ូហាន ៦	John 6	Juan 6	ໂຢຮັນ 6
+ដើរ លើ ទឹក	Walking on Water	Caminar sobre el agua	ຍ່າງ ເທິງ ນ້ຳ
+ម៉ាថាយ ១៤	Matthew 14	Mateo 14	ມັດທາຍ 14
+សាសន៍ សាម៉ារី ចិត្ត ល្អ	The Good Samaritan	El buen samaritano	ຊາວ ຊາມາເຣຍ ໃຈດີ
+លូកា ១០	Luke 10	Lucas 10	ລູກາ 10
+ចៀម ដែល វង្វេង	The Lost Sheep	La oveja perdida	ແກະ ທີ່ ຫລົງ
+លូកា ១៥	Luke 15	Lucas 15	ລູກາ 15
+កូន ដែល វង្វេង	The Lost Son	El hijo perdido	ລູກ ທີ່ ຫລົງ
+លូកា ១៩	Luke 19	Lucas 19	ລູກາ 19
+លូកា ២៣ · ម៉ាកុស ១៥	Luke 23 · Mark 15	Lucas 23 · Marcos 15	ລູກາ 23 · ມາຣະໂກ 15
+ស៊ីម៉ូន ពី គីរេន	Simon of Cyrene	Simón de Cirene	ຊີໂມນ ຊາວ ກີເຣເນ
+ផ្នូរ ទទេ	The Empty Tomb	La tumba vacía	ອຸບໂມງ ຫວ່າງເປົ່າ
+យ៉ូហាន ២០	John 20	Juan 20	ໂຢຮັນ 20
+បុណ្យ ថ្ងៃ ទី ហាសិប	Pentecost	Pentecostés	ວັນ ເພນເທຄອດ
+កិច្ចការ ២	Acts 2	Hechos 2	ກິດຈະການ 2
+ក្រោក ឡើង ហើយ ដើរ	Get Up and Walk	Levántate y anda	ຈົ່ງ ລຸກ ຂຶ້ນ ແລະ ຍ່າງ
+កិច្ចការ ៣	Acts 3	Hechos 3	ກິດຈະການ 3
+កិច្ចការ ៦–៧	Acts 6–7	Hechos 6–7	ກິດຈະການ 6–7
+ភីលីព និង មន្ត្រី	Philip and the Official	Felipe y el funcionario	ຟີລິບ ແລະ ເຈົ້າໜ້າທີ່
+កិច្ចការ ៨	Acts 8	Hechos 8	ກິດຈະການ 8
+ផ្លូវ ទៅ ដាម៉ាស	The Road to Damascus	El camino a Damasco	ທາງ ໄປ ດາມາເຊ
+កិច្ចការ ៩	Acts 9	Hechos 9	ກິດຈະການ 9
+ក្រោក ឡើង នៅ យ៉ុបប៉េ	Get Up, in Joppa	Levántate, en Jope	ລຸກ ຂຶ້ນ ທີ່ ເມືອງ ຢົບປາ
+ក្រណាត់ ពី មេឃ	A Sheet from Heaven	Un lienzo del cielo	ຜ້າ ຈາກ ຟ້າ
+កិច្ចការ ១០	Acts 10	Hechos 10	ກິດຈະການ 10
+ពេត្រុស ចេញ ពី គុក	Peter Out of Prison	Pedro sale de la cárcel	ເປໂຕ ອອກ ຈາກ ຄຸກ
+កិច្ចការ ១២	Acts 12	Hechos 12	ກິດຈະການ 12
+រញ្ជួយ ដី នៅ គុក	Earthquake at the Prison	Terremoto en la cárcel	ແຜ່ນດິນ ໄຫວ ທີ່ ຄຸກ
+កិច្ចការ ១៦	Acts 16	Hechos 16	ກິດຈະການ 16
+ធ្លាក់ ពី បង្អួច	Fallen from the Window	Caído de la ventana	ຕົກ ຈາກ ປ່ອງຢ້ຽມ
+កិច្ចការ ២០	Acts 20	Hechos 20	ກິດຈະການ 20
+សំពៅ លិច និង ពស់	Shipwreck and the Snake	El naufragio y la serpiente	ເຮືອ ຫລົ້ມ ແລະ ງູ
+កិច្ចការ ២៧–២៨	Acts 27–28	Hechos 27–28	ກິດຈະການ 27–28
+ទ្វារ បើក នៅ ស្ថានសួគ៌	A Door Open in Heaven	Una puerta abierta en el cielo	ປະຕູ ເປີດ ໃນ ສະຫວັນ
+វិវរណៈ ១ · ៤–៥	Revelation 1 · 4–5	Apocalipsis 1 · 4–5	ພຣະນິມິດ 1 · 4–5
+អ្វីៗ ទាំងអស់ ជា ថ្មី	All Things New	Todo nuevo	ທຸກ ສິ່ງ ເປັນ ໃໝ່
+វិវរណៈ ២១–២២	Revelation 21–22	Apocalipsis 21–22	ພຣະນິມິດ 21–22
+ចូរ ឲ្យ មាន *ពន្លឺ !	Let there be *light!	¡Que haya *luz!	ຈົ່ງ ມີ *ແສງ !
+ថ្ងៃ ទី មួយ	The first day	El primer día	ວັນ ທີ ໜຶ່ງ
+ចូរ ឲ្យ មាន *មេឃ !	Let there be *sky!	¡Que haya *cielo!	ຈົ່ງ ມີ *ທ້ອງຟ້າ !
+ចូរ ឲ្យ មាន *ទឹក !	Let there be *water!	¡Que haya *agua!	ຈົ່ງ ມີ *ນ້ຳ !
+ថ្ងៃ ទី ពីរ	The second day	El segundo día	ວັນ ທີ ສອງ
+ចូរ ឲ្យ មាន *ដី !	Let there be *land!	¡Que haya *tierra!	ຈົ່ງ ມີ *ດິນ !
+ចូរ ឲ្យ មាន *ស្មៅ !	Let there be *grass!	¡Que haya *hierba!	ຈົ່ງ ມີ *ຫຍ້າ !
+ចូរ ឲ្យ មាន *ដើមឈើ !	Let there be *trees!	¡Que haya *árboles!	ຈົ່ງ ມີ *ຕົ້ນໄມ້ !
+ថ្ងៃ ទី បី	The third day	El tercer día	ວັນ ທີ ສາມ
+ចូរ ឲ្យ មាន *ព្រះអាទិត្យ !	Let there be the *sun!	¡Que haya *sol!	ຈົ່ງ ມີ *ດວງອາທິດ !
+ចូរ ឲ្យ មាន *ព្រះចន្ទ !	Let there be the *moon!	¡Que haya *luna!	ຈົ່ງ ມີ *ດວງເດືອນ !
+ចូរ ឲ្យ មាន *ផ្កាយ !	Let there be *stars!	¡Que haya *estrellas!	ຈົ່ງ ມີ *ດາວ !
+ថ្ងៃ ទី បួន	The fourth day	El cuarto día	ວັນ ທີ ສີ່
+ចូរ ឲ្យ មាន *ត្រី !	Let there be *fish!	¡Que haya *peces!	ຈົ່ງ ມີ *ປາ !
+ចូរ ឲ្យ មាន *បក្សី !	Let there be *birds!	¡Que haya *pájaros!	ຈົ່ງ ມີ *ນົກ !
+ថ្ងៃ ទី ប្រាំ	The fifth day	El quinto día	ວັນ ທີ ຫ້າ
+ចូរ ឲ្យ មាន *សត្វ !	Let there be *animals!	¡Que haya *animales!	ຈົ່ງ ມີ *ສັດ !
+ចូរ ឲ្យ មាន *មនុស្ស !	Let there be *people!	¡Que haya *personas!	ຈົ່ງ ມີ *ມະນຸດ !
+ថ្ងៃ ទី ប្រាំមួយ	The sixth day	El sexto día	ວັນ ທີ ຫົກ
+អ្នក ជា អ័ដាម ។ មនុស្ស ទី មួយ ។	You are Adam. The first man.	Tú eres Adán. El primer hombre.	ເຈົ້າ ແມ່ນ ອາດາມ . ມະນຸດ ຄົນ ທຳອິດ .
+ខ្ញុំ ឈ្មោះ អាល់ ។ ខ្ញុំ ជួយ អ្នក ។	My name is Al. I'll help you.	Me llamo Al. Te ayudaré.	ຂ້ອຍ ຊື່ ອານ . ຂ້ອຍ ຈະ ຊ່ວຍ ເຈົ້າ .
+ធ្វើ ឲ្យ រឿង ទៅ មុខ ។	Move the story forward.	Haz que la historia avance.	ເຮັດ ໃຫ້ ເລື່ອງ ດຳເນີນ ຕໍ່ ໄປ .
+អ័ដាម ! នេះ ជា សួនច្បារ អេដែន ។	Adam! This is the Garden of Eden.	¡Adán! Este es el jardín del Edén.	ອາດາມ ! ນີ້ ແມ່ນ ສວນ ເອເດນ .
+ហូប ផ្លែឈើ បាន ។	You may eat the fruit.	Puedes comer la fruta.	ເຈົ້າ ກິນ ໝາກໄມ້ ໄດ້ .
+ហូប ផ្លែឈើ ។	Eat the fruit.	Come la fruta.	ກິນ ໝາກໄມ້ .
+ហូប ផ្លែឈើ	Eat fruit	Comer fruta	ກິນ ໝາກໄມ້
+ទៅ ដើមឈើ នៅ កណ្ដាល សួនច្បារ ។	Go to the tree in the middle of the garden.	Ve al árbol en medio del jardín.	ໄປ ຫາ ຕົ້ນໄມ້ ຢູ່ ກາງ ສວນ .
+អ័ដាម ! មើល ដើមឈើ នេះ ។	Adam! Look at this tree.	¡Adán! Mira este árbol.	ອາດາມ ! ເບິ່ງ ຕົ້ນໄມ້ ນີ້ .
+កុំ ហូប ផ្លែ ពី ដើមឈើ នេះ ។ បើ អ្នក ហូប អ្នក នឹង ស្លាប់ ។	Don't eat the fruit from this tree. If you eat it, you will die.	No comas del fruto de este árbol. Si lo comes, morirás.	ຢ່າ ກິນ ໝາກ ຈາກ ຕົ້ນໄມ້ ນີ້ . ຖ້າ ເຈົ້າ ກິນ ເຈົ້າ ຈະ ຕາຍ .
+យើង នាំ សត្វ មក ។	I am bringing the animals.	Traigo a los animales.	ເຮົາ ພາ ສັດ ມາ .
+ដាក់ ឈ្មោះ ឲ្យ សត្វ ទាំងអស់ ។	Give names to all the animals.	Pon nombre a todos los animales.	ຕັ້ງ ຊື່ ໃຫ້ ສັດ ທັງໝົດ .
+ចុច B ហើយ និយាយ ឈ្មោះ ។	Press B and say the name.	Pulsa B y di el nombre.	ກົດ B ແລ້ວ ເວົ້າ ຊື່ .
+និយាយ « {0} » ។	Say “{0}”.	Di «{0}».	ເວົ້າ « {0} » .
+គោ ចៀម តោ ដំរី ស្វា ។ សត្វ មាន គូ ។	Cow, sheep, lion, elephant, monkey. The animals have partners.	Vaca, oveja, león, elefante, mono. Los animales tienen pareja.	ງົວ ແກະ ສິງ ຊ້າງ ລີງ . ສັດ ມີ ຄູ່ .
+ប៉ុន្តែ អ័ដាម ... អ្នក នៅ តែ ម្នាក់ ឯង ។	But Adam... you are still alone.	Pero Adán... todavía estás solo.	ແຕ່ ອາດາມ ... ເຈົ້າ ຍັງ ຢູ່ ຄົນ ດຽວ .
+មនុស្ស នៅ ម្នាក់ ឯង មិន ល្អ ទេ ។	It is not good for man to be alone.	No es bueno que el hombre esté solo.	ມະນຸດ ຢູ່ ຄົນ ດຽວ ບໍ່ ດີ .
+ដេក ចុះ អ័ដាម ។	Lie down, Adam.	Acuéstate, Adán.	ນອນ ລົງ ອາດາມ .
+ដេក នៅ លើ ស្មៅ ។	Lie down on the grass.	Acuéstate en la hierba.	ນອນ ເທິງ ຫຍ້າ .
+ដេក	sleep	dormir	ນອນ
+ភ្ញាក់ ឡើង ! មើល !	Wake up! Look!	¡Despierta! ¡Mira!	ຕື່ນ ຂຶ້ນ ! ເບິ່ງ !
+នេះ ជា ស្ត្រី ។ ជំនួយ សម្រាប់ អ្នក ។	This is a woman. A helper for you.	Esta es una mujer. Una ayuda para ti.	ນີ້ ແມ່ນ ຜູ້ຍິງ . ຜູ້ຊ່ວຍ ສຳລັບ ເຈົ້າ .
+និយាយ « ស្ត្រី » ។	Say “woman”.	Di «mujer».	ເວົ້າ « ຜູ້ຍິງ » .
+អ័ដាម !	Adam!	¡Adán!	ອາດາມ !
+ល្អ ណាស់ ។ រឿង ទៅ មុខ ។ ដល់ ពេល លោត ។	Very good. The story moves on. Time to leap.	Muy bien. La historia avanza. Hora de saltar.	ດີ ຫລາຍ . ເລື່ອງ ດຳເນີນ ຕໍ່ ໄປ . ຮອດ ເວລາ ໂດດ .
+អ្នក ជា អេវ៉ា ។	You are Eve.	Tú eres Eva.	ເຈົ້າ ແມ່ນ ເອວາ .
+ថ្ងៃ នេះ ... រឿង ពិបាក ។	Today... a hard story.	Hoy... una historia difícil.	ມື້ນີ້ ... ເລື່ອງ ຍາກ .
+អ្នក ត្រូវ ធ្វើ ឲ្យ រឿង ទៅ មុខ ។ មិន មែន ធ្វើ ល្អ ទេ ។	You must move the story forward. Not do the right thing.	Debes hacer que la historia avance. No hacer lo correcto.	ເຈົ້າ ຕ້ອງ ເຮັດ ໃຫ້ ເລື່ອງ ດຳເນີນ ໄປ . ບໍ່ ແມ່ນ ເຮັດ ສິ່ງ ທີ່ ຖືກ .
+អេវ៉ា ... អេវ៉ា ...	Eve... Eve...	Eva... Eva...	ເອວາ ... ເອວາ ...
+ព្រះជាម្ចាស់ ថា កុំ ហូប ផ្លែឈើ មែន ទេ ?	Did God really say not to eat the fruit?	¿De verdad dijo Dios que no comieran la fruta?	ພຣະເຈົ້າ ບອກ ວ່າ ຢ່າ ກິນ ໝາກໄມ້ ແທ້ ບໍ ?
+អ្នក មិន ស្លាប់ ទេ ! អ្នក នឹង ដូច ព្រះ ។	You won't die! You will be like God.	¡No morirás! Serás como Dios.	ເຈົ້າ ຈະ ບໍ່ ຕາຍ ! ເຈົ້າ ຈະ ເປັນ ຄື ພຣະເຈົ້າ .
+អ្នក នឹង ស្គាល់ ល្អ និង អាក្រក់ ។	You will know good and evil.	Conocerás el bien y el mal.	ເຈົ້າ ຈະ ຮູ້ ຈັກ ດີ ແລະ ຊົ່ວ .
+... រឿង ត្រូវ ទៅ មុខ ។	... the story has to move on.	... la historia tiene que avanzar.	... ເລື່ອງ ຕ້ອງ ດຳເນີນ ໄປ .
+យក ផ្លែ ។	Take the fruit.	Toma la fruta.	ເອົາ ໝາກ .
+យក ផ្លែ	Take fruit	Tomar fruta	ເອົາ ໝາກ
+ហូប ផ្លែ ។	Eat the fruit.	Come la fruta.	ກິນ ໝາກ .
+ហូប ផ្លែ	Eat	Comer	ກິນ ໝາກ
+ឲ្យ ផ្លែ ទៅ អ័ដាម ។	Give the fruit to Adam.	Dale la fruta a Adán.	ໃຫ້ ໝາກ ແກ່ ອາດາມ .
+ឲ្យ ផ្លែ	Give fruit	Dar fruta	ໃຫ້ ໝາກ
+យើង ត្រូវ លាក់ ខ្លួន !	We have to hide!	¡Tenemos que escondernos!	ພວກເຮົາ ຕ້ອງ ລີ້ !
+អ័ដាម ! តើ អ្នក នៅ ឯណា ?	Adam! Where are you?	¡Adán! ¿Dónde estás?	ອາດາມ ! ເຈົ້າ ຢູ່ ໃສ ?
+លាក់ ខ្លួន នៅ ក្នុង ព្រៃ ។	Hide in the trees.	Escóndete entre los árboles.	ລີ້ ຢູ່ ໃນ ປ່າ .
+លាក់ ខ្លួន	Hide	Esconderse	ລີ້
+ខ្ញុំ ខ្លាច ។ ខ្ញុំ លាក់ ខ្លួន ។	I was afraid. I hid.	Tuve miedo. Me escondí.	ຂ້ອຍ ຢ້ານ . ຂ້ອຍ ລີ້ .
+តើ អ្នក ហូប ផ្លែ ពី ដើមឈើ នោះ ឬ ?	Did you eat the fruit from that tree?	¿Comiste del fruto de ese árbol?	ເຈົ້າ ກິນ ໝາກ ຈາກ ຕົ້ນ ນັ້ນ ບໍ ?
+ស្ត្រី ឲ្យ ខ្ញុំ ។	The woman gave it to me.	La mujer me lo dio.	ຜູ້ຍິງ ໃຫ້ ຂ້ອຍ .
+អេវ៉ា ... ហេតុ អ្វី ?	Eve... why?	Eva... ¿por qué?	ເອວາ ... ເປັນ ຫຍັງ ?
+ពស់ ! អ្នក នឹង លូន លើ ដី ។	Snake! You will crawl on the ground.	¡Serpiente! Te arrastrarás por el suelo.	ງູ ! ເຈົ້າ ຈະ ເລືອຄານ ເທິງ ດິນ .
+អ័ដាម អេវ៉ា ... ចេញ ពី សួនច្បារ ។	Adam, Eve... leave the garden.	Adán, Eva... salgan del jardín.	ອາດາມ ເອວາ ... ອອກ ຈາກ ສວນ .
+មើល ! ព្រះជាម្ចាស់ ធ្វើ សម្លៀកបំពាក់ ឲ្យ អ្នក ។	Look! God makes clothes for you.	¡Mira! Dios les hace ropa.	ເບິ່ງ ! ພຣະເຈົ້າ ເຮັດ ເຄື່ອງນຸ່ງ ໃຫ້ ເຈົ້າ .
+ព្រះជាម្ចាស់ នៅ តែ ស្រឡាញ់ អ្នក ។	God still loves you.	Dios todavía los ama.	ພຣະເຈົ້າ ຍັງ ຮັກ ເຈົ້າ .
+ចេញ ទៅ ទិស ខាងកើត ។	Go out to the east.	Salgan hacia el este.	ອອກ ໄປ ທາງ ທິດ ຕາເວັນອອກ .
+ទេវតា ការពារ ផ្លូវ ទៅ ដើមឈើ ជីវិត ។	An angel guards the way to the tree of life.	Un ángel guarda el camino al árbol de la vida.	ເທວະດາ ເຝົ້າ ທາງ ໄປ ຫາ ຕົ້ນໄມ້ ແຫ່ງ ຊີວິດ .
+រឿង នេះ ក្រៀមក្រំ ... ប៉ុន្តែ រឿង មិន ទាន់ ចប់ ទេ ។	This story is sad... but it is not over yet.	Esta historia es triste... pero aún no termina.	ເລື່ອງ ນີ້ ໂສກເສົ້າ ... ແຕ່ ຍັງ ບໍ່ ທັນ ຈົບ .
+ថ្ងៃ មួយ ព្រះជាម្ចាស់ នឹង ជួយ មនុស្ស ។ ដល់ ពេល លោត ។	One day God will help people. Time to leap.	Un día Dios ayudará a la gente. Hora de saltar.	ມື້ ໜຶ່ງ ພຣະເຈົ້າ ຈະ ຊ່ວຍ ມະນຸດ . ຮອດ ເວລາ ໂດດ .
+អ្នក ជា ណូអេ ។	You are Noah.	Tú eres Noé.	ເຈົ້າ ແມ່ນ ໂນອາ .
+មនុស្ស ច្រើន ធ្វើ អាក្រក់ ។ ប៉ុន្តែ ណូអេ ជា មនុស្ស ល្អ ។	Many people do evil. But Noah is a good man.	Mucha gente hace el mal. Pero Noé es un hombre bueno.	ຄົນ ຫລາຍ ເຮັດ ຊົ່ວ . ແຕ່ ໂນອາ ເປັນ ຄົນ ດີ .
+ណូអេ ! ធ្វើ ទូក ធំ មួយ ។	Noah! Build a big boat.	¡Noé! Construye un gran barco.	ໂນອາ ! ສ້າງ ເຮືອ ໃຫຍ່ ລຳ ໜຶ່ງ .
+ទឹកជំនន់ នឹង មក ។ ទឹក នឹង គ្រប ដី ទាំងអស់ ។	A flood is coming. Water will cover all the land.	Viene un diluvio. El agua cubrirá toda la tierra.	ນ້ຳຖ້ວມ ຈະ ມາ . ນ້ຳ ຈະ ປົກ ຄຸມ ແຜ່ນດິນ ທັງໝົດ .
+យក ឈើ	Take wood	Tomar madera	ເອົາ ໄມ້
+ហាហា ! ណូអេ ! ហេតុ អ្វី ធ្វើ ទូក នៅ លើ ដី ?	Haha! Noah! Why build a boat on dry land?	¡Jaja! ¡Noé! ¿Por qué construyes un barco en tierra?	ຮາຮາ ! ໂນອາ ! ເປັນ ຫຍັງ ສ້າງ ເຮືອ ເທິງ ບົກ ?
+មិន មាន ទឹក ទេ !	There's no water!	¡No hay agua!	ບໍ່ ມີ ນ້ຳ !
+ដាក់ ឈើ នៅ ទូក ។	Put the wood on the boat.	Pon la madera en el barco.	ວາງ ໄມ້ ໃສ່ ເຮືອ .
+ដាក់ ឈើ	Put wood	Poner madera	ວາງ ໄມ້
+ទូក ធំ ណាស់ !	The boat is huge!	¡El barco es enorme!	ເຮືອ ໃຫຍ່ ຫລາຍ !
+ណូអេ ! យក សត្វ មក ។	Noah! Bring the animals.	¡Noé! Trae a los animales.	ໂນອາ ! ພາ ສັດ ມາ .
+សត្វ ស្អាត ប្រាំពីរ គូ ។ សត្វ ផ្សេង ទៀត មួយ គូ ។	Seven pairs of clean animals. One pair of the others.	Siete parejas de animales limpios. Una pareja de los demás.	ສັດ ສະອາດ ເຈັດ ຄູ່ . ສັດ ອື່ນ ໜຶ່ງ ຄູ່ .
+... ឆ្ងាយ ពេក ។	... too far.	... demasiado lejos.	... ໄກ ເກີນ ໄປ .
+{0} {1} គូ	{0}: {1} pairs	{0}: {1} parejas	{0} {1} ຄູ່
+{0} គូ	{0} pairs	{0} parejas	{0} ຄູ່
+ណូអេ ! ចូល ទូក ជាមួយ គ្រួសារ អ្នក ។	Noah! Get into the boat with your family.	¡Noé! Entra en el barco con tu familia.	ໂນອາ ! ເຂົ້າ ເຮືອ ກັບ ຄອບຄົວ ຂອງ ເຈົ້າ .
+ចូល ទូក ។	Get into the boat.	Entra en el barco.	ເຂົ້າ ເຮືອ .
+ចូល ទូក	Get in	Entrar	ເຂົ້າ ເຮືອ
+សែសិប ថ្ងៃ	forty days	cuarenta días	ສີ່ສິບ ວັນ
+ភ្លៀង សែសិប ថ្ងៃ សែសិប យប់ ។	It rained forty days and forty nights.	Llovió cuarenta días y cuarenta noches.	ຝົນ ຕົກ ສີ່ສິບ ວັນ ສີ່ສິບ ຄືນ .
+មួយ រយ ហាសិប ថ្ងៃ	one hundred fifty days	ciento cincuenta días	ໜຶ່ງ ຮ້ອຍ ຫ້າສິບ ວັນ
+ទឹក គ្រប ដី មួយ រយ ហាសិប ថ្ងៃ ។	Water covered the earth for one hundred fifty days.	El agua cubrió la tierra ciento cincuenta días.	ນ້ຳ ປົກ ຄຸມ ແຜ່ນດິນ ໜຶ່ງ ຮ້ອຍ ຫ້າສິບ ວັນ .
+លែង {0} ។ និយាយ « ទៅ » ។	Let the {0} go. Say “go”.	Suelta {0}. Di «vete».	ປ່ອຍ {0} . ເວົ້າ « ໄປ » .
+ទៅ	go	vete	ໄປ
+ក្អែក	raven	cuervo	ອີກາ
+ក្អែក ហើរ ទៅ ហើរ មក ។	The raven flies back and forth.	El cuervo va y viene volando.	ອີກາ ບິນ ໄປ ບິນ ມາ .
+ព្រាប ត្រឡប់ មក វិញ ។ គ្មាន អ្វី ទេ ។	The dove comes back. Nothing.	La paloma regresa. Nada.	ນົກເຂົາ ກັບ ມາ . ບໍ່ ມີ ຫຍັງ .
+ព្រាប ត្រឡប់ មក វិញ ។	The dove comes back.	La paloma regresa.	ນົກເຂົາ ກັບ ມາ .
+ប្រាំពីរ ថ្ងៃ	seven days	siete días	ເຈັດ ວັນ
+មើល ! ស្លឹកឈើ !	Look! A leaf!	¡Mira! ¡Una hoja!	ເບິ່ງ ! ໃບໄມ້ !
+ព្រាប មិន ត្រឡប់ មក វិញ ទេ ។	The dove does not come back.	La paloma no regresa.	ນົກເຂົາ ບໍ່ ກັບ ມາ ອີກ .
+ណូអេ ! ចេញ ពី ទូក ។	Noah! Come out of the boat.	¡Noé! Sal del barco.	ໂນອາ ! ອອກ ຈາກ ເຮືອ .
+ចេញ ពី ទូក ។	Get out of the boat.	Sal del barco.	ອອກ ຈາກ ເຮືອ .
+ចេញ ពី ទូក	Get out	Salir	ອອກ ຈາກ ເຮືອ
+មើល ឥន្ទធនូ ។	Look at the rainbow.	Mira el arcoíris.	ເບິ່ງ ຮຸ້ງ .
+យើង នឹង មិន ធ្វើ ទឹកជំនន់ ទៀត ទេ ។ នេះ ជា សេចក្ដី សន្យា ។	I will never send a flood again. This is a promise.	Nunca más enviaré un diluvio. Es una promesa.	ເຮົາ ຈະ ບໍ່ ເຮັດ ໃຫ້ ນ້ຳຖ້ວມ ອີກ . ນີ້ ແມ່ນ ຄຳ ສັນຍາ .
+អ្នក ជា អ្នកសង់ ។ នៅ ទីក្រុង បាបិល ។	You are a builder. In the city of Babel.	Eres un constructor. En la ciudad de Babel.	ເຈົ້າ ເປັນ ຊ່າງກໍ່ສ້າງ . ຢູ່ ເມືອງ ບາເບນ .
+ពេល នោះ មនុស្ស ទាំងអស់ និយាយ ភាសា តែ មួយ ។	At that time everyone spoke one language.	En ese tiempo todos hablaban un solo idioma.	ຕອນ ນັ້ນ ມະນຸດ ທຸກ ຄົນ ເວົ້າ ພາສາ ດຽວ .
+តោះ ! យើង សង់ ទីក្រុង និង ប៉ម មួយ ។	Come on! Let's build a city and a tower.	¡Vamos! Construyamos una ciudad y una torre.	ມາ ! ພວກເຮົາ ສ້າງ ເມືອງ ແລະ ຫໍຄອຍ .
+ប៉ម ខ្ពស់ ដល់ មេឃ ! ឈ្មោះ យើង នឹង ល្បី !	A tower up to the sky! We'll be famous!	¡Una torre hasta el cielo! ¡Seremos famosos!	ຫໍຄອຍ ສູງ ຮອດ ຟ້າ ! ຊື່ ຂອງ ພວກເຮົາ ຈະ ໂດ່ງດັງ !
+តោះ ធ្វើ ឥដ្ឋ !	Let's make bricks!	¡Hagamos ladrillos!	ມາ ເຮັດ ດິນຈີ່ !
+យក ដីឥដ្ឋ	Take clay	Tomar barro	ເອົາ ດິນໜຽວ
+ដុត ឥដ្ឋ នៅ ភ្លើង ។	Bake the brick in the fire.	Cuece el ladrillo en el fuego.	ຈູດ ດິນຈີ່ ໃນ ໄຟ .
+ដុត ឥដ្ឋ	Bake	Cocer	ຈູດ ດິນຈີ່
+ដាក់ ឥដ្ឋ នៅ ប៉ម ។	Put the brick on the tower.	Pon el ladrillo en la torre.	ວາງ ດິນຈີ່ ໃສ່ ຫໍຄອຍ .
+ដាក់ ឥដ្ឋ	Put brick	Poner ladrillo	ວາງ ດິນຈີ່
+ល្អ ! ឥដ្ឋ ទៀត ! ឥដ្ឋ ទៀត !	Good! More bricks! More bricks!	¡Bien! ¡Más ladrillos! ¡Más ladrillos!	ດີ ! ດິນຈີ່ ອີກ ! ດິນຈີ່ ອີກ !
+មើល ! ប៉ម ខ្ពស់ ណាស់ !	Look! The tower is so tall!	¡Mira! ¡La torre es altísima!	ເບິ່ງ ! ຫໍຄອຍ ສູງ ຫລາຍ !
+យើង មិន ត្រូវការ ព្រះ ទេ !	We don't need God!	¡No necesitamos a Dios!	ພວກເຮົາ ບໍ່ ຕ້ອງການ ພຣະເຈົ້າ !
+ព្រះជាម្ចាស់ ចុះ មក មើល ទីក្រុង ។	The Lord comes down to look at the city.	El Señor baja a ver la ciudad.	ພຣະເຈົ້າ ສະເດັດ ລົງ ມາ ເບິ່ງ ເມືອງ .
+មនុស្ស ទាំងនេះ មាន ភាសា តែ មួយ ។	These people have one language.	Esta gente tiene un solo idioma.	ຄົນ ເຫລົ່ານີ້ ມີ ພາສາ ດຽວ .
+យើង នឹង ធ្វើ ឲ្យ ភាសា របស់ ពួកគេ ច្របូកច្របល់ ។	I will confuse their language.	Confundiré su idioma.	ເຮົາ ຈະ ເຮັດ ໃຫ້ ພາສາ ຂອງ ພວກເຂົາ ສັບສົນ .
+និយាយ ជាមួយ មិត្ត អ្នក ។	Talk to your friend.	Habla con tu amigo.	ເວົ້າ ກັບ ໝູ່ ຂອງ ເຈົ້າ .
+គ្មាន អ្នក ណា យល់ គ្នា ទេ !	Nobody understands each other!	¡Nadie se entiende!	ບໍ່ ມີ ໃຜ ເຂົ້າໃຈ ກັນ !
+ពួកគេ ខ្ចាត់ខ្ចាយ ទៅ គ្រប់ ទិស ។	They scatter in every direction.	Se dispersan por todas partes.	ພວກເຂົາ ກະຈັດ ກະຈາຍ ໄປ ທຸກ ທິດ .
+បាបិល	Babel	Babel	ບາເບນ
+ទីក្រុង នេះ ឈ្មោះ បាបិល ។	This city is called Babel.	Esta ciudad se llama Babel.	ເມືອງ ນີ້ ຊື່ ບາເບນ .
+អ្នក ជា អាប់រ៉ាម ។	You are Abram.	Tú eres Abram.	ເຈົ້າ ແມ່ນ ອັບຣາມ .
+អ្នក រស់ នៅ ទីក្រុង ហើយ អ្នក ចាស់ ហើយ ។	You live in a city, and you are old.	Vives en una ciudad y eres viejo.	ເຈົ້າ ອາໄສ ຢູ່ ໃນ ເມືອງ ແລະ ເຈົ້າ ເຖົ້າ ແລ້ວ .
+អាប់រ៉ាម ! ចេញ ពី ស្រុក របស់ អ្នក ។	Abram! Leave your country.	¡Abram! Sal de tu tierra.	ອັບຣາມ ! ອອກ ຈາກ ບ້ານເມືອງ ຂອງ ເຈົ້າ .
+ទៅ ស្រុក ដែល យើង នឹង បង្ហាញ អ្នក ។	Go to the land I will show you.	Ve a la tierra que te mostraré.	ໄປ ຍັງ ດິນແດນ ທີ່ ເຮົາ ຈະ ສະແດງ ໃຫ້ ເຈົ້າ .
+យើង នឹង ឲ្យ ពរ អ្នក ។	I will bless you.	Te bendeciré.	ເຮົາ ຈະ ອວຍພອນ ເຈົ້າ .
+យក តង់ ។	Take the tent.	Toma la tienda.	ເອົາ ຜ້າເຕັນ .
+យក តង់	Take tent	Tomar tienda	ເອົາ ຜ້າເຕັນ
+ដាក់ តង់ លើ អូដ្ឋ ។	Put the tent on the camel.	Pon la tienda en el camello.	ວາງ ຜ້າເຕັນ ເທິງ ອູດ .
+ដាក់ តង់	Put tent	Poner tienda	ວາງ ຜ້າເຕັນ
+យើង ទៅ ឯណា ?	Where are we going?	¿Adónde vamos?	ພວກເຮົາ ໄປ ໃສ ?
+ខ្ញុំ ទៅ ជាមួយ ពូ !	I'm going with Uncle!	¡Voy con el tío!	ຂ້ອຍ ໄປ ນຳ ລຸງ !
+ទៅ ស្រុក កាណាន ។ ទៅ ដើមឈើ ធំ ។	Go to the land of Canaan. To the big tree.	Ve a la tierra de Canaán. Al árbol grande.	ໄປ ດິນແດນ ການາອານ . ໄປ ຫາ ຕົ້ນໄມ້ ໃຫຍ່ .
+ស្រុក នេះ ... យើង នឹង ឲ្យ កូនចៅ អ្នក ។	This land... I will give to your children.	Esta tierra... se la daré a tus descendientes.	ດິນແດນ ນີ້ ... ເຮົາ ຈະ ໃຫ້ ລູກຫລານ ຂອງ ເຈົ້າ .
+ប៉ុន្តែ ខ្ញុំ គ្មាន កូន ទេ ។	But I have no children.	Pero no tengo hijos.	ແຕ່ ຂ້ອຍ ບໍ່ ມີ ລູກ .
+អាប់រ៉ាម ! មើល ទៅ លើ មេឃ ។	Abram! Look up at the sky.	¡Abram! Mira al cielo.	ອັບຣາມ ! ເບິ່ງ ຂຶ້ນ ໄປ ເທິງ ຟ້າ .
+រាប់ ផ្កាយ ។ តើ អ្នក រាប់ បាន ទេ ?	Count the stars. Can you count them?	Cuenta las estrellas. ¿Puedes contarlas?	ນັບ ດາວ . ເຈົ້າ ນັບ ໄດ້ ບໍ ?
+រាប់ ផ្កាយ ។	Count the stars.	Cuenta las estrellas.	ນັບ ດາວ .
+កូនចៅ អ្នក នឹង ច្រើន ដូច ផ្កាយ ។	Your children will be as many as the stars.	Tus descendientes serán tantos como las estrellas.	ລູກຫລານ ຂອງ ເຈົ້າ ຈະ ຫລາຍ ຄື ດາວ .
+ឈ្មោះ អ្នក មិន មែន អាប់រ៉ាម ទៀត ទេ ។ ឈ្មោះ អ្នក គឺ អ័ប្រាហាំ ។	Your name is no longer Abram. Your name is Abraham.	Ya no te llamarás Abram. Tu nombre es Abraham.	ຊື່ ຂອງ ເຈົ້າ ບໍ່ ແມ່ນ ອັບຣາມ ອີກ . ຊື່ ຂອງ ເຈົ້າ ແມ່ນ ອັບຣາຮາມ .
+ឈ្មោះ សារ៉ាយ គឺ សារ៉ា ។	Sarai's name is Sarah.	Sarai se llamará Sara.	ຊື່ ຊາຣາຍ ແມ່ນ ຊາຣາ .
+ខ្ញុំ ជឿ ព្រះជាម្ចាស់ ។	I believe the Lord.	Creo al Señor.	ຂ້ອຍ ເຊື່ອ ພຣະເຈົ້າ .
+មើល ! ភ្ញៀវ បី នាក់ មក ។	Look! Three guests are coming.	¡Mira! Vienen tres visitantes.	ເບິ່ງ ! ແຂກ ສາມ ຄົນ ມາ .
+យក ទឹក ។	Get water.	Trae agua.	ເອົາ ນ້ຳ .
+យក ទឹក	Get water	Traer agua	ເອົາ ນ້ຳ
+ឲ្យ ទឹក ទៅ ភ្ញៀវ ។	Give the water to the guests.	Dales el agua a los visitantes.	ໃຫ້ ນ້ຳ ແກ່ ແຂກ .
+ឲ្យ ទឹក	Give water	Dar agua	ໃຫ້ ນ້ຳ
+យក នំបុ័ង ពី តង់ សារ៉ា ។	Get bread from Sarah's tent.	Trae pan de la tienda de Sara.	ເອົາ ເຂົ້າຈີ່ ຈາກ ຜ້າເຕັນ ຂອງ ຊາຣາ .
+យក នំបុ័ង	Get bread	Traer pan	ເອົາ ເຂົ້າຈີ່
+ឲ្យ នំបុ័ង ទៅ ភ្ញៀវ ។	Give the bread to the guests.	Dales el pan a los visitantes.	ໃຫ້ ເຂົ້າຈີ່ ແກ່ ແຂກ .
+ឲ្យ នំបុ័ង	Give bread	Dar pan	ໃຫ້ ເຂົ້າຈີ່
+អរគុណ អ័ប្រាហាំ ។	Thank you, Abraham.	Gracias, Abraham.	ຂອບໃຈ ອັບຣາຮາມ .
+សារ៉ា ប្រពន្ធ អ្នក នៅ ឯណា ?	Where is Sarah, your wife?	¿Dónde está Sara, tu esposa?	ຊາຣາ ເມຍ ຂອງ ເຈົ້າ ຢູ່ ໃສ ?
+នាង នៅ ក្នុង តង់ ។	She is in the tent.	Está en la tienda.	ນາງ ຢູ່ ໃນ ຜ້າເຕັນ .
+ឆ្នាំ ក្រោយ សារ៉ា នឹង មាន កូនប្រុស មួយ ។	Next year Sarah will have a son.	El año que viene Sara tendrá un hijo.	ປີ ໜ້າ ຊາຣາ ຈະ ມີ ລູກຊາຍ ຄົນ ໜຶ່ງ .
+ហាហា ! ខ្ញុំ ចាស់ ហើយ ! អ័ប្រាហាំ ក៏ ចាស់ ដែរ !	Haha! I'm old! Abraham is old too!	¡Jaja! ¡Soy vieja! ¡Abraham también es viejo!	ຮາຮາ ! ຂ້ອຍ ເຖົ້າ ແລ້ວ ! ອັບຣາຮາມ ກໍ ເຖົ້າ ຄືກັນ !
+ហេតុ អ្វី សារ៉ា សើច ? គ្មាន អ្វី ពិបាក ពេក សម្រាប់ ព្រះជាម្ចាស់ ទេ ។	Why did Sarah laugh? Nothing is too hard for the Lord.	¿Por qué se rió Sara? Nada es difícil para el Señor.	ເປັນ ຫຍັງ ຊາຣາ ຫົວ ? ບໍ່ ມີ ຫຍັງ ຍາກ ເກີນ ໄປ ສຳລັບ ພຣະເຈົ້າ .
+មើល ! កូនប្រុស យើង ! ឈ្មោះ គាត់ អ៊ីសាក ។	Look! Our son! His name is Isaac.	¡Mira! ¡Nuestro hijo! Se llama Isaac.	ເບິ່ງ ! ລູກຊາຍ ຂອງ ພວກເຮົາ ! ລາວ ຊື່ ອີຊາກ .
+អ៊ីសាក មាន ន័យ ថា « សើច » ។	Isaac means “laughter”.	Isaac significa «risa».	ອີຊາກ ໝາຍ ຄວາມ ວ່າ « ຫົວ » .
+ព្រះជាម្ចាស់ ធ្វើ ឲ្យ ខ្ញុំ សើច ! ខ្ញុំ សប្បាយ ណាស់ !	God has made me laugh! I'm so happy!	¡Dios me ha hecho reír! ¡Qué feliz soy!	ພຣະເຈົ້າ ເຮັດ ໃຫ້ ຂ້ອຍ ຫົວ ! ຂ້ອຍ ດີໃຈ ຫລາຍ !
+អ័ប្រាហាំ !	Abraham!	¡Abraham!	ອັບຣາຮາມ !
+យក អ៊ីសាក កូន ដែល អ្នក ស្រឡាញ់ ទៅ ភ្នំ ម៉ូរីយ៉ា ។	Take Isaac, the son you love, to Mount Moriah.	Toma a Isaac, el hijo que amas, al monte Moriah.	ພາ ອີຊາກ ລູກ ທີ່ ເຈົ້າ ຮັກ ໄປ ພູ ໂມຣີຢາ .
+ថ្វាយ គាត់ ជា តង្វាយ ដល់ យើង ។	Offer him as an offering to me.	Ofrécemelo como ofrenda.	ຖວາຍ ລາວ ເປັນ ເຄື່ອງ ບູຊາ ແກ່ ເຮົາ .
+... ពិបាក ណាស់ ។ ប៉ុន្តែ អ័ប្រាហាំ ជឿ ព្រះជាម្ចាស់ ។	... so hard. But Abraham believes the Lord.	... muy difícil. Pero Abraham cree al Señor.	... ຍາກ ຫລາຍ . ແຕ່ ອັບຣາຮາມ ເຊື່ອ ພຣະເຈົ້າ .
+យក ឈើ ។	Take the wood.	Toma la leña.	ເອົາ ໄມ້ .
+ឲ្យ ឈើ ទៅ អ៊ីសាក ។	Give the wood to Isaac.	Dale la leña a Isaac.	ໃຫ້ ໄມ້ ແກ່ ອີຊາກ .
+ឲ្យ ឈើ	Give wood	Dar leña	ໃຫ້ ໄມ້
+ឡើង ភ្នំ ម៉ូរីយ៉ា ។	Climb Mount Moriah.	Sube al monte Moriah.	ຂຶ້ນ ພູ ໂມຣີຢາ .
+ប៉ា !	Dad!	¡Papá!	ພໍ່ !
+កូន ។ ប៉ា នៅ ទីនេះ ។	My son. I'm here.	Hijo mío. Aquí estoy.	ລູກ . ພໍ່ ຢູ່ ນີ້ .
+មាន ឈើ មាន ភ្លើង ... ប៉ុន្តែ កូនចៀម នៅ ឯណា ?	There's wood, there's fire... but where is the lamb?	Hay leña, hay fuego... pero ¿dónde está el cordero?	ມີ ໄມ້ ມີ ໄຟ ... ແຕ່ ລູກແກະ ຢູ່ ໃສ ?
+ធ្វើ អាសនា ។	Build an altar.	Haz un altar.	ສ້າງ ແທ່ນບູຊາ .
+ធ្វើ អាសនា	Build altar	Hacer altar	ສ້າງ ແທ່ນບູຊາ
+អ័ប្រាហាំ ! អ័ប្រាហាំ !	Abraham! Abraham!	¡Abraham! ¡Abraham!	ອັບຣາຮາມ ! ອັບຣາຮາມ !
+ឆ្លើយ ។	Answer.	Responde.	ຕອບ .
+កុំ ធ្វើ បាប កូន ! ឥឡូវ យើង ដឹង ថា អ្នក គោរព ព្រះ ។	Don't hurt the boy! Now I know that you fear God.	¡No le hagas daño al muchacho! Ahora sé que temes a Dios.	ຢ່າ ທຳຮ້າຍ ເດັກ ! ບັດນີ້ ເຮົາ ຮູ້ ວ່າ ເຈົ້າ ຢຳເກງ ພຣະເຈົ້າ .
+មើល ! នៅ ក្នុង ព្រៃ ។	Look! In the bushes.	¡Mira! En los arbustos.	ເບິ່ງ ! ຢູ່ ໃນ ພຸ່ມໄມ້ .
+ចាប់ ចៀមឈ្មោល ។	Catch the ram.	Atrapa el carnero.	ຈັບ ແກະເຖິກ .
+ចាប់ ចៀមឈ្មោល	Catch ram	Atrapar carnero	ຈັບ ແກະເຖິກ
+ព្រះជាម្ចាស់ ផ្គត់ផ្គង់ !	The Lord provides!	¡El Señor provee!	ພຣະເຈົ້າ ຈັດ ຫາ ໃຫ້ !
+ប៉ា ! ព្រះជាម្ចាស់ ផ្គត់ផ្គង់ កូនចៀម !	Dad! The Lord provided the lamb!	¡Papá! ¡El Señor proveyó el cordero!	ພໍ່ ! ພຣະເຈົ້າ ຈັດ ຫາ ລູກແກະ ໃຫ້ !
+អ្នក មិន ហាម កូន របស់ អ្នក ទេ ។	You did not hold back your son.	No me negaste a tu hijo.	ເຈົ້າ ບໍ່ ຫວງ ລູກ ຂອງ ເຈົ້າ .
+កូនចៅ អ្នក នឹង ច្រើន ដូច ផ្កាយ នៅ លើ មេឃ ដូច ខ្សាច់ នៅ មាត់ សមុទ្រ ។	Your children will be as many as the stars in the sky and the sand on the seashore.	Tus descendientes serán como las estrellas del cielo y la arena del mar.	ລູກຫລານ ຂອງ ເຈົ້າ ຈະ ຫລາຍ ຄື ດາວ ໃນ ທ້ອງຟ້າ ຄື ຊາຍ ຢູ່ ຝັ່ງ ທະເລ .
+តាម កូនចៅ អ្នក គ្រប់ ប្រជាជាតិ នឹង បាន ពរ ។	Through your children every nation will be blessed.	Por tu descendencia serán bendecidas todas las naciones.	ໂດຍ ລູກຫລານ ຂອງ ເຈົ້າ ທຸກ ປະຊາຊາດ ຈະ ໄດ້ ຮັບ ພອນ .
+រឿង ទៅ មុខ ហើយ ។ ប៉ុន្តែ រឿង មិន ទាន់ ចប់ ទេ ...	The story moves on. But it is not over yet...	La historia avanza. Pero aún no termina...	ເລື່ອງ ດຳເນີນ ໄປ ແລ້ວ . ແຕ່ ຍັງ ບໍ່ ທັນ ຈົບ ...
+យក ថ្ម មួយ ។	Take a stone.	Toma una piedra.	ເອົາ ຫີນ ກ້ອນ ໜຶ່ງ .
+យក ថ្ម	Take stone	Tomar piedra	ເອົາ ຫີນ
+ដាក់ ថ្ម នៅ ក្រោម ក្បាល ។	Put the stone under your head.	Pon la piedra bajo tu cabeza.	ວາງ ຫີນ ໄວ້ ກ້ອງ ຫົວ .
+ដាក់ ថ្ម	Put stone	Poner piedra	ວາງ ຫີນ
+ដេក ។	Sleep.	Duerme.	ນອນ .
+មើល ជណ្ដើរ !	Look, a ladder!	¡Mira, una escalera!	ເບິ່ງ ຂັ້ນໄດ !
+ទេវតា ឡើង ...	Angels go up...	Los ángeles suben...	ເທວະດາ ຂຶ້ນ ...
+ឡើង	up	suben	ຂຶ້ນ
+ទេវតា ចុះ ...	Angels come down...	Los ángeles bajan...	ເທວະດາ ລົງ ...
+ចុះ	down	bajan	ລົງ
+យើង ជា ព្រះ របស់ អ័ប្រាហាំ និង អ៊ីសាក ។	I am the God of Abraham and Isaac.	Yo soy el Dios de Abraham y de Isaac.	ເຮົາ ແມ່ນ ພຣະເຈົ້າ ຂອງ ອັບຣາຮາມ ແລະ ອີຊາກ .
+ដី នេះ យើង នឹង ឲ្យ អ្នក និង កូនចៅ អ្នក ។	This land I will give to you and your children.	Esta tierra te la daré a ti y a tus descendientes.	ດິນ ນີ້ ເຮົາ ຈະ ໃຫ້ ເຈົ້າ ແລະ ລູກຫລານ ຂອງ ເຈົ້າ .
+យើង នៅ ជាមួយ អ្នក ។ យើង នឹង ការពារ អ្នក ។	I am with you. I will protect you.	Estoy contigo. Te protegeré.	ເຮົາ ຢູ່ ກັບ ເຈົ້າ . ເຮົາ ຈະ ປົກປ້ອງ ເຈົ້າ .
+បញ្ឈរ ថ្ម ។	Set up the stone.	Levanta la piedra.	ຕັ້ງ ຫີນ ຂຶ້ນ .
+បញ្ឈរ ថ្ម	Set up stone	Levantar piedra	ຕັ້ງ ຫີນ
+បេតអែល	Bethel	Betel	ເບັດເອນ
+ឈ្មោះ កន្លែង នេះ គឺ បេតអែល ។	The name of this place is Bethel.	Este lugar se llama Betel.	ສະຖານທີ່ ນີ້ ຊື່ ເບັດເອນ .
+យ៉ូសែប កូន ប្រុស ប៉ា !	Joseph, my son!	¡José, hijo mío!	ໂຢເຊັບ ລູກຊາຍ ຂອງ ພໍ່ !
+ប៉ា ស្រឡាញ់ កូន ណាស់ ។	I love you very much.	Te quiero mucho.	ພໍ່ ຮັກ ລູກ ຫລາຍ .
+នេះ ជា អាវ សម្រាប់ កូន ។	This is a coat for you.	Este manto es para ti.	ນີ້ ແມ່ນ ເສື້ອ ສຳລັບ ລູກ .
+បងប្រុស កូន នៅ វាល ជាមួយ ចៀម ។	Your brothers are in the field with the sheep.	Tus hermanos están en el campo con las ovejas.	ອ້າຍ ຂອງ ລູກ ຢູ່ ທົ່ງ ກັບ ແກະ .
+ទៅ មើល ពួកគេ ។	Go and see them.	Ve a verlos.	ໄປ ເບິ່ງ ພວກເຂົາ .
+ទៅ រក បងប្រុស ។	Go find your brothers.	Ve a buscar a tus hermanos.	ໄປ ຫາ ອ້າຍ .
+មើល ! អ្នក សុបិន មក ហើយ !	Look! Here comes the dreamer!	¡Miren! ¡Ahí viene el soñador!	ເບິ່ງ ! ຄົນ ຝັນ ມາ ແລ້ວ !
+យក អាវ របស់ គាត់ !	Take his coat!	¡Quítenle el manto!	ເອົາ ເສື້ອ ຂອງ ລາວ !
+បោះ គាត់ ទៅ ក្នុង រណ្ដៅ !	Throw him into the pit!	¡Échenlo al pozo!	ໂຍນ ລາວ ລົງ ຂຸມ !
+មើល ! ឈ្មួញ !	Look! Traders!	¡Miren! ¡Mercaderes!	ເບິ່ງ ! ພໍ່ຄ້າ !
+កុំ សម្លាប់ គាត់ ។ លក់ គាត់ !	Don't kill him. Sell him!	No lo maten. ¡Véndanlo!	ຢ່າ ຂ້າ ລາວ . ຂາຍ ລາວ !
+ម្ភៃ ប្រាក់ ។	Twenty pieces of silver.	Veinte piezas de plata.	ເງິນ ຊາວ ຫລຽນ .
+ម្ភៃ ប្រាក់	twenty silver	veinte de plata	ເງິນ ຊາວ ຫລຽນ
+ឡើង ពី រណ្ដៅ ។	Climb out of the pit.	Sal del pozo.	ຂຶ້ນ ຈາກ ຂຸມ .
+អេស៊ីប	Egypt	Egipto	ເອຢິບ
+ច្រើន ឆ្នាំ ក្រោយ ...	Many years later...	Muchos años después...	ຫລາຍ ປີ ຕໍ່ມາ ...
+ច្រើន ឆ្នាំ ក្រោយ ។ ស្រុក អេស៊ីប ។	Many years later. The land of Egypt.	Muchos años después. La tierra de Egipto.	ຫລາຍ ປີ ຕໍ່ມາ . ປະເທດ ເອຢິບ .
+ទៅ ជួប ផារ៉ោន ។	Go and see Pharaoh.	Ve a ver al faraón.	ໄປ ພົບ ຟາໂຣ .
+យ៉ូសែប ! ខ្ញុំ សុបិន ។ គ្មាន អ្នក ណា យល់ ទេ ។	Joseph! I had a dream. No one understands it.	¡José! Tuve un sueño. Nadie lo entiende.	ໂຢເຊັບ ! ຂ້ອຍ ຝັນ . ບໍ່ ມີ ໃຜ ເຂົ້າໃຈ .
+គោ ធាត់ ប្រាំពីរ ក្បាល ...	Seven fat cows...	Siete vacas gordas...	ງົວ ຕຸ້ຍ ເຈັດ ໂຕ ...
+គោ ស្គម ប្រាំពីរ ក្បាល ...	Seven thin cows...	Siete vacas flacas...	ງົວ ຈ່ອຍ ເຈັດ ໂຕ ...
+គោ ស្គម ស៊ី គោ ធាត់ !	The thin cows eat the fat cows!	¡Las vacas flacas se comen a las gordas!	ງົວ ຈ່ອຍ ກິນ ງົວ ຕຸ້ຍ !
+ស៊ី	eat	comer	ກິນ
+តើ វា មាន ន័យ អ្វី ?	What does it mean?	¿Qué significa?	ມັນ ໝາຍ ຄວາມ ວ່າ ແນວໃດ ?
+អ្នក មាន ប្រាជ្ញា ណាស់ !	You are very wise!	¡Eres muy sabio!	ເຈົ້າ ມີ ປັນຍາ ຫລາຍ !
+អ្នក នឹង ធ្វើ ជា មេ លើ ស្រុក អេស៊ីប ទាំងមូល ។	You will rule over all of Egypt.	Gobernarás todo Egipto.	ເຈົ້າ ຈະ ເປັນ ຜູ້ ປົກຄອງ ເອຢິບ ທັງໝົດ .
+យ៉ូសែប សង្គ្រោះ មនុស្ស ជា ច្រើន ។	Joseph saves many people.	José salva a mucha gente.	ໂຢເຊັບ ຊ່ວຍ ຄົນ ຫລາຍ ໃຫ້ ລອດ .
+មើល គុម្ពោត ឆេះ ។	Look at the burning bush.	Mira la zarza ardiente.	ເບິ່ງ ພຸ່ມໄມ້ ທີ່ ລຸກ ໄໝ້ .
+ម៉ូសេ ! ម៉ូសេ !	Moses! Moses!	¡Moisés! ¡Moisés!	ໂມເຊ ! ໂມເຊ !
+កុំ ចូល មក ជិត ។	Do not come closer.	No te acerques.	ຢ່າ ເຂົ້າ ມາ ໃກ້ .
+ដោះ ស្បែកជើង ចេញ ។ ទីនេះ ជា ដី បរិសុទ្ធ ។	Take off your sandals. This is holy ground.	Quítate las sandalias. Este es suelo santo.	ຖອດ ເກີບ ອອກ . ບ່ອນ ນີ້ ເປັນ ດິນ ບໍລິສຸດ .
+ដោះ ស្បែកជើង ។	Take off your sandals.	Quítate las sandalias.	ຖອດ ເກີບ .
+ដោះ ស្បែកជើង	Take off sandals	Quitarse sandalias	ຖອດ ເກີບ
+យើង ឃើញ ប្រជាជន យើង នៅ ស្រុក អេស៊ីប ។ ពួកគេ យំ ។	I have seen my people in Egypt. They are crying.	He visto a mi pueblo en Egipto. Están llorando.	ເຮົາ ເຫັນ ປະຊາຊົນ ຂອງ ເຮົາ ໃນ ເອຢິບ . ພວກເຂົາ ຮ້ອງໄຫ້ .
+ទៅ ! នាំ ប្រជាជន យើង ចេញ ពី ស្រុក អេស៊ីប ។	Go! Bring my people out of Egypt.	¡Ve! Saca a mi pueblo de Egipto.	ໄປ ! ພາ ປະຊາຊົນ ຂອງ ເຮົາ ອອກ ຈາກ ເອຢິບ .
+ទាហាន	soldiers	soldados	ທະຫານ
+មើល ! ទាហាន អេស៊ីប មក !	Look! The Egyptian soldiers are coming!	¡Miren! ¡Vienen los soldados egipcios!	ເບິ່ງ ! ທະຫານ ເອຢິບ ມາ !
+យើង នឹង ស្លាប់ !	We're going to die!	¡Vamos a morir!	ພວກເຮົາ ຈະ ຕາຍ !
+ម៉ូសេ ! លើក ដំបង របស់ អ្នក !	Moses! Raise your staff!	¡Moisés! ¡Levanta tu vara!	ໂມເຊ ! ຍົກ ໄມ້ເທົ້າ ຂອງ ເຈົ້າ !
+លើក ដំបង នៅ មាត់ សមុទ្រ ។	Raise your staff at the edge of the sea.	Levanta tu vara a la orilla del mar.	ຍົກ ໄມ້ເທົ້າ ຢູ່ ແຄມ ທະເລ .
+លើក ដំបង	Raise staff	Levantar vara	ຍົກ ໄມ້ເທົ້າ
+ដើរ កាត់ សមុទ្រ ។	Walk through the sea.	Cruza el mar.	ຍ່າງ ຂ້າມ ທະເລ .
+លើក ដំបង ម្ដង ទៀត ។	Raise your staff again.	Levanta tu vara otra vez.	ຍົກ ໄມ້ເທົ້າ ອີກ ເທື່ອ ໜຶ່ງ .
+ព្រះជាម្ចាស់ សង្គ្រោះ យើង !	The Lord saved us!	¡El Señor nos salvó!	ພຣະເຈົ້າ ຊ່ວຍ ພວກເຮົາ ໃຫ້ ລອດ !
+វាយ	Strike	Golpear	ຕີ
+អេក្លូន ជា ស្ដេច ម៉ូអាប់ ។ គាត់ ធ្វើ បាប យើង ដប់ប្រាំបី ឆ្នាំ ។	Eglon is the king of Moab. He has oppressed us for eighteen years.	Eglón es el rey de Moab. Nos ha oprimido dieciocho años.	ເອັກໂລນ ເປັນ ກະສັດ ໂມອາບ . ລາວ ກົດຂີ່ ພວກເຮົາ ສິບແປດ ປີ .
+អេហ៊ូឌ ! អ្នក ប្រើ ដៃ ឆ្វេង ។	Ehud! You are left-handed.	¡Aod! Eres zurdo.	ເອຮູດ ! ເຈົ້າ ໃຊ້ ມື ຊ້າຍ .
+យក សួយសារអាករ ទៅ ឲ្យ ស្ដេច អេក្លូន ។	Take the tribute to King Eglon.	Lleva el tributo al rey Eglón.	ເອົາ ເຄື່ອງ ບັນນາການ ໄປ ໃຫ້ ກະສັດ ເອັກໂລນ .
+ធ្វើ ដាវ ខ្លី ។	Make a short sword.	Haz una espada corta.	ເຮັດ ດາບ ສັ້ນ .
+ធ្វើ ដាវ	Make sword	Hacer espada	ເຮັດ ດາບ
+លាក់ ដាវ នៅ ភ្លៅ ស្ដាំ ។	Hide the sword on your right thigh.	Esconde la espada en tu muslo derecho.	ເຊື່ອງ ດາບ ໄວ້ ທີ່ ຂາ ເບື້ອງ ຂວາ .
+លាក់ ដាវ	Hide sword	Esconder espada	ເຊື່ອງ ດາບ
+ភ្លៅ ស្ដាំ	right thigh	muslo derecho	ຂາ ເບື້ອງ ຂວາ
+ដាវ នៅ ភ្លៅ ស្ដាំ ។	The sword is on the right thigh.	La espada está en el muslo derecho.	ດາບ ຢູ່ ທີ່ ຂາ ເບື້ອງ ຂວາ .
+យក សួយសារអាករ ។	Take the tribute.	Toma el tributo.	ເອົາ ເຄື່ອງ ບັນນາການ .
+យក សួយសារអាករ	Take tribute	Tomar tributo	ເອົາ ບັນນາການ
+ចូល បន្ទប់ ស្ដេច ។	Go into the king's room.	Entra en la habitación del rey.	ເຂົ້າ ຫ້ອງ ຂອງ ກະສັດ .
+អ្នក ណា ? យក អ្វី មក ?	Who are you? What did you bring?	¿Quién eres? ¿Qué traes?	ເຈົ້າ ແມ່ນ ໃຜ ? ເອົາ ຫຍັງ ມາ ?
+ឲ្យ សួយសារអាករ ។	Give the tribute.	Entrega el tributo.	ໃຫ້ ເຄື່ອງ ບັນນາການ .
+ឲ្យ សួយសារអាករ	Give tribute	Dar tributo	ໃຫ້ ບັນນາການ
+ល្អ ! ខ្ញុំ ធាត់ ណាស់ ។ ហាហា !	Good! I'm very fat. Haha!	¡Bien! Estoy muy gordo. ¡Jaja!	ດີ ! ຂ້ອຍ ຕຸ້ຍ ຫລາຍ . ຮາຮາ !
+ស្ងាត់ ! ចេញ ទៅ ទាំងអស់ គ្នា !	Silence! Everyone, get out!	¡Silencio! ¡Todos fuera!	ມິດ ! ອອກ ໄປ ທຸກ ຄົນ !
+ខ្ញុំ មាន សារ ពី ព្រះជាម្ចាស់ សម្រាប់ ព្រះអង្គ ។	I have a message from God for you.	Tengo un mensaje de Dios para usted.	ຂ້ອຍ ມີ ຂ່າວ ຈາກ ພຣະເຈົ້າ ສຳລັບ ພຣະອົງ .
+ហូត ដាវ ដោយ ដៃ ឆ្វេង ។	Draw the sword with your left hand.	Saca la espada con la mano izquierda.	ຊັກ ດາບ ດ້ວຍ ມື ຊ້າຍ .
+ហូត ដាវ	Draw sword	Sacar espada	ຊັກ ດາບ
+ចាក់ ស្ដេច អេក្លូន ។	Stab King Eglon.	Apuñala al rey Eglón.	ແທງ ກະສັດ ເອັກໂລນ .
+ចាក់	Stab	Apuñalar	ແທງ
+ខ្លាញ់ គ្រប ដាវ ។ អេហ៊ូឌ មិន ហូត ដាវ ចេញ ទេ ។	The fat closed over the sword. Ehud did not pull it out.	La grasa cubrió la espada. Aod no la sacó.	ໄຂມັນ ປົກ ດາບ . ເອຮູດ ບໍ່ ໄດ້ ຖອດ ດາບ ອອກ .
+ស្ដេច អេក្លូន ស្លាប់ ។	King Eglon is dead.	El rey Eglón ha muerto.	ກະສັດ ເອັກໂລນ ຕາຍ .
+ចេញ ពី បន្ទប់ ហើយ បិទ ទ្វារ ។	Leave the room and shut the door.	Sal de la habitación y cierra la puerta.	ອອກ ຈາກ ຫ້ອງ ແລ້ວ ປິດ ປະຕູ .
+បិទ ទ្វារ	Shut door	Cerrar puerta	ປິດ ປະຕູ
+ចាក់ សោ ទ្វារ ។	Lock the door.	Cierra la puerta con llave.	ລັອກ ປະຕູ .
+ចាក់ សោ	Lock	Cerrar con llave	ລັອກ
+សោ	key	llave	ກະແຈ
+រត់ ទៅ ភ្នំ ។	Run to the hills.	Corre a los montes.	ແລ່ນ ໄປ ພູ .
+ទ្វារ ចាក់ សោ ...	The door is locked...	La puerta está cerrada con llave...	ປະຕູ ລັອກ ...
+ស្ដេច ប្រហែល ជា នៅ ក្នុង បន្ទប់ ទឹក ។ រង់ចាំ !	The king must be in the bathroom. Wait!	El rey debe de estar en el baño. ¡Esperen!	ກະສັດ ຄົງ ຢູ່ ໃນ ຫ້ອງນ້ຳ . ລໍ ຖ້າ !
+ផ្លុំ ស្នែង ។	Blow the horn.	Toca el cuerno.	ເປົ່າ ເຂົາ .
+ផ្លុំ ស្នែង	Blow horn	Tocar cuerno	ເປົ່າ ເຂົາ
+ប៉ែតសិប ឆ្នាំ	eighty years	ochenta años	ແປດສິບ ປີ
+ស្រុក មាន សន្តិភាព ប៉ែតសិប ឆ្នាំ ។	The land had peace for eighty years.	La tierra tuvo paz ochenta años.	ແຜ່ນດິນ ມີ ສັນຕິສຸກ ແປດສິບ ປີ .
+ចម្ការ	vineyard	viña	ສວນ ອະງຸ່ນ
+ខ្ញុំ ទៅ ក្រុង ធីមណាត់ ជាមួយ ឪពុក ម្ដាយ ។	I'm going to Timnah with my father and mother.	Voy a Timnat con mi padre y mi madre.	ຂ້ອຍ ໄປ ເມືອງ ທິມນາ ກັບ ພໍ່ ແມ່ .
+ដើរ តាម ផ្លូវ ។	Walk along the road.	Sigue el camino.	ຍ່າງ ຕາມ ທາງ .
+មើល ! តោ !	Look! A lion!	¡Mira! ¡Un león!	ເບິ່ງ ! ສິງ !
+ព្រះវិញ្ញាណ មក លើ សាំសុន ។	The Spirit comes upon Samson.	El Espíritu viene sobre Sansón.	ພຣະວິນຍານ ລົງ ມາ ເທິງ ແຊມຊັນ .
+ហែក តោ ដោយ ដៃ ទទេ ! ចុច A ។	Tear the lion with your bare hands! Press A.	¡Despedaza al león con las manos! Pulsa A.	ຈີກ ສິງ ດ້ວຍ ມື ເປົ່າ ! ກົດ A .
+ហែក តោ	Tear the lion	Despedazar	ຈີກ ສິງ
+គាត់ ហែក តោ ដោយ ដៃ ទទេ ដូច ហែក កូន ពពែ ។ គាត់ មិន ប្រាប់ ឪពុក ម្ដាយ ទេ ។	He tore the lion apart with his bare hands like a young goat. He did not tell his parents.	Despedazó al león con las manos como a un cabrito. No se lo dijo a sus padres.	ລາວ ຈີກ ສິງ ດ້ວຍ ມື ເປົ່າ ຄື ຈີກ ລູກ ແບ້ . ລາວ ບໍ່ ບອກ ພໍ່ ແມ່ .
+គាត់ ហែក តោ ដោយ ដៃ ទទេ ។ គាត់ មិន ប្រាប់ ឪពុក ម្ដាយ ទេ ។	He tore the lion with his bare hands. He did not tell his parents.	Despedazó al león con las manos. No se lo dijo a sus padres.	ລາວ ຈີກ ສິງ ດ້ວຍ ມື ເປົ່າ . ລາວ ບໍ່ ບອກ ພໍ່ ແມ່ .
+ច្រើន ថ្ងៃ ក្រោយ ...	Many days later...	Muchos días después...	ຫລາຍ ມື້ ຕໍ່ມາ ...
+ច្រើន ថ្ងៃ ក្រោយ ។	Many days later.	Muchos días después.	ຫລາຍ ມື້ ຕໍ່ມາ .
+មើល តោ ។	Look at the lion.	Mira el león.	ເບິ່ງ ສິງ .
+មើល ! ឃ្មុំ ! មាន ទឹកឃ្មុំ នៅ ក្នុង តោ !	Look! Bees! There's honey inside the lion!	¡Mira! ¡Abejas! ¡Hay miel dentro del león!	ເບິ່ງ ! ເຜິ້ງ ! ມີ ນ້ຳເຜິ້ງ ຢູ່ ໃນ ສິງ !
+យក ទឹកឃ្មុំ ។	Take the honey.	Toma la miel.	ເອົາ ນ້ຳເຜິ້ງ .
+យក ទឹកឃ្មុំ	Take honey	Tomar miel	ເອົາ ນ້ຳເຜິ້ງ
+ហូប ទឹកឃ្មុំ ។	Eat the honey.	Come la miel.	ກິນ ນ້ຳເຜິ້ງ .
+ហូប ទឹកឃ្មុំ	Eat honey	Comer miel	ກິນ ນ້ຳເຜິ້ງ
+ផ្អែម ណាស់ !	So sweet!	¡Qué dulce!	ຫວານ ຫລາຍ !
+ឲ្យ ទឹកឃ្មុំ ខ្លះ ដល់ ឪពុក ម្ដាយ ។	Give some honey to your parents.	Dales un poco de miel a tus padres.	ໃຫ້ ນ້ຳເຜິ້ງ ບາງ ສ່ວນ ແກ່ ພໍ່ ແມ່ .
+ឲ្យ ទឹកឃ្មុំ	Give honey	Dar miel	ໃຫ້ ນ້ຳເຜິ້ງ
+ផ្អែម ណាស់ ! កូន បាន ពី ណា ?	So sweet! Where did you get it?	¡Qué dulce! ¿De dónde la sacaste?	ຫວານ ຫລາຍ ! ລູກ ໄດ້ ມາ ຈາກ ໃສ ?
+សាំសុន មិន ប្រាប់ ថា ទឹកឃ្មុំ ចេញ ពី តោ ទេ ។	Samson did not say the honey came from the lion.	Sansón no dijo que la miel salió del león.	ແຊມຊັນ ບໍ່ ບອກ ວ່າ ນ້ຳເຜິ້ງ ມາ ຈາກ ສິງ .
+នៅ ពិធី មង្គល ការ ខ្ញុំ នឹង ឲ្យ ប្រស្នា ៖ ពី អ្នក ស៊ី ចេញ មក អាហារ ។ ពី អ្នក ខ្លាំង ចេញ មក របស់ ផ្អែម ។	At the wedding I'll give a riddle: Out of the eater came food. Out of the strong came something sweet.	En la boda diré un enigma: Del que come salió comida. Del fuerte salió dulzura.	ໃນ ງານແຕ່ງ ຂ້ອຍ ຈະ ໃຫ້ ປິດສະໜາ : ຈາກ ຜູ້ ກິນ ອອກ ມາ ເປັນ ອາຫານ . ຈາກ ຜູ້ ແຂງແຮງ ອອກ ມາ ເປັນ ສິ່ງ ຫວານ .
+ចាប់ កញ្ជ្រាង	Catch fox	Atrapar zorra	ຈັບ ໝາຈອກ
+ដាក់ កញ្ជ្រាង ក្នុង របង ។	Put the fox in the pen.	Mete la zorra en el corral.	ເອົາ ໝາຈອກ ໃສ່ ຄອກ .
+ដាក់ កញ្ជ្រាង	Put fox	Meter zorra	ໃສ່ ໝາຈອກ
+ចង កន្ទុយ	Tie tails	Atar colas	ມັດ ຫາງ
+ចង !	Tied!	¡Atadas!	ມັດ ແລ້ວ !
+ដាក់ គប់ភ្លើង	Put torch	Poner antorcha	ໃສ່ ໄຕ້
+នាំ កញ្ជ្រាង ទៅ ស្រែ ស្រូវ ។	Take the foxes to the grain fields.	Lleva las zorras a los trigales.	ພາ ໝາຈອກ ໄປ ນາ ເຂົ້າ .
+លែង កញ្ជ្រាង ។	Let the foxes go.	Suelta las zorras.	ປ່ອຍ ໝາຈອກ .
+លែង កញ្ជ្រាង	Let go	Soltar	ປ່ອຍ ໝາຈອກ
+ស្រូវ របស់ ពួក ភីលីស្ទីន ឆេះ អស់ ហើយ !	The Philistines' grain is all burned!	¡El trigo de los filisteos se quemó todo!	ເຂົ້າ ຂອງ ພວກ ຟີລິດສະຕິນ ໄໝ້ ໝົດ ແລ້ວ !
+បីរយ	three hundred	trescientas	ສາມ ຮ້ອຍ
+សាំសុន ចាប់ កញ្ជ្រាង បីរយ ។	Samson caught three hundred foxes.	Sansón atrapó trescientas zorras.	ແຊມຊັນ ຈັບ ໝາຈອກ ສາມ ຮ້ອຍ ໂຕ .
+សាំសុន ! យើង ជា ពួក យូដា ។ ពួក ភីលីស្ទីន ត្រួត ត្រា លើ យើង ហើយ ពួក គេ ចង់ ចាប់ អ្នក ។	Samson! We are men of Judah. The Philistines rule over us, and they want to capture you.	¡Sansón! Somos de Judá. Los filisteos nos dominan y quieren capturarte.	ແຊມຊັນ ! ພວກເຮົາ ເປັນ ຊາວ ຢູດາ . ພວກ ຟີລິດສະຕິນ ປົກຄອງ ພວກເຮົາ ແລະ ພວກເຂົາ ຢາກ ຈັບ ເຈົ້າ .
+យើង ត្រូវ ចង អ្នក ដោយ ខ្សែ ថ្មី ពីរ ។	We must tie you with two new ropes.	Tenemos que atarte con dos cuerdas nuevas.	ພວກເຮົາ ຕ້ອງ ມັດ ເຈົ້າ ດ້ວຍ ເຊືອກ ໃໝ່ ສອງ ເສັ້ນ .
+ហូ ! យើង ចាប់ សាំសុន បាន ហើយ !	Ho! We've caught Samson!	¡Ja! ¡Atrapamos a Sansón!	ໂຮ ! ພວກເຮົາ ຈັບ ແຊມຊັນ ໄດ້ ແລ້ວ !
+ផ្ដាច់ ខ្សែ ។	Snap the ropes.	Rompe las cuerdas.	ຕັດ ເຊືອກ ໃຫ້ ຂາດ .
+ផ្ដាច់ ខ្សែ	Snap ropes	Romper cuerdas	ຕັດ ເຊືອກ
+ខ្សែ ដាច់ !	The ropes snap!	¡Las cuerdas se rompen!	ເຊືອກ ຂາດ !
+យក ឆ្អឹង ថ្គាម លា ។	Take the donkey's jawbone.	Toma la quijada de burro.	ເອົາ ກະດູກ ຄາງ ລາ .
+យក ឆ្អឹង	Take bone	Tomar hueso	ເອົາ ກະດູກ
+មក ទៀត !	More are coming!	¡Vienen más!	ມາ ອີກ !
+ដោយ ឆ្អឹង ថ្គាម លា ខ្ញុំ វាយ មនុស្ស មួយ ពាន់ នាក់ !	With a donkey's jawbone I struck down a thousand men!	¡Con una quijada de burro maté a mil hombres!	ດ້ວຍ ກະດູກ ຄາງ ລາ ຂ້ອຍ ຕີ ຄົນ ໜຶ່ງ ພັນ ຄົນ !
+មួយ ពាន់	one thousand	mil	ໜຶ່ງ ພັນ
+មួយ ពាន់ នាក់	a thousand men	mil hombres	ໜຶ່ງ ພັນ ຄົນ
+ខ្ញុំ ស្រេក ទឹក ណាស់ ! ព្រះជាម្ចាស់ អើយ តើ ខ្ញុំ ត្រូវ ស្លាប់ ដោយ ស្រេក ទឹក ឬ ?	I'm so thirsty! Lord, must I die of thirst?	¡Tengo mucha sed! Señor, ¿moriré de sed?	ຂ້ອຍ ຫິວ ນ້ຳ ຫລາຍ ! ພຣະເຈົ້າ ເອີຍ ຂ້ອຍ ຕ້ອງ ຕາຍ ຍ້ອນ ຫິວ ນ້ຳ ບໍ ?
+ព្រះជាម្ចាស់ បំបែក ថ្ម នៅ លេហ៊ី ។ ទឹក ហូរ ចេញ មក ។	The Lord split the rock at Lehi. Water flowed out.	El Señor abrió la roca en Lehi. Brotó agua.	ພຣະເຈົ້າ ຜ່າ ຫີນ ທີ່ ເລຮີ . ນ້ຳ ໄຫລ ອອກ ມາ .
+ព្រះជាម្ចាស់ បំបែក ថ្ម ។ ទឹក ហូរ ចេញ មក ។	The Lord split the rock. Water flowed out.	El Señor abrió la roca. Brotó agua.	ພຣະເຈົ້າ ຜ່າ ຫີນ . ນ້ຳ ໄຫລ ອອກ ມາ .
+ផឹក ទឹក ។	Drink water.	Bebe agua.	ດື່ມ ນ້ຳ .
+ផឹក ទឹក	Drink	Beber	ດື່ມ ນ້ຳ
+កាសា	Gaza	Gaza	ກາຊາ
+យប់ ។ ក្រុង កាសា ។	Night. The city of Gaza.	De noche. La ciudad de Gaza.	ກາງຄືນ . ເມືອງ ກາຊາ .
+ក្រុង កាសា ។	The city of Gaza.	La ciudad de Gaza.	ເມືອງ ກາຊາ .
+សាំសុន នៅ ក្នុង ក្រុង ។ ចាំ ដល់ ព្រឹក ហើយ ចាប់ គាត់ !	Samson is in the city. Wait until morning and catch him!	Sansón está en la ciudad. ¡Esperen a la mañana y atrápenlo!	ແຊມຊັນ ຢູ່ ໃນ ເມືອງ . ລໍ ຮອດ ເຊົ້າ ແລ້ວ ຈັບ ລາວ !
+អធ្រាត្រ	midnight	medianoche	ທ່ຽງ ຄືນ
+លើក ទ្វារ ក្រុង ។	Lift the city gate.	Levanta la puerta de la ciudad.	ຍົກ ປະຕູ ເມືອງ .
+លើក ទ្វារ	Lift gate	Levantar puerta	ຍົກ ປະຕູ
+យក ទ្វារ ទៅ លើ ភ្នំ ទល់ មុខ ក្រុង ហេប្រុន ។	Carry the gate to the top of the hill facing Hebron.	Lleva la puerta a la cima del monte frente a Hebrón.	ແບກ ປະຕູ ໄປ ເທິງ ພູ ທີ່ ຢູ່ ກົງ ກັບ ເມືອງ ເຮັບໂຣນ .
+ដាក់ ទ្វារ ។	Put down the gate.	Deja la puerta.	ວາງ ປະຕູ .
+ដាក់ ទ្វារ	Put gate	Dejar puerta	ວາງ ປະຕູ
+ព្រះជាម្ចាស់ ឲ្យ កម្លាំង ខ្ញុំ !	The Lord gives me strength!	¡El Señor me da fuerza!	ພຣະເຈົ້າ ໃຫ້ ກຳລັງ ແກ່ ຂ້ອຍ !
+ផារ៉ោន ចង់ សម្លាប់ កូនប្រុស ទាំងអស់ ។	Pharaoh wants to kill all the baby boys.	El faraón quiere matar a todos los niños.	ຟາໂຣ ຢາກ ຂ້າ ລູກຊາຍ ທັງໝົດ .
+យើង ត្រូវ លាក់ ប្អូន ប្រុស អ្នក ។	We must hide your little brother.	Tenemos que esconder a tu hermanito.	ພວກເຮົາ ຕ້ອງ ເຊື່ອງ ນ້ອງຊາຍ ຂອງ ເຈົ້າ .
+យក កន្ត្រក ទៅ ទន្លេ ។	Take the basket to the river.	Lleva la canasta al río.	ເອົາ ກະຕ່າ ໄປ ແມ່ນ້ຳ .
+យក កន្ត្រក ។	Take the basket.	Toma la canasta.	ເອົາ ກະຕ່າ .
+យក កន្ត្រក	Take basket	Tomar canasta	ເອົາ ກະຕ່າ
+ដាក់ កន្ត្រក នៅ ទន្លេ ក្នុង ដើម ត្រែង ។	Put the basket in the river among the reeds.	Pon la canasta en el río entre los juncos.	ວາງ ກະຕ່າ ໃນ ແມ່ນ້ຳ ລະຫວ່າງ ຕົ້ນ ອໍ້ .
+ដាក់ កន្ត្រក	Put basket	Poner canasta	ວາງ ກະຕ່າ
+លាក់ ខ្លួន ហើយ មើល ។	Hide and watch.	Escóndete y mira.	ລີ້ ແລ້ວ ເບິ່ງ .
+បុត្រី	princess	princesa	ເຈົ້າຍິງ
+មើល ! កន្ត្រក មួយ !	Look! A basket!	¡Mira! ¡Una canasta!	ເບິ່ງ ! ກະຕ່າ !
+កូន ទារក ! វា យំ ។	A baby! He's crying.	¡Un bebé! Está llorando.	ເດັກນ້ອຍ ! ລາວ ຮ້ອງໄຫ້ .
+ទៅ និយាយ ជាមួយ បុត្រី ផារ៉ោន ។	Go and talk to Pharaoh's daughter.	Ve a hablar con la hija del faraón.	ໄປ ເວົ້າ ກັບ ລູກສາວ ຟາໂຣ .
+ទៅ !	Go!	¡Ve!	ໄປ !
+ហៅ ម្ដាយ ។	Call your mother.	Llama a tu madre.	ເອີ້ນ ແມ່ .
+ហៅ ម្ដាយ	Call mother	Llamar a mamá	ເອີ້ນ ແມ່
+កូន ខ្ញុំ !	My baby!	¡Mi hijo!	ລູກ ຂອງ ຂ້ອຍ !
+នាំ ម្ដាយ ទៅ បុត្រី ផារ៉ោន ។	Bring your mother to Pharaoh's daughter.	Lleva a tu madre con la hija del faraón.	ພາ ແມ່ ໄປ ຫາ ລູກສາວ ຟາໂຣ .
+ចិញ្ចឹម ទារក នេះ ឲ្យ ខ្ញុំ ។	Nurse this baby for me.	Cría a este bebé para mí.	ລ້ຽງ ເດັກນ້ອຍ ນີ້ ໃຫ້ ຂ້ອຍ .
+ឈ្មោះ គាត់ គឺ ម៉ូសេ ។ ខ្ញុំ ស្រង់ គាត់ ពី ទឹក ។	His name is Moses. I drew him out of the water.	Se llamará Moisés. Lo saqué del agua.	ລາວ ຊື່ ໂມເຊ . ຂ້ອຍ ດຶງ ລາວ ອອກ ຈາກ ນ້ຳ .
+លើក ដំបង ។ ( {0} )	Raise your staff. ( {0} )	Levanta tu vara. ( {0} )	ຍົກ ໄມ້ເທົ້າ . ( {0} )
+រុយ	flies	moscas	ແມງວັນ
+ព្រឹល	hail	granizo	ໝາກເຫັບ
+កណ្ដូប	locusts	langostas	ຕັກແຕນ
+ទេ ! ទេ ! ទេ ! ចេញ ទៅ !	No! No! No! Go away!	¡No! ¡No! ¡No! ¡Váyanse!	ບໍ່ ! ບໍ່ ! ບໍ່ ! ອອກ ໄປ !
+យប់ នេះ យើង នឹង ឆ្លង កាត់ ស្រុក អេស៊ីប ។	Tonight I will pass through Egypt.	Esta noche pasaré por Egipto.	ຄືນ ນີ້ ເຮົາ ຈະ ຜ່ານ ເອຢິບ .
+លាប ឈាម កូនចៀម នៅ លើ ក្របទ្វារ ។ យើង នឹង រំលង ផ្ទះ នោះ ។	Put the lamb's blood on the doorframe. I will pass over that house.	Pongan sangre del cordero en el marco de la puerta. Pasaré de largo esa casa.	ທາ ເລືອດ ລູກແກະ ໃສ່ ກອບ ປະຕູ . ເຮົາ ຈະ ຂ້າມ ເຮືອນ ນັ້ນ ໄປ .
+លាប ឈាម	Put blood	Poner sangre	ທາ ເລືອດ
+ព្រះជាម្ចាស់ រំលង ផ្ទះ ដែល មាន ឈាម ។	The Lord passes over the houses with blood.	El Señor pasa de largo las casas con sangre.	ພຣະເຈົ້າ ຂ້າມ ເຮືອນ ທີ່ ມີ ເລືອດ .
+កូន ច្បង ខ្ញុំ ស្លាប់ ...	My firstborn son is dead...	Mi hijo primogénito ha muerto...	ລູກ ກົກ ຂອງ ຂ້ອຍ ຕາຍ ...
+ចេញ ទៅ ! យក ប្រជាជន របស់ អ្នក ចេញ ទៅ !	Go! Take your people and go!	¡Váyanse! ¡Llévate a tu pueblo!	ໄປ ! ພາ ປະຊາຊົນ ຂອງ ເຈົ້າ ອອກ ໄປ !
+ម៉ូសេ ! យើង ឃ្លាន !	Moses! We're hungry!	¡Moisés! ¡Tenemos hambre!	ໂມເຊ ! ພວກເຮົາ ຫິວ !
+នៅ ស្រុក អេស៊ីប យើង មាន អាហារ ។	In Egypt we had food.	En Egipto teníamos comida.	ຢູ່ ເອຢິບ ພວກເຮົາ ມີ ອາຫານ .
+យើង នឹង ឲ្យ នំបុ័ង ធ្លាក់ ពី មេឃ ។	I will make bread fall from the sky.	Haré caer pan del cielo.	ເຮົາ ຈະ ໃຫ້ ເຂົ້າຈີ່ ຕົກ ລົງ ມາ ຈາກ ຟ້າ .
+ម៉ាណា ? នេះ ជា អ្វី ?	Manna? What is it?	¿Maná? ¿Qué es esto?	ມານາ ? ນີ້ ແມ່ນ ຫຍັງ ?
+រើស ម៉ាណា	Gather manna	Recoger maná	ເກັບ ມານາ
+ផ្អែម ដូច ទឹកឃ្មុំ !	Sweet like honey!	¡Dulce como la miel!	ຫວານ ຄື ນ້ຳເຜິ້ງ !
+ល្ងាច នេះ សាច់ ។	Meat this evening.	Esta tarde, carne.	ແລງ ນີ້ ມີ ຊີ້ນ .
+ម៉ូសេ ! យើង ស្រេក ទឹក !	Moses! We're thirsty!	¡Moisés! ¡Tenemos sed!	ໂມເຊ ! ພວກເຮົາ ຫິວ ນ້ຳ !
+យក ដំបង ។ វាយ ថ្ម នៅ ភ្នំ ហោរែប ។	Take your staff. Strike the rock at Horeb.	Toma tu vara. Golpea la roca en Horeb.	ເອົາ ໄມ້ເທົ້າ . ຕີ ຫີນ ທີ່ ພູ ໂຮເຣັບ .
+វាយ ថ្ម ។	Strike the rock.	Golpea la roca.	ຕີ ຫີນ .
+វាយ ថ្ម	Strike rock	Golpear roca	ຕີ ຫີນ
+ទឹក ! ព្រះជាម្ចាស់ ឲ្យ ទឹក យើង !	Water! The Lord gives us water!	¡Agua! ¡El Señor nos da agua!	ນ້ຳ ! ພຣະເຈົ້າ ໃຫ້ ນ້ຳ ແກ່ ພວກເຮົາ !
+ម៉ូសេ ! ឡើង មក លើ ភ្នំ ស៊ីណាយ ។	Moses! Come up Mount Sinai.	¡Moisés! Sube al monte Sinaí.	ໂມເຊ ! ຂຶ້ນ ມາ ເທິງ ພູ ຊີນາຍ .
+ឡើង ភ្នំ ។	Climb the mountain.	Sube la montaña.	ຂຶ້ນ ພູ .
+កុំ មាន ព្រះ ឯ ទៀត ក្រៅ ពី យើង ។	Have no other gods but me.	No tengas otros dioses aparte de mí.	ຢ່າ ມີ ພຣະ ອື່ນ ນອກ ຈາກ ເຮົາ .
+កុំ ធ្វើ រូប ព្រះ ហើយ ក្រាប ថ្វាយបង្គំ ។	Do not make idols and bow down to them.	No hagas ídolos ni te inclines ante ellos.	ຢ່າ ເຮັດ ຮູບ ເຄົາລົບ ແລະ ກົ້ມ ຂາບ .
+កុំ ប្រើ ព្រះនាម ព្រះជាម្ចាស់ ឥត ប្រយោជន៍ ។	Do not misuse the name of the Lord.	No tomes el nombre del Señor en vano.	ຢ່າ ໃຊ້ ພຣະນາມ ຂອງ ພຣະເຈົ້າ ໃນ ທາງ ໄຮ້ປະໂຫຍດ .
+ចូរ ញែក ថ្ងៃ សប្ប័ទ ជា ថ្ងៃ បរិសុទ្ធ ។	Keep the Sabbath day holy.	Santifica el día de reposo.	ຈົ່ງ ຖື ວັນ ຊະບາໂຕ ເປັນ ວັນ ບໍລິສຸດ .
+ចូរ គោរព ឪពុក ម្ដាយ ។	Honor your father and mother.	Honra a tu padre y a tu madre.	ຈົ່ງ ນັບຖື ພໍ່ ແມ່ .
+កុំ សម្លាប់ មនុស្ស ។	Do not murder.	No mates.	ຢ່າ ຂ້າ ຄົນ .
+កុំ ផិតក្បត់ ។	Do not commit adultery.	No cometas adulterio.	ຢ່າ ຫລິ້ນ ຊູ້ .
+កុំ លួច ។	Do not steal.	No robes.	ຢ່າ ລັກ .
+កុំ និយាយ កុហក ។	Do not lie.	No mientas.	ຢ່າ ເວົ້າ ຕົວະ .
+កុំ លោភ ។	Do not covet.	No codicies.	ຢ່າ ໂລບ .
+បន្ទះ ថ្ម	stone tablets	tablas de piedra	ແຜ່ນ ຫີນ
+ចុះ ទៅ ! ប្រជាជន ធ្វើ បាប ហើយ ។	Go down! The people have sinned.	¡Baja! El pueblo ha pecado.	ລົງ ໄປ ! ປະຊາຊົນ ເຮັດ ບາບ ແລ້ວ .
+គោ មាស	golden calf	becerro de oro	ງົວ ຄຳ
+ចុះ ពី ភ្នំ ។	Go down the mountain.	Baja de la montaña.	ລົງ ຈາກ ພູ .
+នេះ ជា ព្រះ របស់ យើង ! គោ មាស !	This is our god! The golden calf!	¡Este es nuestro dios! ¡El becerro de oro!	ນີ້ ແມ່ນ ພຣະ ຂອງ ພວກເຮົາ ! ງົວ ຄຳ !
+បោក បន្ទះ ថ្ម ។	Smash the stone tablets.	Rompe las tablas de piedra.	ທຸບ ແຜ່ນ ຫີນ .
+បោក បន្ទះ ថ្ម	Smash tablets	Romper tablas	ທຸບ ແຜ່ນ ຫີນ
+បាក់	broken	rotas	ແຕກ
+កំទេច គោ មាស ។	Grind up the golden calf.	Destruye el becerro de oro.	ທຳລາຍ ງົວ ຄຳ .
+កំទេច គោ មាស	Destroy calf	Destruir becerro	ທຳລາຍ ງົວ ຄຳ
+ឆ្លាក់ បន្ទះ ថ្ម ពីរ ទៀត ។ យើង នឹង សរសេរ ម្ដង ទៀត ។	Cut two more stone tablets. I will write again.	Labra otras dos tablas de piedra. Escribiré otra vez.	ຕັດ ແຜ່ນ ຫີນ ອີກ ສອງ ແຜ່ນ . ເຮົາ ຈະ ຂຽນ ອີກ ເທື່ອ ໜຶ່ງ .
+ប្ដី ខ្ញុំ ស្លាប់ ហើយ ។ កូន ខ្ញុំ ក៏ ស្លាប់ ដែរ ។	My husband is dead. My sons are dead too.	Mi esposo murió. Mis hijos también murieron.	ຜົວ ຂອງ ຂ້ອຍ ຕາຍ ແລ້ວ . ລູກ ຂອງ ຂ້ອຍ ກໍ ຕາຍ ຄືກັນ .
+រស់ ! ត្រឡប់ ទៅ ផ្ទះ ម្ដាយ អ្នក វិញ ចុះ ។	Ruth! Go back to your mother's home.	¡Rut! Vuelve a la casa de tu madre.	ຣຸດ ! ກັບ ໄປ ບ້ານ ແມ່ ຂອງ ເຈົ້າ ເສຍ .
+យើង ឃ្លាន ។ ទៅ រើស ស្រូវ ក្នុង វាល ។	We're hungry. Go and pick up grain in the field.	Tenemos hambre. Ve a recoger espigas al campo.	ພວກເຮົາ ຫິວ . ໄປ ເກັບ ເຂົ້າ ໃນ ທົ່ງ .
+រើស ស្រូវ	Pick up grain	Recoger espigas	ເກັບ ເຂົ້າ
+ស្ត្រី នេះ ជា នរណា ?	Who is this woman?	¿Quién es esta mujer?	ຜູ້ຍິງ ຄົນ ນີ້ ແມ່ນ ໃຜ ?
+អ្នក ជួយ ណាអូមី ។ ព្រះជាម្ចាស់ ឲ្យ ពរ អ្នក ។	You help Naomi. May the Lord bless you.	Ayudas a Noemí. Que el Señor te bendiga.	ເຈົ້າ ຊ່ວຍ ນາໂອມີ . ຂໍ ພຣະເຈົ້າ ອວຍພອນ ເຈົ້າ .
+ពួក អ្នក ច្រូត ! ទម្លាក់ ស្រូវ ឲ្យ នាង ទៀត !	Harvesters! Drop more grain for her!	¡Segadores! ¡Dejen caer más espigas para ella!	ຄົນ ກ່ຽວ ເຂົ້າ ! ປະ ເຂົ້າ ໃຫ້ ນາງ ອີກ !
+ទម្លាក់	Drop	Dejar caer	ປະ
+យក ស្រូវ ទៅ ឲ្យ ណាអូមី ។	Take the grain to Naomi.	Lleva el grano a Noemí.	ເອົາ ເຂົ້າ ໄປ ໃຫ້ ນາໂອມີ .
+ឲ្យ ស្រូវ	Give grain	Dar grano	ໃຫ້ ເຂົ້າ
+ស្រូវ ច្រើន ណាស់ ! អ្នក រើស ក្នុង វាល អ្នក ណា ?	So much grain! Whose field did you glean in?	¡Cuánto grano! ¿En el campo de quién recogiste?	ເຂົ້າ ຫລາຍ ແທ້ ! ເຈົ້າ ເກັບ ໃນ ທົ່ງ ຂອງ ໃຜ ?
+បូអូស ។	Boaz.	Booz.	ໂບອາດ .
+បូអូស ជា សាច់ញាតិ របស់ យើង !	Boaz is our relative!	¡Booz es nuestro pariente!	ໂບອາດ ເປັນ ຍາດ ພີ່ນ້ອງ ຂອງ ພວກເຮົາ !
+បូអូស រៀបការ ជាមួយ រស់ ។	Boaz marries Ruth.	Booz se casa con Rut.	ໂບອາດ ແຕ່ງງານ ກັບ ນາງຣຸດ .
+អូបេដ	Obed	Obed	ໂອເບດ
+ជីតា របស់ ស្ដេច ដាវីឌ	grandfather of King David	abuelo del rey David	ພໍ່ຕູ້ ຂອງ ກະສັດ ດາວິດ
+កូន ឈ្មោះ អូបេដ ។ គាត់ ជា ជីតា របស់ ស្ដេច ដាវីឌ ។	The child's name is Obed. He is the grandfather of King David.	El niño se llama Obed. Es el abuelo del rey David.	ເດັກ ຊື່ ໂອເບດ . ລາວ ເປັນ ພໍ່ຕູ້ ຂອງ ກະສັດ ດາວິດ .
+ជ្រោះ	valley	valle	ຮ່ອມພູ
+ខ្ញុំ ជា កូលីយ៉ាត ! អ្នក ណា ហ៊ាន ច្បាំង ជាមួយ ខ្ញុំ ?	I am Goliath! Who dares to fight me?	¡Soy Goliat! ¿Quién se atreve a pelear conmigo?	ຂ້ອຍ ແມ່ນ ໂກລີອາດ ! ໃຜ ກ້າ ສູ້ ກັບ ຂ້ອຍ ?
+ហាហា ! អ៊ីស្រាអែល ខ្លាច !	Haha! Israel is afraid!	¡Jaja! ¡Israel tiene miedo!	ຮາຮາ ! ອິດສະຣາເອນ ຢ້ານ !
+អ្នក នៅ ក្មេង ណាស់ ! ពាក់ គ្រឿង សឹក របស់ ខ្ញុំ ។	You are very young! Put on my armor.	¡Eres muy joven! Ponte mi armadura.	ເຈົ້າ ຍັງ ໜຸ່ມ ຫລາຍ ! ນຸ່ງ ເຄື່ອງ ຫຸ້ມ ເກາະ ຂອງ ຂ້ອຍ .
+ពាក់ គ្រឿង សឹក ។	Put on the armor.	Ponte la armadura.	ນຸ່ງ ເຄື່ອງ ຫຸ້ມ ເກາະ .
+ពាក់ គ្រឿង សឹក	Put on armor	Ponerse armadura	ນຸ່ງ ເກາະ
+ធ្ងន់ ពេក ! ខ្ញុំ ដើរ មិន រួច ។	Too heavy! I can't walk.	¡Demasiado pesada! No puedo caminar.	ໜັກ ເກີນ ໄປ ! ຂ້ອຍ ຍ່າງ ບໍ່ ໄດ້ .
+ដោះ គ្រឿង សឹក ។	Take off the armor.	Quítate la armadura.	ຖອດ ເຄື່ອງ ຫຸ້ມ ເກາະ .
+ដោះ គ្រឿង សឹក	Take off armor	Quitarse armadura	ຖອດ ເກາະ
+រើស ថ្ម	Pick up stone	Recoger piedra	ເກັບ ຫີນ
+ទៅ ជួប កូលីយ៉ាត ។	Go meet Goliath.	Ve al encuentro de Goliat.	ໄປ ພົບ ໂກລີອາດ .
+តើ ខ្ញុំ ជា ឆ្កែ ឬ ? អ្នក មក ជាមួយ ដំបង !	Am I a dog? You come at me with a stick!	¿Soy un perro? ¡Vienes a mí con un palo!	ຂ້ອຍ ເປັນ ໝາ ບໍ ? ເຈົ້າ ມາ ພ້ອມ ໄມ້ ຄ້ອນ !
+បាញ់ ខ្សែ ដង ។	Use the sling.	Usa la honda.	ຍິງ ສະລິງ .
+បាញ់ ខ្សែ ដង	Sling	Honda	ຍິງ ສະລິງ
+យក ដាវ របស់ កូលីយ៉ាត ។	Take Goliath's sword.	Toma la espada de Goliat.	ເອົາ ດາບ ຂອງ ໂກລີອາດ .
+យក ដាវ	Take sword	Tomar espada	ເອົາ ດາບ
+កូលីយ៉ាត ដួល ! ពួក ភីលីស្ទីន រត់ !	Goliath has fallen! The Philistines are running!	¡Goliat cayó! ¡Los filisteos huyen!	ໂກລີອາດ ລົ້ມ ! ພວກ ຟີລິດສະຕິນ ແລ່ນ ໜີ !
+ការ ច្បាំង នេះ ជា របស់ ព្រះជាម្ចាស់ ។	The battle belongs to the Lord.	La batalla es del Señor.	ການ ສູ້ຮົບ ນີ້ ເປັນ ຂອງ ພຣະເຈົ້າ .
+ហោរា	prophets	profetas	ຜູ້ທຳນວາຍ
+បាល ! ឆ្លើយ មក ! បាល !	Baal! Answer! Baal!	¡Baal! ¡Responde! ¡Baal!	ບາອານ ! ຕອບ ມາ ! ບາອານ !
+បាល ! ឆ្លើយ មក !	Baal! Answer!	¡Baal! ¡Responde!	ບາອານ ! ຕອບ ມາ !
+ស្រែក ឲ្យ ខ្លាំង ទៀត ! ប្រហែល ជា បាល កំពុង ដេក !	Shout louder! Maybe Baal is asleep!	¡Griten más fuerte! ¡Quizás Baal está dormido!	ຮ້ອງ ໃຫ້ ດັງ ກວ່າ ນີ້ ! ບາງທີ ບາອານ ກຳລັງ ນອນ !
+... គ្មាន ចម្លើយ ទេ ។	... no answer.	... no hay respuesta.	... ບໍ່ ມີ ຄຳຕອບ .
+ក្អម	jar	cántaro	ໄຫ
+ចាក់ ទឹក	Pour water	Echar agua	ຖອກ ນ້ຳ
+ភ្លើង ឆេះ ឈើ ថ្ម ដី និង ទឹក ទាំងអស់ ។	The fire burned up the wood, the stones, the soil and all the water.	El fuego consumió la leña, las piedras, el polvo y toda el agua.	ໄຟ ໄໝ້ ໄມ້ ຫີນ ດິນ ແລະ ນ້ຳ ທັງໝົດ .
+ព្រះជាម្ចាស់ ជា ព្រះ ! ព្រះជាម្ចាស់ ជា ព្រះ !	The Lord is God! The Lord is God!	¡El Señor es Dios! ¡El Señor es Dios!	ພຣະເຈົ້າ ເປັນ ພຣະເຈົ້າ ! ພຣະເຈົ້າ ເປັນ ພຣະເຈົ້າ !
+មើល ! ពពក មួយ តូច ដូច ដៃ មនុស្ស ។	Look! A small cloud like a man's hand.	¡Mira! Una nube pequeña como la mano de un hombre.	ເບິ່ງ ! ເມກ ກ້ອນ ນ້ອຍ ຄື ມື ຄົນ .
+យ៉ូណាស ! ទៅ ក្រុង នីនីវេ ។ ប្រកាស ទាស់ នឹង ក្រុង នោះ ។	Jonah! Go to Nineveh. Preach against that city.	¡Jonás! Ve a Nínive. Predica contra esa ciudad.	ໂຢນາ ! ໄປ ເມືອງ ນີເນເວ . ປະກາດ ຕໍ່ຕ້ານ ເມືອງ ນັ້ນ .
+ឡើង សំពៅ ។	Board the ship.	Sube al barco.	ຂຶ້ນ ກຳປັ່ນ .
+ឡើង សំពៅ	Board	Subir	ຂຶ້ນ ກຳປັ່ນ
+ព្យុះ	storm	tormenta	ພາຍຸ
+ព្យុះ ធំ ណាស់ ! យើង នឹង ស្លាប់ !	The storm is so big! We're going to die!	¡Qué tormenta tan grande! ¡Vamos a morir!	ພາຍຸ ໃຫຍ່ ຫລາຍ ! ພວກເຮົາ ຈະ ຕາຍ !
+នេះ ដោយសារ អ្នក ណា ? អ្នក ធ្វើ អ្វី ?	Whose fault is this? What have you done?	¿De quién es la culpa? ¿Qué has hecho?	ເປັນ ຍ້ອນ ໃຜ ? ເຈົ້າ ເຮັດ ຫຍັງ ?
+លោត ទៅ ក្នុង សមុទ្រ ។	Jump into the sea.	Salta al mar.	ໂດດ ລົງ ທະເລ .
+លោត	Jump	Saltar	ໂດດ
+សមុទ្រ ស្ងប់ ។	The sea is calm.	El mar se calma.	ທະເລ ສະຫງົບ .
+ត្រី ធំ	big fish	gran pez	ປາ ໃຫຍ່
+ព្រះជាម្ចាស់ អើយ ! សូម ជួយ ខ្ញុំ ។ សេចក្ដី សង្គ្រោះ មក ពី ព្រះជាម្ចាស់ ។	Lord! Help me. Salvation comes from the Lord.	¡Señor! Ayúdame. La salvación viene del Señor.	ພຣະເຈົ້າ ເອີຍ ! ຂໍ ຊ່ວຍ ຂ້ອຍ . ຄວາມ ລອດ ມາ ຈາກ ພຣະເຈົ້າ .
+ត្រី ខ្ជាក់ យ៉ូណាស លើ ដី គោក ។	The fish spits Jonah out onto dry land.	El pez vomita a Jonás en tierra firme.	ປາ ຄາຍ ໂຢນາ ອອກ ເທິງ ບົກ .
+ត្រី ខ្ជាក់ យ៉ូណាស លើ ដី ។	The fish spits Jonah onto the land.	El pez vomita a Jonás en tierra.	ປາ ຄາຍ ໂຢນາ ອອກ ເທິງ ດິນ .
+យ៉ូណាស ! ទៅ ក្រុង នីនីវេ ។	Jonah! Go to Nineveh.	¡Jonás! Ve a Nínive.	ໂຢນາ ! ໄປ ເມືອງ ນີເນເວ .
+ទៅ ក្រុង នីនីវេ ។	Go to Nineveh.	Ve a Nínive.	ໄປ ເມືອງ ນີເນເວ .
+ប្រកាស ។	Preach.	Predica.	ປະກາດ .
+ប្រកាស	Preach	Predicar	ປະກາດ
+សែសិប ថ្ងៃ ទៀត ក្រុង នីនីវេ នឹង ត្រូវ បំផ្លាញ !	In forty more days Nineveh will be destroyed!	¡Dentro de cuarenta días Nínive será destruida!	ອີກ ສີ່ສິບ ວັນ ເມືອງ ນີເນເວ ຈະ ຖືກ ທຳລາຍ !
+យើង ធ្វើ បាប ! យើង នឹង ប្រែ ចិត្ត !	We have sinned! We will repent!	¡Hemos pecado! ¡Nos arrepentiremos!	ພວກເຮົາ ເຮັດ ບາບ ! ພວກເຮົາ ຈະ ກັບໃຈ !
+ប្រែ ចិត្ត	repent	arrepentirse	ກັບໃຈ
+ពួកគេ ពាក់ បាវ ។ ព្រះជាម្ចាស់ អាណិត ក្រុង នោះ ។	They put on sackcloth. The Lord has mercy on the city.	Se visten de cilicio. El Señor tiene compasión de la ciudad.	ພວກເຂົາ ນຸ່ງ ຜ້າ ກະສອບ . ພຣະເຈົ້າ ສົງສານ ເມືອງ ນັ້ນ .
+ព្រះជាម្ចាស់ អាណិត ក្រុង នីនីវេ ។	The Lord has mercy on Nineveh.	El Señor tiene compasión de Nínive.	ພຣະເຈົ້າ ສົງສານ ເມືອງ ນີເນເວ .
+ខ្ញុំ ដឹង ហើយ ! ព្រះអង្គ អាណិត មេត្តា ។ ខ្ញុំ ខឹង ណាស់ !	I knew it! You are merciful. I'm so angry!	¡Lo sabía! Eres compasivo. ¡Estoy muy enojado!	ຂ້ອຍ ຮູ້ ແລ້ວ ! ພຣະອົງ ມີ ເມດຕາ . ຂ້ອຍ ໃຈຮ້າຍ ຫລາຍ !
+ចេញ ទៅ អង្គុយ ខាងកើត ក្រុង ។	Go out and sit east of the city.	Sal y siéntate al este de la ciudad.	ອອກ ໄປ ນັ່ງ ທາງ ທິດ ຕາເວັນອອກ ຂອງ ເມືອງ .
+រុក្ខជាតិ	plant	planta	ຕົ້ນພືດ
+ម្លប់	shade	sombra	ຮົ່ມ
+អូ ! ម្លប់ ល្អ ណាស់ ! ខ្ញុំ សប្បាយ ចិត្ត ។	Oh! Nice shade! I'm happy.	¡Oh! ¡Qué buena sombra! Estoy contento.	ໂອ້ ! ຮົ່ມ ດີ ຫລາຍ ! ຂ້ອຍ ດີໃຈ .
+ដង្កូវ	worm	gusano	ໜອນ
+ស្វិត	withered	marchita	ຫ່ຽວ
+ខ្ញុំ ចង់ ស្លាប់ ! ខ្ញុំ ខឹង ព្រោះ រុក្ខជាតិ ស្វិត !	I want to die! I'm angry because the plant withered!	¡Quiero morir! ¡Estoy enojado porque la planta se marchitó!	ຂ້ອຍ ຢາກ ຕາຍ ! ຂ້ອຍ ໃຈຮ້າຍ ເພາະ ຕົ້ນພືດ ຫ່ຽວ !
+អ្នក អាណិត រុក្ខជាតិ ដែល អ្នក មិន បាន ដាំ ។ តើ យើង មិន គួរ អាណិត ក្រុង នីនីវេ ទេ ឬ ? មាន មនុស្ស មួយ សែន ម្ភៃ ពាន់ នាក់ និង សត្វ ជា ច្រើន !	You cared about a plant you did not plant. Should I not care about Nineveh? It has one hundred twenty thousand people and many animals!	Te dolió una planta que no sembraste. ¿Y no me ha de doler Nínive? ¡Tiene ciento veinte mil personas y muchos animales!	ເຈົ້າ ສົງສານ ຕົ້ນພືດ ທີ່ ເຈົ້າ ບໍ່ ໄດ້ ປູກ . ເຮົາ ບໍ່ ຄວນ ສົງສານ ເມືອງ ນີເນເວ ບໍ ? ມີ ຄົນ ໜຶ່ງ ແສນ ຊາວ ພັນ ຄົນ ແລະ ສັດ ຫລາຍ !
+រូប មាស	golden statue	estatua de oro	ຮູບ ຄຳ
+ពេល ឮ ភ្លេង ចូរ ក្រាប ថ្វាយបង្គំ រូប មាស !	When you hear the music, bow down to the golden statue!	¡Cuando oigan la música, inclínense ante la estatua de oro!	ເມື່ອ ໄດ້ ຍິນ ດົນຕີ ຈົ່ງ ກົ້ມ ຂາບ ຮູບ ຄຳ !
+អ្នក ណា មិន ក្រាប នឹង ត្រូវ បោះ ទៅ ក្នុង ឡ ភ្លើង !	Whoever does not bow will be thrown into the furnace!	¡Quien no se incline será echado al horno de fuego!	ຜູ້ ໃດ ບໍ່ ກົ້ມ ຂາບ ຈະ ຖືກ ໂຍນ ລົງ ເຕົາ ໄຟ !
+ខ្ញុំ ខឹង ណាស់ ! ដុត ឡ ឲ្យ ក្ដៅ ប្រាំពីរ ដង !	I'm furious! Heat the furnace seven times hotter!	¡Estoy furioso! ¡Calienten el horno siete veces más!	ຂ້ອຍ ໃຈຮ້າຍ ຫລາຍ ! ເຜົາ ເຕົາ ໃຫ້ ຮ້ອນ ເຈັດ ເທົ່າ !
+ចង ពួកគេ ហើយ បោះ ទៅ ក្នុង ឡ !	Tie them up and throw them into the furnace!	¡Átenlos y échenlos al horno!	ມັດ ພວກເຂົາ ແລ້ວ ໂຍນ ລົງ ເຕົາ !
+យើង នៅ ក្នុង ភ្លើង ... ប៉ុន្តែ មិន ក្ដៅ ទេ !	We're in the fire... but it isn't hot!	Estamos en el fuego... ¡pero no quema!	ພວກເຮົາ ຢູ່ ໃນ ໄຟ ... ແຕ່ ບໍ່ ຮ້ອນ !
+ដើរ ក្នុង ភ្លើង ។	Walk in the fire.	Camina en el fuego.	ຍ່າງ ໃນ ໄຟ .
+ដើរ	Walk	Caminar	ຍ່າງ
+ខ្សែ ឆេះ	ropes burn	las cuerdas arden	ເຊືອກ ໄໝ້
+ខ្សែ ឆេះ ដាច់ អស់ ។	The ropes burn away.	Las cuerdas se queman.	ເຊືອກ ໄໝ້ ຂາດ ໝົດ .
+មើល ! មនុស្ស បួន នាក់ ដើរ ក្នុង ភ្លើង ! ម្នាក់ ដូច កូន ព្រះ !	Look! Four men walking in the fire! One looks like a son of the gods!	¡Miren! ¡Cuatro hombres caminando en el fuego! ¡Uno parece hijo de los dioses!	ເບິ່ງ ! ຄົນ ສີ່ ຄົນ ຍ່າງ ໃນ ໄຟ ! ຄົນ ໜຶ່ງ ຄື ບຸດ ຂອງ ພຣະ !
+សាដ្រាក់ ! ចេញ មក !	Shadrach! Come out!	¡Sadrac! ¡Sal!	ຊັດຣັກ ! ອອກ ມາ !
+ចេញ ពី ឡ ។	Come out of the furnace.	Sal del horno.	ອອກ ຈາກ ເຕົາ .
+ចេញ	Come out	Salir	ອອກ
+សក់ មិន ឆេះ ។ អាវ មិន ធុំ ក្លិន ផ្សែង ទេ ។	Their hair is not burned. Their clothes don't even smell of smoke.	Su pelo no se quemó. Su ropa ni huele a humo.	ຜົມ ບໍ່ ໄໝ້ . ເສື້ອ ບໍ່ ມີ ກິ່ນ ຄວັນ .
+ព្រះ របស់ អ្នក ជា ព្រះ ពិត ! ព្រះ អង្គ សង្គ្រោះ អ្នក !	Your God is the true God! He saved you!	¡Su Dios es el Dios verdadero! ¡Él los salvó!	ພຣະເຈົ້າ ຂອງ ພວກເຈົ້າ ເປັນ ພຣະເຈົ້າ ແທ້ ! ພຣະອົງ ຊ່ວຍ ພວກເຈົ້າ !
+បង្អួច	window	ventana	ປ່ອງຢ້ຽມ
+រូង	den	foso	ຖ້ຳ
+ស្ដេច ដារីយុស ចេញ ច្បាប់ ៖ កុំ អធិស្ឋាន ទៅ ព្រះ ណា ក្រៅ ពី ស្ដេច ។	King Darius makes a law: do not pray to any god except the king.	El rey Darío da una ley: no oren a ningún dios salvo al rey.	ກະສັດ ດາຣິອຸດ ອອກ ກົດ : ຢ່າ ອະທິຖານ ຫາ ພຣະ ອົງ ໃດ ນອກ ຈາກ ກະສັດ .
+អធិស្ឋាន	Pray	Orar	ອະທິຖານ
+មើល ! ដានីយ៉ែល អធិស្ឋាន ទៅ ព្រះ របស់ គាត់ !	Look! Daniel is praying to his God!	¡Miren! ¡Daniel está orando a su Dios!	ເບິ່ງ ! ດານີເອນ ອະທິຖານ ຫາ ພຣະເຈົ້າ ຂອງ ລາວ !
+ទៅ ជួប ស្ដេច ។	Go to the king.	Ve ante el rey.	ໄປ ພົບ ກະສັດ .
+ដានីយ៉ែល ... ខ្ញុំ ស្រឡាញ់ អ្នក ។ ប៉ុន្តែ ច្បាប់ ជា ច្បាប់ ។	Daniel... I love you. But the law is the law.	Daniel... te aprecio. Pero la ley es la ley.	ດານີເອນ ... ຂ້ອຍ ຮັກ ເຈົ້າ . ແຕ່ ກົດ ກໍ ແມ່ນ ກົດ .
+សូម ឲ្យ ព្រះ របស់ អ្នក ជួយ អ្នក !	May your God save you!	¡Que tu Dios te salve!	ຂໍ ໃຫ້ ພຣະເຈົ້າ ຂອງ ເຈົ້າ ຊ່ວຍ ເຈົ້າ !
+ព្រះ បាន ចាត់ ខ្ញុំ មក បិទ មាត់ តោ ។	God sent me to shut the lions' mouths.	Dios me envió a cerrar la boca de los leones.	ພຣະເຈົ້າ ສົ່ງ ຂ້ອຍ ມາ ປິດ ປາກ ສິງ .
+ដានីយ៉ែល ! តើ ព្រះ របស់ អ្នក សង្គ្រោះ អ្នក បាន ទេ ?	Daniel! Was your God able to save you?	¡Daniel! ¿Pudo tu Dios salvarte?	ດານີເອນ ! ພຣະເຈົ້າ ຂອງ ເຈົ້າ ຊ່ວຍ ເຈົ້າ ໄດ້ ບໍ ?
+ឡើង ពី រូង ។	Come up out of the den.	Sube del foso.	ຂຶ້ນ ຈາກ ຖ້ຳ .
+ចូរ គ្រប់ គ្នា កោតខ្លាច ព្រះ របស់ ដានីយ៉ែល !	Let everyone fear the God of Daniel!	¡Que todos teman al Dios de Daniel!	ຈົ່ງ ໃຫ້ ທຸກ ຄົນ ຢຳເກງ ພຣະເຈົ້າ ຂອງ ດານີເອນ !
+ក្រោល	pen	redil	ຄອກ
+អូ ! ខ្ញុំ ខ្លាច ណាស់ !	Oh! I'm so scared!	¡Ay! ¡Tengo mucho miedo!	ໂອ້ ! ຂ້ອຍ ຢ້ານ ຫລາຍ !
+កុំ ខ្លាច ! ខ្ញុំ នាំ ដំណឹង ល្អ មក ។	Don't be afraid! I bring good news.	¡No teman! Les traigo buenas noticias.	ຢ່າ ຢ້ານ ! ຂ້ອຍ ນຳ ຂ່າວ ດີ ມາ .
+ថ្ងៃ នេះ ព្រះ សង្គ្រោះ បាន ប្រសូត នៅ ភូមិ បេថ្លេហិម ។	Today a Savior is born in Bethlehem.	Hoy ha nacido un Salvador en Belén.	ມື້ນີ້ ພຣະຜູ້ຊ່ວຍໃຫ້ລອດ ປະສູດ ທີ່ ບ້ານ ເບັດເລເຮັມ .
+អ្នក នឹង ឃើញ ទារក ដេក នៅ ក្នុង ស្នូក ។	You will find a baby lying in a manger.	Encontrarán a un bebé acostado en un pesebre.	ເຈົ້າ ຈະ ເຫັນ ເດັກນ້ອຍ ນອນ ຢູ່ ໃນ ຮາງ ຫຍ້າ .
+សិរីល្អ ដល់ ព្រះ នៅ ស្ថាន ដ៏ ខ្ពស់ ! សេចក្ដី សុខសាន្ត នៅ លើ ផែនដី !	Glory to God in the highest! Peace on earth!	¡Gloria a Dios en las alturas! ¡Paz en la tierra!	ພຣະກຽດ ຈົ່ງ ມີ ແດ່ ພຣະເຈົ້າ ໃນ ທີ່ ສູງ ສຸດ ! ສັນຕິສຸກ ເທິງ ແຜ່ນດິນ ໂລກ !
+តោះ ! ទៅ បេថ្លេហិម !	Come on! To Bethlehem!	¡Vamos! ¡A Belén!	ມາ ! ໄປ ເບັດເລເຮັມ !
+ទៅ តាម ផ្កាយ ។ រក ទារក ។	Follow the star. Find the baby.	Sigue la estrella. Busca al bebé.	ໄປ ຕາມ ດາວ . ຊອກ ຫາ ເດັກນ້ອຍ .
+ឈ្មោះ គាត់ គឺ យេស៊ូ ។	His name is Jesus.	Se llama Jesús.	ລາວ ຊື່ ເຢຊູ .
+ក្រាប ថ្វាយបង្គំ ។	Kneel and worship.	Arrodíllate y adora.	ກົ້ມ ຂາບ ນະມັດສະການ .
+ក្រាប ថ្វាយបង្គំ	Worship	Adorar	ກົ້ມ ຂາບ
+សិរីល្អ ដល់ ព្រះ ! យើង បាន ឃើញ ព្រះ សង្គ្រោះ !	Glory to God! We have seen the Savior!	¡Gloria a Dios! ¡Hemos visto al Salvador!	ພຣະກຽດ ແດ່ ພຣະເຈົ້າ ! ພວກເຮົາ ໄດ້ ເຫັນ ພຣະຜູ້ຊ່ວຍໃຫ້ລອດ !
+ព្យុះ ធំ ណាស់ ! ទឹក ចូល ទូក !	The storm is huge! Water is coming into the boat!	¡La tormenta es enorme! ¡Entra agua en el barco!	ພາຍຸ ໃຫຍ່ ຫລາຍ ! ນ້ຳ ເຂົ້າ ເຮືອ !
+ព្រះយេស៊ូ ដេក លក់ !	Jesus is asleep!	¡Jesús está dormido!	ພຣະເຢຊູ ບັນທົມ ຫລັບ !
+ដាស់ ព្រះយេស៊ូ ។	Wake Jesus.	Despierta a Jesús.	ປຸກ ພຣະເຢຊູ .
+ដាស់	Wake	Despertar	ປຸກ
+ស្ងប់ ! នៅ ស្ងៀម !	Quiet! Be still!	¡Calla! ¡Enmudece!	ສະຫງົບ ! ມິດ ຢູ່ !
+ហេតុ អ្វី អ្នក ខ្លាច ? អ្នក មិន ទាន់ មាន ជំនឿ ទេ ឬ ?	Why are you afraid? Do you still have no faith?	¿Por qué tienen miedo? ¿Todavía no tienen fe?	ເປັນ ຫຍັງ ເຈົ້າ ຢ້ານ ? ເຈົ້າ ຍັງ ບໍ່ ມີ ຄວາມເຊື່ອ ບໍ ?
+លោក នេះ ជា នរណា ? ខ្យល់ និង សមុទ្រ ក៏ ស្ដាប់ លោក !	Who is this man? Even the wind and the sea obey him!	¿Quién es este? ¡Hasta el viento y el mar le obedecen!	ທ່ານ ນີ້ ແມ່ນ ໃຜ ? ລົມ ແລະ ທະເລ ກໍ ຟັງ ທ່ານ !
+តើ យើង ទិញ នំបុ័ង ពី ណា ឲ្យ មនុស្ស ទាំងនេះ ហូប ?	Where can we buy bread for all these people to eat?	¿Dónde compraremos pan para que coma toda esta gente?	ພວກເຮົາ ຈະ ຊື້ ເຂົ້າຈີ່ ຢູ່ ໃສ ໃຫ້ ຄົນ ເຫລົ່ານີ້ ກິນ ?
+មនុស្ស ប្រហែល ប្រាំ ពាន់ នាក់ ! ប្រាក់ មិន គ្រប់ ទេ !	About five thousand people! There isn't enough money!	¡Unas cinco mil personas! ¡No alcanza el dinero!	ຄົນ ປະມານ ຫ້າ ພັນ ຄົນ ! ເງິນ ບໍ່ ພໍ !
+មាន ក្មេង ម្នាក់ មាន នំបុ័ង ប្រាំ ដុំ និង ត្រី ពីរ ។	There's a boy with five loaves of bread and two fish.	Hay un muchacho con cinco panes y dos peces.	ມີ ເດັກ ຄົນ ໜຶ່ງ ມີ ເຂົ້າຈີ່ ຫ້າ ກ້ອນ ແລະ ປາ ສອງ ໂຕ .
+ឲ្យ នំបុ័ង ទៅ ព្រះយេស៊ូ ។	Give the bread to Jesus.	Dale el pan a Jesús.	ໃຫ້ ເຂົ້າຈີ່ ແກ່ ພຣະເຢຊູ .
+អរ ព្រះគុណ ព្រះវរបិតា ។	Thank you, Father.	Gracias, Padre.	ຂອບພຣະຄຸນ ພຣະບິດາ .
+យក អាហារ	Take food	Tomar comida	ເອົາ ອາຫານ
+ចែក អាហារ	Hand out food	Repartir comida	ແຈກ ອາຫານ
+ប្រាំ ពាន់ នាក់	five thousand people	cinco mil personas	ຫ້າ ພັນ ຄົນ
+គ្រប់ គ្នា ហូប ឆ្អែត ។	Everyone eats and is full.	Todos comen hasta saciarse.	ທຸກ ຄົນ ກິນ ອີ່ມ .
+មនុស្ស ប្រាំ ពាន់ នាក់ ហូប ឆ្អែត ។	Five thousand people eat and are full.	Cinco mil personas comen hasta saciarse.	ຄົນ ຫ້າ ພັນ ຄົນ ກິນ ອີ່ມ .
+ប្រមូល សំណល់ កុំ ឲ្យ ខាត ។	Gather the leftovers so nothing is wasted.	Recojan lo que sobró para que no se pierda nada.	ເກັບ ສິ່ງ ທີ່ ເຫລືອ ຢ່າ ໃຫ້ ເສຍ .
+សំណល់	leftovers	sobras	ສິ່ງ ທີ່ ເຫລືອ
+ប្រមូល	Gather	Recoger	ເກັບ
+ដប់មួយ	eleven	once	ສິບເອັດ
+ដប់ពីរ	twelve	doce	ສິບສອງ
+កន្ត្រក ដប់ពីរ ពេញ ! អស្ចារ្យ ណាស់ !	Twelve full baskets! Amazing!	¡Doce canastas llenas! ¡Increíble!	ກະຕ່າ ເຕັມ ສິບສອງ ໜ່ວຍ ! ອັດສະຈັນ ແທ້ !
+ខ្វិន	paralyzed	paralítico	ເປັນ ອຳມະພາດ
+មិត្ត យើង ខ្វិន ។ គាត់ ដើរ មិន រួច ទេ ។	Our friend is paralyzed. He can't walk.	Nuestro amigo es paralítico. No puede caminar.	ໝູ່ ຂອງ ພວກເຮົາ ເປັນ ອຳມະພາດ . ລາວ ຍ່າງ ບໍ່ ໄດ້ .
+ព្រះយេស៊ូ នៅ ក្នុង ផ្ទះ នោះ ។ ព្រះអង្គ អាច ជួយ គាត់ !	Jesus is in that house. He can help him!	Jesús está en esa casa. ¡Él puede ayudarlo!	ພຣະເຢຊູ ຢູ່ ໃນ ເຮືອນ ນັ້ນ . ພຣະອົງ ຊ່ວຍ ລາວ ໄດ້ !
+លី កន្ទេល ។	Carry the mat.	Carga la camilla.	ຫາມ ສາດ .
+លី កន្ទេល	Carry mat	Cargar camilla	ຫາມ ສາດ
+ចូល ផ្ទះ ។	Go into the house.	Entra en la casa.	ເຂົ້າ ເຮືອນ .
+ពេញ ហើយ ! ចូល មិន បាន ទេ !	It's full! You can't get in!	¡Está lleno! ¡No se puede entrar!	ເຕັມ ແລ້ວ ! ເຂົ້າ ບໍ່ ໄດ້ !
+ឡើង ជណ្ដើរ ។	Climb the stairs.	Sube la escalera.	ຂຶ້ນ ຂັ້ນໄດ .
+ទម្លុះ ដំបូល	Break through the roof	Abrir el techo	ເຈາະ ຫລັງຄາ
+បញ្ចុះ កន្ទេល ។	Lower the mat.	Baja la camilla.	ຢ່ອນ ສາດ ລົງ .
+បញ្ចុះ	Lower	Bajar	ຢ່ອນ ລົງ
+កូន អើយ ! បាប របស់ អ្នក បាន អត់ទោស ហើយ ។	Son! Your sins are forgiven.	¡Hijo! Tus pecados te son perdonados.	ລູກ ເອີຍ ! ບາບ ຂອງ ເຈົ້າ ໄດ້ ຮັບ ການ ອະໄພ ແລ້ວ .
+ក្រោក ឡើង ! យក កន្ទេល របស់ អ្នក ហើយ ដើរ ទៅ ផ្ទះ !	Get up! Take your mat and walk home!	¡Levántate! ¡Toma tu camilla y vete a casa!	ລຸກ ຂຶ້ນ ! ເອົາ ສາດ ຂອງ ເຈົ້າ ແລ້ວ ຍ່າງ ກັບ ບ້ານ !
+ខ្ញុំ ដើរ បាន ! សរសើរ ព្រះ !	I can walk! Praise God!	¡Puedo caminar! ¡Alabado sea Dios!	ຂ້ອຍ ຍ່າງ ໄດ້ ! ສັນລະເສີນ ພຣະເຈົ້າ !
+យើង មិន ដែល ឃើញ ការ ដូច្នេះ ទេ !	We have never seen anything like this!	¡Nunca hemos visto algo así!	ພວກເຮົາ ບໍ່ ເຄີຍ ເຫັນ ສິ່ງ ແບບ ນີ້ !
+បុរស ម្នាក់ មាន អារក្ស ។ គាត់ រស់ នៅ ក្នុង ផ្នូរ ។ គ្មាន ច្រវាក់ ណា ចង គាត់ បាន ទេ ។	A man has demons. He lives among the tombs. No chain can hold him.	Un hombre tiene demonios. Vive entre las tumbas. Ninguna cadena lo sujeta.	ຊາຍ ຄົນ ໜຶ່ງ ມີ ຜີ . ລາວ ອາໄສ ຢູ່ ໃນ ອຸບໂມງ . ບໍ່ ມີ ໂສ້ ໃດ ມັດ ລາວ ໄດ້ .
+យេស៊ូ ! តើ លោក ចង់ ធ្វើ អ្វី ចំពោះ យើង ?	Jesus! What do you want with us?	¡Jesús! ¿Qué quieres con nosotros?	ເຢຊູ ! ທ່ານ ຕ້ອງການ ຫຍັງ ຈາກ ພວກເຮົາ ?
+តើ ឯង ឈ្មោះ អ្វី ?	What is your name?	¿Cómo te llamas?	ເຈົ້າ ຊື່ ຫຍັງ ?
+ឈ្មោះ យើង គឺ កងទ័ព ពីព្រោះ យើង ច្រើន ណាស់ ។ សូម ចាត់ យើង ទៅ ក្នុង ជ្រូក ។	Our name is Legion, because we are many. Send us into the pigs.	Nos llamamos Legión, porque somos muchos. Envíanos a los cerdos.	ຊື່ ຂອງ ພວກເຮົາ ແມ່ນ ກອງທັບ ເພາະ ພວກເຮົາ ມີ ຫລາຍ . ຂໍ ສົ່ງ ພວກເຮົາ ເຂົ້າ ໃນ ໝູ .
+ចេញ ពី មនុស្ស នេះ ទៅ !	Come out of this man!	¡Sal de este hombre!	ອອກ ຈາກ ຄົນ ນີ້ ໄປ !
+ជ្រូក ប្រហែល ពីរ ពាន់ ធ្លាក់ ចូល សមុទ្រ ។	About two thousand pigs rush into the sea.	Unos dos mil cerdos se lanzan al mar.	ໝູ ປະມານ ສອງ ພັນ ໂຕ ຕົກ ລົງ ທະເລ .
+ជ្រូក ធ្លាក់ ចូល សមុទ្រ ។	The pigs rush into the sea.	Los cerdos se lanzan al mar.	ໝູ ຕົກ ລົງ ທະເລ .
+ឲ្យ សម្លៀកបំពាក់ ដល់ គាត់ ។	Give him clothes.	Dale ropa.	ໃຫ້ ເຄື່ອງນຸ່ງ ແກ່ ລາວ .
+ឲ្យ សម្លៀកបំពាក់	Give clothes	Dar ropa	ໃຫ້ ເຄື່ອງນຸ່ງ
+ខ្ញុំ ជា ទៀត ហើយ ! សូម ឲ្យ ខ្ញុំ ទៅ ជាមួយ លោក ។	I'm well again! Please let me go with you.	¡Estoy sano! Déjame ir contigo.	ຂ້ອຍ ດີ ແລ້ວ ! ຂໍ ໃຫ້ ຂ້ອຍ ໄປ ນຳ ທ່ານ .
+ទៅ ផ្ទះ វិញ ។ ប្រាប់ គេ ពី ការ ដែល ព្រះ ធ្វើ សម្រាប់ អ្នក ។	Go home. Tell them what God has done for you.	Vete a casa. Cuéntales lo que Dios hizo por ti.	ກັບ ບ້ານ ໄປ . ບອກ ພວກເຂົາ ເຖິງ ສິ່ງ ທີ່ ພຣະເຈົ້າ ເຮັດ ໃຫ້ ເຈົ້າ .
+ខ្ញុំ ឲ្យ អំណាច ដល់ អ្នក រាល់ គ្នា ដើម្បី ដេញ អារក្ស និង ព្យាបាល អ្នក ជំងឺ ។	I give you power to drive out demons and heal the sick.	Les doy poder para echar demonios y sanar a los enfermos.	ເຮົາ ໃຫ້ ອຳນາດ ແກ່ ພວກເຈົ້າ ເພື່ອ ຂັບ ຜີ ແລະ ປິ່ນປົວ ຄົນ ເຈັບ .
+ចូរ ទៅ ពីរ ពីរ នាក់ ។ កុំ យក អ្វី តាម ខ្លួន ក្រៅ ពី ដំបង ។	Go two by two. Take nothing with you but a staff.	Vayan de dos en dos. No lleven nada más que un bastón.	ຈົ່ງ ໄປ ສອງ ຄົນ ສອງ ຄົນ . ຢ່າ ເອົາ ຫຍັງ ໄປ ນອກ ຈາກ ໄມ້ເທົ້າ .
+ចូរ ប្រកាស ថា នគរ ព្រះ មក ជិត ហើយ !	Proclaim that the kingdom of God is near!	¡Anuncien que el reino de Dios está cerca!	ຈົ່ງ ປະກາດ ວ່າ ອານາຈັກ ຂອງ ພຣະເຈົ້າ ມາ ໃກ້ ແລ້ວ !
+អ្នក ជំងឺ	the sick	enfermos	ຄົນ ເຈັບ
+ទៅ ភូមិ ទី មួយ ។	Go to the first village.	Ve al primer pueblo.	ໄປ ບ້ານ ທີ ໜຶ່ງ .
+ដាក់ ដៃ	Lay hands	Imponer manos	ວາງ ມື
+ជា !	Healed!	¡Sano!	ດີ ແລ້ວ !
+អរគុណ ព្រះ ! ពួក គាត់ ជា ហើយ !	Thank God! They are healed!	¡Gracias a Dios! ¡Están sanos!	ຂອບພຣະຄຸນ ພຣະເຈົ້າ ! ພວກເຂົາ ດີ ແລ້ວ !
+ទៅ ភូមិ ទី ពីរ ។	Go to the second village.	Ve al segundo pueblo.	ໄປ ບ້ານ ທີ ສອງ .
+ចេញ ទៅ ! យើង មិន ចង់ ស្ដាប់ អ្នក ទេ !	Go away! We don't want to listen to you!	¡Fuera! ¡No queremos escucharte!	ອອກ ໄປ ! ພວກເຮົາ ບໍ່ ຢາກ ຟັງ ເຈົ້າ !
+រលាស់ ធូលី ពី ជើង ។	Shake the dust off your feet.	Sacúdete el polvo de los pies.	ສັ່ນ ຂີ້ຝຸ່ນ ອອກ ຈາກ ຕີນ .
+រលាស់ ធូលី	Shake off dust	Sacudir el polvo	ສັ່ນ ຂີ້ຝຸ່ນ
+ត្រឡប់ ទៅ ព្រះយេស៊ូ វិញ ។	Go back to Jesus.	Vuelve con Jesús.	ກັບ ໄປ ຫາ ພຣະເຢຊູ .
+ចូរ អរ សប្បាយ ពីព្រោះ ឈ្មោះ របស់ អ្នក បាន កត់ ទុក នៅ ស្ថានសួគ៌ ។	Rejoice that your names are written in heaven.	Alégrense de que sus nombres están escritos en el cielo.	ຈົ່ງ ຊົມຊື່ນ ຍິນດີ ເພາະ ຊື່ ຂອງ ພວກເຈົ້າ ຖືກ ຂຽນ ໄວ້ ໃນ ສະຫວັນ .
+ខ្យល់ បក់ ខ្លាំង ណាស់ ... យប់ ជ្រៅ ហើយ ។	The wind is so strong... it's late at night.	El viento sopla muy fuerte... ya es muy de noche.	ລົມ ພັດ ແຮງ ຫລາຍ ... ເດິກ ແລ້ວ .
+មើល ! ខ្មោច ! មនុស្ស ដើរ លើ ទឹក !	Look! A ghost! A man walking on the water!	¡Miren! ¡Un fantasma! ¡Un hombre camina sobre el agua!	ເບິ່ງ ! ຜີ ! ຄົນ ຍ່າງ ເທິງ ນ້ຳ !
+ចូរ ក្លាហាន ឡើង ! គឺ ខ្ញុំ ទេ ! កុំ ខ្លាច ឡើយ !	Take courage! It is I! Don't be afraid!	¡Ánimo! ¡Soy yo! ¡No tengan miedo!	ຈົ່ງ ກ້າຫານ ! ແມ່ນ ເຮົາ ເອງ ! ຢ່າ ຢ້ານ !
+មក !	Come!	¡Ven!	ມາ !
+ចុះ ពី ទូក ។	Get out of the boat.	Sal del barco.	ລົງ ຈາກ ເຮືອ .
+ចុះ ពី ទូក	Get out	Bajar	ລົງ ຈາກ ເຮືອ
+ដើរ លើ ទឹក ទៅ រក ព្រះយេស៊ូ ។	Walk on the water to Jesus.	Camina sobre el agua hacia Jesús.	ຍ່າງ ເທິງ ນ້ຳ ໄປ ຫາ ພຣະເຢຊູ .
+ខ្យល់ !	Wind!	¡Viento!	ລົມ !
+ពេត្រុស ឃើញ ខ្យល់ ហើយ ខ្លាច ។	Peter sees the wind and is afraid.	Pedro ve el viento y tiene miedo.	ເປໂຕ ເຫັນ ລົມ ແລ້ວ ຢ້ານ .
+ស្រែក ហៅ ព្រះយេស៊ូ !	Cry out to Jesus!	¡Clama a Jesús!	ຮ້ອງ ເອີ້ນ ພຣະເຢຊູ !
+ព្រះអម្ចាស់ ជួយ ខ្ញុំ ផង !	Lord, save me!	¡Señor, sálvame!	ອົງພຣະຜູ້ເປັນເຈົ້າ ຊ່ວຍ ຂ້ອຍ ແດ່ !
+អ្នក មាន ជំនឿ តិច ណាស់ ! ហេតុ អ្វី អ្នក សង្ស័យ ?	You of little faith! Why did you doubt?	¡Hombre de poca fe! ¿Por qué dudaste?	ເຈົ້າ ມີ ຄວາມເຊື່ອ ໜ້ອຍ ແທ້ ! ເປັນ ຫຍັງ ເຈົ້າ ສົງໄສ ?
+ខ្យល់ ឈប់ ។	The wind stops.	El viento se calma.	ລົມ ເຊົາ .
+ពិត មែន ! ព្រះអង្គ ជា ព្រះរាជបុត្រា របស់ ព្រះ !	Truly! You are the Son of God!	¡De verdad! ¡Eres el Hijo de Dios!	ແທ້ ແລ້ວ ! ພຣະອົງ ເປັນ ພຣະບຸດ ຂອງ ພຣະເຈົ້າ !
+ដើម ល្វា	sycamore tree	sicómoro	ຕົ້ນ ເດື່ອ
+ព្រះយេស៊ូ មក ! ... ឯង ជា អ្នក ទារ ពន្ធ ! ទៅ ឆ្ងាយ !	Jesus is coming! ... You're a tax collector! Go away!	¡Viene Jesús! ... ¡Tú eres cobrador de impuestos! ¡Vete!	ພຣະເຢຊູ ມາ ! ... ເຈົ້າ ເປັນ ຄົນ ເກັບ ພາສີ ! ໄປ ໄກໆ !
+សាខេ ទាប ណាស់ ។ គាត់ មើល មិន ឃើញ ទេ ! ហាហា !	Zacchaeus is so short. He can't see! Haha!	Zaqueo es muy bajito. ¡No puede ver! ¡Jaja!	ຊາກາຍ ເຕ້ຍ ຫລາຍ . ລາວ ເບິ່ງ ບໍ່ ເຫັນ ! ຮາຮາ !
+ឡើង ដើមឈើ ។	Climb the tree.	Sube al árbol.	ປີນ ຕົ້ນໄມ້ .
+ឡើង ដើមឈើ	Climb tree	Subir al árbol	ປີນ ຕົ້ນໄມ້
+សាខេ ! ចុះ មក ឆាប់ !	Zacchaeus! Come down quickly!	¡Zaqueo! ¡Baja enseguida!	ຊາກາຍ ! ລົງ ມາ ໄວໆ !
+ថ្ងៃ នេះ ខ្ញុំ ត្រូវ ស្នាក់ នៅ ផ្ទះ អ្នក ។	Today I must stay at your house.	Hoy tengo que quedarme en tu casa.	ມື້ນີ້ ເຮົາ ຕ້ອງ ພັກ ຢູ່ ເຮືອນ ຂອງ ເຈົ້າ .
+ចុះ ពី ដើមឈើ ។	Come down from the tree.	Baja del árbol.	ລົງ ຈາກ ຕົ້ນໄມ້ .
+គាត់ ទៅ ផ្ទះ មនុស្ស មាន បាប !	He's going to a sinner's house!	¡Va a la casa de un pecador!	ທ່ານ ໄປ ເຮືອນ ຄົນ ບາບ !
+ឲ្យ ប្រាក់	Give money	Dar dinero	ໃຫ້ ເງິນ
+ថ្ងៃ នេះ សេចក្ដី សង្គ្រោះ បាន មក ដល់ ផ្ទះ នេះ ។ កូន មនុស្ស មក រក មនុស្ស ដែល វង្វេង ។	Today salvation has come to this house. The Son of Man came to seek the lost.	Hoy ha llegado la salvación a esta casa. El Hijo del Hombre vino a buscar a los perdidos.	ມື້ນີ້ ຄວາມ ລອດ ພົ້ນ ມາ ເຖິງ ເຮືອນ ນີ້ . ບຸດ ມະນຸດ ມາ ຊອກ ຫາ ຄົນ ທີ່ ຫລົງ ຫາຍ .
+អ្នក ! លី ឈើឆ្កាង នេះ ! តាម គាត់ !	You! Carry this cross! Follow him!	¡Tú! ¡Carga esta cruz! ¡Síguelo!	ເຈົ້າ ! ແບກ ໄມ້ກາງແຂນ ນີ້ ! ຕາມ ລາວ ໄປ !
+លី ឈើឆ្កាង ។	Carry the cross.	Carga la cruz.	ແບກ ໄມ້ກາງແຂນ .
+លី ឈើឆ្កាង	Carry cross	Cargar cruz	ແບກ ໄມ້ກາງແຂນ
+តាម ព្រះយេស៊ូ ទៅ ភ្នំ គាល់វ៉ារី ។	Follow Jesus to Calvary.	Sigue a Jesús hasta el Calvario.	ຕາມ ພຣະເຢຊູ ໄປ ພູ ກາລະວາລີ .
+ឱ ព្រះយេស៊ូ ! ... ( យំ )	Oh Jesus! ... (weeping)	¡Oh Jesús! ... (llorando)	ໂອ ພຣະເຢຊູ ! ... ( ຮ້ອງໄຫ້ )
+កូនស្រី ក្រុង យេរូសាឡិម អើយ ! កុំ យំ ពី ខ្ញុំ ឡើយ ។	Daughters of Jerusalem! Do not weep for me.	¡Hijas de Jerusalén! No lloren por mí.	ລູກສາວ ເຢຣູຊາເລັມ ເອີຍ ! ຢ່າ ຮ້ອງໄຫ້ ເພື່ອ ເຮົາ .
+ឡើង ភ្នំ គាល់វ៉ារី ។	Climb Calvary.	Sube al Calvario.	ຂຶ້ນ ພູ ກາລະວາລີ .
+ដាក់ ឈើឆ្កាង ។	Put down the cross.	Deja la cruz.	ວາງ ໄມ້ກາງແຂນ .
+ដាក់ ឈើឆ្កាង	Put cross	Dejar cruz	ວາງ ໄມ້ກາງແຂນ
+ព្រះវរបិតា អើយ ! សូម អត់ទោស ឲ្យ គេ ផង ។ គេ មិន ដឹង ថា គេ ធ្វើ អ្វី ទេ ។	Father! Forgive them. They do not know what they are doing.	¡Padre! Perdónalos. No saben lo que hacen.	ພຣະບິດາ ເຈົ້າ ເອີຍ ! ຂໍ ອະໄພ ໃຫ້ ພວກເຂົາ . ພວກເຂົາ ບໍ່ ຮູ້ ວ່າ ພວກເຂົາ ເຮັດ ຫຍັງ .
+ងងឹត ពី ថ្ងៃ ត្រង់ ដល់ ម៉ោង បី ។	Darkness from noon until three o'clock.	Oscuridad desde el mediodía hasta las tres.	ມືດ ຕັ້ງແຕ່ ທ່ຽງ ຮອດ ບ່າຍ ສາມ ໂມງ .
+ការ ទាំងអស់ បាន សម្រេច ហើយ ។	It is finished.	Consumado es.	ສຳເລັດ ແລ້ວ .
+ផែនដី រញ្ជួយ ។ ថ្ម បែក ។	The earth shakes. The rocks split.	La tierra tiembla. Las rocas se parten.	ແຜ່ນດິນ ໄຫວ . ຫີນ ແຕກ .
+ផែនដី រញ្ជួយ ។	The earth shakes.	La tierra tiembla.	ແຜ່ນດິນ ໄຫວ .
+ពិត មែន ! បុរស នេះ ជា ព្រះរាជបុត្រា របស់ ព្រះ !	Truly this man was the Son of God!	¡Verdaderamente este hombre era el Hijo de Dios!	ແທ້ ແລ້ວ ! ຊາຍ ຄົນ ນີ້ ເປັນ ພຣະບຸດ ຂອງ ພຣະເຈົ້າ !
+បី ថ្ងៃ ក្រោយ ...	Three days later...	Tres días después...	ສາມ ມື້ ຕໍ່ມາ ...
+ព្រឹក ព្រលឹម ... ខ្ញុំ ទៅ ផ្នូរ ព្រះយេស៊ូ ។	Early in the morning... I go to Jesus' tomb.	Muy de mañana... voy a la tumba de Jesús.	ເຊົ້າ ມືດ ... ຂ້ອຍ ໄປ ອຸບໂມງ ຂອງ ພຣະເຢຊູ .
+ទៅ ផ្នូរ ។	Go to the tomb.	Ve a la tumba.	ໄປ ອຸບໂມງ .
+មើល ! ថ្ម ត្រូវ គេ រំកិល ចេញ !	Look! The stone has been rolled away!	¡Mira! ¡Quitaron la piedra!	ເບິ່ງ ! ຫີນ ຖືກ ກິ້ງ ອອກ ແລ້ວ !
+មើល ក្នុង ផ្នូរ ។	Look inside the tomb.	Mira dentro de la tumba.	ເບິ່ງ ໃນ ອຸບໂມງ .
+មើល ក្នុង ផ្នូរ	Look inside	Mirar dentro	ເບິ່ງ ໃນ ອຸບໂມງ
+ក្រណាត់	cloth	lienzo	ຜ້າ
+ស្ត្រី អើយ ! ហេតុ អ្វី អ្នក យំ ?	Woman! Why are you crying?	¡Mujer! ¿Por qué lloras?	ຍິງ ເອີຍ ! ເປັນ ຫຍັງ ເຈົ້າ ຮ້ອງໄຫ້ ?
+គេ បាន យក ព្រះអម្ចាស់ ខ្ញុំ ចេញ ។ ខ្ញុំ មិន ដឹង ថា គេ ដាក់ ព្រះអង្គ នៅ ឯណា ទេ ។	They have taken my Lord away. I don't know where they put him.	Se llevaron a mi Señor. No sé dónde lo han puesto.	ເຂົາ ເອົາ ອົງພຣະຜູ້ເປັນເຈົ້າ ຂອງ ຂ້ອຍ ໄປ . ຂ້ອຍ ບໍ່ ຮູ້ ວ່າ ເຂົາ ເອົາ ພຣະອົງ ໄປ ໄວ້ ໃສ .
+ងាក ក្រោយ ។	Turn around.	Date la vuelta.	ຫັນ ຫລັງ .
+ស្ត្រី អើយ ! ហេតុ អ្វី អ្នក យំ ? អ្នក រក អ្នក ណា ?	Woman! Why are you crying? Who are you looking for?	¡Mujer! ¿Por qué lloras? ¿A quién buscas?	ຍິງ ເອີຍ ! ເປັນ ຫຍັງ ເຈົ້າ ຮ້ອງໄຫ້ ? ເຈົ້າ ຊອກ ຫາ ໃຜ ?
+លោក ! បើ លោក បាន យក ព្រះអង្គ ទៅ សូម ប្រាប់ ខ្ញុំ ។	Sir! If you have taken him away, please tell me.	¡Señor! Si tú te lo llevaste, dímelo.	ທ່ານ ! ຖ້າ ທ່ານ ເອົາ ພຣະອົງ ໄປ ກະລຸນາ ບອກ ຂ້ອຍ .
+ម៉ារី ។	Mary.	María.	ມາຣີ .
+ទៅ ប្រាប់ បងប្អូន ខ្ញុំ ។ ខ្ញុំ រស់ ឡើង វិញ ហើយ !	Go and tell my brothers. I have risen!	Ve y dile a mis hermanos. ¡He resucitado!	ໄປ ບອກ ພີ່ນ້ອງ ຂອງ ເຮົາ . ເຮົາ ຄືນ ມາ ຈາກ ຄວາມ ຕາຍ ແລ້ວ !
+រត់ ទៅ ប្រាប់ សិស្ស ។	Run and tell the disciples.	Corre a contarles a los discípulos.	ແລ່ນ ໄປ ບອກ ສາວົກ .
+ព្រះអម្ចាស់ មាន ព្រះជន្ម រស់ ឡើង វិញ មែន !	The Lord has truly risen!	¡El Señor ha resucitado de verdad!	ອົງພຣະຜູ້ເປັນເຈົ້າ ຄືນ ພຣະຊົນ ແທ້ !
+បន្ទប់ ខាង លើ	upper room	aposento alto	ຫ້ອງ ຊັ້ນ ເທິງ
+យើង នៅ ក្នុង បន្ទប់ ខាង លើ ។ យើង រង់ចាំ ដូច ព្រះយេស៊ូ បាន មាន ព្រះបន្ទូល ។	We are in the upper room. We are waiting, as Jesus said.	Estamos en el aposento alto. Esperamos, como dijo Jesús.	ພວກເຮົາ ຢູ່ ໃນ ຫ້ອງ ຊັ້ນ ເທິງ . ພວກເຮົາ ລໍ ຖ້າ ຕາມ ທີ່ ພຣະເຢຊູ ກ່າວ .
+ឮ សូរ ពី មេឃ ដូច ខ្យល់ បក់ យ៉ាង ខ្លាំង ។	A sound from heaven like a mighty rushing wind.	Un ruido del cielo como un viento recio.	ມີ ສຽງ ຈາກ ຟ້າ ຄື ລົມ ພັດ ແຮງ .
+អណ្ដាត ភ្លើង មក សណ្ឋិត លើ ម្នាក់ៗ ។	Tongues of fire rest on each one.	Lenguas de fuego se posan sobre cada uno.	ລີ້ນ ໄຟ ລົງ ມາ ຢູ່ ເທິງ ແຕ່ລະ ຄົນ .
+គ្រប់ គ្នា បាន ពេញ ដោយ ព្រះវិញ្ញាណ បរិសុទ្ធ ។ ពួក គេ ចាប់ ផ្ដើម និយាយ ភាសា ផ្សេងៗ ។	Everyone is filled with the Holy Spirit. They begin to speak in other languages.	Todos son llenos del Espíritu Santo. Comienzan a hablar en otras lenguas.	ທຸກ ຄົນ ເຕັມ ໄປ ດ້ວຍ ພຣະວິນຍານ ບໍລິສຸດ . ພວກເຂົາ ເລີ່ມ ເວົ້າ ພາສາ ຕ່າງໆ .
+ឡាវ	Laos	Laos	ລາວ
+ថៃ	Thailand	Tailandia	ໄທ
+វៀតណាម	Vietnam	Vietnam	ຫວຽດນາມ
+ភូមា	Myanmar	Birmania	ມຽນມາ
+ហ្វូង មនុស្ស ឮ សូរ នោះ ហើយ មក ជុំ គ្នា ។	The crowd hears the sound and gathers.	La multitud oye el ruido y se reúne.	ຝູງ ຊົນ ໄດ້ ຍິນ ສຽງ ນັ້ນ ແລ້ວ ມາ ຊຸມນຸມ ກັນ .
+ចុះ ទៅ ខាងក្រៅ ។	Go down outside.	Baja afuera.	ລົງ ໄປ ຂ້າງ ນອກ .
+ស្ដាប់	Listen	Escuchar	ຟັງ
+ខ្ញុំ មក ពី ស្រុក {0} ។ ខ្ញុំ ឮ គាត់ និយាយ ភាសា របស់ ខ្ញុំ ! គាត់ និយាយ ពី ការ អស្ចារ្យ របស់ ព្រះ !	I'm from {0}. I hear him speaking my language! He's speaking about God's wonders!	Soy de {0}. ¡Lo oigo hablar en mi idioma! ¡Habla de las maravillas de Dios!	ຂ້ອຍ ມາ ຈາກ ປະເທດ {0} . ຂ້ອຍ ໄດ້ ຍິນ ລາວ ເວົ້າ ພາສາ ຂອງ ຂ້ອຍ ! ລາວ ເວົ້າ ເຖິງ ການ ອັດສະຈັນ ຂອງ ພຣະເຈົ້າ !
+មើល ! ពួក គេ ស្រវឹង ហើយ !	Look! They're drunk!	¡Miren! ¡Están borrachos!	ເບິ່ງ ! ພວກເຂົາ ເມົາ ແລ້ວ !
+ពួក យើង មិន ស្រវឹង ទេ ! ឥឡូវ ទើប តែ ម៉ោង ប្រាំបួន ព្រឹក ។ នេះ ជា ព្រះវិញ្ញាណ របស់ ព្រះ !	We're not drunk! It's only nine in the morning. This is the Spirit of God!	¡No estamos borrachos! Son apenas las nueve de la mañana. ¡Es el Espíritu de Dios!	ພວກເຮົາ ບໍ່ ໄດ້ ເມົາ ! ຕອນນີ້ ຫາກໍ ເກົ້າ ໂມງ ເຊົ້າ . ນີ້ ແມ່ນ ພຣະວິນຍານ ຂອງ ພຣະເຈົ້າ !
+នៅ បាបិល ភាសា ច្របូកច្របល់ ។ ថ្ងៃ នេះ គ្រប់ គ្នា យល់ !	At Babel the languages were confused. Today everyone understands!	En Babel se confundieron las lenguas. ¡Hoy todos entienden!	ທີ່ ບາເບນ ພາສາ ສັບສົນ . ມື້ນີ້ ທຸກ ຄົນ ເຂົ້າໃຈ !
+បី ពាន់ នាក់	three thousand people	tres mil personas	ສາມ ພັນ ຄົນ
+ថ្ងៃ នោះ មនុស្ស ប្រហែល បី ពាន់ នាក់ ជឿ ។	That day about three thousand people believed.	Ese día creyeron unas tres mil personas.	ມື້ ນັ້ນ ຄົນ ປະມານ ສາມ ພັນ ຄົນ ເຊື່ອ .
+ទៅ ព្រះវិហារ ។	Go to the temple.	Ve al templo.	ໄປ ພຣະວິຫານ .
+សូម ឲ្យ ប្រាក់ ខ្ញុំ ផង ! ខ្ញុំ ពិការ ជើង តាំង ពី កើត មក ។	Please give me money! I've been lame since birth.	¡Por favor, denme dinero! Soy cojo de nacimiento.	ຂໍ ເງິນ ແດ່ ! ຂ້ອຍ ພິການ ຂາ ຕັ້ງແຕ່ ເກີດ .
+មើល មក យើង !	Look at us!	¡Míranos!	ເບິ່ງ ພວກເຮົາ !
+លោក នឹង ឲ្យ ខ្ញុំ អ្វី ?	What will you give me?	¿Qué me van a dar?	ທ່ານ ຈະ ໃຫ້ ຫຍັງ ຂ້ອຍ ?
+ចាប់ ដៃ គាត់ ។	Take his hand.	Tómalo de la mano.	ຈັບ ມື ລາວ .
+ចាប់ ដៃ	Take hand	Tomar la mano	ຈັບ ມື
+ជើង ខ្ញុំ ! ខ្ញុំ ដើរ បាន !	My legs! I can walk!	¡Mis piernas! ¡Puedo caminar!	ຂາ ຂອງ ຂ້ອຍ ! ຂ້ອຍ ຍ່າງ ໄດ້ !
+ខ្ញុំ លោត ! សរសើរ ព្រះ ! សរសើរ ព្រះ !	I'm jumping! Praise God! Praise God!	¡Estoy saltando! ¡Alabado sea Dios! ¡Alabado sea Dios!	ຂ້ອຍ ໂດດ ! ສັນລະເສີນ ພຣະເຈົ້າ ! ສັນລະເສີນ ພຣະເຈົ້າ !
+ភីលីព ! ចូរ ទៅ តាម ផ្លូវ ខាងត្បូង ក្នុង វាល រហោស្ថាន ។	Philip! Go south on the desert road.	¡Felipe! Ve hacia el sur por el camino del desierto.	ຟີລິບ ! ຈົ່ງ ໄປ ຕາມ ທາງ ທິດ ໃຕ້ ໃນ ຖິ່ນ ແຫ້ງແລ້ງ .
+ព្រះវិញ្ញាណ មាន ព្រះបន្ទូល ៖ ចូរ ទៅ ជិត រទេះ នោះ ។	The Spirit says: Go near that chariot.	El Espíritu dice: Acércate a ese carro.	ພຣະວິນຍານ ກ່າວ ວ່າ : ຈົ່ງ ໄປ ໃກ້ ລົດມ້າ ນັ້ນ .
+រត់ ទៅ ជិត រទេះ ។	Run up to the chariot.	Corre hacia el carro.	ແລ່ນ ໄປ ໃກ້ ລົດມ້າ .
+ព្យាការី អេសាយ ៖ « គាត់ ដូច ជា កូនចៀម ដែល គេ នាំ ទៅ សម្លាប់ ... »	The prophet Isaiah: “He was led like a lamb to the slaughter...”	El profeta Isaías: «Como cordero fue llevado al matadero...»	ຜູ້ປະກາດ ເອຊາຢາ : « ລາວ ຄື ລູກແກະ ທີ່ ຖືກ ນຳ ໄປ ຂ້າ ... »
+ធ្វើ ម្ដេច ខ្ញុំ យល់ បាន បើ គ្មាន អ្នក ពន្យល់ ? ឡើង មក អង្គុយ ជាមួយ ខ្ញុំ ។	How can I understand unless someone explains it? Come up and sit with me.	¿Cómo voy a entender si nadie me lo explica? Sube y siéntate conmigo.	ຂ້ອຍ ຈະ ເຂົ້າໃຈ ໄດ້ ແນວໃດ ຖ້າ ບໍ່ ມີ ຄົນ ອະທິບາຍ ? ຂຶ້ນ ມາ ນັ່ງ ກັບ ຂ້ອຍ .
+ឡើង រទេះ ។	Get into the chariot.	Sube al carro.	ຂຶ້ນ ລົດມ້າ .
+ឡើង រទេះ	Get in	Subir	ຂຶ້ນ ລົດມ້າ
+កូនចៀម នោះ គឺ ព្រះយេស៊ូ ។ ព្រះអង្គ ស្លាប់ ហើយ រស់ ឡើង វិញ ។	That lamb is Jesus. He died and rose again.	Ese cordero es Jesús. Murió y resucitó.	ລູກແກະ ນັ້ນ ແມ່ນ ພຣະເຢຊູ . ພຣະອົງ ສິ້ນພຣະຊົນ ແລະ ຄືນ ພຣະຊົນ .
+មើល ! មាន ទឹក ! ហេតុ អ្វី ខ្ញុំ មិន ទទួល ពិធី ជ្រមុជ ទឹក ?	Look! Water! Why shouldn't I be baptized?	¡Mira! ¡Agua! ¿Por qué no puedo ser bautizado?	ເບິ່ງ ! ມີ ນ້ຳ ! ເປັນ ຫຍັງ ຂ້ອຍ ບໍ່ ຮັບ ບັບຕິສະມາ ?
+ចុះ ទៅ ក្នុង ទឹក ។	Go down into the water.	Baja al agua.	ລົງ ໄປ ໃນ ນ້ຳ .
+ជ្រមុជ ទឹក	Baptize	Bautizar	ໃຫ້ ບັບຕິສະມາ
+ជ្រមុជ	baptized	bautizado	ບັບຕິສະມາ
+ខ្ញុំ សប្បាយ ណាស់ !	I'm so happy!	¡Estoy muy feliz!	ຂ້ອຍ ດີໃຈ ຫລາຍ !
+ព្រះវិញ្ញាណ នាំ ភីលីព ទៅ បាត់ ។	The Spirit carries Philip away.	El Espíritu se lleva a Felipe.	ພຣະວິນຍານ ພາ ຟີລິບ ຫາຍ ໄປ .
+ខ្ញុំ នឹង ចាប់ អ្នក ដែល ជឿ ព្រះយេស៊ូ នៅ ក្រុង ដាម៉ាស ។	I will arrest the believers in Jesus in Damascus.	Arrestaré a los creyentes en Jesús en Damasco.	ຂ້ອຍ ຈະ ຈັບ ຄົນ ທີ່ ເຊື່ອ ພຣະເຢຊູ ຢູ່ ເມືອງ ດາມາເຊ .
+ទៅ ក្រុង ដាម៉ាស ។	Go to Damascus.	Ve a Damasco.	ໄປ ເມືອງ ດາມາເຊ .
+សូល ! សូល ! ហេតុ អ្វី អ្នក បៀតបៀន ខ្ញុំ ?	Saul! Saul! Why do you persecute me?	¡Saulo! ¡Saulo! ¿Por qué me persigues?	ໂຊໂລ ! ໂຊໂລ ! ເປັນ ຫຍັງ ເຈົ້າ ຂົ່ມເຫງ ເຮົາ ?
+ខ្ញុំ ជា យេស៊ូ ដែល អ្នក កំពុង បៀតបៀន ។ ក្រោក ឡើង ហើយ ចូល ទៅ ក្នុង ក្រុង ។	I am Jesus, whom you are persecuting. Get up and go into the city.	Yo soy Jesús, a quien tú persigues. Levántate y entra en la ciudad.	ເຮົາ ແມ່ນ ເຢຊູ ທີ່ ເຈົ້າ ກຳລັງ ຂົ່ມເຫງ . ລຸກ ຂຶ້ນ ແລ້ວ ເຂົ້າ ໄປ ໃນ ເມືອງ .
+ខ្ញុំ មើល មិន ឃើញ !	I can't see!	¡No puedo ver!	ຂ້ອຍ ເບິ່ງ ບໍ່ ເຫັນ !
+តាម ខ្ញុំ ! ខ្ញុំ នាំ លោក ទៅ ។	Follow me! I'll lead you.	¡Sígueme! Yo te llevo.	ຕາມ ຂ້ອຍ ມາ ! ຂ້ອຍ ຈະ ພາ ທ່ານ ໄປ .
+ដើរ តាម ទាហាន ។	Follow the soldier.	Sigue al soldado.	ຕາມ ທະຫານ .
+បង សូល ! ព្រះយេស៊ូ ចាត់ ខ្ញុំ មក ឲ្យ បង មើល ឃើញ វិញ ។	Brother Saul! Jesus sent me so that you may see again.	¡Hermano Saulo! Jesús me envió para que recobres la vista.	ພີ່ ໂຊໂລ ! ພຣະເຢຊູ ສົ່ງ ຂ້ອຍ ມາ ເພື່ອ ໃຫ້ ພີ່ ເບິ່ງ ເຫັນ ອີກ .
+ឃើញ	see	ver	ເຫັນ
+ខ្ញុំ មើល ឃើញ ហើយ ! ព្រះយេស៊ូ ជា ព្រះរាជបុត្រា របស់ ព្រះ !	I can see! Jesus is the Son of God!	¡Puedo ver! ¡Jesús es el Hijo de Dios!	ຂ້ອຍ ເບິ່ງ ເຫັນ ແລ້ວ ! ພຣະເຢຊູ ເປັນ ພຣະບຸດ ຂອງ ພຣະເຈົ້າ !
+ទ្វារ ដែក	iron gate	puerta de hierro	ປະຕູ ເຫລັກ
+ផ្ទះ	house	casa	ເຮືອນ
+ពេត្រុស ដេក នៅ ចន្លោះ ទាហាន ពីរ នាក់ ជាប់ ច្រវាក់ ។	Peter sleeps between two soldiers, bound with chains.	Pedro duerme entre dos soldados, atado con cadenas.	ເປໂຕ ນອນ ລະຫວ່າງ ທະຫານ ສອງ ຄົນ ຖືກ ໂສ້ ລ່າມ .
+ក្រោក ឡើង ឆាប់ !	Get up, quickly!	¡Levántate, rápido!	ລຸກ ຂຶ້ນ ໄວໆ !
+ក្រោក ឡើង ។	Get up.	Levántate.	ລຸກ ຂຶ້ນ .
+ក្រោក	Get up	Levantarse	ລຸກ ຂຶ້ນ
+ពាក់ ស្បែកជើង ហើយ តាម ខ្ញុំ ។	Put on your sandals and follow me.	Ponte las sandalias y sígueme.	ໃສ່ ເກີບ ແລ້ວ ຕາມ ເຮົາ ມາ .
+ពាក់ ស្បែកជើង	Put on sandals	Ponerse sandalias	ໃສ່ ເກີບ
+តាម ទេវតា ។	Follow the angel.	Sigue al ángel.	ຕາມ ເທວະດາ .
+ទ្វារ ដែក បើក ដោយ ខ្លួន ឯង ។	The iron gate opens by itself.	La puerta de hierro se abre sola.	ປະຕູ ເຫລັກ ເປີດ ເອງ .
+ព្រះអម្ចាស់ បាន ចាត់ ទេវតា មក សង្គ្រោះ ខ្ញុំ ពិត មែន !	The Lord really did send his angel to rescue me!	¡De verdad el Señor envió a su ángel a rescatarme!	ອົງພຣະຜູ້ເປັນເຈົ້າ ສົ່ງ ເທວະດາ ມາ ຊ່ວຍ ຂ້ອຍ ແທ້ !
+ទៅ ផ្ទះ ម៉ារី ។ គោះ ទ្វារ ។	Go to Mary's house. Knock on the door.	Ve a la casa de María. Llama a la puerta.	ໄປ ເຮືອນ ມາຣີ . ເຄາະ ປະຕູ .
+គោះ ទ្វារ	Knock	Llamar	ເຄາະ ປະຕູ
+អ្នក ណា ? ... ពេត្រុស !	Who is it? ... Peter!	¿Quién es? ... ¡Pedro!	ແມ່ນ ໃຜ ? ... ເປໂຕ !
+អ្នក ទាំងអស់ គ្នា ! ពេត្រុស នៅ ក្រៅ ទ្វារ !	Everyone! Peter is outside the door!	¡Todos! ¡Pedro está en la puerta!	ທຸກ ຄົນ ! ເປໂຕ ຢູ່ ນອກ ປະຕູ !
+រ៉ូដា ! អ្នក ឆ្កួត ហើយ !	Rhoda! You're out of your mind!	¡Rode! ¡Estás loca!	ໂຣດາ ! ເຈົ້າ ບ້າ ແລ້ວ !
+គោះ ទ្វារ ម្ដង ទៀត ។	Knock again.	Llama otra vez.	ເຄາະ ປະຕູ ອີກ .
+ពេត្រុស ពិត មែន ! អស្ចារ្យ ណាស់ !	It really is Peter! Amazing!	¡De verdad es Pedro! ¡Increíble!	ແມ່ນ ເປໂຕ ແທ້ ! ອັດສະຈັນ ແທ້ !
+គេ វាយ យើង ហើយ ដាក់ យើង ក្នុង គុក ។	They beat us and put us in prison.	Nos golpearon y nos metieron en la cárcel.	ເຂົາ ຕີ ພວກເຮົາ ແລ້ວ ຂັງ ພວກເຮົາ ໄວ້ ໃນ ຄຸກ .
+កណ្ដាល អធ្រាត្រ ... តោះ ច្រៀង សរសើរ ព្រះ !	Midnight... let's sing praise to God!	Medianoche... ¡cantemos alabanzas a Dios!	ທ່ຽງ ຄືນ ... ມາ ຮ້ອງເພງ ສັນລະເສີນ ພຣະເຈົ້າ !
+ច្រៀង	Sing	Cantar	ຮ້ອງເພງ
+រញ្ជួយ ដី យ៉ាង ខ្លាំង !	A violent earthquake!	¡Un fuerte terremoto!	ແຜ່ນດິນ ໄຫວ ແຮງ !
+ទ្វារ បើក ។ ច្រវាក់ ដាច់ ។	The doors open. The chains fall off.	Las puertas se abren. Las cadenas se sueltan.	ປະຕູ ເປີດ . ໂສ້ ຂາດ .
+ទ្វារ គុក បើក ទាំងអស់ ។	All the prison doors open.	Todas las puertas de la cárcel se abren.	ປະຕູ ຄຸກ ເປີດ ໝົດ .
+ទ្វារ បើក ! អ្នក ទោស រត់ អស់ ហើយ ! ខ្ញុំ នឹង ត្រូវ ស្លាប់ ...	The doors are open! The prisoners have all escaped! I'll be killed...	¡Las puertas están abiertas! ¡Se escaparon todos los presos! Me matarán...	ປະຕູ ເປີດ ! ນັກໂທດ ໜີ ໝົດ ແລ້ວ ! ຂ້ອຍ ຈະ ຕ້ອງ ຕາຍ ...
+លោក អើយ ! តើ ខ្ញុំ ត្រូវ ធ្វើ អ្វី ដើម្បី បាន សង្គ្រោះ ?	Sirs! What must I do to be saved?	¡Señores! ¿Qué debo hacer para ser salvo?	ທ່ານ ເອີຍ ! ຂ້ອຍ ຕ້ອງ ເຮັດ ແນວໃດ ຈຶ່ງ ຈະ ລອດ ?
+ខ្ញុំ ជឿ ! មក ផ្ទះ ខ្ញុំ ។ ខ្ញុំ នឹង លាង របួស លោក ។	I believe! Come to my house. I'll wash your wounds.	¡Creo! Vengan a mi casa. Lavaré sus heridas.	ຂ້ອຍ ເຊື່ອ ! ມາ ເຮືອນ ຂ້ອຍ . ຂ້ອຍ ຈະ ລ້າງ ບາດແຜ ໃຫ້ ທ່ານ .
+ព្យុះ ដប់បួន ថ្ងៃ ហើយ ! យើង នឹង ស្លាប់ ទាំងអស់ គ្នា !	Fourteen days of storm! We're all going to die!	¡Catorce días de tormenta! ¡Vamos a morir todos!	ພາຍຸ ສິບສີ່ ມື້ ແລ້ວ ! ພວກເຮົາ ຈະ ຕາຍ ໝົດ !
+កុំ ខ្លាច ! គ្មាន អ្នក ណា ស្លាប់ ទេ ។ ទេវតា បាន ប្រាប់ ខ្ញុំ ។	Don't be afraid! No one will die. An angel told me.	¡No teman! Nadie morirá. Un ángel me lo dijo.	ຢ່າ ຢ້ານ ! ບໍ່ ມີ ໃຜ ຕາຍ . ເທວະດາ ບອກ ຂ້ອຍ .
+លោត ចូល ទឹក ! ហែល ទៅ ច្រាំង !	Jump into the water! Swim to shore!	¡Salten al agua! ¡Naden a la orilla!	ໂດດ ລົງ ນ້ຳ ! ລອຍ ໄປ ຝັ່ງ !
+ហែល ទៅ ច្រាំង ។	Swim to shore.	Nada hasta la orilla.	ລອຍ ໄປ ຝັ່ງ .
+២៧៦ នាក់	276 people	276 personas	276 ຄົນ
+គ្រប់ គ្នា រួច ជីវិត ។	Everyone survives.	Todos se salvan.	ທຸກ ຄົນ ລອດ ຊີວິດ .
+ត្រជាក់ ណាស់ ! មក កម្ដៅ ខ្លួន ជិត ភ្លើង ។	It's so cold! Come warm yourselves by the fire.	¡Qué frío! Vengan a calentarse junto al fuego.	ໜາວ ຫລາຍ ! ມາ ຜິງ ໄຟ ເທາະ .
+ប្រមូល ឧស ។	Gather firewood.	Recoge leña.	ເກັບ ຟືນ .
+ប្រមូល ឧស	Gather firewood	Recoger leña	ເກັບ ຟືນ
+ដាក់ ឧស ក្នុង ភ្លើង ។	Put the firewood on the fire.	Pon la leña en el fuego.	ໃສ່ ຟືນ ໃນ ໄຟ .
+ដាក់ ឧស	Put firewood	Poner leña	ໃສ່ ຟືນ
+មើល ! ពស់ ចឹក ដៃ គាត់ ! គាត់ ច្បាស់ ជា ស្លាប់ !	Look! A snake bit his hand! He's sure to die!	¡Miren! ¡Una víbora le mordió la mano! ¡Seguro que muere!	ເບິ່ງ ! ງູ ກັດ ມື ລາວ ! ລາວ ຕ້ອງ ຕາຍ ແນ່ !
+រលាស់ ពស់ ចូល ភ្លើង ។	Shake the snake into the fire.	Sacude la víbora al fuego.	ສະບັດ ງູ ລົງ ໄຟ .
+រលាស់ ពស់	Shake off snake	Sacudir víbora	ສະບັດ ງູ
+គាត់ មិន ស្លាប់ ! គាត់ ជា ព្រះ !	He didn't die! He's a god!	¡No murió! ¡Es un dios!	ລາວ ບໍ່ ຕາຍ ! ລາວ ເປັນ ພຣະ !
+ដំណឹង ល្អ ទៅ ដល់ ចុង ផែនដី ។	The good news goes to the ends of the earth.	La buena noticia llega hasta los confines de la tierra.	ຂ່າວ ດີ ໄປ ຮອດ ສຸດ ປາຍ ແຜ່ນດິນ ໂລກ .
+ស្ដាប់ ! មាន អ្នក សាប ព្រោះ ម្នាក់ ចេញ ទៅ សាប ព្រោះ គ្រាប់ពូជ ។	Listen! A sower went out to sow seed.	¡Escuchen! Un sembrador salió a sembrar.	ຟັງ ! ມີ ຜູ້ ຫວ່ານ ຄົນ ໜຶ່ງ ອອກ ໄປ ຫວ່ານ ເມັດພືດ .
+សាប ព្រោះ នៅ ផ្លូវ ។	Sow on the path.	Siembra en el camino.	ຫວ່ານ ຕາມ ທາງ .
+សាប ព្រោះ	Sow	Sembrar	ຫວ່ານ
+បក្សី ស៊ី គ្រាប់ពូជ អស់ ។	The birds eat up all the seed.	Los pájaros se comen toda la semilla.	ນົກ ກິນ ເມັດພືດ ໝົດ .
+សាប ព្រោះ នៅ ដី ថ្ម ។	Sow on rocky ground.	Siembra en terreno pedregoso.	ຫວ່ານ ໃນ ດິນ ທີ່ ມີ ຫີນ .
+ស្ងួត	dried up	seco	ແຫ້ງ
+ថ្ងៃ ក្ដៅ ។ គ្មាន ឫស ។ វា ស្ងួត ។	The sun is hot. No roots. It dries up.	El sol calienta. No hay raíz. Se seca.	ແດດ ຮ້ອນ . ບໍ່ ມີ ຮາກ . ມັນ ແຫ້ງ ຕາຍ .
+សាប ព្រោះ នៅ ក្នុង បន្លា ។	Sow among the thorns.	Siembra entre los espinos.	ຫວ່ານ ໃນ ໜາມ .
+បន្លា ធំ ឡើង ។ វា មិន មាន ផ្លែ ។	The thorns grow up. It bears no fruit.	Los espinos crecen. No da fruto.	ໜາມ ເຕີບ ໃຫຍ່ ຂຶ້ນ . ມັນ ບໍ່ ເກີດ ໝາກ .
+សាប ព្រោះ នៅ ដី ល្អ ។	Sow on good soil.	Siembra en buena tierra.	ຫວ່ານ ໃນ ດິນ ດີ .
+ដី ល្អ	good soil	buena tierra	ດິນ ດີ
+គ្រាប់ពូជ គឺ ព្រះបន្ទូល ។ ដី ល្អ គឺ មនុស្ស ដែល ស្ដាប់ ហើយ ទទួល ។	The seed is the word. The good soil is people who hear it and accept it.	La semilla es la palabra. La buena tierra es la gente que la oye y la recibe.	ເມັດພືດ ແມ່ນ ພຣະຄຳ . ດິນ ດີ ແມ່ນ ຄົນ ທີ່ ຟັງ ແລະ ຮັບ ເອົາ .
+ផ្ទះ សំណាក់	inn	posada	ໂຮງແຮມ
+របួស	wound	herida	ບາດແຜ
+បុរស ម្នាក់ ធ្វើ ដំណើរ ពី ក្រុង យេរូសាឡិម ទៅ ក្រុង យេរីខូ ។ ចោរ វាយ គាត់ ។	A man was traveling from Jerusalem to Jericho. Robbers beat him.	Un hombre bajaba de Jerusalén a Jericó. Unos ladrones lo golpearon.	ຊາຍ ຄົນ ໜຶ່ງ ເດີນທາງ ຈາກ ເຢຣູຊາເລັມ ໄປ ເມືອງ ເຢຣິໂກ . ໂຈນ ຕີ ລາວ .
+មិន មែន រឿង ខ្ញុំ ទេ ...	Not my business...	No es asunto mío...	ບໍ່ ແມ່ນ ເລື່ອງ ຂອງ ຂ້ອຍ ...
+ខ្ញុំ ប្រញាប់ ណាស់ ...	I'm in a big hurry...	Tengo mucha prisa...	ຂ້ອຍ ຟ້າວ ຫລາຍ ...
+ជួយ បុរស ដែល មាន របួស ។	Help the wounded man.	Ayuda al hombre herido.	ຊ່ວຍ ຊາຍ ທີ່ ບາດເຈັບ .
+រុំ របួស ។	Bandage the wounds.	Venda las heridas.	ພັນ ບາດແຜ .
+រុំ របួស	Bandage	Vendar	ພັນ ບາດແຜ
+ប្រេង	oil	aceite	ນ້ຳມັນ
+ចាក់ ប្រេង និង ស្រា ។	Pour on oil and wine.	Echa aceite y vino.	ຖອກ ນ້ຳມັນ ແລະ ເຫລົ້າ ອະງຸ່ນ .
+ដាក់ គាត់ លើ លា ។	Put him on the donkey.	Súbelo al burro.	ວາງ ລາວ ຂຶ້ນ ເທິງ ລາ .
+ដាក់ លើ លា	Put on donkey	Subir al burro	ວາງ ເທິງ ລາ
+នាំ គាត់ ទៅ ផ្ទះ សំណាក់ ។	Take him to the inn.	Llévalo a la posada.	ພາ ລາວ ໄປ ໂຮງແຮມ .
+សូម មើល ថែ គាត់ ។ បើ អស់ ថ្លៃ ច្រើន ជាង នេះ ខ្ញុំ នឹង សង វិញ ។	Please take care of him. If it costs more, I will pay you back.	Por favor, cuídalo. Si gastas más, te lo pagaré.	ກະລຸນາ ເບິ່ງແຍງ ລາວ . ຖ້າ ໝົດ ຫລາຍ ກວ່າ ນີ້ ຂ້ອຍ ຈະ ໃຊ້ ຄືນ .
+តើ អ្នក ណា ជា អ្នក ជិតខាង របស់ បុរស នោះ ? ... ចូរ ទៅ ធ្វើ ដូច្នោះ ដែរ ។	Which one was a neighbor to that man? ... Go and do the same.	¿Cuál fue el prójimo de ese hombre? ... Ve y haz tú lo mismo.	ຜູ້ ໃດ ເປັນ ເພື່ອນບ້ານ ຂອງ ຊາຍ ຄົນ ນັ້ນ ? ... ຈົ່ງ ໄປ ເຮັດ ຄື ກັນ .
+បុរស ម្នាក់ មាន ចៀម មួយ រយ ។	A man has a hundred sheep.	Un hombre tiene cien ovejas.	ຊາຍ ຄົນ ໜຶ່ງ ມີ ແກະ ໜຶ່ງ ຮ້ອຍ ໂຕ .
+រាប់ ចៀម ។	Count the sheep.	Cuenta las ovejas.	ນັບ ແກະ .
+រាប់ ចៀម	Count sheep	Contar ovejas	ນັບ ແກະ
+៩៩	99	99	99
+កៅសិប ប្រាំបួន	ninety-nine	noventa y nueve	ເກົ້າສິບ ເກົ້າ
+កៅសិប ប្រាំបួន ...	ninety-nine...	noventa y nueve...	ເກົ້າສິບ ເກົ້າ ...
+រក ចៀម ដែល វង្វេង ។	Look for the lost sheep.	Busca la oveja perdida.	ຊອກ ຫາ ແກະ ທີ່ ຫລົງ .
+លី ចៀម ។	Carry the sheep.	Carga la oveja.	ແບກ ແກະ .
+លី ចៀម	Carry sheep	Cargar oveja	ແບກ ແກະ
+នាំ ចៀម ត្រឡប់ មក វិញ ។	Bring the sheep back.	Trae la oveja de vuelta.	ພາ ແກະ ກັບ ມາ .
+មួយ រយ	one hundred	cien	ໜຶ່ງ ຮ້ອຍ
+ចៀម មួយ រយ ។	One hundred sheep.	Cien ovejas.	ແກະ ໜຶ່ງ ຮ້ອຍ ໂຕ .
+ចូរ អរ សប្បាយ ជាមួយ ខ្ញុំ ! ខ្ញុំ រក ចៀម ដែល បាត់ ឃើញ ហើយ !	Rejoice with me! I have found my lost sheep!	¡Alégrense conmigo! ¡Encontré la oveja perdida!	ຈົ່ງ ຊົມຊື່ນ ກັບ ຂ້ອຍ ! ຂ້ອຍ ພົບ ແກະ ທີ່ ເສຍ ໄປ ແລ້ວ !
+នៅ ស្ថានសួគ៌ មាន អំណរ ចំពោះ មនុស្ស បាប ម្នាក់ ដែល ប្រែ ចិត្ត ។	There is joy in heaven over one sinner who repents.	Hay alegría en el cielo por un pecador que se arrepiente.	ໃນ ສະຫວັນ ມີ ຄວາມ ຍິນດີ ເພາະ ຄົນ ບາບ ຄົນ ໜຶ່ງ ທີ່ ກັບໃຈ .
+ឪពុក ! សូម ឲ្យ មរតក ចំណែក របស់ ខ្ញុំ ឥឡូវ ។	Father! Give me my share of the inheritance now.	¡Padre! Dame ahora mi parte de la herencia.	ພໍ່ ! ຂໍ ມໍລະດົກ ສ່ວນ ຂອງ ຂ້ອຍ ດຽວນີ້ .
+ធ្វើ ដំណើរ ទៅ ស្រុក ឆ្ងាយ ។	Travel to a far country.	Viaja a un país lejano.	ເດີນທາງ ໄປ ປະເທດ ໄກ .
+ចាយ ប្រាក់ ។	Spend the money.	Gasta el dinero.	ໃຊ້ ເງິນ .
+ចាយ ប្រាក់	Spend money	Gastar dinero	ໃຊ້ ເງິນ
+ចាយ	Spend	Gastar	ໃຊ້
+គាត់ ចាយ ប្រាក់ អស់ ។ មាន ទុរ្ភិក្ស ។	He spent all his money. There was a famine.	Gastó todo su dinero. Hubo hambre.	ລາວ ໃຊ້ ເງິນ ໝົດ . ເກີດ ຄວາມ ອຶດຢາກ .
+ឲ្យ ចំណី ជ្រូក ។	Feed the pigs.	Da de comer a los cerdos.	ໃຫ້ ອາຫານ ໝູ .
+ឲ្យ ចំណី ជ្រូក	Feed pigs	Alimentar cerdos	ໃຫ້ ອາຫານ ໝູ
+ខ្ញុំ ឃ្លាន ណាស់ ... អ្នក បម្រើ ឪពុក ខ្ញុំ មាន អាហារ ច្រើន !	I'm so hungry... my father's servants have plenty of food!	Tengo tanta hambre... ¡los siervos de mi padre tienen comida de sobra!	ຂ້ອຍ ຫິວ ຫລາຍ ... ຄົນໃຊ້ ຂອງ ພໍ່ ຂ້ອຍ ມີ ອາຫານ ຫລາຍ !
+ត្រឡប់ ទៅ ផ្ទះ ។	Go back home.	Vuelve a casa.	ກັບ ບ້ານ .
+ឪពុក រត់ មក ឱប គាត់ ។	The father runs and hugs him.	El padre corre y lo abraza.	ພໍ່ ແລ່ນ ມາ ກອດ ລາວ .
+យក អាវ ល្អ បំផុត មក ! ចិញ្ចៀន ! ស្បែកជើង ! តោះ ធ្វើ បុណ្យ !	Bring the best robe! A ring! Sandals! Let's celebrate!	¡Traigan el mejor vestido! ¡Un anillo! ¡Sandalias! ¡Hagamos fiesta!	ເອົາ ເສື້ອ ທີ່ ດີ ທີ່ ສຸດ ມາ ! ແຫວນ ! ເກີບ ! ມາ ສະຫລອງ ເທາະ !
+កូន ខ្ញុំ នេះ បាន ស្លាប់ ហើយ រស់ ឡើង វិញ ។ បាន បាត់ ហើយ រក ឃើញ វិញ !	This son of mine was dead and is alive again. He was lost and is found!	¡Este hijo mío estaba muerto y ha revivido! ¡Se había perdido y lo hemos encontrado!	ລູກ ຂອງ ຂ້ອຍ ຄົນ ນີ້ ໄດ້ ຕາຍ ແລ້ວ ແລະ ກັບ ມີ ຊີວິດ ອີກ . ໄດ້ ຫລົງ ຫາຍ ໄປ ແລະ ພົບ ຄືນ !
+ខ្ញុំ បម្រើ ឪពុក ច្រើន ឆ្នាំ ... ឪពុក មិន ដែល ធ្វើ បុណ្យ ឲ្យ ខ្ញុំ ទេ !	I served you for years... you never threw a party for me!	Te he servido tantos años... ¡y nunca me hiciste una fiesta!	ຂ້ອຍ ຮັບໃຊ້ ພໍ່ ຫລາຍ ປີ ... ພໍ່ ບໍ່ ເຄີຍ ຈັດ ງານ ລ້ຽງ ໃຫ້ ຂ້ອຍ !
+កូន អើយ ! កូន នៅ ជាមួយ ឪពុក ជានិច្ច ។ អ្វីៗ ទាំងអស់ របស់ ឪពុក ក៏ ជា របស់ កូន ដែរ ។	My son! You are always with me. Everything I have is yours.	¡Hijo! Tú siempre estás conmigo. Todo lo mío es tuyo.	ລູກ ເອີຍ ! ລູກ ຢູ່ ກັບ ພໍ່ ສະເໝີ . ທຸກ ສິ່ງ ຂອງ ພໍ່ ກໍ ເປັນ ຂອງ ລູກ .
+ខ្ញុំ យ៉ូហាន នៅ លើ កោះ ប៉ាត់ម៉ុស ។ ថ្ងៃ របស់ ព្រះអម្ចាស់ ។	I, John, am on the island of Patmos. The Lord's day.	Yo, Juan, estoy en la isla de Patmos. El día del Señor.	ຂ້ອຍ ໂຢຮັນ ຢູ່ ເທິງ ເກາະ ປັດໂມ . ວັນ ຂອງ ອົງພຣະຜູ້ເປັນເຈົ້າ .
+ចូរ សរសេរ អ្វី ដែល អ្នក ឃើញ ។	Write what you see.	Escribe lo que ves.	ຈົ່ງ ຂຽນ ສິ່ງ ທີ່ ເຈົ້າ ເຫັນ .
+ងាក ក្រោយ	Turn around	Darse la vuelta	ຫັນ ຫລັງ
+កុំ ខ្លាច ! ខ្ញុំ ជា ដើម និង ជា ចុង ។ ខ្ញុំ បាន ស្លាប់ តែ ឥឡូវ ខ្ញុំ នៅ រស់ ជា រៀង រហូត !	Don't be afraid! I am the First and the Last. I was dead, but now I am alive forever!	¡No temas! Yo soy el Primero y el Último. Estuve muerto, ¡pero ahora vivo para siempre!	ຢ່າ ຢ້ານ ! ເຮົາ ເປັນ ຜູ້ ຕົ້ນ ແລະ ຜູ້ ປາຍ . ເຮົາ ໄດ້ ຕາຍ ແຕ່ ບັດນີ້ ເຮົາ ມີ ຊີວິດ ຢູ່ ຕະຫລອດ ໄປ !
+ចូរ ឡើង មក ទីនេះ ។	Come up here.	Sube acá.	ຈົ່ງ ຂຶ້ນ ມາ ທີ່ ນີ້ .
+សមុទ្រ កែវ	sea of glass	mar de vidrio	ທະເລ ແກ້ວ
+មុខ តោ	face of a lion	rostro de león	ໜ້າ ສິງ
+មុខ គោ	face of an ox	rostro de buey	ໜ້າ ງົວ
+មុខ មនុស្ស	face of a man	rostro de hombre	ໜ້າ ມະນຸດ
+មុខ ឥន្ទ្រី	face of an eagle	rostro de águila	ໜ້າ ນົກອິນຊີ
+បរិសុទ្ធ ! បរិសុទ្ធ ! បរិសុទ្ធ ! ព្រះអម្ចាស់ ជា ព្រះ ដ៏ មាន ឫទ្ធានុភាព ! ដែល គង់ នៅ ពី ដើម ឥឡូវ និង នឹង យាង មក !	Holy! Holy! Holy! Lord God Almighty! Who was, and is, and is to come!	¡Santo! ¡Santo! ¡Santo! ¡Señor Dios Todopoderoso! ¡El que era, el que es y el que ha de venir!	ບໍລິສຸດ ! ບໍລິສຸດ ! ບໍລິສຸດ ! ອົງພຣະຜູ້ເປັນເຈົ້າ ພຣະເຈົ້າ ຜູ້ ຊົງ ລິດ ອຳນາດ ! ຜູ້ ຊົງ ເຄີຍ ຢູ່ ຊົງ ຢູ່ ແລະ ຈະ ສະເດັດ ມາ !
+មើល	Look	Mirar	ເບິ່ງ
+ស្លាប ប្រាំមួយ · ពេញ ដោយ ភ្នែក	six wings · full of eyes	seis alas · lleno de ojos	ປີກ ຫົກ ປີກ · ເຕັມ ໄປ ດ້ວຍ ຕາ
+បរិសុទ្ធ ! បរិសុទ្ធ ! បរិសុទ្ធ !	Holy! Holy! Holy!	¡Santo! ¡Santo! ¡Santo!	ບໍລິສຸດ ! ບໍລິສຸດ ! ບໍລິສຸດ !
+មកុដ	crown	corona	ມົງກຸດ
+ព្រះអម្ចាស់ អើយ ! ព្រះអង្គ ស័ក្តិសម នឹង ទទួល សិរីល្អ កិត្តិយស និង ឫទ្ធានុភាព ។ ព្រះអង្គ បាន បង្កើត អ្វីៗ ទាំងអស់ !	Lord! You are worthy to receive glory, honor and power. You created all things!	¡Señor! Eres digno de recibir la gloria, la honra y el poder. ¡Tú creaste todas las cosas!	ອົງພຣະຜູ້ເປັນເຈົ້າ ! ພຣະອົງ ສົມຄວນ ໄດ້ ຮັບ ພຣະກຽດ ກຽດຕິຍົດ ແລະ ລິດອຳນາດ . ພຣະອົງ ໄດ້ ສ້າງ ທຸກ ສິ່ງ !
+ក្រាំង	scroll	rollo	ໜັງສື ມ້ວນ
+កូនចៀម ដែល ត្រូវ គេ សម្លាប់ ស័ក្តិសម នឹង ទទួល សិរីល្អ ! ព្រះអង្គ បាន លោះ មនុស្ស ពី គ្រប់ ជាតិ សាសន៍ !	The Lamb who was slain is worthy to receive glory! He ransomed people from every nation!	¡El Cordero inmolado es digno de recibir la gloria! ¡Rescató gente de toda nación!	ລູກແກະ ທີ່ ຖືກ ຂ້າ ສົມຄວນ ໄດ້ ຮັບ ພຣະກຽດ ! ພຣະອົງ ໄດ້ ໄຖ່ ຄົນ ຈາກ ທຸກ ຊາດ !
+អាម៉ែន ! សរសើរ និង សិរីល្អ ដល់ ព្រះ និង កូនចៀម ជា រៀង រហូត !	Amen! Praise and glory to God and to the Lamb forever!	¡Amén! ¡Alabanza y gloria a Dios y al Cordero para siempre!	ອາແມນ ! ຄຳ ສັນລະເສີນ ແລະ ພຣະກຽດ ຈົ່ງ ມີ ແດ່ ພຣະເຈົ້າ ແລະ ລູກແກະ ຕະຫລອດ ໄປ !
+ខ្ញុំ ឃើញ ផ្ទៃ មេឃ ថ្មី និង ផែនដី ថ្មី ។ សមុទ្រ លែង មាន ទៀត ហើយ ។	I see a new heaven and a new earth. The sea is no more.	Veo un cielo nuevo y una tierra nueva. El mar ya no existe.	ຂ້ອຍ ເຫັນ ທ້ອງຟ້າ ໃໝ່ ແລະ ແຜ່ນດິນ ໂລກ ໃໝ່ . ທະເລ ບໍ່ ມີ ອີກ ແລ້ວ .
+ខ្ញុំ ឃើញ ក្រុង បរិសុទ្ធ យេរូសាឡិម ថ្មី ចុះ មក ពី ស្ថានសួគ៌ !	I see the holy city, the new Jerusalem, coming down out of heaven!	¡Veo la ciudad santa, la nueva Jerusalén, que desciende del cielo!	ຂ້ອຍ ເຫັນ ນະຄອນ ບໍລິສຸດ ເຢຣູຊາເລັມ ໃໝ່ ລົງ ມາ ຈາກ ສະຫວັນ !
+កំពែង	wall	muralla	ກຳແພງ
+ដើមឈើ ជីវិត	tree of life	árbol de la vida	ຕົ້ນໄມ້ ແຫ່ງ ຊີວິດ
+មើល ! យើង ធ្វើ ឲ្យ អ្វីៗ ទាំងអស់ ទៅ ជា ថ្មី ។ គ្មាន ទឹកភ្នែក គ្មាន សេចក្ដី ស្លាប់ គ្មាន ការ យំ ទៀត ទេ ។	Look! I am making all things new. No more tears, no more death, no more crying.	¡Mira! Hago nuevas todas las cosas. No habrá más lágrimas, ni muerte, ni llanto.	ເບິ່ງ ແມ ! ເຮົາ ເຮັດ ໃຫ້ ທຸກ ສິ່ງ ເປັນ ໃໝ່ . ບໍ່ ມີ ນ້ຳຕາ ບໍ່ ມີ ຄວາມ ຕາຍ ບໍ່ ມີ ການ ຮ້ອງໄຫ້ ອີກ .
+ចូល តាម ទ្វារ ត្បូង ។	Enter by the jewel gate.	Entra por la puerta de joya.	ເຂົ້າ ທາງ ປະຕູ ເພັດ .
+ទ្វារ ត្បូង	jewel gate	puerta de joya	ປະຕູ ເພັດ
+ទ្វារ នីមួយៗ ធ្វើ ពី ត្បូង មួយ ។ ទ្វារ មិន ដែល បិទ ទេ ។	Each gate is made of a single jewel. The gates are never shut.	Cada puerta es de una sola joya. Las puertas nunca se cierran.	ແຕ່ລະ ປະຕູ ເຮັດ ຈາກ ເພັດ ເມັດ ດຽວ . ປະຕູ ບໍ່ ເຄີຍ ປິດ .
+ទ្វារ មិន ដែល បិទ ទេ ។ គ្មាន យប់ នៅ ទីនោះ ទេ ។	The gates are never shut. There is no night there.	Las puertas nunca se cierran. Allí no hay noche.	ປະຕູ ບໍ່ ເຄີຍ ປິດ . ຢູ່ ທີ່ ນັ້ນ ບໍ່ ມີ ກາງຄືນ .
+ផ្លូវ មាស	street of gold	calle de oro	ຖະໜົນ ຄຳ
+ផ្លូវ នៃ ក្រុង ជា មាស ថ្លា ដូច កញ្ចក់ ។	The street of the city is pure gold, clear as glass.	La calle de la ciudad es oro puro, transparente como el vidrio.	ຖະໜົນ ຂອງ ນະຄອນ ເປັນ ຄຳ ບໍລິສຸດ ໃສ ຄື ແກ້ວ .
+កំពែង ធ្វើ ពី ត្បូង ។ គ្រឹះ ដប់ពីរ មាន ត្បូង ដប់ពីរ ពណ៌ ។	The wall is made of jewels. Twelve foundations of twelve colors.	La muralla es de piedras preciosas. Doce cimientos de doce colores.	ກຳແພງ ເຮັດ ດ້ວຍ ເພັດ ພອຍ . ຮາກຖານ ສິບສອງ ຊັ້ນ ມີ ສິບສອງ ສີ .
+ទន្លេ ទឹក ជីវិត ថ្លា ដូច កញ្ចក់ ហូរ ចេញ ពី បល្ល័ង្ក ។	The river of the water of life, clear as crystal, flows from the throne.	El río del agua de vida, claro como el cristal, sale del trono.	ແມ່ນ້ຳ ແຫ່ງ ນ້ຳ ຊີວິດ ໃສ ຄື ແກ້ວ ໄຫລ ອອກ ຈາກ ບັນລັງ .
+ផឹក ទឹក ជីវិត ។	Drink the water of life.	Bebe el agua de vida.	ດື່ມ ນ້ຳ ແຫ່ງ ຊີວິດ .
+ផឹក ទឹក ជីវិត	Drink water of life	Beber agua de vida	ດື່ມ ນ້ຳ ຊີວິດ
+ហូប ផ្លែ ពី ដើមឈើ ជីវិត ។	Eat fruit from the tree of life.	Come del fruto del árbol de la vida.	ກິນ ໝາກ ຈາກ ຕົ້ນໄມ້ ແຫ່ງ ຊີວິດ .
+ហូប ផ្លែឈើ ជីវិត	Eat fruit of life	Comer fruto de vida	ກິນ ໝາກ ແຫ່ງ ຊີວິດ
+ជីវិត	life	vida	ຊີວິດ
+នៅ អេដែន ដើមឈើ ជីវិត ត្រូវ បិទ ។ ឥឡូវ ផ្លូវ បើក ហើយ ។	In Eden the tree of life was closed off. Now the way is open.	En el Edén el árbol de la vida quedó cerrado. Ahora el camino está abierto.	ທີ່ ເອເດນ ຕົ້ນໄມ້ ແຫ່ງ ຊີວິດ ຖືກ ປິດ . ບັດນີ້ ທາງ ເປີດ ແລ້ວ .
+ឥឡូវ ផ្លូវ ទៅ ដើមឈើ ជីវិត បើក ហើយ ។	Now the way to the tree of life is open.	Ahora el camino al árbol de la vida está abierto.	ບັດນີ້ ທາງ ໄປ ຫາ ຕົ້ນໄມ້ ແຫ່ງ ຊີວິດ ເປີດ ແລ້ວ .
+ទៅ បល្ល័ង្ក ។	Go to the throne.	Ve al trono.	ໄປ ຫາ ບັນລັງ .
+មុខ	face	rostro	ໜ້າ
+ពួក អ្នក បម្រើ របស់ ព្រះអង្គ នឹង ឃើញ មុខ ព្រះអង្គ ។ ព្រះអង្គ ជា ពន្លឺ របស់ ពួក គេ ។	His servants will see his face. He will be their light.	Sus siervos verán su rostro. Él será su luz.	ຜູ້ຮັບໃຊ້ ຂອງ ພຣະອົງ ຈະ ເຫັນ ພຣະພັກ ຂອງ ພຣະອົງ . ພຣະອົງ ເປັນ ແສງສະຫວ່າງ ຂອງ ພວກເຂົາ .
+មែន ហើយ ! ខ្ញុំ មក ជា ឆាប់ !	Yes! I am coming soon!	¡Sí! ¡Vengo pronto!	ແມ່ນ ແລ້ວ ! ເຮົາ ຈະ ມາ ໃນ ໄວໆ ນີ້ !
+អេលាប	Eliab	Eliab	ເອລີອາບ
+ចូរ ចាក់ ប្រេង លើ ក្បាល ស្ដេច ថ្មី ។ យើង បាន ជ្រើស រើស កូន ម្នាក់ របស់ អ៊ីសាយ ។	Anoint the head of a new king. I have chosen one of Jesse's sons.	Unge la cabeza de un nuevo rey. He escogido a uno de los hijos de Isaí.	ຈົ່ງ ເຈີມ ນ້ຳມັນ ເທິງ ຫົວ ກະສັດ ອົງ ໃໝ່ . ເຮົາ ໄດ້ ເລືອກ ລູກ ຄົນ ໜຶ່ງ ຂອງ ເຢຊີ .
+ទៅ ជួប អ៊ីសាយ ។	Go and meet Jesse.	Ve a ver a Isaí.	ໄປ ພົບ ເຢຊີ .
+សូម ស្វាគមន៍ ! នេះ គឺ កូនប្រុស ទាំង ប្រាំពីរ របស់ ខ្ញុំ ។	Welcome! These are my seven sons.	¡Bienvenido! Estos son mis siete hijos.	ຍິນດີ ຕ້ອນຮັບ ! ນີ້ ແມ່ນ ລູກຊາຍ ເຈັດ ຄົນ ຂອງ ຂ້ອຍ .
+គាត់ ខ្ពស់ ហើយ សង្ហា ។ ប្រាកដ ជា គាត់ ហើយ !	He's tall and handsome. It must be him!	Es alto y apuesto. ¡Seguro que es él!	ລາວ ສູງ ແລະ ຮູບ ງາມ . ຕ້ອງ ແມ່ນ ລາວ ແນ່ !
+កុំ មើល រូប ខាង ក្រៅ ។ មនុស្ស មើល ខាង ក្រៅ ។ តែ ព្រះជាម្ចាស់ មើល ចិត្ត ។	Don't look at the outside. People look at the outside. But the Lord looks at the heart.	No mires la apariencia. La gente mira lo de fuera. Pero el Señor mira el corazón.	ຢ່າ ເບິ່ງ ຮູບ ພາຍນອກ . ຄົນ ເບິ່ງ ພາຍນອກ . ແຕ່ ພຣະເຈົ້າ ເບິ່ງ ໃຈ .
+មិន មែន អ្នក នេះ ទេ ។	Not this one.	Este no.	ບໍ່ ແມ່ນ ຄົນ ນີ້ .
+ព្រះជាម្ចាស់ មិន បាន ជ្រើស រើស អ្នក ទាំង នេះ ទេ ។ តើ អ្នក មាន កូនប្រុស ទៀត ឬ ទេ ?	The Lord has not chosen any of these. Do you have any more sons?	El Señor no ha escogido a ninguno de estos. ¿Tienes más hijos?	ພຣະເຈົ້າ ບໍ່ ໄດ້ ເລືອກ ຄົນ ເຫລົ່ານີ້ . ທ່ານ ມີ ລູກຊາຍ ອີກ ບໍ ?
+មាន កូន ពៅ ម្នាក់ ទៀត ។ គាត់ កំពុង មើល ចៀម ។	There is one more, the youngest. He is looking after the sheep.	Queda el menor. Está cuidando las ovejas.	ມີ ລູກ ຫລ້າ ອີກ ຄົນ ໜຶ່ງ . ລາວ ກຳລັງ ລ້ຽງ ແກະ .
+ហៅ ដាវីឌ មក ។	Call David here.	Llama a David.	ເອີ້ນ ດາວິດ ມາ .
+ដាវីឌ ! មក ទីនេះ !	David! Come here!	¡David! ¡Ven acá!	ດາວິດ ! ມາ ນີ້ !
+ក្រោក ឡើង ចាក់ ប្រេង លើ គាត់ ។ គឺ អ្នក នេះ ហើយ !	Get up and anoint him. He is the one!	Levántate y úngelo. ¡Es él!	ລຸກ ຂຶ້ນ ເຈີມ ລາວ . ແມ່ນ ຄົນ ນີ້ ແຫລະ !
+ចាក់ ប្រេង លើ ក្បាល ដាវីឌ ។	Pour the oil on David's head.	Derrama el aceite sobre la cabeza de David.	ຖອກ ນ້ຳມັນ ເທິງ ຫົວ ດາວິດ .
+ចាក់ ប្រេង	Pour oil	Derramar aceite	ຖອກ ນ້ຳມັນ
+ព្រះវិញ្ញាណ របស់ ព្រះជាម្ចាស់ សណ្ឋិត លើ ដាវីឌ ។	The Spirit of the Lord comes upon David.	El Espíritu del Señor viene sobre David.	ພຣະວິນຍານ ຂອງ ພຣະເຈົ້າ ລົງ ມາ ເທິງ ດາວິດ .
+ពិណ	harp	arpa	ພິນ
+លំពែង	spear	lanza	ຫອກ
+អូយ ... ក្បាល ខ្ញុំ ... ខ្ញុំ មិន សុខ ចិត្ត សោះ !	Ohh... my head... I have no peace at all!	Ay... mi cabeza... ¡no tengo paz!	ໂອ້ຍ ... ຫົວ ຂ້ອຍ ... ຂ້ອຍ ບໍ່ ສະບາຍ ໃຈ ເລີຍ !
+ព្រះករុណា ! ខ្ញុំ នឹង លេង ពិណ ថ្វាយ ។	Your Majesty! I will play the harp for you.	¡Majestad! Tocaré el arpa para usted.	ຂ້າແດ່ ກະສັດ ! ຂ້ອຍ ຈະ ຫລິ້ນ ພິນ ຖວາຍ .
+លេង ពិណ	Play harp	Tocar arpa	ຫລິ້ນ ພິນ
+អា ... ខ្ញុំ ស្រួល បន្តិច ហើយ ។	Ah... I feel a little better.	Ah... ya me siento un poco mejor.	ອາ ... ຂ້ອຍ ສະບາຍ ຂຶ້ນ ແດ່ ແລ້ວ .
+សូល សម្លាប់ មនុស្ស មួយ ពាន់ ! ដាវីឌ សម្លាប់ មនុស្ស មួយ ម៉ឺន !	Saul has killed his thousands! David his tens of thousands!	¡Saúl mató a sus miles! ¡David a sus diez miles!	ໂຊໂລ ຂ້າ ຄົນ ພັນ ຄົນ ! ດາວິດ ຂ້າ ຄົນ ໝື່ນ ຄົນ !
+ដាវីឌ ! គេ ស្រឡាញ់ អ្នក ជាង ខ្ញុំ !	David! They love you more than me!	¡David! ¡Te quieren más que a mí!	ດາວິດ ! ພວກເຂົາ ຮັກ ເຈົ້າ ຫລາຍ ກວ່າ ຂ້ອຍ !
+គេច !	Dodge!	¡Esquiva!	ຫລົບ !
+គេច	dodge	esquivar	ຫລົບ
+ព្រះជាម្ចាស់ ការពារ ខ្ញុំ ។	The Lord protects me.	El Señor me protege.	ພຣະເຈົ້າ ປົກປ້ອງ ຂ້ອຍ .
+ចាប់ គាត់ !	Seize him!	¡Atrápenlo!	ຈັບ ລາວ !
+រត់ ចេញ ពី វាំង ។	Run out of the palace.	Huye del palacio.	ແລ່ນ ອອກ ຈາກ ວັງ .
+ព្រះជាម្ចាស់ ជា ថ្ម ដា របស់ ខ្ញុំ ។ ខ្ញុំ មិន ខ្លាច ទេ ។	The Lord is my rock. I am not afraid.	El Señor es mi roca. No tengo miedo.	ພຣະເຈົ້າ ເປັນ ຫີນ ຂອງ ຂ້ອຍ . ຂ້ອຍ ບໍ່ ຢ້ານ .
+ស្ដេច សូល កំពុង ដេញ តាម យើង ។ យើង លាក់ ខ្លួន នៅ ក្នុង ល្អាង នេះ ។	King Saul is chasing us. We are hiding in this cave.	El rey Saúl nos persigue. Nos escondemos en esta cueva.	ກະສັດ ໂຊໂລ ກຳລັງ ໄລ່ ຕາມ ພວກເຮົາ . ພວກເຮົາ ລີ້ ຢູ່ ໃນ ຖ້ຳ ນີ້ .
+មើល ! ស្ដេច សូល នៅ ទីនោះ ! ព្រះជាម្ចាស់ ប្រគល់ គាត់ មក ក្នុង ដៃ លោក ហើយ ! សម្លាប់ គាត់ !	Look! King Saul is there! The Lord has put him in your hands! Kill him!	¡Mira! ¡Ahí está el rey Saúl! ¡El Señor lo ha puesto en tus manos! ¡Mátalo!	ເບິ່ງ ! ກະສັດ ໂຊໂລ ຢູ່ ຫັ້ນ ! ພຣະເຈົ້າ ມອບ ລາວ ໄວ້ ໃນ ມື ທ່ານ ແລ້ວ ! ຂ້າ ລາວ !
+ទេ ! គាត់ ជា ស្ដេច ដែល ព្រះជាម្ចាស់ ចាក់ ប្រេង ។ ខ្ញុំ នឹង មិន ធ្វើ បាប គាត់ ទេ ។	No! He is the king the Lord anointed. I will not harm him.	¡No! Es el rey ungido por el Señor. No le haré daño.	ບໍ່ ! ລາວ ເປັນ ກະສັດ ທີ່ ພຣະເຈົ້າ ເຈີມ ໄວ້ . ຂ້ອຍ ຈະ ບໍ່ ທຳຮ້າຍ ລາວ .
+ដើរ ស្ងាត់ ទៅ កាត់ ជាយ អាវ ។	Sneak up and cut off the corner of his robe.	Acércate en silencio y corta la punta de su manto.	ຍ່າງ ຄ່ອຍໆ ໄປ ຕັດ ແຈ ເສື້ອ .
+កាត់ ជាយ អាវ	Cut robe	Cortar manto	ຕັດ ແຈ ເສື້ອ
+កាត់	cut	cortar	ຕັດ
+ចិត្ត ខ្ញុំ ឈឺ ។ ខ្ញុំ មិន គួរ ធ្វើ ដូច្នេះ ដល់ ស្ដេច ទេ ។	My heart aches. I shouldn't have done that to the king.	Me duele el corazón. No debí hacerle eso al rey.	ໃຈ ຂ້ອຍ ເຈັບ . ຂ້ອຍ ບໍ່ ຄວນ ເຮັດ ແບບ ນັ້ນ ຕໍ່ ກະສັດ .
+ចេញ ពី ល្អាង ហើយ ហៅ ស្ដេច ។	Leave the cave and call to the king.	Sal de la cueva y llama al rey.	ອອກ ຈາກ ຖ້ຳ ແລ້ວ ເອີ້ນ ກະສັດ .
+ស្ដេច អើយ ! មើល ! ជាយ អាវ របស់ ស្ដេច នៅ ក្នុង ដៃ ខ្ញុំ ។ ខ្ញុំ មិន បាន សម្លាប់ ស្ដេច ទេ ។	My king! Look! The corner of your robe is in my hand. I did not kill you.	¡Mi rey! ¡Mira! La punta de tu manto está en mi mano. No te maté.	ກະສັດ ເອີຍ ! ເບິ່ງ ! ແຈ ເສື້ອ ຂອງ ພຣະອົງ ຢູ່ ໃນ ມື ຂ້ອຍ . ຂ້ອຍ ບໍ່ ໄດ້ ຂ້າ ພຣະອົງ .
+ដាវីឌ កូន អើយ ! អ្នក សុចរិត ជាង ខ្ញុំ ។ អ្នក តប ល្អ ចំពោះ ការ អាក្រក់ ។	David, my son! You are more righteous than I. You repaid me good for evil.	¡David, hijo mío! Eres más justo que yo. Me pagaste bien por mal.	ດາວິດ ລູກ ເອີຍ ! ເຈົ້າ ຊອບທຳ ກວ່າ ຂ້ອຍ . ເຈົ້າ ຕອບ ແທນ ຄວາມ ຊົ່ວ ດ້ວຍ ຄວາມ ດີ .
+ឥឡូវ ខ្ញុំ ដឹង ថា អ្នក នឹង ធ្វើ ជា ស្ដេច ។	Now I know that you will be king.	Ahora sé que serás rey.	ບັດນີ້ ຂ້ອຍ ຮູ້ ວ່າ ເຈົ້າ ຈະ ເປັນ ກະສັດ .
+ទ្វារ ក្រុង	city gate	puerta de la ciudad	ປະຕູ ເມືອງ
+អូរ	brook	arroyo	ຫ້ວຍ
+ចូរ ទៅ លាក់ ខ្លួន នៅ ជិត អូរ ។ ផឹក ទឹក ពី អូរ ។ យើង បង្គាប់ ក្អែក ឲ្យ ផ្ដល់ អាហារ ដល់ អ្នក ។	Go and hide by the brook. Drink from the brook. I have commanded the ravens to feed you.	Ve y escóndete junto al arroyo. Bebe del arroyo. He mandado a los cuervos que te alimenten.	ຈົ່ງ ໄປ ລີ້ ຢູ່ ໃກ້ ຫ້ວຍ . ດື່ມ ນ້ຳ ຈາກ ຫ້ວຍ . ເຮົາ ສັ່ງ ອີກາ ໃຫ້ ເອົາ ອາຫານ ມາ ໃຫ້ ເຈົ້າ .
+ផឹក ទឹក ពី អូរ ។	Drink from the brook.	Bebe del arroyo.	ດື່ມ ນ້ຳ ຈາກ ຫ້ວຍ .
+ព្រឹក	morning	mañana	ເຊົ້າ
+ល្ងាច	evening	tarde	ແລງ
+នំ	bread	pan	ເຂົ້າຈີ່
+សាច់	meat	carne	ຊີ້ນ
+គ្មាន ភ្លៀង ។ អូរ រីង ស្ងួត ។	No rain. The brook dries up.	No llueve. El arroyo se seca.	ບໍ່ ມີ ຝົນ . ຫ້ວຍ ແຫ້ງ ໝົດ .
+ចូរ ទៅ ក្រុង មួយ នៅ ជិត សមុទ្រ ។ យើង បង្គាប់ ស្ត្រី មេម៉ាយ ម្នាក់ ឲ្យ ផ្ដល់ អាហារ ដល់ អ្នក ។	Go to a town by the sea. I have commanded a widow there to feed you.	Ve a un pueblo junto al mar. He mandado a una viuda que te alimente.	ຈົ່ງ ໄປ ເມືອງ ໜຶ່ງ ໃກ້ ທະເລ . ເຮົາ ສັ່ງ ແມ່ໝ້າຍ ຄົນ ໜຶ່ງ ໃຫ້ ລ້ຽງ ເຈົ້າ .
+អុស	sticks	leña	ຟືນ
+ទៅ ទ្វារ ក្រុង ។	Go to the city gate.	Ve a la puerta de la ciudad.	ໄປ ປະຕູ ເມືອງ .
+សូម យក ទឹក បន្តិច មក ឲ្យ ខ្ញុំ ផឹក ។ ហើយ សូម យក នំ មួយ ដុំ មក ផង ។	Please bring me a little water to drink. And please bring a piece of bread too.	Por favor, tráeme un poco de agua para beber. Y tráeme también un pedazo de pan.	ກະລຸນາ ເອົາ ນ້ຳ ໜ້ອຍ ໜຶ່ງ ມາ ໃຫ້ ຂ້ອຍ ດື່ມ . ແລະ ເອົາ ເຂົ້າຈີ່ ກ້ອນ ໜຶ່ງ ມາ ນຳ .
+ខ្ញុំ គ្មាន នំ ទេ ។ ខ្ញុំ មាន តែ ម្សៅ បន្តិច និង ប្រេង បន្តិច ។ ខ្ញុំ នឹង ធ្វើ នំ ឲ្យ កូន ខ្ញុំ ហើយ យើង នឹង ស្លាប់ ។	I have no bread. I have only a little flour and a little oil. I'll make bread for my son, and then we will die.	No tengo pan. Solo tengo un poco de harina y un poco de aceite. Haré pan para mi hijo y luego moriremos.	ຂ້ອຍ ບໍ່ ມີ ເຂົ້າຈີ່ . ຂ້ອຍ ມີ ແຕ່ ແປ້ງ ໜ້ອຍ ໜຶ່ງ ແລະ ນ້ຳມັນ ໜ້ອຍ ໜຶ່ງ . ຂ້ອຍ ຈະ ເຮັດ ເຂົ້າຈີ່ ໃຫ້ ລູກ ແລ້ວ ພວກເຮົາ ຈະ ຕາຍ .
+កុំ ខ្លាច ! ធ្វើ នំ តូច មួយ ឲ្យ ខ្ញុំ សិន ។ ម្សៅ នឹង មិន អស់ ហើយ ប្រេង នឹង មិន អស់ ដែរ ។	Don't be afraid! First make a small loaf for me. The flour will not run out, and the oil will not run out either.	¡No temas! Primero hazme un pan pequeño. La harina no se acabará, ni el aceite tampoco.	ຢ່າ ຢ້ານ ! ເຮັດ ເຂົ້າຈີ່ ກ້ອນ ນ້ອຍ ໃຫ້ ຂ້ອຍ ກ່ອນ . ແປ້ງ ຈະ ບໍ່ ໝົດ ແລະ ນ້ຳມັນ ກໍ ຈະ ບໍ່ ໝົດ .
+ក្អម ម្សៅ	flour jar	tinaja de harina	ໄຫ ແປ້ງ
+ដប ប្រេង	oil jug	jarra de aceite	ຂວດ ນ້ຳມັນ
+ធ្វើ នំ	Make bread	Hacer pan	ເຮັດ ເຂົ້າຈີ່
+ម្សៅ មិន អស់ ។ ប្រេង មិន អស់ ។	The flour doesn't run out. The oil doesn't run out.	La harina no se acaba. El aceite no se acaba.	ແປ້ງ ບໍ່ ໝົດ . ນ້ຳມັນ ບໍ່ ໝົດ .
+អស្ចារ្យ ណាស់ ! ម្សៅ មិន អស់ ទេ !	Amazing! The flour never runs out!	¡Increíble! ¡La harina no se acaba!	ອັດສະຈັນ ແທ້ ! ແປ້ງ ບໍ່ ໝົດ ເລີຍ !
+កូន ខ្ញុំ ! កូន ខ្ញុំ ឈឺ ហើយ ស្លាប់ ! ហេតុ អ្វី ?	My son! My son got sick and died! Why?	¡Mi hijo! ¡Mi hijo enfermó y murió! ¿Por qué?	ລູກ ຂ້ອຍ ! ລູກ ຂ້ອຍ ເຈັບ ແລ້ວ ຕາຍ ! ເປັນ ຫຍັງ ?
+ឲ្យ កូន មក ខ្ញុំ ។	Give me your son.	Dame a tu hijo.	ເອົາ ລູກ ມາ ໃຫ້ ຂ້ອຍ .
+បី កូន ឡើង ទៅ បន្ទប់ ខាង លើ ។	Carry the boy up to the upper room.	Lleva al niño al cuarto de arriba.	ອຸ້ມ ເດັກ ຂຶ້ນ ໄປ ຫ້ອງ ຊັ້ນ ເທິງ .
+បី កូន	Carry boy	Llevar al niño	ອຸ້ມ ເດັກ
+គ្រែ	bed	cama	ຕຽງ
+ដាក់ គាត់ លើ គ្រែ ។	Lay him on the bed.	Acuéstalo en la cama.	ວາງ ລາວ ເທິງ ຕຽງ .
+ដាក់ លើ គ្រែ	Lay on bed	Acostar	ວາງ ເທິງ ຕຽງ
+នាំ កូន ទៅ ម្ដាយ ។	Bring the boy to his mother.	Lleva al niño con su madre.	ພາ ເດັກ ໄປ ຫາ ແມ່ .
+ឲ្យ កូន	Give boy	Entregar niño	ໃຫ້ ເດັກ
+មើល ! កូន ខ្ញុំ រស់ ! ឥឡូវ ខ្ញុំ ដឹង ថា លោក ជា អ្នក របស់ ព្រះ ។ ព្រះបន្ទូល ពី មាត់ លោក ជា សេចក្ដី ពិត !	Look! My son is alive! Now I know you are a man of God. The word from your mouth is true!	¡Mira! ¡Mi hijo vive! Ahora sé que eres un hombre de Dios. ¡La palabra de tu boca es verdad!	ເບິ່ງ ! ລູກ ຂ້ອຍ ມີ ຊີວິດ ! ບັດນີ້ ຂ້ອຍ ຮູ້ ວ່າ ທ່ານ ເປັນ ຄົນ ຂອງ ພຣະເຈົ້າ . ພຣະຄຳ ຈາກ ປາກ ທ່ານ ເປັນ ຄວາມຈິງ !
+ព្រះនាង ចង់ សម្លាប់ ខ្ញុំ ។ ខ្ញុំ ខ្លាច ។ ខ្ញុំ រត់ ទៅ ទីរហោស្ថាន ។	The queen wants to kill me. I'm afraid. I run away into the wilderness.	La reina quiere matarme. Tengo miedo. Huyo al desierto.	ພະລາຊິນີ ຢາກ ຂ້າ ຂ້ອຍ . ຂ້ອຍ ຢ້ານ . ຂ້ອຍ ແລ່ນ ໜີ ໄປ ຖິ່ນ ແຫ້ງແລ້ງ .
+ទៅ ក្រោម ដើមឈើ ។	Go under the tree.	Ve debajo del árbol.	ໄປ ກ້ອງ ຕົ້ນໄມ້ .
+គ្រប់ គ្រាន់ ហើយ ព្រះជាម្ចាស់ អើយ ! ខ្ញុំ ហត់ ណាស់ ។	Enough, Lord! I'm so tired.	¡Basta ya, Señor! Estoy muy cansado.	ພໍ ແລ້ວ ພຣະເຈົ້າ ເອີຍ ! ຂ້ອຍ ເມື່ອຍ ຫລາຍ .
+ក្រោក ឡើង ហើយ ហូប ចុះ ។	Get up and eat.	Levántate y come.	ລຸກ ຂຶ້ນ ແລ້ວ ກິນ .
+ក្អម ទឹក	water jar	jarra de agua	ໄຫ ນ້ຳ
+ហូប និង ផឹក	Eat and drink	Comer y beber	ກິນ ແລະ ດື່ມ
+ក្រោក ឡើង ហូប ម្ដង ទៀត ។ ផ្លូវ នៅ ឆ្ងាយ ណាស់ ។	Get up and eat again. The journey is long.	Levántate y come otra vez. El camino es largo.	ລຸກ ຂຶ້ນ ກິນ ອີກ . ທາງ ຍັງ ໄກ ຫລາຍ .
+ដើរ ទៅ ភ្នំ របស់ ព្រះ ។	Walk to the mountain of God.	Camina al monte de Dios.	ຍ່າງ ໄປ ພູ ຂອງ ພຣະເຈົ້າ .
+សែសិប យប់	forty nights	cuarenta noches	ສີ່ສິບ ຄືນ
+គាត់ ដើរ សែសិប ថ្ងៃ សែសិប យប់ ។	He walked forty days and forty nights.	Caminó cuarenta días y cuarenta noches.	ລາວ ຍ່າງ ສີ່ສິບ ວັນ ສີ່ສິບ ຄືນ .
+អេលីយ៉ា ! តើ អ្នក ធ្វើ អ្វី នៅ ទីនេះ ?	Elijah! What are you doing here?	¡Elías! ¿Qué haces aquí?	ເອລີຢາ ! ເຈົ້າ ມາ ເຮັດ ຫຍັງ ຢູ່ ນີ້ ?
+ខ្ញុំ នៅ ម្នាក់ ឯង ! ពួក គេ ចង់ សម្លាប់ ខ្ញុំ ។	I'm all alone! They want to kill me.	¡Estoy solo! Quieren matarme.	ຂ້ອຍ ຢູ່ ຄົນ ດຽວ ! ພວກເຂົາ ຢາກ ຂ້າ ຂ້ອຍ .
+ចេញ មក ឈរ នៅ លើ ភ្នំ ។ ព្រះជាម្ចាស់ នឹង យាង កាត់ ។	Go out and stand on the mountain. The Lord is about to pass by.	Sal y ponte en el monte. El Señor va a pasar.	ອອກ ມາ ຢືນ ເທິງ ພູ . ພຣະເຈົ້າ ຈະ ສະເດັດ ຜ່ານ .
+ខ្យល់	wind	viento	ລົມ
+ព្រះជាម្ចាស់ មិន គង់ នៅ ក្នុង ខ្យល់ ទេ ។	The Lord is not in the wind.	El Señor no está en el viento.	ພຣະເຈົ້າ ບໍ່ ຢູ່ ໃນ ລົມ .
+រញ្ជួយ ដី	earthquake	terremoto	ແຜ່ນດິນ ໄຫວ
+ព្រះជាម្ចាស់ មិន គង់ នៅ ក្នុង ការ រញ្ជួយ ដី ទេ ។	The Lord is not in the earthquake.	El Señor no está en el terremoto.	ພຣະເຈົ້າ ບໍ່ ຢູ່ ໃນ ແຜ່ນດິນ ໄຫວ .
+ព្រះជាម្ចាស់ មិន គង់ នៅ ក្នុង ភ្លើង ទេ ។	The Lord is not in the fire.	El Señor no está en el fuego.	ພຣະເຈົ້າ ບໍ່ ຢູ່ ໃນ ໄຟ .
+... សំឡេង ស្រទន់ ...	... a gentle whisper ...	... un susurro apacible ...	... ສຽງ ອ່ອນໆ ...
+សំឡេង ស្រទន់ ។	A gentle whisper.	Un susurro apacible.	ສຽງ ອ່ອນໆ .
+គ្រប មុខ ដោយ អាវ ។	Cover your face with your cloak.	Cúbrete la cara con el manto.	ປົກ ໜ້າ ດ້ວຍ ເສື້ອ ຄຸມ .
+គ្រប មុខ	Cover face	Cubrir la cara	ປົກ ໜ້າ
+អេលីយ៉ា ! អ្នក មិន នៅ ម្នាក់ ឯង ទេ ។ យើង មាន មនុស្ស ប្រាំពីរ ពាន់ នាក់ ដែល មិន ក្រាប ថ្វាយបង្គំ បាល ។	Elijah! You are not alone. I have seven thousand who have not bowed down to Baal.	¡Elías! No estás solo. Tengo siete mil que no se han arrodillado ante Baal.	ເອລີຢາ ! ເຈົ້າ ບໍ່ ໄດ້ ຢູ່ ຄົນ ດຽວ . ເຮົາ ມີ ຄົນ ເຈັດ ພັນ ຄົນ ທີ່ ບໍ່ ໄດ້ ກົ້ມ ຂາບ ບາອານ .
+ចូរ ទៅ ចាក់ ប្រេង លើ អេលីសេ ។ គាត់ នឹង ធ្វើ ជា ព្យាការី ជំនួស អ្នក ។	Go and anoint Elisha. He will be prophet in your place.	Ve y unge a Eliseo. Él será profeta en tu lugar.	ຈົ່ງ ໄປ ເຈີມ ເອລີຊາ . ລາວ ຈະ ເປັນ ຜູ້ປະກາດ ແທນ ເຈົ້າ .
+បាទ ព្រះជាម្ចាស់ ។ ខ្ញុំ នឹង ទៅ ។	Yes, Lord. I will go.	Sí, Señor. Iré.	ແມ່ນ ພຣະເຈົ້າ . ຂ້ອຍ ຈະ ໄປ .
+យ័រដាន់	Jordan	Jordán	ຈໍແດນ
+អេលីសេ ! សូម នៅ ទីនេះ ចុះ ។ ព្រះជាម្ចាស់ ចាត់ ខ្ញុំ ឲ្យ ទៅ ទន្លេ យ័រដាន់ ។	Elisha! Please stay here. The Lord is sending me to the Jordan River.	¡Eliseo! Quédate aquí. El Señor me envía al río Jordán.	ເອລີຊາ ! ກະລຸນາ ຢູ່ ນີ້ ເທາະ . ພຣະເຈົ້າ ສົ່ງ ຂ້ອຍ ໄປ ແມ່ນ້ຳ ຈໍແດນ .
+ខ្ញុំ នឹង មិន ចាក ចេញ ពី លោក ឡើយ !	I will never leave you!	¡No te dejaré!	ຂ້ອຍ ຈະ ບໍ່ ປະ ທ່ານ ເລີຍ !
+ដើរ តាម អេលីយ៉ា ទៅ ទន្លេ ។	Follow Elijah to the river.	Sigue a Elías hasta el río.	ຕາມ ເອລີຢາ ໄປ ແມ່ນ້ຳ .
+មើល ។	Watch.	Mira.	ເບິ່ງ .
+ចូរ ញែក ចេញ !	Part!	¡Divídete!	ຈົ່ງ ແຍກ ອອກ !
+ញែក	parted	dividido	ແຍກ
+ឆ្លង ទន្លេ លើ ដី គោក ។	Cross the river on dry ground.	Cruza el río en seco.	ຂ້າມ ແມ່ນ້ຳ ເທິງ ດິນ ແຫ້ງ .
+តើ លោក ចង់ ឲ្យ ខ្ញុំ ធ្វើ អ្វី សម្រាប់ លោក មុន ខ្ញុំ ត្រូវ គេ យក ទៅ ?	What can I do for you before I am taken away?	¿Qué quieres que haga por ti antes de que me lleven?	ທ່ານ ຢາກ ໃຫ້ ຂ້ອຍ ເຮັດ ຫຍັງ ໃຫ້ ທ່ານ ກ່ອນ ຂ້ອຍ ຖືກ ຮັບ ເອົາ ໄປ ?
+សូម ឲ្យ ព្រះវិញ្ញាណ ដែល នៅ លើ លោក មក សណ្ឋិត លើ ខ្ញុំ ពីរ ដង ។	Let a double portion of your spirit be on me.	Que una doble porción de tu espíritu esté sobre mí.	ຂໍ ໃຫ້ ພຣະວິນຍານ ທີ່ ຢູ່ ກັບ ທ່ານ ມາ ຢູ່ ກັບ ຂ້ອຍ ສອງ ເທົ່າ .
+បើ លោក ឃើញ ខ្ញុំ ពេល ខ្ញុំ ត្រូវ គេ យក ទៅ នោះ លោក នឹង ទទួល បាន ។	If you see me when I am taken, you will have it.	Si me ves cuando me lleven, lo tendrás.	ຖ້າ ທ່ານ ເຫັນ ຂ້ອຍ ຕອນ ຂ້ອຍ ຖືກ ຮັບ ເອົາ ໄປ ທ່ານ ຈະ ໄດ້ ຮັບ .
+ឪពុក អើយ ! ឪពុក អើយ ! រទេះ និង ទ័ព សេះ របស់ អ៊ីស្រាអែល !	My father! My father! The chariots and horsemen of Israel!	¡Padre mío! ¡Padre mío! ¡Carros y jinetes de Israel!	ພໍ່ ເອີຍ ! ພໍ່ ເອີຍ ! ລົດມ້າ ແລະ ທະຫານ ມ້າ ຂອງ ອິດສະຣາເອນ !
+រើស អាវ របស់ អេលីយ៉ា ។	Pick up Elijah's cloak.	Recoge el manto de Elías.	ເກັບ ເສື້ອ ຄຸມ ຂອງ ເອລີຢາ .
+រើស អាវ	Pick up cloak	Recoger manto	ເກັບ ເສື້ອ ຄຸມ
+វាយ ទឹក ដោយ អាវ ។	Strike the water with the cloak.	Golpea el agua con el manto.	ຕີ ນ້ຳ ດ້ວຍ ເສື້ອ ຄຸມ .
+វាយ ទឹក	Strike water	Golpear el agua	ຕີ ນ້ຳ
+តើ ព្រះជាម្ចាស់ ជា ព្រះ របស់ អេលីយ៉ា គង់ នៅ ឯ ណា ?	Where is the Lord, the God of Elijah?	¿Dónde está el Señor, el Dios de Elías?	ພຣະເຈົ້າ ຂອງ ເອລີຢາ ຢູ່ ໃສ ?
+ឆ្លង ទន្លេ ។	Cross the river.	Cruza el río.	ຂ້າມ ແມ່ນ້ຳ .
+ព្រះវិញ្ញាណ របស់ អេលីយ៉ា សណ្ឋិត លើ អេលីសេ ហើយ !	The spirit of Elijah rests on Elisha!	¡El espíritu de Elías reposa sobre Eliseo!	ພຣະວິນຍານ ຂອງ ເອລີຢາ ຢູ່ ເທິງ ເອລີຊາ ແລ້ວ !
+ហូសេ ! ចូរ ទៅ រៀបការ ជាមួយ កូមើរ ។ នាង នឹង ចាក ចេញ ពី អ្នក ។ ដូច ប្រជាជន របស់ យើង ចាក ចេញ ពី យើង ដែរ ។	Hosea! Go and marry Gomer. She will leave you, just as my people have left me.	¡Oseas! Ve y cásate con Gomer. Ella te dejará, como mi pueblo me ha dejado a mí.	ໂຮເຊອາ ! ຈົ່ງ ໄປ ແຕ່ງງານ ກັບ ໂກເມ . ນາງ ຈະ ປະ ເຈົ້າ ໄປ ຄື ປະຊາຊົນ ຂອງ ເຮົາ ປະ ເຮົາ ໄປ .
+ទៅ ជួប កូមើរ ។	Go and meet Gomer.	Ve a ver a Gomer.	ໄປ ພົບ ໂກເມ .
+កូមើរ ! តើ នាង ព្រម រៀបការ ជាមួយ ខ្ញុំ ទេ ?	Gomer! Will you marry me?	¡Gomer! ¿Quieres casarte conmigo?	ໂກເມ ! ນາງ ຍອມ ແຕ່ງງານ ກັບ ຂ້ອຍ ບໍ ?
+ខ្ញុំ ព្រម ។	I will.	Sí, quiero.	ຂ້ອຍ ຍອມ .
+រៀបការ	wedding	boda	ແຕ່ງງານ
+ពួក គេ មាន កូន បី នាក់ ។	They have three children.	Tienen tres hijos.	ພວກເຂົາ ມີ ລູກ ສາມ ຄົນ .
+ប៉ុន្តែ កូមើរ ចាក ចេញ ទៅ ។	But Gomer leaves.	Pero Gomer se va.	ແຕ່ ໂກເມ ໜີ ໄປ .
+កូមើរ ! កុំ ទៅ !	Gomer! Don't go!	¡Gomer! ¡No te vayas!	ໂກເມ ! ຢ່າ ໄປ !
+ចូរ ទៅ ស្រឡាញ់ ប្រពន្ធ របស់ អ្នក ម្ដង ទៀត ។ ដូច ព្រះជាម្ចាស់ ស្រឡាញ់ អ៊ីស្រាអែល ទោះ បី ពួក គេ បែរ ទៅ រក ព្រះ ដទៃ ក៏ ដោយ ។	Go and love your wife again. Just as the Lord loves Israel, even though they turn to other gods.	Ve y ama otra vez a tu esposa. Como el Señor ama a Israel, aunque se vuelvan a otros dioses.	ຈົ່ງ ໄປ ຮັກ ເມຍ ຂອງ ເຈົ້າ ອີກ . ຄື ພຣະເຈົ້າ ຮັກ ອິດສະຣາເອນ ເຖິງ ແມ່ນ ວ່າ ພວກເຂົາ ຫັນ ໄປ ຫາ ພຣະ ອື່ນ .
+ទៅ ផ្សារ ។	Go to the market.	Ve al mercado.	ໄປ ຕະຫລາດ .
+ស្ត្រី នេះ សម្រាប់ លក់ ។ តើ អ្នក នឹង ឲ្យ ប៉ុន្មាន ?	This woman is for sale. What will you give?	Esta mujer está en venta. ¿Cuánto das?	ຜູ້ຍິງ ຄົນ ນີ້ ແມ່ນ ສຳລັບ ຂາຍ . ເຈົ້າ ຈະ ໃຫ້ ເທົ່າໃດ ?
+ខ្ញុំ នឹង ទិញ នាង វិញ ។ ប្រាក់ ដប់ប្រាំ ដុំ និង ស្រូវ ។	I will buy her back. Fifteen pieces of silver and barley.	La compraré de nuevo. Quince piezas de plata y cebada.	ຂ້ອຍ ຈະ ຊື້ ນາງ ຄືນ . ເງິນ ສິບຫ້າ ຫລຽນ ແລະ ເຂົ້າ ບາເລ .
+ឲ្យ ប្រាក់ ។	Give the silver.	Da la plata.	ໃຫ້ ເງິນ .
+ឲ្យ ស្រូវ ។	Give the barley.	Da la cebada.	ໃຫ້ ເຂົ້າ ບາເລ .
+យក នាង ទៅ ចុះ ។	Take her, then.	Llévatela, pues.	ເອົາ ນາງ ໄປ ເທາະ .
+ស្រាយ ខ្សែ ។	Untie the rope.	Desata la cuerda.	ແກ້ ເຊືອກ .
+ស្រាយ ខ្សែ	Untie rope	Desatar cuerda	ແກ້ ເຊືອກ
+កូមើរ ! ខ្ញុំ ស្រឡាញ់ នាង ។ មក ផ្ទះ វិញ ។ នាង ជា ប្រពន្ធ ខ្ញុំ ។	Gomer! I love you. Come home. You are my wife.	¡Gomer! Te amo. Vuelve a casa. Eres mi esposa.	ໂກເມ ! ຂ້ອຍ ຮັກ ນາງ . ກັບ ບ້ານ ເທາະ . ນາງ ເປັນ ເມຍ ຂອງ ຂ້ອຍ .
+ហេតុ អ្វី បាន ជា លោក នៅ តែ ស្រឡាញ់ ខ្ញុំ ?	Why do you still love me?	¿Por qué todavía me amas?	ເປັນ ຫຍັງ ທ່ານ ຍັງ ຮັກ ຂ້ອຍ ?
+នាំ កូមើរ ទៅ ផ្ទះ វិញ ។	Bring Gomer back home.	Lleva a Gomer de vuelta a casa.	ພາ ໂກເມ ກັບ ບ້ານ .
+យើង នឹង ស្រឡាញ់ ពួក គេ ដោយ អស់ ពី ចិត្ត ។ យើង នឹង ហៅ ពួក គេ ថា ៖ ប្រជាជន របស់ យើង ។	I will love them freely. I will call them: my people.	Los amaré de pura gracia. Los llamaré: pueblo mío.	ເຮົາ ຈະ ຮັກ ພວກເຂົາ ດ້ວຍ ສຸດ ໃຈ . ເຮົາ ຈະ ເອີ້ນ ພວກເຂົາ ວ່າ : ປະຊາຊົນ ຂອງ ເຮົາ .
+ពួក សាវក ជ្រើស រើស ខ្ញុំ ឲ្យ ចែក អាហារ ដល់ ស្ត្រី មេម៉ាយ ។	The apostles chose me to hand out food to the widows.	Los apóstoles me eligieron para repartir comida a las viudas.	ພວກ ອັກຄະສາວົກ ເລືອກ ຂ້ອຍ ໃຫ້ ແຈກ ອາຫານ ແກ່ ແມ່ໝ້າຍ .
+អរគុណ ! ព្រះ ប្រទាន ពរ ដល់ អ្នក !	Thank you! God bless you!	¡Gracias! ¡Que Dios te bendiga!	ຂອບໃຈ ! ຂໍ ພຣະເຈົ້າ ອວຍພອນ ເຈົ້າ !
+អ្នក នេះ និយាយ ប្រឆាំង នឹង ព្រះ និង ម៉ូសេ ! ចាប់ គាត់ ! នាំ គាត់ ទៅ ក្រុមប្រឹក្សា !	This man speaks against God and Moses! Seize him! Take him to the council!	¡Este hombre habla contra Dios y contra Moisés! ¡Atrápenlo! ¡Llévenlo al concilio!	ຄົນ ນີ້ ເວົ້າ ຕໍ່ຕ້ານ ພຣະເຈົ້າ ແລະ ໂມເຊ ! ຈັບ ລາວ ! ພາ ລາວ ໄປ ສະພາ !
+សម្ដេច សង្ឃ	high priest	sumo sacerdote	ມະຫາ ປະໂລຫິດ
+ទៅ ក្រុមប្រឹក្សា ។	Go to the council.	Ve al concilio.	ໄປ ສະພາ .
+តើ ការ ទាំង នេះ ពិត ឬ ?	Are these things true?	¿Es esto cierto?	ເລື່ອງ ເຫລົ່ານີ້ ເປັນ ຄວາມຈິງ ບໍ ?
+បងប្អូន ! ព្រះ បាន ហៅ អ័ប្រាហាំ ។ ព្រះ នៅ ជាមួយ យ៉ូសែប ។ ព្រះ បាន ចាត់ ម៉ូសេ ។	Brothers! God called Abraham. God was with Joseph. God sent Moses.	¡Hermanos! Dios llamó a Abraham. Dios estaba con José. Dios envió a Moisés.	ພີ່ນ້ອງ ທັງຫລາຍ ! ພຣະເຈົ້າ ເອີ້ນ ອັບຣາຮາມ . ພຣະເຈົ້າ ຢູ່ ກັບ ໂຢເຊັບ . ພຣະເຈົ້າ ສົ່ງ ໂມເຊ .
+ប៉ុន្តែ ពួក អ្នក មិន ស្ដាប់ ព្រះ ទេ ។ ពួក អ្នក បាន សម្លាប់ ព្រះយេស៊ូ ជា អ្នក សុចរិត !	But you do not listen to God. You killed Jesus, the Righteous One!	Pero ustedes no escuchan a Dios. ¡Mataron a Jesús, el Justo!	ແຕ່ ພວກທ່ານ ບໍ່ ຟັງ ພຣະເຈົ້າ . ພວກທ່ານ ໄດ້ ຂ້າ ພຣະເຢຊູ ຜູ້ ຊອບທຳ !
+ទេ ! គាត់ និយាយ អាក្រក់ !	No! He speaks evil!	¡No! ¡Habla blasfemias!	ບໍ່ ! ລາວ ເວົ້າ ຊົ່ວ !
+មើល ! ខ្ញុំ ឃើញ មេឃ បើក ចំហ ។ ខ្ញុំ ឃើញ ព្រះយេស៊ូ ឈរ នៅ ខាង ស្ដាំ ព្រះ !	Look! I see heaven open. I see Jesus standing at the right hand of God!	¡Miren! Veo el cielo abierto. ¡Veo a Jesús de pie a la derecha de Dios!	ເບິ່ງ ! ຂ້ອຍ ເຫັນ ຟ້າ ເປີດ ອອກ . ຂ້ອຍ ເຫັນ ພຣະເຢຊູ ຢືນ ຢູ່ ເບື້ອງ ຂວາ ຂອງ ພຣະເຈົ້າ !
+បិទ ត្រចៀក ! នាំ គាត់ ចេញ ទៅ ក្រៅ ក្រុង !	Cover your ears! Take him out of the city!	¡Tápense los oídos! ¡Sáquenlo de la ciudad!	ປິດ ຫູ ! ພາ ລາວ ອອກ ໄປ ນອກ ເມືອງ !
+ចេញ ទៅ ក្រៅ ក្រុង ។	Go outside the city.	Sal fuera de la ciudad.	ອອກ ໄປ ນອກ ເມືອງ .
+លុត ជង្គង់ ។	Kneel down.	Arrodíllate.	ຄຸເຂົ່າ ລົງ .
+លុត ជង្គង់	Kneel	Arrodillarse	ຄຸເຂົ່າ
+ព្រះអម្ចាស់ យេស៊ូ អើយ ! សូម ទទួល វិញ្ញាណ ខ្ញុំ ។	Lord Jesus! Receive my spirit.	¡Señor Jesús! Recibe mi espíritu.	ອົງພຣະເຢຊູເຈົ້າ ! ຂໍ ຮັບ ເອົາ ວິນຍານ ຂອງ ຂ້ອຍ .
+ព្រះអម្ចាស់ អើយ ! សូម កុំ ប្រកាន់ ទោស ពួក គេ ចំពោះ អំពើ បាប នេះ ឡើយ ។	Lord! Do not hold this sin against them.	¡Señor! No les tomes en cuenta este pecado.	ອົງພຣະຜູ້ເປັນເຈົ້າ ! ຂໍ ຢ່າ ຖື ໂທດ ພວກເຂົາ ຍ້ອນ ບາບ ນີ້ .
+ស្ទេផាន ដេក លក់ ។	Stephen fell asleep.	Esteban durmió.	ສະເທຟາໂນ ນອນ ຫລັບ ໄປ .
+សូល ឃើញ ដោយ ពេញ ចិត្ត ។	Saul approved.	Saulo lo aprobaba.	ໂຊໂລ ເຫັນ ດີ ນຳ .
+ពួក សិស្ស នៅ យ៉ុបប៉េ ហៅ ខ្ញុំ ឲ្យ មក ជា ប្រញាប់ ។	The disciples in Joppa sent for me to come quickly.	Los discípulos de Jope me mandaron llamar con urgencia.	ສາວົກ ຢູ່ ເມືອງ ຢົບປາ ເອີ້ນ ຂ້ອຍ ໃຫ້ ມາ ດ່ວນ .
+ឡើង ទៅ បន្ទប់ ខាង លើ ។	Go up to the upper room.	Sube al cuarto de arriba.	ຂຶ້ນ ໄປ ຫ້ອງ ຊັ້ນ ເທິງ .
+នាង ស្លាប់ ហើយ ! មើល អាវ ទាំង នេះ ! នាង បាន ដេរ ឲ្យ យើង ។ នាង ចិត្ត ល្អ ណាស់ !	She's dead! Look at these clothes! She sewed them for us. She was so kind!	¡Murió! ¡Mira esta ropa! Ella nos la cosió. ¡Era tan buena!	ນາງ ຕາຍ ແລ້ວ ! ເບິ່ງ ເສື້ອ ເຫລົ່ານີ້ ! ນາງ ຫຍິບ ໃຫ້ ພວກເຮົາ . ນາງ ໃຈດີ ຫລາຍ !
+សូម ចេញ ទៅ ក្រៅ សិន ។	Please go outside for now.	Por favor, salgan un momento.	ກະລຸນາ ອອກ ໄປ ຂ້າງ ນອກ ກ່ອນ .
+លុត ជង្គង់ អធិស្ឋាន ។	Kneel and pray.	Arrodíllate y ora.	ຄຸເຂົ່າ ອະທິຖານ .
+នាង អើយ ! ក្រោក ឡើង !	Woman! Get up!	¡Mujer! ¡Levántate!	ນາງ ເອີຍ ! ລຸກ ຂຶ້ນ !
+ចាប់ ដៃ នាង ។	Take her hand.	Tómala de la mano.	ຈັບ ມື ນາງ .
+នាង រស់ ! សរសើរ ព្រះ !	She's alive! Praise God!	¡Está viva! ¡Alabado sea Dios!	ນາງ ມີ ຊີວິດ ! ສັນລະເສີນ ພຣະເຈົ້າ !
+មនុស្ស ជា ច្រើន នៅ យ៉ុបប៉េ ជឿ ព្រះអម្ចាស់ ។	Many people in Joppa believed in the Lord.	Mucha gente en Jope creyó en el Señor.	ຄົນ ຫລາຍ ໃນ ເມືອງ ຢົບປາ ເຊື່ອ ອົງພຣະຜູ້ເປັນເຈົ້າ .
+ខ្ញុំ ឡើង មក លើ ដំបូល ផ្ទះ ដើម្បី អធិស្ឋាន ។ ខ្ញុំ ឃ្លាន ណាស់ ។	I went up on the roof to pray. I'm very hungry.	Subí a la azotea a orar. Tengo mucha hambre.	ຂ້ອຍ ຂຶ້ນ ມາ ເທິງ ຫລັງຄາ ເຮືອນ ເພື່ອ ອະທິຖານ . ຂ້ອຍ ຫິວ ຫລາຍ .
+អធិស្ឋាន ។	Pray.	Ora.	ອະທິຖານ .
+ពេត្រុស ! ក្រោក ឡើង ! សម្លាប់ ហើយ ហូប ចុះ !	Peter! Get up! Kill and eat!	¡Pedro! ¡Levántate! ¡Mata y come!	ເປໂຕ ! ລຸກ ຂຶ້ນ ! ຂ້າ ແລະ ກິນ !
+ទេ ព្រះអម្ចាស់ ! ខ្ញុំ មិន ដែល ហូប អ្វី ដែល មិន ស្អាត ទេ !	No, Lord! I have never eaten anything unclean!	¡No, Señor! ¡Nunca he comido nada impuro!	ບໍ່ ອົງພຣະຜູ້ເປັນເຈົ້າ ! ຂ້ອຍ ບໍ່ ເຄີຍ ກິນ ສິ່ງ ທີ່ ບໍ່ ສະອາດ !
+អ្វី ដែល ព្រះ បាន ធ្វើ ឲ្យ ស្អាត កុំ ហៅ ថា មិន ស្អាត ឡើយ ។	What God has made clean, do not call unclean.	Lo que Dios limpió, no lo llames impuro.	ສິ່ງ ທີ່ ພຣະເຈົ້າ ເຮັດ ໃຫ້ ສະອາດ ແລ້ວ ຢ່າ ເອີ້ນ ວ່າ ບໍ່ ສະອາດ .
+ដង	times	veces	ເທື່ອ
+មាន បុរស បី នាក់ កំពុង រក អ្នក ។ ចុះ ទៅ ហើយ ទៅ ជាមួយ ពួក គេ ។	Three men are looking for you. Go down and go with them.	Tres hombres te buscan. Baja y vete con ellos.	ມີ ຊາຍ ສາມ ຄົນ ກຳລັງ ຊອກ ຫາ ເຈົ້າ . ລົງ ໄປ ແລ້ວ ໄປ ກັບ ພວກເຂົາ .
+ចុះ ទៅ ជួប បុរស ទាំង បី ។	Go down and meet the three men.	Baja a ver a los tres hombres.	ລົງ ໄປ ພົບ ຊາຍ ສາມ ຄົນ .
+លោក កូនេលាស ជា មេទ័ព រ៉ូម ។ ទេវតា ប្រាប់ គាត់ ឲ្យ ហៅ លោក ។	Cornelius is a Roman centurion. An angel told him to send for you.	Cornelio es un centurión romano. Un ángel le dijo que te mandara llamar.	ໂກເນລີໂອ ເປັນ ນາຍຮ້ອຍ ຊາວ ໂຣມ . ເທວະດາ ບອກ ລາວ ໃຫ້ ເອີ້ນ ທ່ານ ມາ .
+សេសារា	Caesarea	Cesarea	ຊີຊາເຣຍ
+លើក កូនេលាស ឡើង ។	Lift Cornelius up.	Levanta a Cornelio.	ຍົກ ໂກເນລີໂອ ຂຶ້ນ .
+លើក ឡើង	Lift up	Levantar	ຍົກ ຂຶ້ນ
+ក្រោក ឡើង ! ខ្ញុំ ក៏ ជា មនុស្ស ដូច លោក ដែរ ។	Stand up! I am only a man like you.	¡Levántate! Yo también soy un hombre como tú.	ລຸກ ຂຶ້ນ ! ຂ້ອຍ ກໍ ເປັນ ຄົນ ຄື ທ່ານ .
+ឥឡូវ ខ្ញុំ ដឹង ថា ព្រះ មិន រើស មុខ ទេ ។ អ្នក ណា ដែល ជឿ ព្រះយេស៊ូ នឹង ទទួល ការ អត់ទោស បាប ។	Now I know that God shows no favoritism. Everyone who believes in Jesus receives forgiveness of sins.	Ahora sé que Dios no hace acepción de personas. Todo el que cree en Jesús recibe el perdón de pecados.	ບັດນີ້ ຂ້ອຍ ຮູ້ ວ່າ ພຣະເຈົ້າ ບໍ່ ລຳອຽງ . ທຸກ ຄົນ ທີ່ ເຊື່ອ ພຣະເຢຊູ ຈະ ໄດ້ ຮັບ ການ ອະໄພ ບາບ .
+ព្រះវិញ្ញាណ	Holy Spirit	Espíritu Santo	ພຣະວິນຍານ
+សរសើរ ព្រះ ! ព្រះ អស្ចារ្យ ណាស់ !	Praise God! God is wonderful!	¡Alabado sea Dios! ¡Dios es maravilloso!	ສັນລະເສີນ ພຣະເຈົ້າ ! ພຣະເຈົ້າ ຍິ່ງໃຫຍ່ ແທ້ !
+តើ មាន អ្នក ណា អាច ហាម មិន ឲ្យ គេ ទទួល ពិធី ជ្រមុជ ទឹក បាន ? ព្រះ ប្រទាន ព្រះវិញ្ញាណ ដល់ ពួក គេ ដូច យើង ដែរ !	Can anyone keep them from being baptized? God gave them the Spirit just as he gave us!	¿Puede alguien impedir que se bauticen? ¡Dios les dio el Espíritu igual que a nosotros!	ມີ ໃຜ ຫ້າມ ບໍ່ ໃຫ້ ພວກເຂົາ ຮັບ ບັບຕິສະມາ ໄດ້ ບໍ ? ພຣະເຈົ້າ ປະທານ ພຣະວິນຍານ ແກ່ ພວກເຂົາ ຄື ພວກເຮົາ !
+ចង្កៀង	lamps	lámparas	ຕະກຽງ
+ថ្ងៃ ស្អែក ខ្ញុំ ត្រូវ ចេញ ដំណើរ ។ ខ្ញុំ នឹង បង្រៀន ពួក អ្នក រហូត ដល់ អធ្រាត្រ ។	Tomorrow I must leave. I will teach you until midnight.	Mañana tengo que irme. Les enseñaré hasta la medianoche.	ມື້ອື່ນ ຂ້ອຍ ຕ້ອງ ອອກ ເດີນທາງ . ຂ້ອຍ ຈະ ສອນ ພວກທ່ານ ຈົນ ຮອດ ທ່ຽງ ຄືນ .
+អធិប្បាយ	Preach	Predicar	ສັ່ງສອນ
+ម៉ោង ដប់	ten o'clock	las diez	ສີ່ ທຸ່ມ
+ម៉ោង ដប់មួយ	eleven o'clock	las once	ຫ້າ ທຸ່ມ
+គាត់ ងងុយ ដេក ណាស់ ...	He's so sleepy...	Tiene mucho sueño...	ລາວ ງ່ວງ ນອນ ຫລາຍ ...
+គាត់ ធ្លាក់ ពី បង្អួច ! គាត់ ស្លាប់ ហើយ !	He fell from the window! He's dead!	¡Se cayó de la ventana! ¡Está muerto!	ລາວ ຕົກ ຈາກ ປ່ອງຢ້ຽມ ! ລາວ ຕາຍ ແລ້ວ !
+ចុះ ទៅ ជួប យុវជន ។	Go down to the young man.	Baja con el joven.	ລົງ ໄປ ຫາ ຊາຍໜຸ່ມ .
+ឱប គាត់	Embrace him	Abrazarlo	ກອດ ລາວ
+កុំ ភ័យ ! គាត់ នៅ រស់ !	Don't be alarmed! He's alive!	¡No se alarmen! ¡Está vivo!	ຢ່າ ຕົກໃຈ ! ລາວ ຍັງ ມີ ຊີວິດ !
+ខ្ញុំ ... ខ្ញុំ សុខ សប្បាយ ! សរសើរ ព្រះ !	I... I'm all right! Praise God!	Yo... ¡estoy bien! ¡Alabado sea Dios!	ຂ້ອຍ ... ຂ້ອຍ ສະບາຍ ດີ ! ສັນລະເສີນ ພຣະເຈົ້າ !
+ពួក គេ ហូប នំបុ័ង ជាមួយ គ្នា ហើយ និយាយ រហូត ដល់ ភ្លឺ ។	They broke bread together and talked until dawn.	Partieron el pan juntos y hablaron hasta el amanecer.	ພວກເຂົາ ກິນ ເຂົ້າຈີ່ ນຳ ກັນ ແລະ ລົມ ກັນ ຈົນ ຮອດ ແຈ້ງ .
+ពួក គេ និយាយ រហូត ដល់ ភ្លឺ ។	They talked until dawn.	Hablaron hasta el amanecer.	ພວກເຂົາ ລົມ ກັນ ຈົນ ຮອດ ແຈ້ງ .
+ដំណើរឆ្លងកាល	Leap Through Time	Salto en el tiempo	ການ ເດີນທາງ ຂ້າມ ເວລາ
+អ្នក បាន លោត ចូល ក្នុង រឿង ព្រះគម្ពីរ {0} ពី លោកុប្បត្តិ ដល់ វិវរណៈ ។	You leapt into {0} Bible stories, from Genesis to Revelation.	Saltaste a {0} historias de la Biblia, del Génesis al Apocalipsis.	ເຈົ້າ ໄດ້ ໂດດ ເຂົ້າ ໄປ ໃນ ເລື່ອງ ພຣະຄຳພີ {0} ເລື່ອງ ຈາກ ປະຖົມມະການ ເຖິງ ພຣະນິມິດ .
+អ្នក ឃើញ ពាក្យ {0} ពាក្យ ។	You saw {0} words.	Viste {0} palabras.	ເຈົ້າ ເຫັນ ຄຳ {0} ຄຳ .
+ចាប់ផ្ដើម ម្ដង ទៀត	Start over	Empezar de nuevo	ເລີ່ມ ໃໝ່ ອີກ ເທື່ອ ໜຶ່ງ
+ពាក្យ	Words	Palabras	ຄຳ
+បន្ត	Continue	Continuar	ສືບຕໍ່
+សត្វ មក ។ មើល !	The animals are coming. Look!	Vienen los animales. ¡Mira!	ສັດ ມາ ແລ້ວ . ເບິ່ງ !
+ឈើ #	wood #	madera #	ໄມ້ #
+ហៅ សត្វ តាម ឈ្មោះ ។	Call the animals by name.	Llama a los animales por su nombre.	ເອີ້ນ ສັດ ຕາມ ຊື່ .
+ថ្ងៃ ទី #	Day #	Día #	ວັນ ທີ #
+យក ដីឥដ្ឋ ។	Get clay.	Toma barro.	ເອົາ ດິນໜຽວ .
+ឥដ្ឋ #	brick #	ladrillo #	ດິນຈີ່ #
+និយាយ ជាមួយ អ្នកសង់ ។	Talk to the builders.	Habla con los constructores.	ເວົ້າ ກັບ ຊ່າງກໍ່ສ້າງ .
+រាប់ ផ្កាយ	Count the stars	Cuenta las estrellas	ນັບ ດາວ
+រាប់ ផ្កាយ ... #	Count the stars... #	Cuenta las estrellas... #	ນັບ ດາວ ... #
+ចាប់ កញ្ជ្រាង ។	Catch a fox.	Atrapa una zorra.	ຈັບ ໝາຈອກ .
+កញ្ជ្រាង #	fox #	zorra #	ໝາຈອກ #
+ចង កន្ទុយ ពីរ ពីរ ។	Tie the tails in pairs.	Ata las colas de dos en dos.	ມັດ ຫາງ ເປັນ ຄູ່ໆ .
+ដាក់ គប់ភ្លើង នៅ កន្ទុយ ។	Put a torch on the tails.	Pon una antorcha en las colas.	ໃສ່ ໄຕ້ ທີ່ ຫາງ .
+វាយ ភីលីស្ទីន !	Strike the Philistines!	¡Golpea a los filisteos!	ຕີ ພວກ ຟີລິດສະຕິນ !
+លាប ឈាម លើ ក្របទ្វារ ។	Put blood on the doorframe.	Pon sangre en el marco de la puerta.	ທາ ເລືອດ ໃສ່ ກອບ ປະຕູ .
+រើស ម៉ាណា ។	Gather manna.	Recoge maná.	ເກັບ ມານາ .
+រើស ស្រូវ ។	Pick up grain.	Recoge espigas.	ເກັບ ເຂົ້າ .
+រើស ថ្ម រលោង ប្រាំ ។	Pick up five smooth stones.	Recoge cinco piedras lisas.	ເກັບ ຫີນ ກ້ຽງ ຫ້າ ກ້ອນ .
+យក ថ្ម ដប់ពីរ ។	Take twelve stones.	Toma doce piedras.	ເອົາ ຫີນ ສິບສອງ ກ້ອນ .
+ចាក់ ទឹក លើ អាសនា ។	Pour water on the altar.	Echa agua sobre el altar.	ຖອກ ນ້ຳ ໃສ່ ແທ່ນບູຊາ .
+អធិស្ឋាន នៅ មុខ បង្អួច ។	Pray at the window.	Ora junto a la ventana.	ອະທິຖານ ຢູ່ ໜ້າ ປ່ອງຢ້ຽມ .
+ម្ដង #	time #	vez #	ເທື່ອ ທີ #
+ចែក អាហារ ។	Hand out food.	Reparte comida.	ແຈກ ອາຫານ .
+ប្រមូល សំណល់ ។	Gather the leftovers.	Recoge las sobras.	ເກັບ ສິ່ງ ທີ່ ເຫລືອ .
+ទម្លុះ ដំបូល ។	Break through the roof.	Abre el techo.	ເຈາະ ຫລັງຄາ .
+ដាក់ ដៃ លើ អ្នក ជំងឺ ។	Lay hands on the sick.	Impón las manos a los enfermos.	ວາງ ມື ເທິງ ຄົນ ເຈັບ .
+ឲ្យ ប្រាក់ ដល់ អ្នក ក្រ ។	Give money to the poor.	Da dinero a los pobres.	ໃຫ້ ເງິນ ແກ່ ຄົນ ທຸກຍາກ .
+ស្ដាប់ ប្រជាជន ។	Listen to the people.	Escucha a la gente.	ຟັງ ປະຊາຊົນ .
+ច្រៀង ។	Sing.	Canta.	ຮ້ອງເພງ .
+ឲ្យ ប្រាក់ ដល់ ម្ចាស់ ផ្ទះ ។	Pay the innkeeper.	Paga al posadero.	ໃຫ້ ເງິນ ແກ່ ເຈົ້າຂອງ ໂຮງແຮມ .
+មើល សត្វ មាន ជីវិត ទាំង បួន ។	Look at the four living creatures.	Mira a los cuatro seres vivientes.	ເບິ່ງ ສິ່ງ ມີ ຊີວິດ ທັງ ສີ່ .
+ដើរ មើល ក្រុង ។	Walk around the city.	Recorre la ciudad.	ຍ່າງ ເບິ່ງ ນະຄອນ .
+មើល កូនប្រុស ទាំង ប្រាំពីរ ។	Look at the seven sons.	Mira a los siete hijos.	ເບິ່ງ ລູກຊາຍ ທັງ ເຈັດ .
+លេង ពិណ ។	Play the harp.	Toca el arpa.	ຫລິ້ນ ພິນ .
+យក នំ និង សាច់ ពី ក្អែក ។	Take the bread and meat from the ravens.	Toma el pan y la carne de los cuervos.	ຮັບ ເຂົ້າຈີ່ ແລະ ຊີ້ນ ຈາກ ອີກາ .
+ធ្វើ នំ ពី ម្សៅ និង ប្រេង ។	Make bread from the flour and oil.	Haz pan con la harina y el aceite.	ເຮັດ ເຂົ້າຈີ່ ຈາກ ແປ້ງ ແລະ ນ້ຳມັນ .
+ដេក លើ ក្មេង ហើយ អធិស្ឋាន ។	Lie on the boy and pray.	Tiéndete sobre el niño y ora.	ນອນ ເທິງ ເດັກ ແລ້ວ ອະທິຖານ .
+ហូប នំ ហើយ ផឹក ទឹក ។	Eat the bread and drink the water.	Come el pan y bebe el agua.	ກິນ ເຂົ້າຈີ່ ແລະ ດື່ມ ນ້ຳ .
+ចែក នំបុ័ង ដល់ ស្ត្រី មេម៉ាយ ។	Give bread to the widows.	Da pan a las viudas.	ໃຫ້ ເຂົ້າຈີ່ ແກ່ ແມ່ໝ້າຍ .
+អធិប្បាយ ។	Preach.	Predica.	ສັ່ງສອນ .
+បិទ	Close	Cerrar	ປິດ
+សៀវភៅ	Book	Libro	ປຶ້ມ
+រឿង	Stories	Historias	ເລື່ອງ
+ព្រះគម្ពីរ · លោកុប្បត្តិ ដល់ វិវរណៈ	The Bible · Genesis to Revelation	La Biblia · Del Génesis al Apocalipsis	ພຣະຄຳພີ · ປະຖົມມະການ ເຖິງ ພຣະນິມິດ
+អ្នក លោត ពី មនុស្ស ម្នាក់ ទៅ មនុស្ស ម្នាក់ ទៀត ។ ធ្វើ ឲ្យ រឿង ទៅ មុខ ។	You leap from one person to the next. Move the story forward.	Saltas de una persona a otra. Haz que la historia avance.	ເຈົ້າ ໂດດ ຈາກ ຄົນ ໜຶ່ງ ໄປ ຫາ ອີກ ຄົນ ໜຶ່ງ . ເຮັດ ໃຫ້ ເລື່ອງ ດຳເນີນ ຕໍ່ ໄປ .
+ចាប់ផ្ដើម	Start	Empezar	ເລີ່ມ
+ជ្រើស រឿង	Choose a story	Elegir historia	ເລືອກ ເລື່ອງ
+អូស ខាង ឆ្វេង ដើម្បី ដើរ · អូស ខាង ស្ដាំ ដើម្បី មើល · ចុច ពាក្យ ដើម្បី ស្ដាប់ · ពាក់ កាស	Drag left to walk · Drag right to look · Tap a word to hear it · Use headphones	Arrastra a la izquierda para caminar · a la derecha para mirar · Toca una palabra para oírla · Usa auriculares	ລາກ ຊ້າຍ ເພື່ອ ຍ່າງ · ລາກ ຂວາ ເພື່ອ ເບິ່ງ · ກົດ ຄຳ ເພື່ອ ຟັງ · ໃສ່ ຫູຟັງ

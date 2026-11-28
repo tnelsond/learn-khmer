@@ -16,7 +16,7 @@
    COLOUR and TYPE: navy text boxes #0b1030, N64 blue A #2f5fd0, green B #2a9d4a, red Start #d03a2a, yellow C #f2c51c; Moul titles, Battambang text.
    LAYOUT: full-bleed canvas; goal top-left, book top-right, stick bottom-left, A/B bottom-right, text box along the bottom. */
 :root{--box:rgba(11,16,48,.86);--line:#c8d4ff;--a:#2f5fd0;--b:#2a9d4a;--st:#d03a2a;--c:#f2c51c;--ink:#fff;
---kh:"Battambang","Noto Sans Khmer","Khmer OS",sans-serif;--ti:"Moul","Battambang",serif;
+--kh:"Battambang","Noto Sans Khmer","Khmer OS","Noto Sans Lao","Phetsarath OT",sans-serif;--ti:"Moul","Battambang","Noto Sans Lao","Phetsarath OT",serif;
 --t:env(safe-area-inset-top,0px);--bt:env(safe-area-inset-bottom,0px);--l:env(safe-area-inset-left,0px);--r:env(safe-area-inset-right,0px)}
 *{box-sizing:border-box;min-width:0;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%;overflow:hidden;background:#000;color:var(--ink);font:17px/1.6 var(--kh);touch-action:none;user-select:none;-webkit-user-select:none;overscroll-behavior:none}
@@ -189,10 +189,11 @@ button:focus-visible{outline:3px solid var(--c);outline-offset:2px}
 
 <div id="title" class="screen">
   <div>
-    <div class="sub">ព្រះគម្ពីរ · លោកុប្បត្តិ</div>
+    <div class="sub">ព្រះគម្ពីរ · លោកុប្បត្តិ ដល់ វិវរណៈ</div>
     <h1>ដំណើរឆ្លងកាល</h1>
     <p>អ្នក លោត ពី មនុស្ស ម្នាក់ ទៅ មនុស្ស ម្នាក់ ទៀត ។ ធ្វើ ឲ្យ រឿង ទៅ មុខ ។</p>
     <div class="row"><button class="btn pri big" id="start">ចាប់ផ្ដើម</button><button class="btn big" id="pick">ជ្រើស រឿង</button><button class="btn big hide" id="again">ចាប់ផ្ដើម ម្ដង ទៀត</button></div>
+    <div class="row" id="langs"></div>
     <div class="tip">អូស ខាង ឆ្វេង ដើម្បី ដើរ · អូស ខាង ស្ដាំ ដើម្បី មើល · ចុច ពាក្យ ដើម្បី ស្ដាប់ · ពាក់ កាស</div>
   </div>
 </div>

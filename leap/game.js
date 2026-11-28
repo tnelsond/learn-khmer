@@ -9,16 +9,40 @@ try { await Promise.race([document.fonts.load('30px Battambang', 'ក'), new Pro
 
 const { IPA } = await import('./ipa.js');
 const { BAD } = await import('./badrec.js');
+/* ---------------- languages: the game is played in the one chosen on the title screen ---------------- */
+const { LANGS, KM, TR } = await import('./i18n.js');
+let LANG = 'km'; try { LANG = localStorage.getItem('leap-lang') || 'km'; } catch (e) { } if (!LANGS[LANG]) LANG = 'km';
+const KH = LANG === 'km', TTSL = LANGS[LANG].tts;
+const TMAP = new Map(), REV = new Map();
+if (!KH) KM.forEach((k, i) => { const t = TR[LANG][i]; if (t) { TMAP.set(k, t); if (!/\s/.test(k.trim())) REV.set(t.toLowerCase(), k); } });
+const DIG = { km: '០១២៣៤៥៦៧៨៩', lo: '໐໑໒໓໔໕໖໗໘໙' };
+const anyDig = /[0-9០-៩໐-໙]/g, toN = d => { const c = d.charCodeAt(0); return c >= 0x17e0 && c <= 0x17e9 ? c - 0x17e0 : c >= 0xed0 && c <= 0xed9 ? c - 0xed0 : +d; };
+const locDig = t => String(t).replace(anyDig, d => DIG[LANG] ? DIG[LANG][toN(d)] : String(toN(d)));
+// tr: the chosen language's version of a Khmer line ('( ១ / ៣ )' counters and numbers carried across)
+function tr(text) {
+  if (KH || text == null || text === '') return text;
+  text = String(text); const hit = TMAP.get(text); if (hit) return hit;
+  const m = text.match(/^(.*?)\s*\(\s*([0-9០-៩໐-໙]+)\s*\/\s*([0-9០-៩໐-໙]+)\s*\)\s*$/);
+  if (m) return tr(m[1]) + ` ( ${locDig(m[2])} / ${locDig(m[3])} )`;
+  const nums = []; const key = text.split(' ').map(w => { if (/^[0-9០-៩໐-໙]+$/.test(w)) { nums.push(locDig(w)); return '#'; } if (NUMS[w] != null) { nums.push(tr(w)); return '#'; } return w; }).join(' ');
+  if (nums.length && TMAP.has(key)) { let i = 0; return TMAP.get(key).replace(/#/g, () => nums[i++] ?? ''); }
+  if (/^[0-9០-៩]+$/.test(text)) return locDig(text);
+  return text;
+}
+// fmt: a line with names or words dropped in, e.g. fmt('លែង {0} ។', word)
+const fmt = (key, ...a) => tr(key).replace(/\{(\d)\}/g, (_, i) => tr(a[+i]));
 const $ = s => document.querySelector(s);
-const ipaOf = w => IPA[w] || '';
+const ipaOf = w => KH ? IPA[w] || '' : '';
 const kw = w => `<b>${esc(w)}</b><u>${esc(ipaOf(w))}</u>`;
+// a word in the chosen language -> its Khmer original (for pictures and numbers), and the key it is counted under
+const baseW = w => KH ? w : REV.get(String(w).toLowerCase()) || w, wkey = w => KH ? w : String(w).toLowerCase();
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const norm = s => s.normalize('NFC').replace(/[​-‍\s]/g, '').replace(/្ត/g, '្ដ');
+const norm = s => String(s).normalize('NFC').replace(/[​-‍\s]/g, '').replace(/្ត/g, '្ដ').toLowerCase();
 const rnd = (a, b) => a + Math.random() * (b - a);
 const lerp = (a, b, t) => a + (b - a) * t;
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const ease = t => t < .5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2;
-const KD = '០១២៣៤៥៦៧៨៩', khNum = n => String(n).replace(/\d/g, d => KD[d]);
+const KD = '០១២៣៤៥៦៧៨៩', khNum = n => LANG === 'km' ? String(n).replace(/\d/g, d => KD[d]) : locDig(n);
 const NUMW = ['', 'មួយ', 'ពីរ', 'បី', 'បួន', 'ប្រាំ', 'ប្រាំមួយ', 'ប្រាំពីរ', 'ប្រាំបី', 'ប្រាំបួន', 'ដប់'];
 const TENS = { 20: 'ម្ភៃ', 30: 'សាមសិប', 40: 'សែសិប', 50: 'ហាសិប', 60: 'ហុកសិប', 70: 'ចិតសិប', 80: 'ប៉ែតសិប', 90: 'កៅសិប', 100: 'មួយរយ' };
 const NUMWORD = n => n <= 10 ? NUMW[n] : TENS[n];
@@ -27,7 +51,7 @@ const wait = s => new Promise(r => setTimeout(r, s * 1000));
 const isMobile = matchMedia('(pointer:coarse)').matches;
 
 /* ---------------- save ---------------- */
-const SAVE = 'leap-save-1';
+const SAVE = 'leap-save-1' + (LANG === 'km' ? '' : '-' + LANG);
 let S = { ch: 0, max: 0, seen: {}, said: [] };
 try { const j = JSON.parse(localStorage.getItem(SAVE)); if (j && typeof j.ch === 'number') S = Object.assign(S, j); } catch (e) { }
 S.tts = false;
@@ -88,6 +112,7 @@ const useTTS = () => S.tts && ttsWorks !== false;
 // flagged in badrec.js; played as recorded (no pitch or speed change), so a word always sounds the same.
 const READERS = ['kheng:1', 'rith:', 'khsv:1', 'khsv:2', 'khsv:3', 'khsv:4'];
 async function playWord(w, lang) {
+  if (!lang && !KH) lang = TTSL, w = tr(w);
   if (lang) { try { return await sayTTS(w, lang); } catch (e) { return false; } }
   if (useTTS() && await sayTTS(w)) return true;
   if (!peak) await Promise.race([peakReady, wait(4)]);
@@ -417,7 +442,7 @@ function recolor(color) { const p = ground.geometry.attributes.position, col = g
 function addWater(y = 0, c = 0x3a7ad0, size = 900) { const t = waterTex.clone(); t.needsUpdate = true; t.repeat.set(size / 10, size / 10); const m = new THREE.Mesh(new THREE.PlaneGeometry(size, size).rotateX(-Math.PI / 2), new THREE.MeshLambertMaterial({ color: c, map: t, transparent: true, opacity: .82 })); m.position.y = y; waterY = y; world.add(m); water = m; return m; }
 function place(obj, x, z, rot = 0, solid = 0, dy = 0) { obj.position.set(x, H(x, z) + dy, z); obj.rotation.y = rot; world.add(obj); if (solid) solids.push({ x, z, r: solid }); return obj; }
 let tags = {};
-function tag(word, obj) { (tags[word] ||= []).push(obj); }
+function tag(word, obj) { if (word) word = wkey(tr(word)); (tags[word] ||= []).push(obj); }
 // moving things: people, animals, birds
 function ent(model, x, z, o = {}) {
   const e = Object.assign({ g: model.g || model, m: model, x, z, yaw: o.yaw || 0, y: 0, goal: null, speed: 3, follow: null, fly: 0, solid: .6, walkT: 0, face: null, hide: false }, o);
@@ -475,7 +500,7 @@ let goalAt = null;
 const mk = new THREE.Group(); { const o = mesh(new THREE.OctahedronGeometry(.5, 0), MB(0xf2c51c)); o.scale.y = 1.5; mk.add(o); mk.add(mesh(new THREE.OctahedronGeometry(.8, 0), MB(0xf2c51c, { transparent: true, opacity: .25, blending: THREE.AdditiveBlending, depthWrite: false }))); } scene.add(mk); mk.visible = false;
 function marker(at) { goalAt = at; mk.visible = !!at; }
 const atXZ = at => !at ? null : typeof at === 'function' ? at() : Array.isArray(at) ? at : at.g ? [at.x, at.z] : at.position ? [at.position.x, at.position.z] : null;
-function goal(text, at = null) { $('#obj').innerHTML = text ? wordsHTML(text) : ''; bindWords($('#obj'), text ? tokens(text) : []); marker(at); }
+function goal(text, at = null) { text = tr(text); $('#obj').innerHTML = text ? wordsHTML(text) : ''; bindWords($('#obj'), text ? tokens(text) : []); marker(at); }
 function act(label, at, r = 3) { return new Promise(res => { const a = { label, at, r, fn: () => { acts.splice(acts.indexOf(a), 1); res(); } }; acts.push(a); }); }
 function pick(list) { return new Promise(res => { const mine = list.map(([label, at, r, v]) => ({ label, at, r: r || 3, fn: () => { for (const m of mine) { const i = acts.indexOf(m); if (i >= 0) acts.splice(i, 1); } res(v); } })); acts.push(...mine); }); }
 let curAct = null;
@@ -485,12 +510,23 @@ const reachers = [];
 function reach(at, r = 4) { return new Promise(res => reachers.push({ at, r, res })); }
 
 /* ---------------- text boxes ---------------- */
-const isPunct = t => /^[។!?:«»….,៖()\/០-៩]+$/.test(t) || t === '...';
-function tokens(text) { return text.split(' ').filter(Boolean).map(t => ({ km: t.replace(/^\*/, ''), trig: t.startsWith('*') })); }
-const isKh = s => /[ក-៿]/.test(s);
-function wordsHTML(text, fx) { return tokens(text).map((t, i) => isPunct(t.km) ? `<span class="p">${esc(t.km)}</span>` : fx || !isKh(t.km) ? `<span class="fx">${esc(t.km)}</span>` : `<span class="w${t.trig ? ' trig' : S.seen[t.km] ? ' seen' : ' new'}" data-i="${i}">${kw(t.km)}</span>`).join(''); }
+const isPunct = t => /^[។!?:«»….,៖()\/០-៩໐-໙0-9¡¿;"“”—–-]+$/.test(t) || t === '...';
+function tokens(text) {
+  const out = [];
+  for (const raw of String(text).split(' ').filter(Boolean)) {
+    const trig = raw.startsWith('*'); let t = raw.replace(/^\*/, '');
+    if (KH) { out.push({ km: t, trig }); continue; }
+    const pre = t.match(/^[¡¿«“"(]+/), post = t.match(/[.,!?;:»”")…]+$/);
+    if (pre) { out.push({ km: pre[0], trig: false }); t = t.slice(pre[0].length); }
+    const core = post ? t.slice(0, t.length - post[0].length) : t;
+    if (core) out.push({ km: core, trig }); if (post) out.push({ km: post[0], trig: false });
+  }
+  return out;
+}
+const isKh = s => KH ? /[ក-៿]/.test(s) : /\p{L}/u.test(s);
+function wordsHTML(text, fx) { return tokens(text).map((t, i) => isPunct(t.km) ? `${!KH && /^[(«¡¿“"]/.test(t.km) ? ' ' : ''}<span class="p">${esc(t.km)}</span>` : fx || !isKh(t.km) ? `<span class="fx">${esc(t.km)}</span>` : `<span class="w${t.trig ? ' trig' : S.seen[wkey(t.km)] ? ' seen' : ' new'}" data-i="${i}">${kw(t.km)}</span>`).join(''); }
 function bindWords(el, tk) { el.querySelectorAll('.w').forEach(w => w.onclick = ev => { ev.stopPropagation(); ensureAudio(); const t = tk[+w.dataset.i]; if (t.trig && trigRes) return trigRes(t.km); hearing++; speaking = speaking || 'me'; playWord(t.km); pop(w, t.km); flashTag(t.km); }); }
-function seeWords(text) { let n = false; for (const t of tokens(text)) if (!isPunct(t.km) && isKh(t.km)) { if (!S.seen[t.km]) n = true; S.seen[t.km] = (S.seen[t.km] || 0) + 1; } $('#count').textContent = khNum(Object.keys(S.seen).length); return n; }
+function seeWords(text) { let n = false; for (const t of tokens(text)) if (!isPunct(t.km) && isKh(t.km)) { const k = wkey(t.km); if (!S.seen[k]) n = true; S.seen[k] = (S.seen[k] || 0) + 1; } $('#count').textContent = khNum(Object.keys(S.seen).length); return n; }
 let dlgRes = null, trigRes = null, hearing = 0, curLine = null;
 // conversation camera: over your shoulder at whoever speaks, over theirs when you answer
 let talkCam = null, lastPartner = null;
@@ -513,9 +549,10 @@ function say(who, text, o = {}) {
   if (who === 'me' && !o.chosen && !text.includes('*')) return choose(text); // you pick what you say
   return new Promise(res => {
     $('#kb').classList.add('hide'); $('#book').classList.add('hide'); // a line that pops up closes the keyboard/book
+    if (!o.lang) text = tr(text);
     ui = 'dlg'; joyEnd(); speaking = who; curLine = { who, text, o };
     const fx = !!o.lang;
-    $('#who').textContent = CAST[who]?.km || who; showAva(who); aimTalk(who); $('#dlg').classList.remove('hide'); $('#hear').classList.remove('hide');
+    $('#who').textContent = tr(CAST[who]?.km || who); showAva(who); aimTalk(who); $('#dlg').classList.remove('hide'); $('#hear').classList.remove('hide');
     $('#line').innerHTML = wordsHTML(text, fx); const tk = tokens(text); bindWords($('#line'), tk);
     if (!fx) seeWords(text);
     const trig = tk.some(t => t.trig);
@@ -609,8 +646,8 @@ function choiceBox(opts) {
   return new Promise(res => {
     $('#kb').classList.add('hide'); $('#book').classList.add('hide');
     ui = 'dlg'; joyEnd(); speaking = 'me'; dlgRes = trigRes = null; hearing++;
-    $('#who').textContent = CAST.me.km; showAva('me'); aimTalk('me'); $('#dlg').classList.remove('hide'); $('#more').classList.add('hide'); $('#hear').classList.add('hide');
-    $('#line').innerHTML = opts.map((t, i) => `<div class="ch"><button class="chh" data-i="${i}" aria-label="ស្ដាប់"><svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8.5a5 5 0 010 7"/></svg></button><button class="cht" data-i="${i}">${t.split(' ').filter(Boolean).map(w => isPunct(w) ? `<span class="p">${esc(w)}</span>` : `<span class="tk">${kw(w)}</span>`).join(' ')}</button></div>`).join('');
+    $('#who').textContent = tr(CAST.me.km); showAva('me'); aimTalk('me'); $('#dlg').classList.remove('hide'); $('#more').classList.add('hide'); $('#hear').classList.add('hide');
+    $('#line').innerHTML = opts.map((t, i) => `<div class="ch"><button class="chh" data-i="${i}" aria-label="ស្ដាប់"><svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8.5a5 5 0 010 7"/></svg></button><button class="cht" data-i="${i}">${tr(t).split(' ').filter(Boolean).map(w => isPunct(w) ? `<span class="p">${esc(w)}</span>` : `<span class="tk">${kw(w)}</span>`).join(' ')}</button></div>`).join('');
     $('#line').querySelectorAll('.chh').forEach(b => b.onclick = e => { e.stopPropagation(); speaking = 'me'; sayPhrase(opts[+b.dataset.i]); });
     $('#line').querySelectorAll('.cht').forEach(b => b.onclick = e => { e.stopPropagation(); $('#dlg').classList.add('hide'); ui = null; talkCam = null; res(opts[+b.dataset.i]); });
   });
@@ -628,6 +665,7 @@ $('#hear').onclick = e => { e.stopPropagation(); if (curLine) hearLine(curLine.t
 async function hearLine(text, lang) {
   const my = ++hearing;
   if (lang) { await wait(.2); if (my === hearing) playWord(text, lang); return; }
+  if (!KH) { const els = [...$('#line').querySelectorAll('.w')]; await wait(.15); els.forEach(e => e.classList.add('play')); try { await sayTTS(text.replace(/\*/g, ''), TTSL); } catch (e) { } els.forEach(e => e.classList.remove('play')); return; }
   const els = [...$('#line').querySelectorAll('.w')], tk = tokens(text);
   await wait(.15);
   // whole phrases through the device's Khmer voice when it has one; otherwise word by word through tnefar
@@ -635,17 +673,17 @@ async function hearLine(text, lang) {
   for (const el of els) { if (my !== hearing) return; el.classList.add('play'); await playWord(tk[+el.dataset.i].km); el.classList.remove('play'); await wait(.05); }
 }
 function pop(el, w) {
-  const p = $('#pop'), r = el.getBoundingClientRect(), img = thumb(w), n = NUMS[w];
+  const p = $('#pop'), r = el.getBoundingClientRect(), img = thumb(baseW(w)), n = NUMS[baseW(w)];
   p.innerHTML = (img ? `<img src="${img}" alt="">` : n ? `<span class="num">${khNum(n)}</span>` : '') + `<b>${esc(w)}</b><u>${esc(ipaOf(w))}</u>`;
   p.style.left = clamp(r.left + r.width / 2, 70, innerWidth - 70) + 'px'; p.style.top = Math.max(img ? 150 : 70, r.top - 6) + 'px'; p.classList.remove('hide');
   clearTimeout(p._t); p._t = setTimeout(() => p.classList.add('hide'), 2400);
 }
-function flashTag(w) { for (const o of tags[w] || []) { const s = o.scale.clone(); let t = 0; anims.push(dt => { t += dt; const k = 1 + .25 * Math.sin(t * 12) * (1 - t / 1.2); o.scale.copy(s).multiplyScalar(k); if (t > 1.2) { o.scale.copy(s); return false; } }); } }
+function flashTag(w) { for (const o of tags[wkey(w)] || []) { const s = o.scale.clone(); let t = 0; anims.push(dt => { t += dt; const k = 1 + .25 * Math.sin(t * 12) * (1 - t / 1.2); o.scale.copy(s).multiplyScalar(k); if (t > 1.2) { o.scale.copy(s); return false; } }); } }
 let toastT;
 // a phrase out loud: the device's Khmer voice if it has one, else word by word through tnefar
-async function sayPhrase(text) { if (useTTS()) { try { if (await sayTTS(text)) return; } catch (e) { } } for (const w of text.split(' ')) if (w && !isPunct(w)) { await playWord(w); await wait(.05); } }
-function cap(w) { toast(w); speaking = 'god'; playWord(w); }
-function toast(big, small = '') { const t = $('#toast'); t.innerHTML = (big ? `<b>${esc(big)}</b>` : '') + (small ? `<i>${esc(small)}</i>` : ''); t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), Math.max(2600, 2000 + 600 * (big + ' ' + small).split(' ').filter(Boolean).length)); }
+async function sayPhrase(text) { if (!KH) { try { await sayTTS(tr(text).replace(/\*/g, ''), TTSL); } catch (e) { } return; } if (useTTS()) { try { if (await sayTTS(text)) return; } catch (e) { } } for (const w of text.split(' ')) if (w && !isPunct(w)) { await playWord(w); await wait(.05); } }
+function cap(w) { toast(w); speaking = 'god'; playWord(tr(w)); }
+function toast(big, small = '') { big = tr(big); small = tr(small); const t = $('#toast'); t.innerHTML = (big ? `<b>${esc(big)}</b>` : '') + (small ? `<i>${esc(small)}</i>` : ''); t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), Math.max(2600, 2000 + 600 * (big + ' ' + small).split(' ').filter(Boolean).length)); }
 function popWord(w) { const p = document.createElement('div'); p.className = 'pop'; p.textContent = w; document.body.appendChild(p); setTimeout(() => p.remove(), 1600); }
 function waitToastTap() { const t = $('#toast'); if (!t.classList.contains('on')) return Promise.resolve(); clearTimeout(toastT); t.classList.add('tap'); return new Promise(r => { const go = () => { removeEventListener('pointerdown', go, true); t.classList.remove('on', 'tap'); r(); }; setTimeout(() => addEventListener('pointerdown', go, true), 300); }); }
 
@@ -682,20 +720,25 @@ function portrait(who) {
 function showAva(who) { const u = portrait(who), a = $('#ava'); if (u) { a.src = u; a.classList.remove('hide'); } else a.classList.add('hide'); $('#dlg').classList.toggle('hasava', !!u); }
 
 /* ---------------- keyboard: speaking a word ---------------- */
-const CONS = 'ក ខ គ ឃ ង ច ឆ ជ ឈ ញ ដ ឋ ឌ ឍ ណ ត ថ ទ ធ ន ប ផ ព ភ ម យ រ ល វ ស ហ ឡ អ'.split(' ');
-const VOWS = 'ា ិ ី ឹ ឺ ុ ូ ួ ើ ឿ ៀ េ ែ ៃ ោ ៅ ំ ះ ់ ៉ ៊ ័ ៌ ឥ ឪ ឲ ឫ'.split(' ');
-const isDep = c => c >= 'ា' && c <= '៓';
+const KEYS = {
+  km: ['ក ខ គ ឃ ង ច ឆ ជ ឈ ញ ដ ឋ ឌ ឍ ណ ត ថ ទ ធ ន ប ផ ព ភ ម យ រ ល វ ស ហ ឡ អ', 'ា ិ ី ឹ ឺ ុ ូ ួ ើ ឿ ៀ េ ែ ៃ ោ ៅ ំ ះ ់ ៉ ៊ ័ ៌ ឥ ឪ ឲ ឫ'],
+  lo: ['ກ ຂ ຄ ງ ຈ ສ ຊ ຍ ດ ຕ ຖ ທ ນ ບ ປ ຜ ຝ ພ ຟ ມ ຢ ຣ ລ ວ ຫ ອ ຮ ໜ ໝ', 'ະ ັ າ ຳ ິ ີ ຶ ື ຸ ູ ົ ຼ ຽ ເ ແ ໂ ໃ ໄ ່ ້ ໊ ໋ ໍ'],
+  es: ['a b c d e f g h i j k l m n ñ o p q r s t u v w x y z', 'á é í ó ú ü'],
+  en: ['a b c d e f g h i j k l m n o p q r s t u v w x y z', "' -"],
+}[LANG];
+const CONS = KEYS[0].split(' '), VOWS = KEYS[1].split(' ');
+const isDep = c => KH ? c >= 'ា' && c <= '៓' : /\p{M}/u.test(c);
 let kbPage = 0, typed = '', guideW = null;
 const speakers = [];
 function speakAt(words, at = null, r = 6, hint = true, guide = null) { return new Promise(res => speakers.push({ words, at, r, hint, guide, res })); }
 function openKB() {
   if (ui) return; ensureAudio(); ui = 'kb'; typed = ''; joyEnd(); $('#kb').classList.remove('hide');
   const w = speakers.find(s => s.hint && (!s.at || within(s.at, s.r)));
-  guideW = w ? (w.guide ? w.guide() : w.words[0]) : null; renderKnown(); renderKB();
-  $('#kbmsg').textContent = guideW ? 'ចុច អក្សរ ដែល ភ្លឺ ។' : 'សរសេរ ពាក្យ មួយ ហើយ និយាយ ។';
+  guideW = w ? (w.guide ? w.guide() : w.words[0]) : null; if (guideW && !KH) guideW = tr(guideW).toLowerCase(); renderKnown(); renderKB();
+  $('#kbmsg').textContent = tr(guideW ? 'ចុច អក្សរ ដែល ភ្លឺ ។' : 'សរសេរ ពាក្យ មួយ ហើយ និយាយ ។');
 }
 function renderKnown() {
-  const list = [...new Set([...(guideW ? [guideW] : []), ...S.said])];
+  const list = [...new Set([...(guideW ? [guideW] : []), ...S.said.map(w => KH ? w : tr(w).toLowerCase())])];
   $('#known').innerHTML = list.map(w => `<button class="${guideW === w ? 'sel' : ''}" data-w="${esc(w)}">${esc(w)}</button>`).join('');
   $('#known').querySelectorAll('button').forEach(b => b.onclick = () => { guideW = guideW === b.dataset.w ? null : b.dataset.w; speaking = 'me'; playWord(b.dataset.w); renderKnown(); renderKB(); });
 }
@@ -704,23 +747,23 @@ function renderKB() {
   const nc = nextChar(), keys = kbPage ? VOWS : CONS, shown = c => isDep(c) ? '◌' + c : c;
   let h = keys.map(c => `<button class="k${nc === c ? ' next' : ''}" data-c="${c}">${shown(c)}</button>`).join('');
   const other = nc && (kbPage ? CONS : VOWS).includes(nc);
-  h += `<button class="k fn${other ? ' next' : ''}" data-f="page" style="grid-column:span 2">${kbPage ? 'ក ព្យញ្ជនៈ' : '◌ា ស្រៈ'}</button>`;
-  h += `<button class="k${nc === '្' ? ' next' : ''}" data-c="្">◌្</button><button class="k fn${nc === 'BK' ? ' next' : ''}" data-f="bk">⌫</button>`;
-  h += `<button class="k go${nc === 'GO' ? ' next' : ''}" data-f="go" style="grid-column:span 2">និយាយ</button>`;
+  h += `<button class="k fn${other ? ' next' : ''}" data-f="page" style="grid-column:span 2">${KH ? (kbPage ? 'ក ព្យញ្ជនៈ' : '◌ា ស្រៈ') : '⇄'}</button>`;
+  h += (KH ? `<button class="k${nc === '្' ? ' next' : ''}" data-c="្">◌្</button>` : '') + `<button class="k fn${nc === 'BK' ? ' next' : ''}" data-f="bk">⌫</button>`;
+  h += `<button class="k go${nc === 'GO' ? ' next' : ''}" data-f="go" style="grid-column:span 2">${esc(tr('និយាយ'))}</button>`;
   $('#keys').innerHTML = h;
   $('#keys').querySelectorAll('.k').forEach(b => b.onpointerdown = e => { e.preventDefault(); const f = b.dataset.f; if (f === 'page') { kbPage ^= 1; renderKB(); } else if (f === 'bk') { typed = [...typed].slice(0, -1).join(''); upd(); } else if (f === 'go') speakTyped(); else { typed += b.dataset.c; upd(); } });
   $('#tx').textContent = typed; $('#ghost').textContent = guideW || ''; $('#ghost').style.visibility = typed ? 'hidden' : 'visible';
 }
 function upd() { const nc = nextChar(); if (nc && nc.length === 1) { if (!kbPage && VOWS.includes(nc)) kbPage = 1; else if (kbPage && CONS.includes(nc)) kbPage = 0; } renderKB(); }
-function kbKey(e) { if (e.key === 'Escape') return closeAll(); if (e.key === 'Enter') { e.preventDefault(); return speakTyped(); } if (e.key === 'Backspace') { typed = [...typed].slice(0, -1).join(''); return upd(); } if (e.key.length === 1 && e.key >= 'ក' && e.key <= '៿') { typed += e.key; upd(); } }
+function kbKey(e) { if (e.key === 'Escape') return closeAll(); if (e.key === 'Enter') { e.preventDefault(); return speakTyped(); } if (e.key === 'Backspace') { typed = [...typed].slice(0, -1).join(''); return upd(); } if (e.key.length === 1 && (KH ? e.key >= 'ក' && e.key <= '៿' : /[\p{L}\p{M}'-]/u.test(e.key))) { typed += KH ? e.key : e.key.toLowerCase(); upd(); } }
 $('#kbclose').onclick = () => closeAll();
 const speakAct = { label: 'និយាយ', fn: () => openKB() };
 function speakTyped() {
   const w = norm(typed); if (!w) return;
-  const word = Object.keys(S.seen).concat(speakers.flatMap(s => s.words)).find(k => norm(k) === w) || typed.normalize('NFC');
-  closeAll(); speaking = 'me'; playWord(word); floatWord(word);
-  const s = speakers.find(s => s.words.some(k => norm(k) === w) && (!s.at || within(s.at, s.r)));
-  if (s) { speakers.splice(speakers.indexOf(s), 1); const hit = s.words.find(k => norm(k) === w); if (!S.said.includes(hit)) S.said.push(hit); save(); s.res(hit); }
+  const word = speakers.flatMap(s => s.words).find(k => norm(tr(k)) === w) || Object.keys(S.seen).find(k => norm(k) === w) || typed.normalize('NFC');
+  closeAll(); speaking = 'me'; playWord(word); floatWord(tr(word));
+  const s = speakers.find(s => s.words.some(k => norm(tr(k)) === w) && (!s.at || within(s.at, s.r)));
+  if (s) { speakers.splice(speakers.indexOf(s), 1); const hit = s.words.find(k => norm(tr(k)) === w); if (!S.said.includes(hit)) S.said.push(hit); save(); s.res(hit); }
   else setTimeout(() => toast('', '... គ្មាន អ្វី កើត ឡើង ទេ ។'), 900);
 }
 const within = (at, r) => { const p = atXZ(at); return p && Math.hypot(p[0] - player.x, p[1] - player.z) < r; };
@@ -734,12 +777,12 @@ function renderBook() {
   if (bookTab === 'words') {
     body.className = '';
     const ws = Object.keys(S.seen);
-    body.innerHTML = ws.map((w, i) => { const n = NUMS[w]; return `<button class="card" data-i="${i}">${PIC[w] ? `<img data-w="${esc(w)}" alt="">` : n ? `<span class="num">${khNum(n)}</span>` : '<span class="blank"></span>'}<b>${esc(w)}</b><u>${esc(ipaOf(w))}</u><small>× ${khNum(S.seen[w])}</small></button>`; }).join('');
+    body.innerHTML = ws.map((w, i) => { const n = NUMS[baseW(w)]; return `<button class="card" data-i="${i}">${PIC[baseW(w)] ? `<img data-w="${esc(w)}" alt="">` : n ? `<span class="num">${khNum(n)}</span>` : '<span class="blank"></span>'}<b>${esc(w)}</b><u>${esc(ipaOf(w))}</u><small>× ${khNum(S.seen[w])}</small></button>`; }).join('');
     body.querySelectorAll('.card').forEach(c => c.onclick = () => { speaking = 'me'; playWord(ws[+c.dataset.i]); });
-    const imgs = [...body.querySelectorAll('img[data-w]')]; let k = 0; const step = () => { const t0 = performance.now(); while (k < imgs.length && performance.now() - t0 < 12) { imgs[k].src = thumb(imgs[k].dataset.w) || ''; k++; } if (k < imgs.length && ui === 'book') requestAnimationFrame(step); }; step();
+    const imgs = [...body.querySelectorAll('img[data-w]')]; let k = 0; const step = () => { const t0 = performance.now(); while (k < imgs.length && performance.now() - t0 < 12) { imgs[k].src = thumb(baseW(imgs[k].dataset.w)) || ''; k++; } if (k < imgs.length && ui === 'book') requestAnimationFrame(step); }; step();
   } else {
     body.className = 'list';
-    body.innerHTML = CHAPTERS.map((c, i) => `<button class="chap" data-i="${i}"><span class="n">${khNum(i + 1)}</span><span><strong>${esc(c.title)}</strong><small>${esc(c.ref)} · ${esc(c.who)}</small></span></button>`).join('');
+    body.innerHTML = CHAPTERS.map((c, i) => `<button class="chap" data-i="${i}"><span class="n">${khNum(i + 1)}</span><span><strong>${esc(tr(c.title))}</strong><small>${esc(tr(c.ref))} · ${esc(tr(c.who))}</small></span></button>`).join('');
     body.querySelectorAll('.chap').forEach(c => c.onclick = () => { S.ch = +c.dataset.i; save(); if (!started) { closeAll(); begin(); } else { try { sessionStorage.setItem('leap-autostart', '1'); } catch (e) { } location.reload(); } });
   }
 }
@@ -774,7 +817,7 @@ async function leapOut() {
   if (hero) for (let i = 0; i < 6; i++) burst(player.x, player.y + 1, player.z, 0x80c0ff, 30, 4);
   await tween(.9, k => f.style.opacity = k);
 }
-async function card(title, ref) { const c = $('#card'); c.querySelector('b').textContent = title; c.querySelector('i').textContent = ref; c.classList.add('on'); await wait(2.6); c.classList.remove('on'); await wait(.5); }
+async function card(title, ref) { const c = $('#card'); c.querySelector('b').textContent = tr(title); c.querySelector('i').textContent = tr(ref); c.classList.add('on'); await wait(2.6); c.classList.remove('on'); await wait(.5); }
 // Al, the hologram who explains where (and who) you are
 let al = null;
 function showAl(on = true, dx = 2.4) { if (!al) { al = ent(person({ glow: 0x80c8ff }), player.x + dx, player.z, { solid: 0, fly: .1 }); al.isAl = true; } al.hide = !on; al.g.visible = on; if (on) { al.x = player.x + Math.cos(camYaw) * dx; al.z = player.z - Math.sin(camYaw) * dx; al.follow = 'player'; burst(al.x, player.y + 1, al.z, 0x80c8ff, 30, 2); } }
@@ -869,7 +912,7 @@ function frame(now) {
     let best = null, bd = 1e9;
     if (!ui) for (const a of acts) { const p = atXZ(a.at); if (!p) continue; const d = Math.hypot(p[0] - player.x, p[1] - player.z); if (d < a.r && d < bd) { bd = d; best = a; } }
     if (!best && !ui && speakers.some(sp => !sp.at || within(sp.at, sp.r))) best = speakAct;
-    if (best !== curAct) { curAct = best; $('#lA').textContent = best ? best.label : ' '; $('#nA').classList.toggle('off', !best); $('#nA').classList.toggle('on', !!best); }
+    if (best !== curAct) { curAct = best; $('#lA').textContent = best ? tr(best.label) : ' '; $('#nA').classList.toggle('off', !best); $('#nA').classList.toggle('on', !!best); }
     for (let i = reachers.length - 1; i >= 0; i--) if (!ui && within(reachers[i].at, reachers[i].r)) { const r = reachers.splice(i, 1)[0]; r.res(); }
   }
   if (hero && started) seeThrough(dt);
@@ -1118,7 +1161,7 @@ async function adam() {
     let gotName = false; const heard = speakAt([word]).then(() => { gotName = true; });
     await Promise.race([walk(e, player.x + 2.5, player.z + 2.5), heard]);
     e.follow = 'player'; e.gap = 2.6; e.yaw = Math.atan2(player.x - e.x, player.z - e.z);
-    if (!gotName) { await say('me', `${word} ?`); goal(`និយាយ « ${word} » ។`, e); await heard; } burst(e.x, e.y + 1.5, e.z, 0xf2c51c, 40, 2.5); good();
+    if (!gotName) { await say('me', fmt('{0} ?', word)); goal(fmt('និយាយ « {0} » ។', word), e); await heard; } burst(e.x, e.y + 1.5, e.z, 0xf2c51c, 40, 2.5); good();
     toast(word); await wait(1.2);
     e.follow = null; named.push(e); wander(e, 10);
   }
@@ -1237,7 +1280,7 @@ async function noah() {
       if (h && Math.hypot(h.all[0].x - player.x, h.all[0].z - player.z) > 14) { toast(h.name, '... ឆ្ងាយ ពេក ។'); h = null; }
       goal(`ហៅ សត្វ តាម ឈ្មោះ ។ ( ${khNum(n)} / ${khNum(herds.length)} )`, nearest().all[0]);
     }
-    h.in = true; good(); toast(`${h.name} ${NUMW[h.pairsN]} គូ`); speaking = 'god'; sayPhrase(`${NUMW[h.pairsN]} គូ`);
+    h.in = true; good(); toast(fmt('{0} {1} គូ', h.name, NUMW[h.pairsN])); speaking = 'god'; sayPhrase(fmt('{0} គូ', NUMW[h.pairsN]));
     for (const e of h.all) { e.stop = true; e.goal = null; }
     (async () => { for (const [i, e] of h.all.entries()) { await wait(i * .35); walk(e, (i % 2) * 1.4 - .7, 0, 6).then(() => walk(e, 0, -6.5, 3)).then(() => { e.g.visible = false; e.hide = true; }); } })();
   }
@@ -1268,7 +1311,7 @@ async function noah() {
   // raven, then the dove three times
   const sendBird = async (color, word, out, back) => {
     const m = bird(color); const e = ent(m, 2, -9, { solid: 0, flyAbs: deckY() + .3 }); tag(word, m.g);
-    goal(`លែង ${word} ។ និយាយ « ទៅ » ។`, e);
+    goal(fmt('លែង {0} ។ និយាយ « ទៅ » ។', word), e);
     await speakAt(['ទៅ']); cap(word);
     await tween(2.5, k => { e.x = 2 + k * 80; e.flyAbs = deckY() + .3 + k * 20; });
     if (out) await out();
@@ -2002,7 +2045,7 @@ async function plagues() {
   const ph = npc('pharaoh', { skin: 0x9a6a44, top: 0xf0f0e8, robe: true, cloth: 0x2f5fd0 }, 0, -21, Math.PI); cone(.22, .6, 0xf2c51c, 0, .5, 0, ph.m.head, 5); tag('ផារ៉ោន', ph.g);
   await arrive([]);
   const ask = async () => { await say('me', 'ផារ៉ោន ! ឲ្យ ប្រជាជន ព្រះជាម្ចាស់ ចេញ ទៅ !'); await say('pharaoh', 'ទេ !'); };
-  const raise = async word => { goal(`លើក ដំបង ។ ( ${word} )`, null); await act('លើក ដំបង', [player.x, player.z], 99); player.raise = true; setTimeout(() => player.raise = false, 1400); cap(word); };
+  const raise = async word => { goal(fmt('លើក ដំបង ។ ( {0} )', word), null); await act('លើក ដំបង', [player.x, player.z], 99); player.raise = true; setTimeout(() => player.raise = false, 1400); cap(word); };
   // 1. blood
   await ask();
   await raise('ឈាម'); water.material.color.setHex(0x9a1a1a); await wait(2);
@@ -2900,7 +2943,7 @@ async function pentecost() {
     await act('ស្ដាប់', who, 4.5);
     d.x = who.x + 1.4; d.z = who.z - 1.2; d.yaw = Math.atan2(who.x - d.x, who.z - d.z); who.yaw = Math.atan2(d.x - who.x, d.z - who.z);
     await say('disciple', TONGUES[n][0], { lang: TONGUES[n][1] });
-    await say('nation', `ខ្ញុំ មក ពី ស្រុក ${TONGUES[n][2]} ។ ខ្ញុំ ឮ គាត់ និយាយ ភាសា របស់ ខ្ញុំ ! គាត់ និយាយ ពី ការ អស្ចារ្យ របស់ ព្រះ !`);
+    await say('nation', fmt('ខ្ញុំ មក ពី ស្រុក {0} ។ ខ្ញុំ ឮ គាត់ និយាយ ភាសា របស់ ខ្ញុំ ! គាត់ និយាយ ពី ការ អស្ចារ្យ របស់ ព្រះ !', TONGUES[n][2]));
   }
   await say('people', 'មើល ! ពួក គេ ស្រវឹង ហើយ !');
   await say('me', 'ពួក យើង មិន ស្រវឹង ទេ ! ឥឡូវ ទើប តែ ម៉ោង ប្រាំបួន ព្រឹក ។ នេះ ជា ព្រះវិញ្ញាណ របស់ ព្រះ !');
@@ -3982,7 +4025,7 @@ async function ending() {
   started = false; $('#hud').classList.add('hide'); setSky(0x02041a, 0x0a1440, 0x0a1030, .2, true); stars.material.opacity = 1;
   $('#flash').style.opacity = 0;
   const n = Object.keys(S.seen).length;
-  $('#endtxt').innerHTML = `<div class="sub">ដំណើរឆ្លងកាល</div><h1>អ្វីៗ ទាំងអស់ ជា ថ្មី</h1><p>អ្នក បាន លោត ចូល ក្នុង រឿង ព្រះគម្ពីរ ${khNum(CHAPTERS.length)} ពី លោកុប្បត្តិ ដល់ វិវរណៈ ។</p><p>អ្នក ឃើញ ពាក្យ ខ្មែរ <b style="color:var(--c);font-size:26px">${khNum(n)}</b> ពាក្យ ។</p><div class="row"><button class="btn pri big" id="replay">ចាប់ផ្ដើម ម្ដង ទៀត</button><button class="btn big" id="words">ពាក្យ</button></div>`;
+  $('#endtxt').innerHTML = `<div class="sub">${esc(tr('ដំណើរឆ្លងកាល'))}</div><h1>${esc(tr('អ្វីៗ ទាំងអស់ ជា ថ្មី'))}</h1><p>${esc(fmt('អ្នក បាន លោត ចូល ក្នុង រឿង ព្រះគម្ពីរ {0} ពី លោកុប្បត្តិ ដល់ វិវរណៈ ។', khNum(CHAPTERS.length)))}</p><p>${esc(fmt('អ្នក ឃើញ ពាក្យ {0} ពាក្យ ។', khNum(n)))}</p><div class="row"><button class="btn pri big" id="replay">${esc(tr('ចាប់ផ្ដើម ម្ដង ទៀត'))}</button><button class="btn big" id="words">${esc(tr('ពាក្យ'))}</button></div>`;
   $('#end').classList.remove('hide');
   $('#replay').onclick = () => { S.ch = 0; save(); location.reload(); };
   $('#words').onclick = () => { $('#end').classList.add('hide'); $('#hud').classList.remove('hide'); started = true; bookTab = 'words'; openBook(); $('#bookclose').onclick = () => { closeAll(); $('#hud').classList.add('hide'); $('#end').classList.remove('hide'); }; };
@@ -3992,6 +4035,10 @@ async function ending() {
 requestAnimationFrame(frame);
 $('#count').textContent = khNum(Object.keys(S.seen).length);
 if (hadSave) { $('#start').textContent = 'បន្ត'; $('#again').classList.remove('hide'); }
+// the title screen and other fixed text in the chosen language, and the language buttons
+if (!KH) { document.title = tr(document.title); for (const sel of ['#title .sub', '#title h1', '#title p', '#start', '#pick', '#again', '#title .tip', '#joyhint', '#kbclose', '#book h2', '.tab', '#bookclose', '#reset']) document.querySelectorAll(sel).forEach(el => { el.textContent = tr(el.textContent.trim()); }); document.querySelectorAll('.ttsbtn').forEach(b => b.classList.add('hide')); document.documentElement.lang = LANG; }
+$('#langs').innerHTML = Object.entries(LANGS).map(([k, v]) => `<button class="btn${k === LANG ? ' pri' : ''}" data-l="${k}">${esc(v.name)}</button>`).join('');
+$('#langs').querySelectorAll('button').forEach(b => b.onclick = () => { try { localStorage.setItem('leap-lang', b.dataset.l); } catch (e) { } location.reload(); });
 setSky(0x0a1030, 0x1a2a6a, 0x0a1030, .3, true); stars.material.opacity = 1; camera.position.set(0, 5, 20); camera.lookAt(0, 8, 0);
 anims.push((dt, t) => { if (!started) { camera.rotation.y = t * .03; } else return false; });
 function begin() { ensureAudio(); $('#title').classList.add('hide'); $('#bookclose').onclick = closeAll; stars.material.opacity = 0; const ch = S.ch >= CHAPTERS.length ? 0 : S.ch; playChapter(ch).catch(e => console.error(e)); }
@@ -3999,4 +4046,4 @@ $('#start').onclick = begin;
 try { if (sessionStorage.getItem('leap-autostart')) { sessionStorage.removeItem('leap-autostart'); begin(); } } catch (e) { }
 $('#pick').onclick = () => { ensureAudio(); ui = null; bookTab = 'chaps'; $('#title').classList.add('hide'); openBook(); $('#bookclose').onclick = () => { closeAll(); if (!started) $('#title').classList.remove('hide'); }; };
 $('#again').onclick = () => { S.ch = 0; save(); begin(); };
-window.LEAP = { thumb,  S, acts, speakers, pressA: () => { curAct = curAct || acts[0]; pressA(); }, dlgTap, trig: () => trigRes && trigRes('x'), get ui() { return ui; }, player, ents, reachers, get started() { return started; }, speak: w => { typed = w; speakTyped(); }, get audio() { return peak ? peak.source + ' ' + peak.speakers.length : 'none'; }, warp: (x, z) => { player.x = x; player.z = z; }, get goal() { return atXZ(goalAt); }, atXZ };
+window.LEAP = { thumb,  S, acts, speakers, pressA: () => { curAct = curAct || acts[0]; pressA(); }, dlgTap, trig: () => trigRes && trigRes('x'), get ui() { return ui; }, player, ents, reachers, get started() { return started; }, speak: w => { typed = KH ? w : tr(w).toLowerCase(); speakTyped(); }, tr, get lang() { return LANG; }, get audio() { return peak ? peak.source + ' ' + peak.speakers.length : 'none'; }, warp: (x, z) => { player.x = x; player.z = z; }, get goal() { return atXZ(goalAt); }, atXZ };
