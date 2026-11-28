@@ -868,7 +868,7 @@ async function leapIn(heroKey, x, z, yaw, intro) {
 async function arrive(lines) {
   // the mirror moment: see who you have leapt into
   await mirror(); await wait(.4); burst(player.x, player.y + 1.2, player.z, 0x80c0ff, 60, 3); tone([880, 660], .5, 'triangle', .06);
-  await say('me', 'ខ្ញុំ នៅ ឯណា ?');
+  await wait(1); // the leap transition says it all; no line needed
   await talk(lines);
   camFree(); camYaw = player.yaw + Math.PI;
 }
