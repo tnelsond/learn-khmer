@@ -53,6 +53,9 @@ button:focus-visible{outline:3px solid var(--c);outline-offset:2px}
 @keyframes pulse{50%{box-shadow:0 4px 0 rgba(0,0,0,.45),0 0 0 3px rgba(0,0,0,.35),0 0 22px 6px rgba(122,160,255,.8)}}
 #toast{position:fixed;z-index:27;left:50%;top:30%;transform:translate(-50%,-50%);padding:8px 22px;text-align:center;pointer-events:none!important;opacity:0;transition:opacity .3s;max-width:88vw}
 #toast.on{opacity:1}
+#toast.tap::after{content:'▼';display:block;color:var(--c);font-size:18px;animation:glow 1s ease-in-out infinite}
+.pop{position:fixed;z-index:28;left:50%;top:38%;transform:translate(-50%,-50%) scale(.4);font:400 clamp(60px,20vw,120px)/1.6 var(--ti);color:var(--c);text-shadow:0 0 24px rgba(242,197,28,.9),0 4px 0 #000;pointer-events:none;white-space:nowrap;animation:pop 1.6s ease-out forwards}
+@keyframes pop{0%{opacity:0;transform:translate(-50%,-50%) scale(.4)}18%{opacity:1;transform:translate(-50%,-50%) scale(1.15)}30%{transform:translate(-50%,-50%) scale(1)}75%{opacity:1}100%{opacity:0;transform:translate(-50%,-65%) scale(1.05)}}
 #toast b{display:block;font:400 clamp(30px,8vw,46px)/1.7 var(--ti);color:var(--c);text-shadow:0 3px 0 #000}
 #toast i{font-style:normal;font-size:18px}
 /* text box */

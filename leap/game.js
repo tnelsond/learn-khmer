@@ -162,7 +162,7 @@ function loft(rings, sides = 6, caps = true, stagger = true) {
   for (let i = 0; i < rings.length - 1; i++) { const A = rings[i], B = rings[i + 1]; for (let j = 0; j < sides; j++) { const a0 = P(A, j, i), a1 = P(A, j + 1, i), b0 = P(B, j, i + 1), b1 = P(B, j + 1, i + 1); // staggered rings: on even bands the next ring's vertex sits between a0 and a1, on odd bands b1 does, so the fan has to follow it or the triangles cross
         const ys = A[0] > B[0], F = (p, q, r, cp, cq, cr) => ys ? tri(p, r, q, cp, cr, cq) : tri(p, q, r, cp, cq, cr);
         if (!stagger || i % 2 === 0) { F(a0, a1, b0, A[4], A[4], B[4]); F(a1, b1, b0, A[4], B[4], B[4]); } else { F(a0, a1, b1, A[4], A[4], B[4]); F(a0, b1, b0, A[4], B[4], B[4]); } } }
-  if (caps) { const first = rings[0], last = rings[rings.length - 1], down = first[0] > last[0]; for (const [r, up, ri] of [[first, down, 0], [last, !down, rings.length - 1]]) { const ctr = [0, r[0], r[3]]; for (let j = 0; j < sides; j++) { const a = P(r, j, ri), b2 = P(r, j + 1, ri); if (up) tri(ctr, b2, a, r[4], r[4], r[4]); else tri(ctr, a, b2, r[4], r[4], r[4]); } } }
+  if (caps) { const first = rings[0], last = rings[rings.length - 1], down = first[0] > last[0]; for (const [r, up, ri] of [[first, down, 0], [last, !down, rings.length - 1]]) { const ctr = [0, r[0], r[3]]; for (let j = 0; j < sides; j++) { const a = P(r, j, ri), b2 = P(r, j + 1, ri); if (up) tri(ctr, a, b2, r[4], r[4], r[4]); else tri(ctr, b2, a, r[4], r[4], r[4]); } } }
   const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3)); g.setAttribute('skinw', new THREE.Float32BufferAttribute(skw, 1)); g.computeVertexNormals(); return g;
 }
 const HEADM = {}; let PERSON_N = 0;
@@ -398,7 +398,7 @@ let H = () => 0, bound = 80, clampFn = null;
 const solids = [], ents = [], acts = [], floors = [];
 let ground = null, water = null, waterY = -100;
 function clearWorld() { faded.clear(); occlT = 0; talkCam = null; lastPartner = null; shake = 0; track = null; yOverride = null; player.raise = false; scene.remove(world); world = new THREE.Group(); scene.add(world); solids.length = ents.length = acts.length = floors.length = 0; ground = water = null; waterY = -100; clampFn = null; tags = {}; anims.length = 0; stars.material.opacity = 0; marker(null); }
-const groundAt = (x, z) => { let h = H(x, z); for (const f of floors) if (x > f.x0 && x < f.x1 && z > f.z0 && z < f.z1) h = Math.max(h, f.y()); return h; };
+const groundAt = (x, z, who = 'player') => { let h = H(x, z); for (const f of floors) if ((!f.only || f.only.has(who)) && x > f.x0 && x < f.x1 && z > f.z0 && z < f.z1) h = Math.max(h, f.y()); return h; };
 function terrain(size, seg, color) {
   const geo = new THREE.PlaneGeometry(size, size, seg, seg).rotateX(-Math.PI / 2), p = geo.attributes.position, cols = new Float32Array(p.count * 3), c = new THREE.Color();
   for (let i = 0; i < p.count; i++) { const x = p.getX(i), z = p.getZ(i), y = H(x, z); p.setY(i, y); c.setHex(color(x, z, y)).multiplyScalar(rnd(.9, 1.08)); cols.set([c.r, c.g, c.b], i * 3); }
@@ -414,7 +414,7 @@ function tag(word, obj) { (tags[word] ||= []).push(obj); }
 // moving things: people, animals, birds
 function ent(model, x, z, o = {}) {
   const e = Object.assign({ g: model.g || model, m: model, x, z, yaw: o.yaw || 0, y: 0, goal: null, speed: 3, follow: null, fly: 0, solid: .6, walkT: 0, face: null, hide: false }, o);
-  world.add(e.g); ents.push(e); e.y = groundAt(x, z) + e.fly; e.g.position.set(x, e.y, z); e.g.rotation.y = e.yaw; return e;
+  world.add(e.g); ents.push(e); e.y = groundAt(x, z, e) + e.fly; e.g.position.set(x, e.y, z); e.g.rotation.y = e.yaw; return e;
 }
 function walk(e, x, z, speed) { if (speed) e.speed = speed; return new Promise(res => { e.goal = { x, z, res }; }); }
 function npc(id, opts, x, z, yaw = 0) { LOOK[id] = { key: id + JSON.stringify(opts), make: () => person(opts) }; const m = person(opts); const e = ent(m, x, z, { yaw, id }); e.talk = id; tag(CAST[id]?.km, e.g); return e; }
@@ -514,7 +514,7 @@ function say(who, text, o = {}) {
     const trig = tk.some(t => t.trig);
     $('#more').classList.toggle('hide', trig);
     const fin = v => { dlgRes = trigRes = null; $('#dlg').classList.add('hide'); ui = null; hearing++; talkCam = null; res(v); };
-    if (trig) { trigRes = w => { playWord(w); fin(w); }; dlgRes = null; }
+    if (trig) { trigRes = w => { playWord(w); popWord(w); fin(w); }; dlgRes = null; }
     else dlgRes = () => fin();
     hearLine(text, o.lang);
     if (o.auto) setTimeout(() => dlgRes === null || fin(), o.auto * 1000);
@@ -634,7 +634,9 @@ let toastT;
 // a phrase out loud: the device's Khmer voice if it has one, else word by word through tnefar
 async function sayPhrase(text) { if (useTTS()) { try { if (await sayTTS(text)) return; } catch (e) { } } for (const w of text.split(' ')) if (w && !isPunct(w)) { await playWord(w); await wait(.05); } }
 function cap(w) { toast(w); speaking = 'god'; playWord(w); }
-function toast(big, small = '') { const t = $('#toast'); t.innerHTML = (big ? `<b>${esc(big)}</b>` : '') + (small ? `<i>${esc(small)}</i>` : ''); t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 2600); }
+function toast(big, small = '') { const t = $('#toast'); t.innerHTML = (big ? `<b>${esc(big)}</b>` : '') + (small ? `<i>${esc(small)}</i>` : ''); t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), Math.max(2600, 2000 + 600 * (big + ' ' + small).split(' ').filter(Boolean).length)); }
+function popWord(w) { const p = document.createElement('div'); p.className = 'pop'; p.textContent = w; document.body.appendChild(p); setTimeout(() => p.remove(), 1600); }
+function waitToastTap() { const t = $('#toast'); if (!t.classList.contains('on')) return Promise.resolve(); clearTimeout(toastT); t.classList.add('tap'); return new Promise(r => { const go = () => { removeEventListener('pointerdown', go, true); t.classList.remove('on', 'tap'); r(); }; setTimeout(() => addEventListener('pointerdown', go, true), 300); }); }
 
 /* ---------------- thumbnails (the word's own low-poly model) ---------------- */
 let tR, tS, tC; const thumbs = {};
@@ -835,7 +837,7 @@ function frame(now) {
     if (e.follow) { const tx = e.follow === 'player' ? player.x : e.follow.x, tz = e.follow === 'player' ? player.z : e.follow.z; const d = Math.hypot(tx - e.x, tz - e.z), want = e.isAl ? 2.6 : e.gap || 2.6; if (d > want) { const s = Math.min(d - want, (e.isAl ? 9 : 7) * dt); e.x += (tx - e.x) / d * s; e.z += (tz - e.z) / d * s; e.yaw = Math.atan2(tx - e.x, tz - e.z); moving = 1; } else if (d < 6) e.yaw = turn(e.yaw, Math.atan2(tx - e.x, tz - e.z), dt); }
     else if (e.goal) { const dx = e.goal.x - e.x, dz = e.goal.z - e.z, d = Math.hypot(dx, dz); if (d < .2) { const r = e.goal.res; e.goal = null; r && r(); } else { const s = Math.min(d, e.speed * dt); e.x += dx / d * s; e.z += dz / d * s; e.yaw = turn(e.yaw, Math.atan2(dx, dz), dt * 2); moving = 1; } }
     else if (e.talk && hero && Math.hypot(player.x - e.x, player.z - e.z) < 6) e.yaw = turn(e.yaw, Math.atan2(player.x - e.x, player.z - e.z), dt);
-    const gy = e.flyAbs != null ? e.flyAbs : groundAt(e.x, e.z) + e.fly + (e.isAl ? Math.sin(t * 2) * .15 + .2 : 0);
+    const gy = e.flyAbs != null ? e.flyAbs : groundAt(e.x, e.z, e) + e.fly + (e.isAl ? Math.sin(t * 2) * .15 + .2 : 0);
     e.y += (gy - e.y) * Math.min(1, dt * 10);
     e.g.position.set(e.x, e.y, e.z); e.g.rotation.y = e.yaw;
     if (e.m.legs) animLimbs(e.m, moving, dt, e);
@@ -962,7 +964,7 @@ async function arrive(lines) {
 }
 function done(n) { S.max = Math.max(S.max, n); S.ch = n; save(); }
 async function nextCh() { return next(S.ch + 1); }
-async function next(n) { done(n); goal(''); camFree(); await leapOut(); hero = null; return CHAPTERS[n] ? playChapter(n) : ending(); }
+async function next(n) { await waitToastTap(); done(n); goal(''); camFree(); await leapOut(); hero = null; return CHAPTERS[n] ? playChapter(n) : ending(); }
 async function playChapter(n) {
   S.ch = n; save(); const c = CHAPTERS[n];
   $('#flash').style.opacity = 1; clearWorld(); al = null; godGlow(false);
@@ -2508,7 +2510,7 @@ async function roof() {
   const jesus = npc('jesus', HEROES.jesus, 0, -11, 0); tag('ព្រះយេស៊ូ', jesus.g);
   const crowd = []; for (let i = 0; i < 14; i++) { const e = npc('people', { skin: 0xa07050, top: [0x8a5a3a, 0x3a5a8a, 0x8a3a3a, 0x5a7a3a][i % 4], robe: true, cloth: 0xe0d0b0 }, -3 + (i % 5) * 1.5, -4 + Math.floor(i / 5) * 1.2, Math.PI); e.talk = null; crowd.push(e); }
   await arrive([]);
-  await talk([['friend2', 'មិត្ត យើង *ខ្វិន ។ គាត់ ដើរ មិន រួច ទេ ។'], ['friend2', 'ព្រះយេស៊ូ នៅ ក្នុង ផ្ទះ នោះ ។ ព្រះអង្គ អាច ជួយ គាត់ !']]);
+  await talk([['friend2', 'មិត្ត យើង ខ្វិន ។ គាត់ ដើរ មិន រួច ទេ ។'], ['friend2', 'ព្រះយេស៊ូ នៅ ក្នុង ផ្ទះ នោះ ។ ព្រះអង្គ អាច ជួយ គាត់ !']]);
   goal('លី កន្ទេល ។', [1, 8]);
   await act('លី កន្ទេល', [1, 8], 3);
   world.remove(mat); mat.position.set(0, 2.4, .5); mat.rotation.y = Math.PI / 2; hero.b.add(mat); player.raise = true; pals.forEach(p2 => { p2.follow = 'player'; p2.gap = 1.6; p2.talk = null; });
@@ -2518,7 +2520,7 @@ async function roof() {
   await say('me', 'តោះ ឡើង លើ ដំបូល ផ្ទះ !');
   goal('ឡើង ជណ្ដើរ ។', [6.2, -6]);
   await act('ឡើង', [6.2, -6], 3);
-  floors.push({ x0: -5, x1: 5, z0: -15, z1: -5, y: () => y0 + 3.9 }); player.x = 3; player.z = -7; clampFn = (x, z) => [clamp(x, -4.4, 4.4), clamp(z, -14.4, -5.6)];
+  floors.push({ x0: -5, x1: 5, z0: -15, z1: -5, y: () => y0 + 3.9, only: new Set(['player', ...pals]) }); player.x = 3; player.z = -7; clampFn = (x, z) => [clamp(x, -4.4, 4.4), clamp(z, -14.4, -5.6)];
   pals.forEach((p2, i) => { p2.follow = null; p2.x = 4 - i; p2.z = -6.5; });
   for (let n = 1; n <= 3; n++) {
     goal(`ទម្លុះ ដំបូល ។ ( ${khNum(n - 1)} / ${khNum(3)} )`, [0, -10]);
@@ -2640,7 +2642,7 @@ async function walkWater() {
   track = () => [[7, 5, 8], [0, 1, -8]];
   await say('disciple', 'ខ្យល់ បក់ ខ្លាំង ណាស់ ... យប់ ជ្រៅ ហើយ ។');
   await tween(3, k => { jesus.z = -30 + k * 20; jesus.flyAbs = waterY; });
-  await say('disciple', 'មើល ! *ខ្មោច ! មនុស្ស ដើរ លើ ទឹក !');
+  await say('disciple', 'មើល ! ខ្មោច ! មនុស្ស ដើរ លើ ទឹក !');
   await say('jesus', 'ចូរ ក្លាហាន ឡើង ! គឺ ខ្ញុំ ទេ ! កុំ ខ្លាច ឡើយ !');
   track = null;
   await say('me', 'ព្រះអម្ចាស់ ! បើ ពិត ជា ព្រះអង្គ សូម បង្គាប់ ឲ្យ ខ្ញុំ ដើរ លើ ទឹក មក រក ព្រះអង្គ ។');
@@ -3128,7 +3130,7 @@ async function samaritan() {
   goal('រុំ របួស ។', victim);
   await act('រុំ របួស', victim, 3); for (const y of [.3, .55]) { const b2 = mesh(new THREE.TorusGeometry(.3, .06, 3, 6), 0xf0ece0, 0, 1 + y, 0, vp.b); b2.rotation.x = Math.PI / 2; } burst(victim.x, victim.y + .5, victim.z, 0xf0e0a0, 20, 1.5); cap('ប្រេង'); await sayPhrase('ចាក់ ប្រេង និង ស្រា ។');
   goal('ដាក់ គាត់ លើ លា ។', dk);
-  await act('ដាក់ លើ លា', dk, 3.5); world.remove(vp.g); ents.splice(ents.indexOf(victim), 1); vp.g.rotation.z = 0; vp.g.rotation.x = -1.2; vp.g.position.set(0, 1.1, 0); vp.g.scale.setScalar(1.2); donkey.b.add(vp.g); good();
+  await act('ដាក់ លើ លា', dk, 3.5); world.remove(vp.g); ents.splice(ents.indexOf(victim), 1); vp.g.rotation.set(0, 0, 0); vp.g.position.set(0, .86, -.1); vp.g.scale.setScalar(1.2); vp.b.rotation.x = .3; vp.legs.forEach((l, i) => { l.rotation.set(-.3, 0, (i ? 1 : -1) * .75); vp.knees[i].rotation.x = .5; }); vp.arms.forEach(a => a.rotation.x = -.5); donkey.b.add(vp.g); /* sitting astride, slumped forward */ good();
   goal('នាំ គាត់ ទៅ ផ្ទះ សំណាក់ ។', [5, -60]);
   await reach([4, -58], 5);
   const host = npc('host', { skin: 0x9a6a44, top: 0x8a6a3a, robe: true, cloth: 0xd8c8a0, beard: 0x3a2a1a }, 3, -57, Math.PI);
@@ -3202,7 +3204,7 @@ async function prodigal() {
   setSky(0x4a8ad8, 0xf0dcb0, 0xe8d8b0, 1);
   goal('ត្រឡប់ ទៅ ផ្ទះ ។', [-40, 0]);
   await reach([-10, 0], 10);
-  dad.talk = null; await walk(dad, player.x - 1.6, player.z, 7); dad.yaw = Math.atan2(player.x - dad.x, player.z - dad.z);
+  dad.talk = null; dad.follow = 'player'; dad.gap = 1.3; /* runs to where the son is now, not where he was */ while (Math.hypot(player.x - dad.x, player.z - dad.z) > 1.6) await wait(.1); dad.follow = null; dad.yaw = Math.atan2(player.x - dad.x, player.z - dad.z);
   burst(player.x, player.y + 1.5, player.z, 0xfff0a0, 40, 2); good(); toast('', 'ឪពុក រត់ មក ឱប គាត់ ។'); speaking = 'god'; sayPhrase('ឪពុក រត់ មក ឱប គាត់ ។');
   await say('me', 'ឪពុក ! ខ្ញុំ បាន ធ្វើ បាប ។ ខ្ញុំ មិន សម ជា កូន របស់ ឪពុក ទៀត ទេ ។');
   dad.talk = 'dad';
