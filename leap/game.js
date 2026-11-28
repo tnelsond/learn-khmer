@@ -2746,7 +2746,7 @@ calvary.build = () => {
 async function calvary() {
   await leapIn('simon', 0, 32, Math.PI);
   const jp = person(HEROES.jesus); const jesus = ent(jp, 0, 27, { yaw: Math.PI, solid: .6, id: 'jesus', speed: 1.1 }); tag('ព្រះយេស៊ូ', jp.g);
-  const beam = crossMesh(); beam.scale.setScalar(.75); beam.position.set(.3, 1.5, -.4); beam.rotation.set(.9, 0, .5); jp.b.add(beam); tag('ឈើឆ្កាង', beam);
+  const beam = crossMesh(); beam.scale.setScalar(.7); beam.position.set(.3, .02, -2.48); beam.rotation.set(1.05, 0, 0); jp.b.add(beam); tag('ឈើឆ្កាង', beam);
   const soldiers = [-1, 1, -1].map((s2, i) => { const e = npc('guard', { skin: 0x9a6a44, top: 0x8a2a2a, cloth: 0xc8a040, robe: true, sleeve: 0x8a2a2a }, s2 * 2, 25 - i * 2, Math.PI); e.talk = null; return e; });
   const women = [0, 1, 2].map(i => { const e = npc('women', { skin: 0xa07050, top: [0x3a3a5a, 0x5a3a3a, 0x3a5a5a][i], robe: true, cloth: 0xd8d0c0, female: true }, -6 + i * 1.6, 4, Math.PI / 2); e.talk = null; return e; });
   await arrive([]);
@@ -2756,7 +2756,7 @@ async function calvary() {
   await say('guard', 'អ្នក ! លី ឈើឆ្កាង នេះ ! តាម គាត់ !');
   goal('លី ឈើឆ្កាង ។', jesus);
   await act('លី ឈើឆ្កាង', jesus, 3.5);
-  jp.b.remove(beam); const mine = crossMesh(); mine.scale.setScalar(.7); mine.position.set(.25, 1.3, -.5); mine.rotation.set(.9, 0, .4); hero.b.add(mine); tag('ឈើឆ្កាង', mine);
+  jp.b.remove(beam); const mine = crossMesh(); mine.scale.setScalar(.7); mine.position.set(.3, .02, -2.48); mine.rotation.set(1.05, 0, 0); hero.b.add(mine); tag('ឈើឆ្កាង', mine);
   await tween(.5, k => { jp.b.rotation.x = .9 * (1 - k); jp.b.position.y = -.5 * (1 - k); }); cap('ឈើឆ្កាង');
   walk(jesus, 0, -44, 1.3); soldiers.forEach((e, i) => { e.follow = i ? soldiers[i - 1] : jesus; e.gap = 2.2; });
   goal('តាម ព្រះយេស៊ូ ទៅ ភ្នំ គាល់វ៉ារី ។', jesus);
@@ -2843,27 +2843,49 @@ function walls(cx, cz, w, d, h, doorW = 3, mat = M(0xd8c8a0)) { const y = cityH(
 pentecost.build = () => {
   setSky(0x4a8ad8, 0xf0dcb0, 0xe8d8b0, 1, true); scene.fog.near = 55; scene.fog.far = 210;
   H = cityH; bound = 95; terrain(220, 50, (x, z) => 0xd8c8a0);
-  walls(0, -6, 12, 10, 3.2);
   for (let i = 0; i < 12; i++) { const h = grp(); box(5, rnd(3, 6), 5, 0xe0d0b0, 0, 2, 0, h); place(h, (i % 2 ? 1 : -1) * rnd(14, 30), -40 + Math.floor(i / 2) * 14, 0, 3.4); }
+  // a house with a large upper room; outside stairs on the east side
+  const y0 = cityH(0, -6), up = y0 + 3.4, hs = grp();
+  box(12, 3.4, 10, 0xd8c8a0, 0, y0 + 1.7, -6, hs); box(12, .2, 10, 0xb89a70, 0, up + .1, -6, hs);
+  for (const [w, d, x, z] of [[12, .4, 0, -11], [12, .4, 0, -1], [.4, 10, -6, -6], [.4, 3.6, 6, -9.2], [.4, 3.6, 6, -2.8]]) box(w, 3.2, d, 0xe8dcc0, x, up + 1.6, z, hs);
+  box(12.6, .3, 10.6, 0xa08060, 0, up + 3.35, -6, hs); for (const x of [-3, 0, 3]) box(.5, .4, .3, 0x1a1208, x, up + 1.9, -.8, hs);
+  world.add(hs); tag('បន្ទប់ ខាង លើ', hs);
+  const st = grp(); for (let i = 0; i < 6; i++) box(1.2, .57, .8, 0xc8b890, 0, .28 + i * .57, -i * .8, st); place(st, 6.8, 1, 0, 0); tag('ជណ្ដើរ', st);
+  floors.push({ x0: -6, x1: 6, z0: -11, z1: -1, y: () => up + .2 });
 };
 async function pentecost() {
   await leapIn('peter', 0, -4, Math.PI);
+  const up = cityH(0, -6) + 3.6; clampFn = (x, z) => [clamp(x, -5.4, 5.4), clamp(z, -10.4, -1.6)];
   const room = []; for (let i = 0; i < 10; i++) { const a = i / 10 * 6.28; const e = npc('disciple', { skin: 0xa07050, top: [0x8a5a3a, 0x3a6a5a, 0x6a4a6a, 0x5a5a8a, 0x8a7a3a][i % 5], robe: true, cloth: 0xd8c8a0, beard: i % 3 ? 0x3a2a1a : undefined, female: i % 4 === 3 }, Math.cos(a) * 3.5, -6 + Math.sin(a) * 3, 0); e.talk = null; e.yaw = Math.atan2(-e.x, -6 - e.z); room.push(e); }
   await arrive([]);
-  await say('me', 'យើង រង់ចាំ ដូច ព្រះយេស៊ូ បាន មាន ព្រះបន្ទូល ។');
-  await camTo([0, cityH(0, -6) + 7, 2], [0, cityH(0, -6) + 1, -6], 1.2);
-  tone([110, 165, 220], 3, 'sawtooth', .04, 2); const wind = () => { for (let i = 0; i < 12; i++) emit(rnd(-6, 6), cityH(0, -6) + rnd(.5, 3), -6 + rnd(-5, 5), rnd(-8, 8), rnd(-.5, 1), rnd(-8, 8), 0xe8f0ff, .6, 0); }; anims.push(wind);
+  await say('me', 'យើង នៅ ក្នុង បន្ទប់ ខាង លើ ។ យើង រង់ចាំ ដូច ព្រះយេស៊ូ បាន មាន ព្រះបន្ទូល ។');
+  await camTo([4, up + 2.6, -2], [0, up + .8, -7], 1.2);
+  tone([110, 165, 220], 3, 'sawtooth', .04, 2); const wind = () => { for (let i = 0; i < 12; i++) emit(rnd(-5, 5), up + rnd(.3, 2.6), -6 + rnd(-4, 4), rnd(-8, 8), rnd(-.5, 1), rnd(-8, 8), 0xe8f0ff, .6, 0); }; anims.push(wind);
   await say('god', 'ឮ សូរ ពី មេឃ ដូច ខ្យល់ បក់ យ៉ាង ខ្លាំង ។'); await wait(1.5); anims.splice(anims.indexOf(wind), 1);
   await say('god', 'អណ្ដាត ភ្លើង មក សណ្ឋិត លើ ម្នាក់ៗ ។');
   for (const e of [...room, { m: hero }]) { const fl = godFlame(.16); fl.position.y = .55; e.m.head.add(fl); } good(); await wait(1.5);
-  await say('god', 'គ្រប់ គ្នា បាន ពេញ ដោយ ព្រះវិញ្ញាណ បរិសុទ្ធ ។');
+  await say('god', 'គ្រប់ គ្នា បាន ពេញ ដោយ ព្រះវិញ្ញាណ បរិសុទ្ធ ។ ពួក គេ ចាប់ ផ្ដើម និយាយ ភាសា ផ្សេងៗ ។');
+  // the disciples speak other tongues
+  const TONGUES = [['ພຣະເຈົ້າຍິ່ງໃຫຍ່ ! ພຣະເຢຊູຊົງພຣະຊົນຢູ່ !', 'lo', 'ឡាវ'], ['พระเจ้ายิ่งใหญ่ ! พระเยซูทรงพระชนม์อยู่ !', 'th', 'ថៃ'], ['Đức Chúa Trời thật vĩ đại ! Chúa Giê-xu đang sống !', 'vi', 'វៀតណាម'], ['ဘုရားသခင် ကြီးမြတ်တယ် ! ယေရှု အသက်ရှင်တယ် !', 'my', 'ភូមា']];
+  for (let i = 0; i < 3; i++) await say('disciple', TONGUES[i][0], { lang: TONGUES[i][1] });
   camFree();
-  const NATIONS = [['ຂ້ອຍໄດ້ຍິນເຂົາເວົ້າພາສາຂອງຂ້ອຍ !', 'lo'], ['ฉันได้ยินเขาพูดภาษาของฉัน !', 'th'], ['Tôi nghe họ nói tiếng của tôi !', 'vi'], ['ကျွန်တော့်ဘာသာစကား ကြားရတယ် !', 'my']];
-  const crowd = []; for (let i = 0; i < 16; i++) { const e = npc('nation', { skin: [0x9a6a44, 0x6a4a2a, 0xc08a60, 0x8a5a3a][i % 4], top: [0xc04040, 0x4060c0, 0xc0a040, 0x40a060][i % 4], robe: true, cloth: [0xffffff, 0xf2c51c, 0x2a2a2a, 0xc04040][i % 4] }, -12 + (i % 8) * 3.4, 10 + Math.floor(i / 8) * 4, Math.PI); e.talk = null; crowd.push(e); }
-  goal('ចេញ ទៅ ក្រៅ ។', [0, 6]);
-  await reach([0, 6], 4);
-  await say('me', 'ព្រះជាម្ចាស់ ធ្វើ ឲ្យ យើង និយាយ ភាសា ផ្សេងៗ !');
-  for (let n = 0; n < NATIONS.length; n++) { goal(`ស្ដាប់ ប្រជាជន ។ ( ${khNum(n)} / ${khNum(NATIONS.length)} )`, crowd[n * 4]); await act('ស្ដាប់', crowd[n * 4], 4); await say('nation', NATIONS[n][0], { lang: NATIONS[n][1] }); }
+  const crowd = []; for (let i = 0; i < 16; i++) { const e = npc('nation', { skin: [0x9a6a44, 0x6a4a2a, 0xc08a60, 0x8a5a3a][i % 4], top: [0xc04040, 0x4060c0, 0xc0a040, 0x40a060][i % 4], robe: true, cloth: [0xffffff, 0xf2c51c, 0x2a2a2a, 0xc04040][i % 4] }, -12 + (i % 8) * 3.4, 26 + Math.floor(i / 8) * 4, Math.PI); e.talk = null; crowd.push(e); walk(e, -12 + (i % 8) * 3.4, 8 + Math.floor(i / 8) * 4, 3); }
+  toast('', 'ហ្វូង មនុស្ស ឮ សូរ នោះ ហើយ មក ជុំ គ្នា ។'); speaking = 'god'; await sayPhrase('ហ្វូង មនុស្ស ឮ សូរ នោះ ហើយ មក ជុំ គ្នា ។');
+  goal('ចុះ ទៅ ខាងក្រៅ ។', [5.4, -6]);
+  await reach([5.4, -6], 1.6);
+  clampFn = null; player.x = 6.8; player.z = 2.6; for (let x = -6; x <= 6; x += 1.5) solids.push({ x, z: -1, r: .9 }, { x, z: -11, r: .9 }); for (let z = -11; z <= -1; z += 1.5) solids.push({ x: -6, z, r: .9 }, { x: 6, z, r: .9 });
+  const outs = room.slice(0, 4); outs.forEach((e, i) => { e.x = 4 + i * 1.6; e.z = 3 + (i % 2); e.yaw = 0; });
+  // each nation hears the disciples in its own language, and says so in Khmer
+  for (let n = 0; n < 4; n++) {
+    const who = crowd[n * 4], d = outs[n];
+    goal(`ស្ដាប់ ប្រជាជន ។ ( ${khNum(n)} / ${khNum(4)} )`, who);
+    await act('ស្ដាប់', who, 4.5);
+    d.x = who.x + 1.4; d.z = who.z - 1.2; d.yaw = Math.atan2(who.x - d.x, who.z - d.z); who.yaw = Math.atan2(d.x - who.x, d.z - who.z);
+    await say('disciple', TONGUES[n][0], { lang: TONGUES[n][1] });
+    await say('nation', `ខ្ញុំ មក ពី ស្រុក ${TONGUES[n][2]} ។ ខ្ញុំ ឮ គាត់ និយាយ ភាសា របស់ ខ្ញុំ ! គាត់ និយាយ ពី ការ អស្ចារ្យ របស់ ព្រះ !`);
+  }
+  await say('people', 'មើល ! ពួក គេ ស្រវឹង ហើយ !');
+  await say('me', 'ពួក យើង មិន ស្រវឹង ទេ ! ឥឡូវ ទើប តែ ម៉ោង ប្រាំបួន ព្រឹក ។ នេះ ជា ព្រះវិញ្ញាណ របស់ ព្រះ !');
   await say('god', 'នៅ បាបិល ភាសា ច្របូកច្របល់ ។ ថ្ងៃ នេះ គ្រប់ គ្នា យល់ !');
   await say('me', 'ចូរ ប្រែ ចិត្ត ហើយ ទទួល ពិធី ជ្រមុជ ទឹក ក្នុង ព្រះនាម ព្រះយេស៊ូគ្រីស្ទ !');
   for (const e of crowd) burst(e.x, e.y + 1.5, e.z, 0x80c0ff, 8, 1.5); good();
