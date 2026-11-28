@@ -72,6 +72,9 @@ button:focus-visible{outline:3px solid var(--c);outline-offset:2px}
 #line u,#obj u,.cht u,#pop u,.card u{display:block;text-decoration:none;font:italic 400 13px/1.3 "Charis SIL","Doulos SIL","Noto Serif",Georgia,serif;color:#a8c8ff;white-space:nowrap}
 #obj u{font-size:11px}#pop u{font-size:15px}
 .cht{display:flex;flex-wrap:wrap;gap:2px 8px;align-items:flex-start}
+#ava{position:absolute;left:12px;top:16px;width:64px;height:64px;border-radius:12px;border:2px solid rgba(200,212,255,.6);background:radial-gradient(circle at 50% 40%,#3a4ab0,#141c50)}
+#dlg.hasava #line{margin-left:76px;min-height:68px}
+@media(max-width:600px){#ava{width:52px;height:52px}#dlg.hasava #line{margin-left:62px}}
 #line .fx{font-family:system-ui,sans-serif;color:#ffb0a0}
 @keyframes glow{50%{background:rgba(242,197,28,.35);box-shadow:0 0 14px rgba(242,197,28,.8)}}
 #more{position:absolute;right:16px;bottom:8px;width:0;height:0;border:9px solid transparent;border-top:12px solid var(--c);border-bottom:0;animation:bob .6s ease-in-out infinite alternate}
@@ -159,6 +162,7 @@ button:focus-visible{outline:3px solid var(--c);outline-offset:2px}
 
 <div id="dlg" class="box hide">
   <div id="who"></div>
+  <img id="ava" class="hide" alt="">
   <div id="line"></div>
   <button id="hear" aria-label="ស្ដាប់"><svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8.5a5 5 0 010 7M18.5 6a8.5 8.5 0 010 12"/></svg></button>
   <div id="more"></div>

@@ -344,7 +344,7 @@ function ent(model, x, z, o = {}) {
   world.add(e.g); ents.push(e); e.y = groundAt(x, z) + e.fly; e.g.position.set(x, e.y, z); e.g.rotation.y = e.yaw; return e;
 }
 function walk(e, x, z, speed) { if (speed) e.speed = speed; return new Promise(res => { e.goal = { x, z, res }; }); }
-function npc(id, opts, x, z, yaw = 0) { const m = person(opts); const e = ent(m, x, z, { yaw, id }); e.talk = id; tag(CAST[id]?.km, e.g); return e; }
+function npc(id, opts, x, z, yaw = 0) { LOOK[id] = { key: id + JSON.stringify(opts), make: () => person(opts) }; const m = person(opts); const e = ent(m, x, z, { yaw, id }); e.talk = id; tag(CAST[id]?.km, e.g); return e; }
 
 /* ---------------- player & camera ---------------- */
 let hero = null, heroId = null;
@@ -419,7 +419,7 @@ function say(who, text, o = {}) {
     $('#kb').classList.add('hide'); $('#book').classList.add('hide'); // a line that pops up closes the keyboard/book
     ui = 'dlg'; joyEnd(); speaking = who; curLine = { who, text, o };
     const fx = !!o.lang;
-    $('#who').textContent = CAST[who]?.km || who; $('#dlg').classList.remove('hide'); $('#hear').classList.remove('hide');
+    $('#who').textContent = CAST[who]?.km || who; showAva(who); $('#dlg').classList.remove('hide'); $('#hear').classList.remove('hide');
     $('#line').innerHTML = wordsHTML(text, fx); const tk = tokens(text); bindWords($('#line'), tk);
     if (!fx) seeWords(text);
     const trig = tk.some(t => t.trig);
@@ -486,7 +486,7 @@ function choiceBox(opts) {
   return new Promise(res => {
     $('#kb').classList.add('hide'); $('#book').classList.add('hide');
     ui = 'dlg'; joyEnd(); speaking = 'me'; dlgRes = trigRes = null; hearing++;
-    $('#who').textContent = CAST.me.km; $('#dlg').classList.remove('hide'); $('#more').classList.add('hide'); $('#hear').classList.add('hide');
+    $('#who').textContent = CAST.me.km; showAva('me'); $('#dlg').classList.remove('hide'); $('#more').classList.add('hide'); $('#hear').classList.add('hide');
     $('#line').innerHTML = opts.map((t, i) => `<div class="ch"><button class="chh" data-i="${i}" aria-label="ស្ដាប់"><svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8.5a5 5 0 010 7"/></svg></button><button class="cht" data-i="${i}">${t.split(' ').filter(Boolean).map(w => isPunct(w) ? `<span class="p">${esc(w)}</span>` : `<span class="tk">${kw(w)}</span>`).join(' ')}</button></div>`).join('');
     $('#line').querySelectorAll('.chh').forEach(b => b.onclick = e => { e.stopPropagation(); speaking = 'me'; sayPhrase(opts[+b.dataset.i]); });
     $('#line').querySelectorAll('.cht').forEach(b => b.onclick = e => { e.stopPropagation(); $('#dlg').classList.add('hide'); ui = null; res(opts[+b.dataset.i]); });
@@ -520,16 +520,35 @@ function toast(big, small = '') { const t = $('#toast'); t.innerHTML = (big ? `<
 
 /* ---------------- thumbnails (the word's own low-poly model) ---------------- */
 let tR, tS, tC; const thumbs = {};
+function thumbR() {
+    if (!tR) { const c = document.createElement('canvas'); tR = new THREE.WebGLRenderer({ canvas: c, antialias: false, preserveDrawingBuffer: true, alpha: true }); tR.setSize(56, 56, false); tS = new THREE.Scene(); tS.add(new THREE.HemisphereLight(0xffffff, 0x445566, 1.5)); const d = new THREE.DirectionalLight(0xffffff, 1.5); d.position.set(2, 4, 5); tS.add(d); tC = new THREE.PerspectiveCamera(32, 1, .1, 300); }
+}
 function thumb(w) {
   if (w in thumbs) return thumbs[w]; const f = PIC[w]; if (!f) return thumbs[w] = null;
   try {
-    if (!tR) { const c = document.createElement('canvas'); tR = new THREE.WebGLRenderer({ canvas: c, antialias: false, preserveDrawingBuffer: true, alpha: true }); tR.setSize(56, 56, false); tS = new THREE.Scene(); tS.add(new THREE.HemisphereLight(0xffffff, 0x445566, 1.5)); const d = new THREE.DirectionalLight(0xffffff, 1.5); d.position.set(2, 4, 5); tS.add(d); tC = new THREE.PerspectiveCamera(32, 1, .1, 300); }
-    const o = f(); tS.add(o); o.updateMatrixWorld(true);
+    thumbR(); const o = f(); tS.add(o); o.updateMatrixWorld(true);
     const b = new THREE.Box3().setFromObject(o), c = b.getCenter(new THREE.Vector3()), s = Math.max(.5, b.getSize(new THREE.Vector3()).length());
     tC.position.set(c.x + s * .75, c.y + s * .45, c.z + s * 1.45); tC.lookAt(c); tR.render(tS, tC);
     const url = tR.domElement.toDataURL(); tS.remove(o); return thumbs[w] = url;
   } catch (e) { return thumbs[w] = null; }
 }
+
+/* ---------------- speaker portraits: a close-up of whoever is talking ---------------- */
+const LOOK = { god: { key: 'god', make: () => glowOrb(0xfff0b0, .5) }, angel: { key: 'angel', make: () => person({ glow: 0xffffff }) }, snake: { key: 'snake', make: () => snake() } };
+const avas = {};
+function portrait(who) {
+  const L = who === 'me' ? (heroId ? { key: 'hero:' + heroId + JSON.stringify(HEROES[heroId]), make: () => person(HEROES[heroId]) } : null) : LOOK[who];
+  if (!L) return null; if (L.key in avas) return avas[L.key];
+  try {
+    thumbR(); const m = L.make(), o = m.g || m; tS.add(o); o.updateMatrixWorld(true);
+    let c, d;
+    if (m.head) { c = m.head.getWorldPosition(new THREE.Vector3()); d = 1.05 * m.head.getWorldScale(new THREE.Vector3()).y; c.y -= .05 * d; }
+    else { const b = new THREE.Box3().setFromObject(o); c = b.getCenter(new THREE.Vector3()); d = Math.max(.6, b.getSize(new THREE.Vector3()).length()); }
+    tC.position.set(c.x + d * .3, c.y + d * .12, c.z + d); tC.lookAt(c); tR.render(tS, tC);
+    const url = tR.domElement.toDataURL(); tS.remove(o); return avas[L.key] = url;
+  } catch (e) { return avas[L.key] = null; }
+}
+function showAva(who) { const u = portrait(who), a = $('#ava'); if (u) { a.src = u; a.classList.remove('hide'); } else a.classList.add('hide'); $('#dlg').classList.toggle('hasava', !!u); }
 
 /* ---------------- keyboard: speaking a word ---------------- */
 const CONS = 'ក ខ គ ឃ ង ច ឆ ជ ឈ ញ ដ ឋ ឌ ឍ ណ ត ថ ទ ធ ន ប ផ ព ភ ម យ រ ល វ ស ហ ឡ អ'.split(' ');
@@ -1507,6 +1526,7 @@ async function ehud() {
   goal('យក សួយសារអាករ ។', [-6, 22]);
   await act('យក សួយសារអាករ', [-6, 22], 3.5); world.remove(baskets); const bk = grp(); cyl(.35, .28, .45, 0xb08a50, 0, 0, 0, bk, 7); ball(.28, 0xe03a2a, 0, .25, 0, bk, 5, 3); carry(bk);
   const eg = person({ skin: 0x9a6a44, top: 0x6a2a6a, robe: true, cloth: 0xf2c51c, beard: 0x1a1010 }); eg.b.scale.set(2, 1.1, 1.8); cone(.22, .5, 0xf2c51c, 0, .45, 0, eg.head, 5);
+  LOOK.eglon = { key: 'eglon', make: () => { const p = person({ skin: 0x9a6a44, top: 0x6a2a6a, robe: true, cloth: 0xf2c51c, beard: 0x1a1010 }); p.b.scale.set(2, 1.1, 1.8); cone(.22, .5, 0xf2c51c, 0, .45, 0, p.head, 5); return p; } };
   const eglon = ent(eg, 0, -48, { yaw: 0, solid: 1.3 }); eglon.talk = 'eglon'; tag('អេក្លូន', eg.g); tag('ធាត់', eg.g); tag('ស្ដេច', eg.g);
   const guards = [-1, 1].map(sx => npc('guard', { skin: 0x9a6a44, top: 0x2a3a6a, cloth: 0x2a3a6a, robe: true }, sx * 2, -43, 0));
   goal('ចូល បន្ទប់ ស្ដេច ។', eglon);
@@ -1931,6 +1951,7 @@ async function david() {
   const saul = npc('saul', { skin: 0xa07050, top: 0x5a3a6a, robe: true, cloth: 0xf2c51c, beard: 0x2a1a10, scale: 1.15 }, 3, 25, -Math.PI / 2); cone(.2, .4, 0xf2c51c, 0, .45, 0, saul.m.head, 5); tag('សូល', saul.g);
   const army = []; for (let i = 0; i < 10; i++) { const e = npc('people', { skin: 0xa07050, top: 0x3a5a8a, cloth: 0x8a8a92, sleeve: 0x3a5a8a }, -14 + i * 3, 18, Math.PI); e.talk = null; army.push(e); }
   const gp = person({ skin: 0x9a6a44, top: 0x9a8a60, bottom: 0x6a4a2a, cloth: 0xb8a060, beard: 0x1a1010, sleeve: 0x9a8a60 }); gp.b.scale.setScalar(2.8); const shield = box(.8, 1, .1, 0xc8a040, 0, -.3, .2, gp.arms[0]); const spear = cyl(.04, .04, 3, 0x6a4424, 0, -.4, .1, gp.arms[1], 5);
+  LOOK.goliath = { key: 'goliath', make: () => person({ skin: 0x9a6a44, top: 0x9a8a60, bottom: 0x6a4a2a, cloth: 0xb8a060, beard: 0x1a1010, sleeve: 0x9a8a60 }) };
   const goliath = ent(gp, 0, -22, { yaw: 0, solid: 1.6 }); goliath.talk = 'goliath'; tag('កូលីយ៉ាត', gp.g);
   const phil = []; for (let i = 0; i < 10; i++) phil.push(soldierStatic(-14 + i * 3, -28));
   await arrive([]);
