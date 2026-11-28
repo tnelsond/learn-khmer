@@ -171,8 +171,8 @@ function person(o = {}) {
   const d = fem ? .12 : 0, L = (.74 + d) / .74, sy = rs => rs.map(r => [r[0] * L, ...r.slice(1)]);
   // one low-poly torso, hips to neck; women: narrower waist, fuller hips, a moderate bust in the same shape
   const T = fem
-    ? [[.68, .2, .13, 0, bot], [.82, .33, .21, 0, bot], [1.0, .2, .14, 0, top], [1.2, .26, clothed ? .2 : .17, clothed ? .05 : .03, top], [1.42, .27, .14, 0, top], [1.66, .075, .075, .01, sk]]
-    : [[.68, .18, .12, 0, bot], [.82, .25, .16, 0, bot], [1.0, .22, .14, 0, top], [1.28, .29, .17, .02, top], [1.44, .32, .15, 0, top], [1.67, .085, .085, .01, sk]];
+    ? [[.68, .2, .13, 0, bot], [.82, .33, .21, 0, bot], [1.0, .2, .14, 0, top], [1.2, .26, clothed ? .2 : .17, clothed ? .05 : .03, top], [1.42, .27, .14, 0, top], [1.5, .12, .09, 0, top], [1.53, .055, .055, .01, sk], [1.66, .055, .055, .01, sk]]
+    : [[.68, .18, .12, 0, bot], [.82, .25, .16, 0, bot], [1.0, .22, .14, 0, top], [1.28, .29, .17, .02, top], [1.44, .32, .15, 0, top], [1.52, .14, .1, 0, top], [1.55, .065, .065, .01, sk], [1.67, .065, .065, .01, sk]];
   mesh(loft(T.map(r => [r[0] + d, ...r.slice(1)]), 5), VM(), 0, 0, 0, b);
   // robes: women's reach the ground, men's stop above the ankle so the calves show
   if (o.robe) mesh(loft(fem ? [[1.0 + d, .21, .15, 0, bot], [.8 + d, .32, .22, 0, bot], [.08, .52, .4, 0, bot]] : [[1.0, .23, .15, 0, bot], [.8, .3, .22, 0, bot], [.3, .44, .36, 0, bot]], 6, false), VM(), 0, 0, 0, b);
