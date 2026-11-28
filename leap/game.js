@@ -94,12 +94,15 @@ function playPcm(s, rate) {
 let ttsWorks = null;
 function sayTTS(w, lang) {
   if (!window.speechSynthesis) { if (!lang) ttsWorks = false; return Promise.resolve(false); }
-  const v = lang ? speechSynthesis.getVoices().find(v => v.lang.toLowerCase().replace('_', '-').startsWith(lang)) : kmVoice;
+  // English is read in an American voice when the device has one
+  const vl = v => v.lang.toLowerCase().replace('_', '-'), vs = lang ? speechSynthesis.getVoices() : [];
+  const us = lang === 'en' ? vs.find(x => vl(x) === 'en-us' && /google|samantha|alex|aaron|nicky/i.test(x.name)) || vs.find(x => vl(x) === 'en-us') : null;
+  const v = lang ? us || vs.find(x => vl(x).startsWith(lang)) : kmVoice;
   if (lang && !v) return wait(.4).then(() => false);
   try { speechSynthesis.cancel(); } catch (e) { }
   return new Promise(res => {
     let started = false, done = false; const fin = ok => { if (!done) { done = true; res(ok); } };
-    const u = new SpeechSynthesisUtterance(w); if (v) u.voice = v; u.lang = v ? v.lang : 'km-KH'; u.rate = .9;
+    const u = new SpeechSynthesisUtterance(w); if (v) u.voice = v; u.lang = v ? v.lang : lang === 'en' ? 'en-US' : lang || 'km-KH'; u.rate = .9;
     u.onstart = () => { started = true; if (!lang) { ttsWorks = true; ttsLabel?.(); } };
     u.onend = () => fin(started); u.onerror = () => { if (!lang && !started && ttsWorks !== true) { ttsWorks = false; ttsLabel?.(); } fin(false); };
     speechSynthesis.speak(u);
@@ -2552,9 +2555,11 @@ async function furnace() {
 /* ---- Daniel in the lions' den (Daniel 6) ---- */
 daniel.build = () => {
   setSky(0x4a8ad8, 0xf0dcb0, 0xe8d8b0, 1, true); scene.fog.near = 50; scene.fog.far = 200;
-  H = plainH; bound = 90; terrain(220, 50, () => 0xd8c088);
+  // a real pit for the den, 3.5 deep, with a ring of stones round the rim so nobody falls in early
+  H = (x, z) => { const d = Math.hypot(x - 20, z + 24); return plainH(x, z) - (d < 5.6 ? 3.5 : d < 7.2 ? 3.5 * (7.2 - d) / 1.6 : 0); }; bound = 90; terrain(220, 110, (x, z, y) => Math.hypot(x - 20, z + 24) < 7.2 ? 0x7a6a50 : 0xd8c088);
+  for (let i = 0; i < 22; i++) { const a = i / 22 * Math.PI * 2, x = 20 + Math.cos(a) * 7.8, z = -24 + Math.sin(a) * 7.8; place(rock(.6, 0x8a8070), x, z); solids.push({ x, z, r: 1.2 }); }
   const house = grp(); box(6, 4, 6, 0xd8c8a0, 0, 2, 0, house); box(1.4, 1.2, .1, MB(0x1a2a5a), 0, 3, 3.02, house); place(house, -10, 0, 0, 3.5); tag('បង្អួច', house);
-  const den = grp(); mesh(new THREE.CylinderGeometry(6, 6.4, 1, 10, 1, true), new THREE.MeshLambertMaterial({ color: 0x7a6a50, side: THREE.DoubleSide, flatShading: true }), 0, .3, 0, den); place(den, 20, -24); tag('រូង តោ', den); tag('រូង', den);
+  const den = grp(); mesh(new THREE.CylinderGeometry(6.8, 5.6, 3.6, 14, 1, true), new THREE.MeshLambertMaterial({ color: 0x6a5a44, side: THREE.DoubleSide, flatShading: true }), 0, 1.7, 0, den); den.position.set(20, H(20, -24), -24); world.add(den); tag('រូង តោ', den); tag('រូង', den);
 };
 async function daniel() {
   await leapIn('daniel', -10, 5, Math.PI);
@@ -2576,7 +2581,7 @@ async function daniel() {
   // into the den
   const f = $('#flash'); f.style.background = '#000'; await tween(.7, k => f.style.opacity = k);
   setSky(0x02041a, 0x0a1440, 0x0a1030, .2, true); stars.material.opacity = 1;
-  const floorY = plainH(20, -24) - 3; player.x = 20; player.z = -22; yOverride = floorY;
+  const floorY = H(20, -24); player.x = 20; player.z = -22; yOverride = floorY;
   clampFn = (x, z) => { const dx = x - 20, dz = z + 24, d = Math.hypot(dx, dz); return d > 5 ? [20 + dx / d * 5, -24 + dz / d * 5] : [x, z]; };
   const lions = []; for (let i = 0; i < 4; i++) { const a = animal('lion'); const e = ent(a, 20 + Math.cos(i * 1.6) * 4, -24 + Math.sin(i * 1.6) * 4, { solid: 0, speed: 1.5, flyAbs: floorY }); tag('តោ', a.g); lions.push(e); }
   track = () => [[20, plainH(20, -24) + 6, -16], [20, floorY + 1, -24]];
@@ -2588,7 +2593,7 @@ async function daniel() {
   for (const e of lions) { e.goal = null; await tween(.4, k => { e.m.b.position.y = -k * .4; e.m.legs.forEach(l => l.rotation.x = -k * 1.2); }); }
   cap('ដេក'); await wait(1.5);
   setSky(0xe0a060, 0xf8d8a0, 0xf0d0a0, .9); stars.material.opacity = 0; world.remove(ang.g); ents.splice(ents.indexOf(ang), 1);
-  king.x = 20; king.z = -30.6; king.yaw = 0; king.talk = null;
+  king.x = 20; king.z = -32.2; king.yaw = 0; king.talk = null;
   track = () => [[20, plainH(20, -24) + 7, -15.5], [20, floorY + 2.2, -26]];
   await say('king', 'ដានីយ៉ែល ! តើ ព្រះ របស់ អ្នក សង្គ្រោះ អ្នក បាន ទេ ?');
   await say('me', 'ព្រះ របស់ ខ្ញុំ បាន ចាត់ ទេវតា មក បិទ មាត់ តោ ។');
