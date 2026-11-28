@@ -165,25 +165,27 @@ function person(o = {}) {
   const legs = [], arms = [], knees = [], feet = [];
   const fem = !!o.female && !o.small, clothed = top !== sk, pants = !o.robe && bot !== sk;
   // one sculpted torso, hips to neck; women: narrower waist, fuller hips, a moderate bust in the same shape
+  // women: legs ~16% longer, the rest of the body raised to sit on them
+  const d = fem ? .12 : 0, L = (.74 + d) / .74, sy = rs => rs.map(r => [r[0] * L, ...r.slice(1)]);
   const T = fem
     ? [[.68, .2, .13, 0, bot], [.8, .33, .21, 0, bot], [.95, .2, .14, 0, top], [1.1, .22, .15, .01, top], [1.2, .25, clothed ? .2 : .17, clothed ? .055 : .03, top], [1.3, .245, .17, clothed ? .03 : .015, top], [1.4, .27, .14, 0, top], [1.48, .19, .12, 0, top], [1.56, .075, .075, .01, sk], [1.66, .075, .075, .01, sk]]
     : [[.68, .18, .12, 0, bot], [.8, .25, .16, 0, bot], [.98, .22, .14, 0, top], [1.16, .26, .17, .02, top], [1.3, .3, .17, .02, top], [1.42, .32, .15, 0, top], [1.5, .21, .12, 0, top], [1.57, .085, .085, .01, sk], [1.67, .085, .085, .01, sk]];
-  mesh(loft(T, 6), o.glow ? mat(0) : VC, 0, 0, 0, b);
-  if (o.robe) mesh(loft([[1.0, fem ? .21 : .23, fem ? .15 : .15, 0, bot], [.8, fem ? .3 : .27, .19, 0, bot], [.45, fem ? .4 : .36, .26, 0, bot], [.08, fem ? .5 : .45, .33, 0, bot]], 6, false), o.glow ? mat(0) : VC, 0, 0, 0, b);
-  if (o.coat) [0xd03a2a, 0xf2c51c, 0x2a8a4a, 0x2f5fd0].forEach((c, i) => { const y0 = .86 + i * .16; mesh(loft([[y0, .25, .17, .015, c], [y0 + .12, .26, .175, .015, c]], 6, false), VC, 0, 0, 0, b); });
+  mesh(loft(T.map(r => [r[0] + d, ...r.slice(1)]), 6), o.glow ? mat(0) : VC, 0, 0, 0, b);
+  if (o.robe) mesh(loft([[1.0 + d, fem ? .21 : .23, fem ? .15 : .15, 0, bot], [.8 + d, fem ? .3 : .27, .19, 0, bot], [.45, fem ? .4 : .36, .26, 0, bot], [.08, fem ? .5 : .45, .33, 0, bot]], 6, false), o.glow ? mat(0) : VC, 0, 0, 0, b);
+  if (o.coat) [0xd03a2a, 0xf2c51c, 0x2a8a4a, 0x2f5fd0].forEach((c, i) => { const y0 = .86 + d + i * .16; mesh(loft([[y0, .25, .17, .015, c], [y0 + .12, .26, .175, .015, c]], 6, false), VC, 0, 0, 0, b); });
   // arms: shoulder, bicep, elbow, forearm, wrist, hand in one shape
   const sl = o.sleeve ?? top;
-  for (const s of [-1, 1]) { const p = pivot(b, s * (fem ? .27 : .31), 1.4, 0); mesh(loft([[.06, .08, .08, 0, sl], [-.02, .1, .09, 0, sl], [-.14, .09, .085, 0, sl], [-.28, .065, .065, 0, sl], [-.42, .07, .065, .01, o.robe ? sl : sk], [-.53, .05, .05, .01, sk], [-.58, .065, .045, .02, sk], [-.68, .045, .035, .03, sk]], 5), o.glow ? mat(0) : VC, 0, 0, 0, p); arms.push(p); }
+  for (const s of [-1, 1]) { const p = pivot(b, s * (fem ? .27 : .31), 1.4 + d, 0); mesh(loft([[.06, .08, .08, 0, sl], [-.02, .1, .09, 0, sl], [-.14, .09, .085, 0, sl], [-.28, .065, .065, 0, sl], [-.42, .07, .065, .01, o.robe ? sl : sk], [-.53, .05, .05, .01, sk], [-.58, .065, .045, .02, sk], [-.68, .045, .035, .03, sk]], 5), o.glow ? mat(0) : VC, 0, 0, 0, p); arms.push(p); }
   // legs: thigh (hip to knee) and shin (knee to ankle, with a calf) as separate shapes so the knee bends
   const lc = o.robe ? sk : pants ? bot : sk;
   for (const s of [-1, 1]) {
-    const W = fem ? 1.2 : 1, p = pivot(b, s * (fem ? .14 : .11), .74, 0); mesh(loft([[.04, .12 * W, .12 * W, 0, lc], [-.14, .115 * W, .11 * W, 0, lc], [-.3, .085 * W, .085 * W, .01, lc], [-.38, .075 * W, .075 * W, .01, lc]], 5), o.glow ? mat(0) : VC, 0, 0, 0, p);
-    const k = pivot(p, 0, -.37, 0); mesh(loft([[.02, .075 * W, .075 * W, .01, sk], [-.1, .08 * W, .09 * W, -.015, sk], [-.24, .06 * W, .06 * W, 0, sk], [-.32, .045 * W, .045 * W, 0, sk]], 5), o.glow ? mat(0) : VC, 0, 0, 0, k);
-    const f = mesh(loft([[-.3, .055, .06, .01, o.barefoot ? sk : 0x4a3420], [-.38, .07, .11, .06, o.barefoot ? sk : 0x4a3420], [-.4, .06, .12, .07, o.barefoot ? sk : 0x4a3420]], 5), o.glow ? mat(0) : VC, 0, 0, 0, k);
+    const W = fem ? 1.2 : 1, p = pivot(b, s * (fem ? .14 : .11), .74 + d, 0); mesh(loft(sy([[.04, .12 * W, .12 * W, 0, lc], [-.14, .115 * W, .11 * W, 0, lc], [-.3, .085 * W, .085 * W, .01, lc], [-.38, .075 * W, .075 * W, .01, lc]]), 5), o.glow ? mat(0) : VC, 0, 0, 0, p);
+    const k = pivot(p, 0, -.37 * L, 0); mesh(loft(sy([[.02, .075 * W, .075 * W, .01, sk], [-.1, .08 * W, .09 * W, -.015, sk], [-.24, .06 * W, .06 * W, 0, sk], [-.32, .045 * W, .045 * W, 0, sk]]), 5), o.glow ? mat(0) : VC, 0, 0, 0, k);
+    const f = mesh(loft(sy([[-.3, .055, .06, .01, o.barefoot ? sk : 0x4a3420], [-.38, .07, .11, .06, o.barefoot ? sk : 0x4a3420], [-.4, .06, .12, .07, o.barefoot ? sk : 0x4a3420]]), 5), o.glow ? mat(0) : VC, 0, 0, 0, k);
     legs.push(p); knees.push(k); feet.push(f);
   }
   if (o.staff) { const st = mesh(new THREE.CylinderGeometry(.035, .035, 2.2, 5), mat(0x6a4424), 0, -.5, .05, arms[1]); st.rotation.x = .1; }
-  const head = grp(0, 1.8, 0, b);
+  const head = grp(0, 1.8 + d, 0, b);
   // the head: a six-sided double pyramid, 12 triangles, a flat face to the front
   // the lower faces point down and caught almost no light, which read as a beard: give the face its own softly lit skin
   const hm = o.glow ? mat(sk) : MB(sk); // unlit: one even skin tone, no shading on the face
