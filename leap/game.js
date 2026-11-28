@@ -800,10 +800,12 @@ function frame(now) {
   renderer.render(scene, camera);
 }
 function turn(a, b, k) { let d = b - a; while (d > Math.PI) d -= Math.PI * 2; while (d < -Math.PI) d += Math.PI * 2; return a + d * Math.min(1, k * 6); }
+// kneel (and bow from the hips) without sinking: shins fold back, the body drops by a shin's length
+function kneel(m, k, o) { (o || m).kneel = k; m.b.position.y = -.36 * k * (m.b.scale.y || 1); m.b.rotation.x = .45 * k; }
 function animLimbs(m, sp, dt, e) { const o = e || m; o.walkT = (o.walkT || 0) + dt * 10 * (sp ? 1 : 0);
   // a little up-and-down with every step
   if (m.b) { if (sp) { m.b.position.y = Math.abs(Math.sin(o.walkT)) * (m.legs.length > 2 ? .07 : .1) * Math.min(1, sp + .3); o.bobbing = true; } else if (o.bobbing) { m.b.position.y = 0; o.bobbing = false; } } const a = sp ? Math.sin(o.walkT) * .7 * Math.min(1, sp + .3) : 0; m.legs.forEach((l, i) => l.rotation.x += ((i % 2 ? a : -a) * (m.legs.length > 2 && i > 1 ? -1 : 1) - l.rotation.x) * Math.min(1, dt * 12));
-  if (m.knees) m.knees.forEach((k, i) => { const want = sp ? Math.max(0, Math.sin(o.walkT + (i % 2 ? Math.PI : 0) - 1.3)) * 1.2 : 0; k.rotation.x += (want - k.rotation.x) * Math.min(1, dt * 14); }); if (m.arms) m.arms.forEach((r, i) => { if (m === hero && (player.carry || player.raise)) r.rotation.x += (-2.6 - r.rotation.x) * Math.min(1, dt * 10); else r.rotation.x += ((i ? -a : a) - r.rotation.x) * Math.min(1, dt * 12); }); }
+  if (m.knees) m.knees.forEach((k, i) => { const want = sp ? Math.max(0, Math.sin(o.walkT + (i % 2 ? Math.PI : 0) - 1.3)) * 1.2 : (o.kneel || 0) * 1.55; k.rotation.x += (want - k.rotation.x) * Math.min(1, dt * 14); }); if (m.arms) m.arms.forEach((r, i) => { if (m === hero && (player.carry || player.raise)) r.rotation.x += (-2.6 - r.rotation.x) * Math.min(1, dt * 10); else r.rotation.x += ((i ? -a : a) - r.rotation.x) * Math.min(1, dt * 12); }); }
 function tryMove(dx, dz) {
   const r = .45; let nx = player.x + dx, nz = player.z + dz;
   // a move is blocked only if it ends inside something AND goes deeper in: you can always walk out of an overlap
@@ -1008,7 +1010,7 @@ async function adam() {
     let gotName = false; const heard = speakAt([word]).then(() => { gotName = true; });
     await Promise.race([walk(e, player.x + 2.5, player.z + 2.5), heard]);
     e.follow = 'player'; e.gap = 2.6; e.yaw = Math.atan2(player.x - e.x, player.z - e.z);
-    if (!gotName) { await say('me', `*${word} ?`); goal(`និយាយ « ${word} » ។`, e); await heard; } burst(e.x, e.y + 1.5, e.z, 0xf2c51c, 40, 2.5); good();
+    if (!gotName) { await say('me', `${word} ?`); goal(`និយាយ « ${word} » ។`, e); await heard; } burst(e.x, e.y + 1.5, e.z, 0xf2c51c, 40, 2.5); good();
     toast(word); await wait(1.2);
     e.follow = null; named.push(e); wander(e, 10);
   }
@@ -1172,7 +1174,7 @@ async function noah() {
   let d1 = await sendBird(0xffffff, 'ព្រាប', () => wait(1), 'empty'); d1.g.visible = false;
   toast('', 'ព្រាប ត្រឡប់ មក វិញ ។ គ្មាន អ្វី ទេ ។'); await sayPhrase('ព្រាប ត្រឡប់ មក វិញ ។'); toast('ប្រាំពីរ ថ្ងៃ'); await sayPhrase('ប្រាំពីរ ថ្ងៃ');
   await sendBird(0xffffff, 'ព្រាប', () => tween(3, k => { waterY = 24 - k * 8; }), 'leaf');
-  await talk([['me', 'មើល ! *ស្លឹកឈើ !'], ['me', 'ទឹក ស្រក ហើយ !']]);
+  await talk([['me', 'មើល ! ស្លឹកឈើ !'], ['me', 'ទឹក ស្រក ហើយ !']]);
   toast('ប្រាំពីរ ថ្ងៃ'); await sayPhrase('ប្រាំពីរ ថ្ងៃ');
   await sendBird(0xffffff, 'ព្រាប', () => tween(4, k => { waterY = 16 - k * 18; }), null);
   toast('', 'ព្រាប មិន ត្រឡប់ មក វិញ ទេ ។'); await sayPhrase('ព្រាប មិន ត្រឡប់ មក វិញ ទេ ។');
@@ -1191,7 +1193,7 @@ async function noah() {
   const rb = rainbowMesh(60); rb.position.set(0, 0, 140); world.add(rb); tag('ឥន្ទធនូ', rb); good();
   godGlow(true, [0, 45, 100]);
   await camTo([player.x, player.y + 3, player.z - 7], [0, 35, 140], 2);
-  await talk([['god', 'មើល *ឥន្ទធនូ ។'], ['god', 'យើង នឹង មិន ធ្វើ ទឹកជំនន់ ទៀត ទេ ។ នេះ ជា សេចក្ដី សន្យា ។']]);
+  await talk([['god', 'មើល ឥន្ទធនូ ។'], ['god', 'យើង នឹង មិន ធ្វើ ទឹកជំនន់ ទៀត ទេ ។ នេះ ជា សេចក្ដី សន្យា ។']]);
   camFree(); await nextCh();
 }
 
@@ -1316,7 +1318,7 @@ async function abram() {
   const f = $('#flash'); f.style.background = '#fff'; await tween(1, k => f.style.opacity = k);
   const isaac = npc('isaac', { skin: 0xb07a50, top: 0xe0d0a0, robe: true, hair: 0x2a1a10, small: true }, player.x + 2, player.z + 1.5, Math.PI); tag('អ៊ីសាក', isaac.g);
   await tween(1, k => f.style.opacity = 1 - k); f.style.background = '';
-  await talk([['sarah', 'មើល ! កូនប្រុស យើង ! ឈ្មោះ គាត់ *អ៊ីសាក ។'], ['sarah', 'អ៊ីសាក មាន ន័យ ថា « សើច » ។'], ['sarah', 'ព្រះជាម្ចាស់ ធ្វើ ឲ្យ ខ្ញុំ សើច ! ខ្ញុំ សប្បាយ ណាស់ !']]);
+  await talk([['sarah', 'មើល ! កូនប្រុស យើង ! ឈ្មោះ គាត់ អ៊ីសាក ។'], ['sarah', 'អ៊ីសាក មាន ន័យ ថា « សើច » ។'], ['sarah', 'ព្រះជាម្ចាស់ ធ្វើ ឲ្យ ខ្ញុំ សើច ! ខ្ញុំ សប្បាយ ណាស់ !']]);
   // Moriah
   godGlow(true, [-60, 50, -70]);
   await talk([['god', 'អ័ប្រាហាំ !'], ['me', 'ខ្ញុំ នៅ ទីនេះ ។'], ['god', 'យក អ៊ីសាក កូន ដែល អ្នក ស្រឡាញ់ ទៅ ភ្នំ ម៉ូរីយ៉ា ។'], ['god', 'ថ្វាយ គាត់ ជា តង្វាយ ដល់ យើង ។'], ['al', '... ពិបាក ណាស់ ។ ប៉ុន្តែ អ័ប្រាហាំ ជឿ ព្រះជាម្ចាស់ ។']]);
@@ -1378,12 +1380,12 @@ async function jacob() {
   const f = $('#flash'); f.style.background = 'radial-gradient(circle,#fff8d8,#f2c51c 40%,#3a2a6a)'; await tween(.8, k => f.style.opacity = k * .7); await tween(.8, k => f.style.opacity = .7 * (1 - k)); f.style.background = '';
   await camTo([16, H(0, 0) + 6, 18], [0, 20, -16], 1.5);
   godGlow(true, [0, 64, -32]);
-  await say('god', 'មើល *ជណ្ដើរ !');
+  await say('god', 'មើល ជណ្ដើរ !');
   const ld = ladder(64); place(ld, 0, -10); ld.rotation.x = -.3; tag('ជណ្ដើរ', ld); ld.scale.y = .01; await tween(2, k => ld.scale.y = Math.max(.01, k)); cap('ជណ្ដើរ');
   const angels = [];
   for (let i = 0; i < 6; i++) { const a = ent(person({ glow: 0xffffff }), 0, -10, { solid: 0 }); a.t0 = i / 6; a.dir = 0; a.tick = dt => { a.t0 = (a.t0 + dt * .07 * a.dir + 1) % 1; const y = a.t0 * 60; a.flyAbs = H(0, -10) + y * Math.cos(.3); a.z = -10 - y * Math.sin(.3); a.x = i % 2 ? .5 : -.5; }; angels.push(a); tag('ទេវតា', a.g); }
-  await say('god', 'ទេវតា *ឡើង ...'); angels.forEach(a => a.dir = 1); cap('ឡើង'); await wait(3);
-  await say('god', 'ទេវតា *ចុះ ...'); angels.forEach(a => a.dir = -1); cap('ចុះ'); await wait(3);
+  await say('god', 'ទេវតា ឡើង ...'); angels.forEach(a => a.dir = 1); cap('ឡើង'); await wait(3);
+  await say('god', 'ទេវតា ចុះ ...'); angels.forEach(a => a.dir = -1); cap('ចុះ'); await wait(3);
   angels.forEach((a, i) => a.dir = i % 2 ? 1 : -1);
   await talk([['god', 'យើង ជា ព្រះ របស់ អ័ប្រាហាំ និង អ៊ីសាក ។'], ['god', 'ដី នេះ យើង នឹង ឲ្យ អ្នក និង កូនចៅ អ្នក ។'], ['god', 'យើង នៅ ជាមួយ អ្នក ។ យើង នឹង ការពារ អ្នក ។']]);
   for (const a of angels) { world.remove(a.g); ents.splice(ents.indexOf(a), 1); } world.remove(ld); godGlow(false);
@@ -1419,7 +1421,7 @@ async function joseph() {
   await leapIn('joseph', 2, 6, Math.PI);
   const dad = npc('father', { ...HEROES.jacob, beard: 0xd8d8d8 }, -2, 2, 0);
   await arrive([]);
-  await talk([['father', 'យ៉ូសែប កូន ប្រុស ប៉ា !'], ['father', 'ប៉ា ស្រឡាញ់ កូន ណាស់ ។'], ['father', 'នេះ ជា *អាវ សម្រាប់ កូន ។']]);
+  await talk([['father', 'យ៉ូសែប កូន ប្រុស ប៉ា !'], ['father', 'ប៉ា ស្រឡាញ់ កូន ណាស់ ។'], ['father', 'នេះ ជា អាវ សម្រាប់ កូន ។']]);
   world.remove(hero.g); hero = person({ ...HEROES.joseph, coat: true, top: 0xd03a2a, bottom: 0x2f5fd0 }); world.add(hero.g); burst(player.x, player.y + 1.2, player.z, 0xf2c51c, 40, 2); good(); cap('អាវ');
   await say('me', 'អរគុណ ប៉ា ! អាវ ស្អាត ណាស់ !');
   await talk([['father', 'បងប្រុស កូន នៅ វាល ជាមួយ ចៀម ។'], ['father', 'ទៅ មើល ពួកគេ ។']]);
@@ -1428,10 +1430,10 @@ async function joseph() {
   const pit = new THREE.Group(); mesh(new THREE.CylinderGeometry(1.6, 1.7, .5, 8, 1, true), new THREE.MeshLambertMaterial({ color: 0x7a6a50, side: THREE.DoubleSide, flatShading: true }), 0, .15, 0, pit); mesh(new THREE.CircleGeometry(1.55, 8).rotateX(-Math.PI / 2), MB(0x0a0808), 0, .06, 0, pit); place(pit, 46, -20); tag('រណ្ដៅ', pit); solids.push({ x: 46, z: -20, r: 1.4 });
   goal('ទៅ រក បងប្រុស ។', bros[0]);
   await reach([40, -28], 7);
-  await talk([['bro', 'មើល ! អ្នក សុបិន មក ហើយ !'], ['bro', 'យក *អាវ របស់ គាត់ !']]);
+  await talk([['bro', 'មើល ! អ្នក សុបិន មក ហើយ !'], ['bro', 'យក អាវ របស់ គាត់ !']]);
   world.remove(hero.g); hero = person(HEROES.joseph); world.add(hero.g); tone([300, 200], .6, 'triangle', .06);
   const coatO = person({ coat: true, top: 0xd03a2a }).g; coatO.scale.setScalar(.6); bros[0].m.b.add(coatO); coatO.position.set(.4, .6, .3); coatO.rotation.z = 1.2;
-  await say('bro', 'បោះ គាត់ ទៅ ក្នុង *រណ្ដៅ !');
+  await say('bro', 'បោះ គាត់ ទៅ ក្នុង រណ្ដៅ !');
   // down in the pit
   solids.splice(solids.findIndex(q => q.x === 46 && q.z === -20), 1);
   const pitFloor = H(46, -20) - 3;
@@ -1444,7 +1446,7 @@ async function joseph() {
   traders.forEach((t, i) => walk(t, 51, -21 + i * 2.5, 7)); tc.forEach((c, i) => walk(c, 55, -19 + i * 3, 7)); tc.forEach(c => tag('អូដ្ឋ', c.g));
   track = () => [[52, H(46, -20) + 7, -8], [47, H(46, -20) + .5, -20]];
   await wait(3);
-  await talk([['bro', 'មើល ! *ឈ្មួញ !'], ['bro', 'កុំ សម្លាប់ គាត់ ។ លក់ គាត់ !'], ['trader', 'ម្ភៃ *ប្រាក់ ។']]);
+  await talk([['bro', 'មើល ! ឈ្មួញ !'], ['bro', 'កុំ សម្លាប់ គាត់ ។ លក់ គាត់ !'], ['trader', 'ម្ភៃ ប្រាក់ ។']]);
   for (let i = 0; i < 20; i++) setTimeout(() => burst(49, H(49, -21) + 1.8, -21, 0xe0e0f0, 3, 1.5), i * 90);
   toast('២០', 'ម្ភៃ ប្រាក់'); speaking = 'trader'; await sayPhrase('ម្ភៃ ប្រាក់');
   goal('ឡើង ពី រណ្ដៅ ។', null);
@@ -1461,14 +1463,14 @@ async function joseph() {
   await reach([0, -12.5], 3.5);
   await talk([['pharaoh', 'យ៉ូសែប ! ខ្ញុំ សុបិន ។ គ្មាន អ្នក ណា យល់ ទេ ។']]);
   await camTo([14, 7, -28], [0, 0, -44], 1.5);
-  await say('pharaoh', 'គោ *ធាត់ ប្រាំពីរ ក្បាល ...');
+  await say('pharaoh', 'គោ ធាត់ ប្រាំពីរ ក្បាល ...');
   const fat = [], thin = [];
   for (let i = 0; i < 7; i++) { const a = animal('cow'); a.b.scale.set(1.7, 1.15, 1.05); const e = ent(a, -12 + i * 4, -50, { speed: 2 }); walk(e, -12 + i * 4, -40); fat.push(e); tag('ធាត់', a.g); }
   cap('ធាត់'); await wait(3);
-  await say('pharaoh', 'គោ *ស្គម ប្រាំពីរ ក្បាល ...');
+  await say('pharaoh', 'គោ ស្គម ប្រាំពីរ ក្បាល ...');
   for (let i = 0; i < 7; i++) { const a = animal('cow'); a.b.scale.set(.5, 1, .95); const e = ent(a, -10 + i * 4, -52, { speed: 2 }); walk(e, -10 + i * 4, -43); thin.push(e); tag('ស្គម', a.g); }
   cap('ស្គម'); await wait(3);
-  await say('pharaoh', 'គោ ស្គម *ស៊ី គោ ធាត់ !');
+  await say('pharaoh', 'គោ ស្គម ស៊ី គោ ធាត់ !');
   for (const e of fat) { burst(e.x, e.y + 1, e.z, 0xffffff, 20, 2); world.remove(e.g); ents.splice(ents.indexOf(e), 1); } cap('ស៊ី'); await wait(1.5);
   await say('pharaoh', 'តើ វា មាន ន័យ អ្វី ?');
   await say('me', 'ប្រាំពីរ ឆ្នាំ មាន ស្បៀង ច្រើន ។ ប្រាំពីរ ឆ្នាំ ទៀត គ្មាន ស្បៀង ។');
@@ -1519,9 +1521,9 @@ async function redSea() {
   for (let i = 0; i < 3; i++) { const c = grp(); box(1.6, .8, 1.2, 0xb03a2a, 0, .9, 0, c); for (const s of [-1, 1]) { const w = cyl(.5, .5, .12, 0x5a3a20, s * .9, .5, 0, c, 8); w.rotation.z = Math.PI / 2; } const hz = animal('horse').g; hz.position.set(0, 0, 2.2); c.add(hz); c.rotation.y = Math.PI; place(c, -10 + i * 10, 70); anims.push(dt => { if (c.position.z > 34) { c.position.z -= dt * 6; c.position.y = H(c.position.x, c.position.z); if (Math.random() < .3) emit(c.position.x, c.position.y + .3, c.position.z + 1, rnd(-1, 1), 1, 2, 0xd8c088, .8, 0); } }); tag('ទាហាន', c); }
   await tween(1.2, k => f.style.opacity = 1 - k); f.style.background = '';
   toast('សមុទ្រ ក្រហម'); speaking = 'god'; await sayPhrase('សមុទ្រ ក្រហម');
-  await talk([['people', 'មើល ! *ទាហាន អេស៊ីប មក !'], ['people', 'យើង នឹង ស្លាប់ !']]);
+  await talk([['people', 'មើល ! ទាហាន អេស៊ីប មក !'], ['people', 'យើង នឹង ស្លាប់ !']]);
   await say('me', 'កុំ ខ្លាច ! ព្រះជាម្ចាស់ នឹង ជួយ យើង ។');
-  await say('god', 'ម៉ូសេ ! លើក *ដំបង របស់ អ្នក !');
+  await say('god', 'ម៉ូសេ ! លើក ដំបង របស់ អ្នក !');
   goal('លើក ដំបង នៅ មាត់ សមុទ្រ ។', [0, -6]);
   await act('លើក ដំបង', [0, -6], 4);
   player.raise = true; cap('ដំបង'); tone([80, 120], 3, 'sawtooth', .05, 1.5);
@@ -1599,9 +1601,9 @@ async function ehud() {
   await leapIn('ehud', 0, 30, Math.PI);
   npc('people', { skin: 0xa07050, top: 0x5a7a3a, robe: true, cloth: 0xe0d0b0, beard: 0xd8d8d8 }, -3, 27, Math.PI / 2);
   await arrive([]);
-  await talk([['people', 'អេក្លូន ជា ស្ដេច ម៉ូអាប់ ។ គាត់ ធ្វើ បាប យើង ដប់ប្រាំបី ឆ្នាំ ។'], ['people', 'អេហ៊ូឌ ! អ្នក ប្រើ *ដៃ ឆ្វេង ។']]);
+  await talk([['people', 'អេក្លូន ជា ស្ដេច ម៉ូអាប់ ។ គាត់ ធ្វើ បាប យើង ដប់ប្រាំបី ឆ្នាំ ។'], ['people', 'អេហ៊ូឌ ! អ្នក ប្រើ ដៃ ឆ្វេង ។']]);
   hero.arms[1].rotation.x = -2.8; await wait(.8); // arms[1] is his left
-  await say('people', 'យក *សួយសារអាករ ទៅ ឲ្យ ស្ដេច អេក្លូន ។');
+  await say('people', 'យក សួយសារអាករ ទៅ ឲ្យ ស្ដេច អេក្លូន ។');
   await say('me', 'បាទ ។ ខ្ញុំ នឹង ទៅ ។');
   const forge = fire(); forge.scale.setScalar(1.4); place(forge, 8, 24); tag('ភ្លើង', forge);
   goal('ធ្វើ ដាវ ខ្លី ។', [8, 24]);
@@ -1624,7 +1626,7 @@ async function ehud() {
   await talk([['eglon', 'អ្នក ណា ? យក អ្វី មក ?']]);
   goal('ឲ្យ សួយសារអាករ ។', eglon);
   await act('ឲ្យ សួយសារអាករ', eglon, 4.5); drop(); good();
-  await say('eglon', 'ល្អ ! ខ្ញុំ *ធាត់ ណាស់ ។ ហាហា !');
+  await say('eglon', 'ល្អ ! ខ្ញុំ ធាត់ ណាស់ ។ ហាហា !');
   await say('me', 'ព្រះករុណា ! ខ្ញុំ មាន សារ សម្ងាត់ សម្រាប់ ព្រះអង្គ ។');
   await say('eglon', 'ស្ងាត់ ! ចេញ ទៅ ទាំងអស់ គ្នា !');
   for (const g of guards) { g.talk = null; walk(g, g.x, -38, 3).then(() => walk(g, g.x * 3, -30, 3)); }
@@ -1645,7 +1647,7 @@ async function ehud() {
   hero.arms[1].rotation.x = -1.6; tone([200, 120], .4, 'square', .07);
   await tween(.9, k => { sword.position.z = 2.5 - k * 1.75; }); burst(ex, eglon.y + 1.1, ez, 0xa01818, 20, 1.2);
   await tween(.8, k => { belly.scale.set(1.5 + k * .25, 1 + k * .25, 1 + k * .35); });
-  await say('god', 'ខ្លាញ់ គ្រប *ដាវ ។ អេហ៊ូឌ មិន ហូត ដាវ ចេញ ទេ ។');
+  await say('god', 'ខ្លាញ់ គ្រប ដាវ ។ អេហ៊ូឌ មិន ហូត ដាវ ចេញ ទេ ។');
   await camTo([player.x + 4, player.y + 2.4, player.z + 1], [(player.x + eglon.x) / 2, player.y + 1.2, (player.z + eglon.z) / 2], .6);
   await tween(1, k => { eg.g.rotation.x = -k * 1.45; }); eglon.solid = 0;
   toast('', 'ស្ដេច អេក្លូន ស្លាប់ ។'); speaking = 'god'; await sayPhrase('ស្ដេច អេក្លូន ស្លាប់ ។'); camFree();
@@ -1689,7 +1691,7 @@ async function samsonLion() {
   const lion = animal('lion'); lion.g.scale.setScalar(1.3); tag('តោ', lion.g);
   const L = foe(lion, 0, -18, { hp: 4, speed: 5 }); L.yaw = 0;
   tone([90, 70], 1.2, 'sawtooth', .08); await camTo([player.x + 5, player.y + 3, player.z + 4], [0, 1, -14], 1);
-  await say('me', 'មើល ! *តោ !');
+  await say('me', 'មើល ! តោ !');
   toast('', 'ព្រះវិញ្ញាណ មក លើ សាំសុន ។'); speaking = 'god'; sayPhrase('ព្រះវិញ្ញាណ មក លើ សាំសុន ។'); burst(player.x, player.y + 1, player.z, 0xfff0a0, 60, 3);
   camFree(); goal('វាយ តោ ! ចុច A ។', () => [L.x, L.z]);
   await fight([L], 'វាយ តោ');
@@ -1704,7 +1706,7 @@ async function samsonLion() {
   toast('', 'ច្រើន ថ្ងៃ ក្រោយ ...'); speaking = 'god'; await sayPhrase('ច្រើន ថ្ងៃ ក្រោយ ។');
   goal('មើល តោ ។', [lx + 2, lz]);
   await reach([lx + 2, lz], 5);
-  await say('me', 'មើល ! *ឃ្មុំ ! មាន ទឹកឃ្មុំ នៅ ក្នុង តោ !');
+  await say('me', 'មើល ! ឃ្មុំ ! មាន ទឹកឃ្មុំ នៅ ក្នុង តោ !');
   goal('យក ទឹកឃ្មុំ ។', [lx + 2, lz]);
   await act('យក ទឹកឃ្មុំ', [lx + 2, lz], 3.5); world.remove(comb); const c2 = grp(); for (let i = 0; i < 3; i++) mesh(new THREE.CylinderGeometry(.12, .12, .18, 6), MB(0xf2b81c), (i - 1) * .22, 0, 0, c2); carry(c2); cap('ទឹកឃ្មុំ');
   goal('ហូប ទឹកឃ្មុំ ។', null);
@@ -1781,14 +1783,14 @@ async function samsonFight() {
   await leapIn('samson', 0, 6, Math.PI);
   const judah = [0, 1, 2].map(i => npc('people', { skin: 0xa07050, top: 0x5a7a3a, robe: true, cloth: 0xe0d0b0 }, -3 + i * 3, 9, Math.PI));
   await arrive([]);
-  await talk([['people', 'សាំសុន ! ពួក ភីលីស្ទីន មក ចាប់ អ្នក ។'], ['people', 'យើង ត្រូវ ចង អ្នក ដោយ *ខ្សែ ។']]);
+  await talk([['people', 'សាំសុន ! ពួក ភីលីស្ទីន មក ចាប់ អ្នក ។'], ['people', 'យើង ត្រូវ ចង អ្នក ដោយ ខ្សែ ។']]);
   await say('me', 'ចង ខ្ញុំ ចុះ ។ ប៉ុន្តែ កុំ សម្លាប់ ខ្ញុំ ។');
   const ropes = []; for (let i = 0; i < 3; i++) { const r = mesh(new THREE.TorusGeometry(.36, .05, 3, 8), 0xc8a870, 0, .95 + i * .22, 0, hero.b); r.rotation.x = Math.PI / 2; ropes.push(r); } cap('ខ្សែ');
   for (const j of judah) { j.talk = null; walk(j, j.x * 3, 40, 4); }
   const wave = n => { const out = []; for (let i = 0; i < n; i++) { const a = rnd(0, 6.28); out.push(soldier(player.x + Math.cos(a) * rnd(20, 30), player.z + Math.sin(a) * rnd(20, 30))); } return out; };
   const first = wave(5); for (const s of first) { s.tick0 = s.tick; s.tick = null; walk(s, player.x + (s.x - player.x) * .4, player.z + (s.z - player.z) * .4, 3); }
   await wait(2.5);
-  await say('w1', 'ហូ ! យើង ចាប់ *សាំសុន បាន ហើយ !');
+  await say('w1', 'ហូ ! យើង ចាប់ សាំសុន បាន ហើយ !');
   toast('', 'ព្រះវិញ្ញាណ មក លើ សាំសុន ។'); speaking = 'god'; sayPhrase('ព្រះវិញ្ញាណ មក លើ សាំសុន ។');
   goal('ផ្ដាច់ ខ្សែ ។', null);
   await act('ផ្ដាច់ ខ្សែ', [player.x, player.z], 99);
@@ -1841,7 +1843,7 @@ async function babyMoses() {
   const mom = npc('mom', { skin: 0xa07050, top: 0x5a3a6a, robe: true, cloth: 0xd8c8a0, female: true }, -2, 4, Math.PI / 2);
   const b = basket(); place(b, -1, 2.5); tag('កន្ត្រក', b); tag('ទារក', b);
   await arrive([]);
-  await talk([['mom', 'ផារ៉ោន ចង់ សម្លាប់ កូនប្រុស ទាំងអស់ ។'], ['mom', 'យើង ត្រូវ លាក់ ប្អូន ប្រុស អ្នក ។'], ['mom', 'យក *កន្ត្រក ទៅ ទន្លេ ។']]);
+  await talk([['mom', 'ផារ៉ោន ចង់ សម្លាប់ កូនប្រុស ទាំងអស់ ។'], ['mom', 'យើង ត្រូវ លាក់ ប្អូន ប្រុស អ្នក ។'], ['mom', 'យក កន្ត្រក ទៅ ទន្លេ ។']]);
   goal('យក កន្ត្រក ។', [-1, 2.5]);
   await act('យក កន្ត្រក', [-1, 2.5], 3); world.remove(b); const bb = basket(); bb.scale.setScalar(.7); carry(bb); tone([700, 500], .3, 'triangle', .05);
   goal('ដាក់ កន្ត្រក នៅ ទន្លេ ក្នុង ដើម ត្រែង ។', [0, -38]);
@@ -1855,8 +1857,8 @@ async function babyMoses() {
   const princess = npc('princess', { skin: 0xb07a50, top: 0xf0f0e8, robe: true, cloth: 0xf2c51c, female: true }, -14, -26, 0); tag('បុត្រី', princess.g);
   const maids = [0, 1].map(i => npc('maid', { skin: 0x9a6a44, top: 0xe0d8c0, robe: true, female: true }, -16 - i * 2, -24, 0));
   await walk(princess, -3, -35, 2.5); maids.forEach((m, i) => walk(m, -6 - i * 2, -33, 2.5));
-  await say('princess', 'មើល ! *កន្ត្រក មួយ !');
-  await wait(.5); tone([900, 1100, 900], .8, 'triangle', .05); await say('princess', 'កូន *ទារក ! វា យំ ។');
+  await say('princess', 'មើល ! កន្ត្រក មួយ !');
+  await wait(.5); tone([900, 1100, 900], .8, 'triangle', .05); await say('princess', 'កូន ទារក ! វា យំ ។');
   camFree(); goal('ទៅ និយាយ ជាមួយ បុត្រី ផារ៉ោន ។', princess);
   await reach([princess.x, princess.z], 4);
   await say('me', 'ខ្ញុំ អាច រក ម្ដាយ ដោះ សម្រាប់ ទារក នេះ ។');
@@ -1866,7 +1868,7 @@ async function babyMoses() {
   mom.follow = 'player'; mom.gap = 2; await say('mom', 'កូន ខ្ញុំ !');
   goal('នាំ ម្ដាយ ទៅ បុត្រី ផារ៉ោន ។', princess);
   await reach([princess.x, princess.z], 4); mom.follow = null;
-  await talk([['princess', 'ចិញ្ចឹម ទារក នេះ ឲ្យ ខ្ញុំ ។'], ['princess', 'ឈ្មោះ គាត់ គឺ *ម៉ូសេ ។ ខ្ញុំ ស្រង់ គាត់ ពី ទឹក ។']]);
+  await talk([['princess', 'ចិញ្ចឹម ទារក នេះ ឲ្យ ខ្ញុំ ។'], ['princess', 'ឈ្មោះ គាត់ គឺ ម៉ូសេ ។ ខ្ញុំ ស្រង់ គាត់ ពី ទឹក ។']]);
   await nextCh();
 }
 
@@ -1877,7 +1879,7 @@ async function plagues() {
   const aaron = npc('aaron', { skin: 0xa07050, top: 0x3a5a8a, robe: true, cloth: 0xe8e0c8, beard: 0x8a8a8a }, -2.5, -25, 0);
   const ph = npc('pharaoh', { skin: 0x9a6a44, top: 0xf0f0e8, robe: true, cloth: 0x2f5fd0 }, 0, -21, Math.PI); cone(.22, .6, 0xf2c51c, 0, .5, 0, ph.m.head, 5); tag('ផារ៉ោន', ph.g);
   await arrive([]);
-  const ask = async () => { await say('me', 'ផារ៉ោន ! ឲ្យ ប្រជាជន ព្រះជាម្ចាស់ ចេញ ទៅ !'); await say('pharaoh', '*ទេ !'); };
+  const ask = async () => { await say('me', 'ផារ៉ោន ! ឲ្យ ប្រជាជន ព្រះជាម្ចាស់ ចេញ ទៅ !'); await say('pharaoh', 'ទេ !'); };
   const raise = async word => { goal(`លើក ដំបង ។ ( ${word} )`, null); await act('លើក ដំបង', [player.x, player.z], 99); player.raise = true; setTimeout(() => player.raise = false, 1400); cap(word); };
   // 1. blood
   await ask();
@@ -1900,9 +1902,9 @@ async function plagues() {
   // 6. darkness
   await ask();
   await raise('ងងឹត'); setSky(0x000000, 0x050508, 0x000000, .03); await wait(3.5); setSky(0x3a7ad8, 0xf8e0a0, 0xf0d8a0, 1);
-  await say('pharaoh', '*ទេ ! ទេ ! ទេ ! ចេញ ទៅ !');
+  await say('pharaoh', 'ទេ ! ទេ ! ទេ ! ចេញ ទៅ !');
   // the Passover
-  await talk([['god', 'យប់ នេះ យើង នឹង ឆ្លង កាត់ ស្រុក អេស៊ីប ។'], ['god', 'លាប *ឈាម កូនចៀម នៅ លើ ក្របទ្វារ ។ យើង នឹង រំលង ផ្ទះ នោះ ។']]);
+  await talk([['god', 'យប់ នេះ យើង នឹង ឆ្លង កាត់ ស្រុក អេស៊ីប ។'], ['god', 'លាប ឈាម កូនចៀម នៅ លើ ក្របទ្វារ ។ យើង នឹង រំលង ផ្ទះ នោះ ។']]);
   const houses = world.userData.houses;
   for (let i = 0; i < houses.length; i++) { const [x, z] = houses[i].userData.door; goal(`លាប ឈាម លើ ក្របទ្វារ ។ ( ${khNum(i)} / ${khNum(houses.length)} )`, [x, z]); await act('លាប ឈាម', [x, z], 3); box(1.3, .15, .15, MB(0xa01818), 0, 1.9, 1.56, houses[i]); for (const s2 of [-1, 1]) box(.15, 1.9, .15, MB(0xa01818), s2 * .6, .95, 1.56, houses[i]); good(); }
   setSky(0x02041a, 0x0a1440, 0x0a1030, .2); stars.material.opacity = 1;
@@ -1926,8 +1928,8 @@ async function wilderness() {
   await leapIn('moses', 0, 4, 0);
   const crowd = []; for (let i = 0; i < 10; i++) { const e = npc('people', { skin: 0xa07050, top: [0x8a5a3a, 0x3a5a8a, 0x8a3a3a, 0x5a7a3a][i % 4], robe: true, cloth: 0xe0d0b0 }, rnd(-8, 8), rnd(8, 14), Math.PI); crowd.push(e); }
   await arrive([]);
-  await talk([['people', 'ម៉ូសេ ! យើង *ឃ្លាន !'], ['people', 'នៅ ស្រុក អេស៊ីប យើង មាន អាហារ ។']]);
-  await say('god', 'យើង នឹង ឲ្យ *នំបុ័ង ធ្លាក់ ពី មេឃ ។');
+  await talk([['people', 'ម៉ូសេ ! យើង ឃ្លាន !'], ['people', 'នៅ ស្រុក អេស៊ីប យើង មាន អាហារ ។']]);
+  await say('god', 'យើង នឹង ឲ្យ នំបុ័ង ធ្លាក់ ពី មេឃ ។');
   setSky(0x4a6ab0, 0xf8d8b8, 0xe8d0b8, .8);
   const manna = []; for (let i = 0; i < 40; i++) { const x = rnd(-20, 20), z = rnd(-14, 10); const m = sph(.18, 0xf8f8f0, x, H(x, z) + .08, z, world, 5, 3); m.scale.y = .4; manna.push(m); } tag('ម៉ាណា', manna[0]);
   cap('ម៉ាណា'); await say('people', 'ម៉ាណា ? នេះ ជា អ្វី ?');
@@ -1938,12 +1940,12 @@ async function wilderness() {
     m.visible = false; got++; tone([800 + got * 40], .15, 'triangle', .05); toast(khNum(got), NUMW[got]);
   }
   await say('people', 'ផ្អែម ដូច ទឹកឃ្មុំ !');
-  await say('god', 'ល្ងាច នេះ *សាច់ ។');
+  await say('god', 'ល្ងាច នេះ សាច់ ។');
   setSky(0x3a3a7a, 0xe08a5a, 0xa07060, .6);
   for (let i = 0; i < 30; i++) { const q = bird(0x8a6a4a); const e = ent(q, rnd(-30, 30), rnd(-30, 30), { solid: 0 }); const tx = rnd(-15, 15), tz = rnd(-10, 12); e.flyAbs = 14; tween(3, k => { e.x = lerp(e.x, tx, k * .2); e.z = lerp(e.z, tz, k * .2); e.flyAbs = H(e.x, e.z) + 14 * (1 - k) + .2; }); tag('ក្រួច', q.g); }
   await wait(3); cap('ក្រួច'); await wait(1.5);
   setSky(0x4a8ad8, 0xf0d8a8, 0xe8d0a8, 1);
-  await talk([['people', 'ម៉ូសេ ! យើង *ស្រេក ទឹក !'], ['god', 'យក ដំបង ។ វាយ *ថ្ម នៅ ភ្នំ ហោរែប ។']]);
+  await talk([['people', 'ម៉ូសេ ! យើង ស្រេក ទឹក !'], ['god', 'យក ដំបង ។ វាយ ថ្ម នៅ ភ្នំ ហោរែប ។']]);
   const big = rock(2.4, 0x8a7a6a); place(big, 0, -30); tag('ថ្ម', big); solids.push({ x: 0, z: -30, r: 2.4 });
   goal('វាយ ថ្ម ។', [0, -30]);
   await act('វាយ ថ្ម', [0, -30], 4.5);
@@ -1966,7 +1968,7 @@ sinai.build = () => {
 async function sinai() {
   await leapIn('moses', 0, 12, Math.PI);
   await arrive([]);
-  await say('god', 'ម៉ូសេ ! ឡើង មក លើ *ភ្នំ ស៊ីណាយ ។');
+  await say('god', 'ម៉ូសេ ! ឡើង មក លើ ភ្នំ ស៊ីណាយ ។');
   anims.push(() => { if (Math.random() < .5) emit(rnd(-6, 6), sinaiH(0, -50) + rnd(2, 6), -50 + rnd(-6, 6), 0, 2, 0, 0xff8020, 1, 0); });
   tone([60], 2, 'sawtooth', .06);
   goal('ឡើង ភ្នំ ។', [0, -48]);
@@ -1984,7 +1986,7 @@ async function sinai() {
   goal('ចុះ ពី ភ្នំ ។', [0, -2]);
   await reach([0, -2], 6);
   await camTo([player.x + 4, player.y + 3, player.z - 2], [0, H(0, 6) + 1.5, 6], 1.2);
-  await say('people', 'នេះ ជា ព្រះ របស់ យើង ! *គោ មាស !');
+  await say('people', 'នេះ ជា ព្រះ របស់ យើង ! គោ មាស !');
   await say('me', 'អ្នក រាល់ គ្នា ធ្វើ បាប ធំ !');
   camFree(); goal('បោក បន្ទះ ថ្ម ។', null);
   await act('បោក បន្ទះ ថ្ម', [player.x, player.z], 99); drop(); for (let i = 0; i < 4; i++) burst(player.x, player.y + .5, player.z + 1, 0x9a9a92, 15, 3); tone([150, 80], .6, 'square', .08); cap('បាក់');
@@ -2009,14 +2011,14 @@ async function ruth() {
   await arrive([]);
   await talk([['naomi', 'ប្ដី ខ្ញុំ ស្លាប់ ហើយ ។ កូន ខ្ញុំ ក៏ ស្លាប់ ដែរ ។'], ['naomi', 'រស់ ! ត្រឡប់ ទៅ ផ្ទះ ម្ដាយ អ្នក វិញ ចុះ ។']]);
   await say('me', 'ទីណា ដែល អ្នក ទៅ ខ្ញុំ ក៏ ទៅ ដែរ ។ ព្រះ របស់ អ្នក ជា ព្រះ របស់ ខ្ញុំ ។');
-  await say('naomi', 'យើង ឃ្លាន ។ ទៅ រើស *ស្រូវ ក្នុង វាល ។');
+  await say('naomi', 'យើង ឃ្លាន ។ ទៅ រើស ស្រូវ ក្នុង វាល ។');
   const reapers = [0, 1, 2].map(i => { const r = npc('w1', { skin: 0x9a6a44, top: 0xc8a878, robe: true, cloth: 0xe0d0b0 }, -14 + i * 8, -12, Math.PI); r.talk = null; r.tick = (dt, t) => r.m.arms[1].rotation.x = -1 + Math.sin(t * 5 + i) * .8; return r; });
   const stalks = []; const spill = n => { for (let i = 0; i < n; i++) { const x = rnd(-18, 18), z = rnd(-16, -4); const s2 = cone(.12, .9, 0xe8c840, x, fieldH(x, z) + .1, z, world, 3); s2.rotation.z = Math.PI / 2; stalks.push(s2); } }; spill(8); tag('ស្រូវ', stalks[0]);
   let got = 0; const glean = async upto => { while (got < upto) { const m = await pick(stalks.filter(q => q.visible).map(q => ['រើស ស្រូវ', [q.position.x, q.position.z], 1.8, q])); m.visible = false; got++; tone([700 + got * 30], .12, 'triangle', .05); toast(khNum(got), NUMWORD(got)); goal(`រើស ស្រូវ ។ ( ${khNum(got)} / ${khNum(10)} )`, null); } };
   goal(`រើស ស្រូវ ។ ( ${khNum(0)} / ${khNum(10)} )`, [0, -10]);
   await glean(5);
   const boaz = npc('boaz', { skin: 0xa07050, top: 0x5a3a6a, robe: true, cloth: 0xf0e8d8, beard: 0x5a4a3a }, 20, -4, -Math.PI / 2); tag('បូអូស', boaz.g); await walk(boaz, player.x + 2.5, player.z + 1.5, 3);
-  await talk([['boaz', 'ស្ត្រី នេះ ជា នរណា ?'], ['boaz', 'អ្នក ជួយ ណាអូមី ។ ព្រះជាម្ចាស់ ឲ្យ ពរ អ្នក ។'], ['boaz', 'ពួក អ្នក ច្រូត ! *ទម្លាក់ ស្រូវ ឲ្យ នាង ទៀត !']]);
+  await talk([['boaz', 'ស្ត្រី នេះ ជា នរណា ?'], ['boaz', 'អ្នក ជួយ ណាអូមី ។ ព្រះជាម្ចាស់ ឲ្យ ពរ អ្នក ។'], ['boaz', 'ពួក អ្នក ច្រូត ! ទម្លាក់ ស្រូវ ឲ្យ នាង ទៀត !']]);
   spill(10); cap('ទម្លាក់'); boaz.talk = null;
   await glean(10);
   goal('យក ស្រូវ ទៅ ឲ្យ ណាអូមី ។', naomi);
@@ -2046,10 +2048,10 @@ async function david() {
   const phil = []; for (let i = 0; i < 10; i++) phil.push(soldierStatic(-14 + i * 3, -28));
   await arrive([]);
   await camTo([8, elahH(0, 10) + 6, 10], [0, elahH(0, -22) + 5, -22], 1.5);
-  await talk([['goliath', 'ខ្ញុំ ជា *កូលីយ៉ាត ! អ្នក ណា ហ៊ាន ច្បាំង ជាមួយ ខ្ញុំ ?'], ['goliath', 'ហាហា ! អ៊ីស្រាអែល ខ្លាច !']]);
+  await talk([['goliath', 'ខ្ញុំ ជា កូលីយ៉ាត ! អ្នក ណា ហ៊ាន ច្បាំង ជាមួយ ខ្ញុំ ?'], ['goliath', 'ហាហា ! អ៊ីស្រាអែល ខ្លាច !']]);
   camFree();
   await say('me', 'ខ្ញុំ នឹង ទៅ ច្បាំង ជាមួយ គាត់ ។');
-  await say('saul', 'អ្នក នៅ ក្មេង ណាស់ ! ពាក់ *គ្រឿង សឹក របស់ ខ្ញុំ ។');
+  await say('saul', 'អ្នក នៅ ក្មេង ណាស់ ! ពាក់ គ្រឿង សឹក របស់ ខ្ញុំ ។');
   goal('ពាក់ គ្រឿង សឹក ។', saul);
   await act('ពាក់ គ្រឿង សឹក', saul, 3.5);
   const armor = grp(); cyl(.34, .36, .8, 0x8a8a92, 0, 1.1, 0, armor, 7); sph(.32, 0x8a8a92, 0, 1.95, 0, armor, 7, 4); armor.scale.setScalar(1.4); hero.b.add(armor); tone([200, 150], .4, 'square', .05);
@@ -2064,7 +2066,7 @@ async function david() {
   }
   goal('ទៅ ជួប កូលីយ៉ាត ។', goliath);
   await reach([goliath.x, goliath.z], 14);
-  await say('goliath', 'តើ ខ្ញុំ ជា *ឆ្កែ ឬ ? អ្នក មក ជាមួយ ដំបង !');
+  await say('goliath', 'តើ ខ្ញុំ ជា ឆ្កែ ឬ ? អ្នក មក ជាមួយ ដំបង !');
   await say('me', 'អ្នក មក ជាមួយ ដាវ ។ ខ្ញុំ មក ក្នុង ព្រះនាម ព្រះជាម្ចាស់ !');
   goliath.talk = null; goliath.goal = { x: player.x, z: player.z, res: null }; goliath.speed = 1.5;
   goal('បាញ់ ខ្សែ ដង ។', goliath);
@@ -2121,11 +2123,11 @@ async function elijah() {
   tone([60, 90], 2, 'sawtooth', .08); const bolt = mesh(new THREE.CylinderGeometry(1.4, 1.4, 60, 8), MB(0xffd060, { transparent: true, opacity: .8, fog: false }), -6, carmelH(-6, -6) + 30, -6, world);
   await tween(1.2, k => { bolt.material.opacity = .9 * (1 - k * .6); for (let i = 0; i < 8; i++) emit(-6 + rnd(-2, 2), carmelH(-6, -6) + rnd(0, 3), -6 + rnd(-2, 2), rnd(-2, 2), rnd(2, 6), rnd(-2, 2), 0xff8020, 1, 0); });
   world.remove(bolt); world.remove(wood); world.remove(al2); ditch.material.opacity = 0; for (let i = 0; i < 4; i++) burst(-6, carmelH(-6, -6) + 1, -6, 0xff6020, 30, 4); cap('ភ្លើង');
-  await say('god', 'ភ្លើង ឆេះ ឈើ ថ្ម ដី និង *ទឹក ទាំងអស់ ។');
+  await say('god', 'ភ្លើង ឆេះ ឈើ ថ្ម ដី និង ទឹក ទាំងអស់ ។');
   camFree(); for (const e of crowd) { e.yaw = Math.atan2(-6 - e.x, -6 - e.z); }
   await talk([['people', 'ព្រះជាម្ចាស់ ជា ព្រះ ! ព្រះជាម្ចាស់ ជា ព្រះ !']]);
   const cl = cloud(); cl.scale.setScalar(.3); cl.position.set(-40, 20, -80); world.add(cl); tag('ពពក', cl);
-  await say('me', 'មើល ! *ពពក មួយ តូច ដូច ដៃ មនុស្ស ។');
+  await say('me', 'មើល ! ពពក មួយ តូច ដូច ដៃ មនុស្ស ។');
   await tween(3, k => { cl.scale.setScalar(.3 + k * 5); cl.position.set(-40 + k * 30, 20, -80 + k * 50); });
   setSky(0x30343e, 0x50586a, 0x485060, .4); raining = 6; cap('ភ្លៀង'); await wait(3); raining = 0;
   await nextCh();
@@ -2176,7 +2178,7 @@ async function jonah() {
   for (let i = 0; i < 10; i++) { const h = grp(); box(4, rnd(3, 6), 4, brickM, 0, 2, 0, h); place(h, -24 + (i % 5) * 12, 50 + Math.floor(i / 5) * 12, 0, 3); }
   await tween(.5, k => f.style.opacity = .95 * (1 - k)); f.style.background = ''; f.style.zIndex = '';
   burst(0, 1.5, 14, 0x60a0ff, 50, 3); toast('', 'ត្រី ខ្ជាក់ យ៉ូណាស លើ ដី គោក ។'); await sayPhrase('ត្រី ខ្ជាក់ យ៉ូណាស លើ ដី ។');
-  await say('god', 'យ៉ូណាស ! ទៅ ក្រុង *នីនីវេ ។');
+  await say('god', 'យ៉ូណាស ! ទៅ ក្រុង នីនីវេ ។');
   const folk = []; for (let i = 0; i < 12; i++) { const e = npc('people', { skin: 0x9a6a44, top: [0xc04040, 0x4060c0, 0xc0a040][i % 3], robe: true, cloth: 0xe0d0b0 }, rnd(-20, 20), rnd(34, 46), Math.PI); e.talk = null; folk.push(e); }
   goal('ទៅ ក្រុង នីនីវេ ។', [0, 36]);
   await reach([0, 34], 7);
@@ -2195,7 +2197,7 @@ furnace.build = () => {
   setSky(0x4a8ad8, 0xf0dcb0, 0xe8d8b0, 1, true); scene.fog.near = 55; scene.fog.far = 210;
   H = plainH; bound = 95; terrain(220, 50, () => 0xd8c088);
   const st = person({ skin: 0xf2c51c, top: 0xf2c51c, robe: true, cloth: 0xf2c51c, beard: 0xf2c51c }); st.g.traverse(o => { if (o.material) o.material = M(0xf2c51c); }); st.b.scale.setScalar(7); place(st.g, 0, -30, 0, 5); tag('រូប មាស', st.g); tag('មាស', st.g);
-  const kiln = grp(); box(9, 7, 9, brickM, 0, 3.5, 0, kiln); box(3.4, 3.4, .2, MB(0x1a0804), 0, 1.7, 4.55, kiln); place(kiln, 30, -10, -Math.PI / 2, 5.5); world.userData.kiln = kiln; tag('ឡ ភ្លើង', kiln); tag('ឡ', kiln);
+  const kiln = grp(); for (const [w, d, x, z] of [[9, .6, 0, -4.2], [.6, 9, -4.2, 0], [.6, 9, 4.2, 0], [3, .6, -3, 4.2], [3, .6, 3, 4.2]]) box(w, 7, d, brickM, x, 3.5, z, kiln); box(3, 3.6, .6, brickM, 0, 5.2, 4.2, kiln); place(kiln, 30, -10, -Math.PI / 2, 5.5); world.userData.kiln = kiln; tag('ឡ ភ្លើង', kiln); tag('ឡ', kiln);
 };
 async function furnace() {
   await leapIn('shadrach', 0, 6, Math.PI);
@@ -2203,17 +2205,18 @@ async function furnace() {
   const king = npc('king', { skin: 0x9a6a44, top: 0x8a2a2a, robe: true, cloth: 0xf2c51c, beard: 0x1a1010 }, 8, -18, -Math.PI / 4); cone(.22, .5, 0xf2c51c, 0, .45, 0, king.m.head, 5); tag('ស្ដេច', king.g);
   const crowd = []; for (let i = 0; i < 16; i++) { const e = npc('people', { skin: 0x9a6a44, top: [0xc04040, 0x4060c0, 0xc0a040, 0x40a060][i % 4], robe: true, cloth: 0xe0d0b0 }, -14 + (i % 8) * 4, -8 - Math.floor(i / 8) * 4, Math.PI); e.talk = null; e.yaw = Math.PI; crowd.push(e); }
   await arrive([]);
-  await talk([['king', 'ពេល ឮ *ភ្លេង ចូរ ក្រាប ថ្វាយបង្គំ រូប មាស !'], ['king', 'អ្នក ណា មិន ក្រាប នឹង ត្រូវ បោះ ទៅ ក្នុង *ឡ ភ្លើង !']]);
+  await talk([['king', 'ពេល ឮ ភ្លេង ចូរ ក្រាប ថ្វាយបង្គំ រូប មាស !'], ['king', 'អ្នក ណា មិន ក្រាប នឹង ត្រូវ បោះ ទៅ ក្នុង ឡ ភ្លើង !']]);
   tone([392, 494, 587, 784, 587, 494], 1.6, 'square', .05); cap('ភ្លេង');
-  await tween(1, k => crowd.forEach(e => { e.m.b.rotation.x = k * 1.1; e.m.b.position.y = -k * .4; }));
+  await tween(1, k => crowd.forEach(e => kneel(e.m, k, e)));
   await say('me', 'យើង មិន ក្រាប ថ្វាយបង្គំ រូប នេះ ទេ !');
-  await talk([['king', 'ខ្ញុំ ខឹង ណាស់ ! ដុត ឡ ឲ្យ ក្ដៅ *ប្រាំពីរ ដង !'], ['king', 'ចង ពួកគេ ហើយ បោះ ទៅ ក្នុង ឡ !']]);
-  crowd.forEach(e => { e.m.b.rotation.x = 0; e.m.b.position.y = 0; });
+  await talk([['king', 'ខ្ញុំ ខឹង ណាស់ ! ដុត ឡ ឲ្យ ក្ដៅ ប្រាំពីរ ដង !'], ['king', 'ចង ពួកគេ ហើយ បោះ ទៅ ក្នុង ឡ !']]);
+  crowd.forEach(e => kneel(e.m, 0, e));
   // inside the fire
   const f = $('#flash'); f.style.background = 'radial-gradient(circle,#fff0a0,#ff8020 50%,#601000)'; await tween(.7, k => f.style.opacity = k);
   setSky(0xff6020, 0xffa040, 0xff8030, .9, true); scene.fog.color.setHex(0xff8030); scene.fog.near = 2; scene.fog.far = 30;
   const fireFx = () => { for (let i = 0; i < 10; i++) emit(player.x + rnd(-8, 8), player.y + rnd(0, 1), player.z + rnd(-8, 8), rnd(-.5, .5), rnd(2, 5), rnd(-.5, .5), Math.random() < .5 ? 0xff6020 : 0xffd040, 1.2, 0); }; anims.push(fireFx);
   player.x = 30; player.z = -10; clampFn = (x, z) => [clamp(x, 26.5, 33.5), clamp(z, -13.5, -6.5)];
+  track = () => [[30 + 3, plainH(30, -10) + 13, -10 + 4], [player.x, player.y + 1, player.z]];
   friends.forEach((e, i) => { e.x = 29 + i * 2; e.z = -11; e.talk = null; });
   const ropes = []; for (let i = 0; i < 2; i++) { const r = mesh(new THREE.TorusGeometry(.36, .05, 3, 6), 0xc8a870, 0, 1 + i * .25, 0, hero.b); r.rotation.x = Math.PI / 2; ropes.push(r); }
   await tween(.7, k => f.style.opacity = 1 - k); f.style.background = '';
@@ -2222,11 +2225,11 @@ async function furnace() {
   goal('ដើរ ក្នុង ភ្លើង ។', [32, -12]);
   await act('ដើរ', [32, -12], 2.5);
   for (const r of ropes) hero.b.remove(r); burst(player.x, player.y + 1, player.z, 0xc8a870, 20, 2); toast('ខ្សែ ឆេះ', 'ខ្សែ ឆេះ ដាច់ អស់ ។'); speaking = 'god'; await sayPhrase('ខ្សែ ឆេះ ដាច់ អស់ ។');
-  await say('king', 'មើល ! មនុស្ស *បួន នាក់ ដើរ ក្នុង ភ្លើង ! ម្នាក់ ដូច កូន ព្រះ !');
+  await say('king', 'មើល ! មនុស្ស បួន នាក់ ដើរ ក្នុង ភ្លើង ! ម្នាក់ ដូច កូន ព្រះ !');
   await say('king', 'សាដ្រាក់ ! ចេញ មក !');
   goal('ចេញ ពី ឡ ។', null);
   await act('ចេញ', [player.x, player.z], 99);
-  anims.splice(anims.indexOf(fireFx), 1); clampFn = null; world.remove(fourth.g); ents.splice(ents.indexOf(fourth), 1);
+  anims.splice(anims.indexOf(fireFx), 1); clampFn = null; track = null; world.remove(fourth.g); ents.splice(ents.indexOf(fourth), 1);
   setSky(0x4a8ad8, 0xf0dcb0, 0xe8d8b0, 1, true); scene.fog.near = 55; scene.fog.far = 210;
   player.x = 30; player.z = -3; friends.forEach((e, i) => { e.x = 28 + i * 4; e.z = -2; });
   await talk([['king', 'សក់ មិន ឆេះ ។ អាវ មិន ធុំ ក្លិន ផ្សែង ទេ ។'], ['king', 'ព្រះ របស់ អ្នក ជា ព្រះ ពិត ! ព្រះ អង្គ សង្គ្រោះ អ្នក !']]);
@@ -2248,11 +2251,11 @@ async function daniel() {
   for (let n = 1; n <= 3; n++) {
     goal(`អធិស្ឋាន នៅ មុខ បង្អួច ។ ( ${khNum(n - 1)} / ${khNum(3)} )`, [-10, 4.2]);
     await act('អធិស្ឋាន', [-10, 4.2], 3);
-    player.yaw = Math.PI; await tween(.5, k => { hero.b.rotation.x = k * .8; hero.b.position.y = -k * .3; }); toast(khNum(n), `ម្ដង ${NUMW[n]}`); await wait(.8); await tween(.4, k => { hero.b.rotation.x = .8 * (1 - k); hero.b.position.y = -.3 * (1 - k); });
+    player.yaw = Math.PI; await tween(.5, k => kneel(hero, k)); toast(khNum(n), `ម្ដង ${NUMW[n]}`); await wait(.8); await tween(.4, k => kneel(hero, 1 - k));
     setSky(...[[0xe0a060, 0xf8d8a0, 0xf0d0a0, .9], [0x4a8ad8, 0xf8e8c0, 0xf0e0c0, 1], [0x3a3a7a, 0xe08a5a, 0xa07060, .6]][n - 1]);
   }
   const spies = [0, 1].map(i => npc('official', { skin: 0x9a6a44, top: 0x5a2a5a, robe: true, cloth: 0x2a2a2a }, -14 + i * 2, 9, Math.PI));
-  await say('official', 'មើល ! ដានីយ៉ែល *អធិស្ឋាន ទៅ ព្រះ របស់ គាត់ !');
+  await say('official', 'មើល ! ដានីយ៉ែល អធិស្ឋាន ទៅ ព្រះ របស់ គាត់ !');
   const king = npc('king', { skin: 0x9a6a44, top: 0x2a4a8a, robe: true, cloth: 0xf2c51c, beard: 0x5a4a3a }, 16, -16, Math.PI); cone(.22, .5, 0xf2c51c, 0, .45, 0, king.m.head, 5);
   goal('ទៅ ជួប ស្ដេច ។', king);
   await reach([king.x, king.z], 5);
@@ -2268,11 +2271,12 @@ async function daniel() {
   for (const e of lions) walk(e, 20 + rnd(-1.5, 1.5), -22 + rnd(-1.5, 1.5), 1.5);
   tone([90, 70], 1.2, 'sawtooth', .08); cap('តោ'); await wait(1.5);
   const ang = ent(person({ glow: 0xffffff, scale: 1.2 }), 20, -25, { solid: 0, flyAbs: floorY + .3 }); tag('ទេវតា', ang.g); good();
-  await say('angel', 'ព្រះ បាន ចាត់ ខ្ញុំ មក *បិទ មាត់ តោ ។');
+  await say('angel', 'ព្រះ បាន ចាត់ ខ្ញុំ មក បិទ មាត់ តោ ។');
   for (const e of lions) { e.goal = null; await tween(.4, k => { e.m.b.position.y = -k * .4; e.m.legs.forEach(l => l.rotation.x = -k * 1.2); }); }
   cap('ដេក'); await wait(1.5);
   setSky(0xe0a060, 0xf8d8a0, 0xf0d0a0, .9); stars.material.opacity = 0; world.remove(ang.g); ents.splice(ents.indexOf(ang), 1);
-  king.x = 20; king.z = -17; king.talk = 'king';
+  king.x = 20; king.z = -30.6; king.yaw = 0; king.talk = null;
+  track = () => [[20, plainH(20, -24) + 7, -15.5], [20, floorY + 2.2, -26]];
   await say('king', 'ដានីយ៉ែល ! តើ ព្រះ របស់ អ្នក សង្គ្រោះ អ្នក បាន ទេ ?');
   await say('me', 'ព្រះ របស់ ខ្ញុំ បាន ចាត់ ទេវតា មក បិទ មាត់ តោ ។');
   goal('ឡើង ពី រូង ។', null);
@@ -2299,7 +2303,7 @@ async function nativity() {
   godGlow(false);
   setSky(0x5a5aa0, 0xd0c8f0, 0x9090c0, .9); const ang = ent(person({ glow: 0xffffff, scale: 1.6 }), 0, 12, { solid: 0, fly: 3 }); ang.talk = 'angel'; ang.id = 'angel'; tag('ទេវតា', ang.g); burst(0, 6, 12, 0xffffff, 80, 4);
   await say('me', 'អូ ! ខ្ញុំ ខ្លាច ណាស់ !');
-  await talk([['angel', 'កុំ *ខ្លាច ! ខ្ញុំ នាំ ដំណឹង ល្អ មក ។'], ['angel', 'ថ្ងៃ នេះ ព្រះ សង្គ្រោះ បាន ប្រសូត នៅ ភូមិ *បេថ្លេហិម ។'], ['angel', 'អ្នក នឹង ឃើញ ទារក ដេក នៅ ក្នុង *ស្នូក ។']]);
+  await talk([['angel', 'កុំ ខ្លាច ! ខ្ញុំ នាំ ដំណឹង ល្អ មក ។'], ['angel', 'ថ្ងៃ នេះ ព្រះ សង្គ្រោះ បាន ប្រសូត នៅ ភូមិ បេថ្លេហិម ។'], ['angel', 'អ្នក នឹង ឃើញ ទារក ដេក នៅ ក្នុង ស្នូក ។']]);
   const choir = []; for (let i = 0; i < 14; i++) { const a = ent(person({ glow: 0xffffff }), rnd(-25, 25), rnd(-5, 15), { solid: 0, fly: rnd(6, 14) }); choir.push(a); } burst(0, 10, 5, 0xffffff, 100, 6);
   tone([523, 659, 784, 1046, 784, 1046], 2.4, 'triangle', .05);
   await say('angel', 'សិរីល្អ ដល់ ព្រះ នៅ ស្ថាន ដ៏ ខ្ពស់ ! សេចក្ដី សុខសាន្ត នៅ លើ ផែនដី !');
@@ -2310,9 +2314,9 @@ async function nativity() {
   await reach([-14, -40], 4);
   const mary = npc('mary', { skin: 0xb07a50, top: 0x2f5fd0, robe: true, cloth: 0x2f5fd0, female: true }, -15.4, -43, 0.4); const jos = npc('joseph2', { skin: 0xa07050, top: 0x8a6a3a, robe: true, cloth: 0xd8c8a0, beard: 0x3a2a1a }, -12.6, -43.4, -0.4);
   await camTo([-14, H(-14, -38) + 2.6, -38], [-14, H(-14, -44) + .8, -44.2], 1.2);
-  await say('mary', 'ឈ្មោះ គាត់ គឺ *យេស៊ូ ។');
+  await say('mary', 'ឈ្មោះ គាត់ គឺ យេស៊ូ ។');
   camFree(); goal('ក្រាប ថ្វាយបង្គំ ។', [-14, -42]);
-  await act('ក្រាប ថ្វាយបង្គំ', [-14, -42], 4); await tween(.6, k => { hero.b.rotation.x = k * .9; hero.b.position.y = -k * .35; }); good(); await wait(1.2); await tween(.4, k => { hero.b.rotation.x = .9 * (1 - k); hero.b.position.y = -.35 * (1 - k); });
+  await act('ក្រាប ថ្វាយបង្គំ', [-14, -42], 4); await tween(.6, k => kneel(hero, k)); good(); await wait(1.2); await tween(.4, k => kneel(hero, 1 - k));
   await say('me', 'សិរីល្អ ដល់ ព្រះ ! យើង បាន ឃើញ ព្រះ សង្គ្រោះ !');
   await nextCh();
 }
@@ -2331,14 +2335,14 @@ async function calmStorm() {
   setSky(0x20242e, 0x40485a, 0x384050, .3); raining = 8; tone([70], 3, 'sawtooth', .07, .6); cap('ព្យុះ');
   const rockB = (dt, t) => { bt.rotation.z = Math.sin(t * 2.4) * .2; bt.position.y = Math.sin(t * 1.8) * .5; waterY = Math.sin(t * 1.4) * .5; }; anims.push(rockB);
   track = () => [[9, 6, 9], [0, 1, 0]];
-  await talk([['disciple', 'ព្យុះ ធំ ណាស់ ! ទឹក ចូល ទូក !'], ['disciple', 'ព្រះយេស៊ូ *ដេក លក់ !']]);
+  await talk([['disciple', 'ព្យុះ ធំ ណាស់ ! ទឹក ចូល ទូក !'], ['disciple', 'ព្រះយេស៊ូ ដេក លក់ !']]);
   track = null; goal('ដាស់ ព្រះយេស៊ូ ។', jesus);
   await act('ដាស់', jesus, 3);
   await say('me', 'លោកគ្រូ ! យើង ជិត ស្លាប់ ហើយ ! លោក មិន ខ្វល់ ទេ ឬ ?');
   await tween(.6, k => { jesus.m.b.rotation.x = -(1 - k) * Math.PI / 2; jesus.m.b.position.y = (1 - k) * .5; }); jesus.talk = 'jesus';
-  await say('jesus', '*ស្ងប់ ! នៅ ស្ងៀម !');
+  await say('jesus', 'ស្ងប់ ! នៅ ស្ងៀម !');
   anims.splice(anims.indexOf(rockB), 1); bt.rotation.z = 0; bt.position.y = 0; waterY = 0; raining = 0; setSky(0x4a8ad8, 0xe0d8c8, 0xc8d0d8, 1); good();
-  await say('jesus', 'ហេតុ អ្វី អ្នក *ខ្លាច ? អ្នក មិន ទាន់ មាន ជំនឿ ទេ ឬ ?');
+  await say('jesus', 'ហេតុ អ្វី អ្នក ខ្លាច ? អ្នក មិន ទាន់ មាន ជំនឿ ទេ ឬ ?');
   await say('me', 'លោក នេះ ជា នរណា ? ខ្យល់ និង សមុទ្រ ក៏ ស្ដាប់ លោក !');
   await nextCh();
 }
@@ -2351,31 +2355,51 @@ feeding.build = () => {
 async function feeding() {
   await leapIn('boy', 0, 14, Math.PI);
   const jesus = npc('jesus', HEROES.jesus, 0, -2, 0); tag('ព្រះយេស៊ូ', jesus.g);
-  const andrew = npc('disciple', { skin: 0xa07050, top: 0x3a6a5a, robe: true, cloth: 0xd8c8a0, beard: 0x3a2a1a }, 3, 2, -Math.PI / 2);
-  const groups = []; for (let g = 0; g < 8; g++) { const gx = -24 + (g % 4) * 16, gz = 22 + Math.floor(g / 4) * 14, people = []; for (let i = 0; i < 5; i++) { const e = npc('people', { skin: 0xa07050, top: [0x8a5a3a, 0x3a5a8a, 0x8a3a3a, 0x5a7a3a, 0xc8b080][i], robe: true, cloth: 0xe0d0b0, small: i === 4 }, gx + Math.cos(i * 1.3) * 2, gz + Math.sin(i * 1.3) * 2, 0); e.talk = null; e.m.b.position.y = -.3; people.push(e); } groups.push({ x: gx, z: gz, people }); }
+  // a big crowd sitting in groups on the green grass
+  const groups = []; for (let g = 0; g < 10; g++) { const gx = -28 + (g % 5) * 14, gz = 20 + Math.floor(g / 5) * 13, people = []; for (let i = 0; i < 6; i++) { const a2 = i / 6 * 6.28; const e = npc('people', { skin: [0xa07050, 0x8a5a3a, 0xb07a50][i % 3], top: [0x8a5a3a, 0x3a5a8a, 0x8a3a3a, 0x5a7a3a, 0xc8b080, 0x6a4a6a, 0x3a6a5a][i], robe: true, cloth: 0xe0d0b0, small: i >= 4 }, gx + Math.cos(a2) * 2.6, gz + Math.sin(a2) * 2.6, 0); e.talk = null; e.yaw = Math.atan2(gx - e.x, gz - e.z); kneel(e.m, .8, e); people.push(e); } groups.push({ x: gx, z: gz, people }); }
+  const discs = [0, 1, 2, 3, 4, 5].map(i => { const e = npc('disciple', { skin: 0xa07050, top: [0x8a5a3a, 0x3a6a5a, 0x6a4a6a, 0x5a5a8a, 0x8a7a3a, 0x4a6a3a][i], robe: true, cloth: 0xd8c8a0, beard: 0x3a2a1a }, -5 + i * 2, 1.5, Math.PI); e.talk = null; return e; });
   const lunch = grp(); for (let i = 0; i < 5; i++) { const b = sph(.18, 0xd8a050, (i - 2) * .2, .15, 0, lunch, 5, 3); b.scale.y = .6; } for (const s2 of [-1, 1]) { const fsh = fish(0x8a9aa8).g; fsh.scale.setScalar(.35); fsh.position.set(s2 * .25, .35, .1); lunch.add(fsh); }
   carry(lunch); tag('នំបុ័ង', lunch);
   await arrive([]);
-  await talk([['jesus', 'តើ យើង ទិញ នំបុ័ង ពី ណា ឲ្យ មនុស្ស ទាំងនេះ ហូប ?'], ['disciple', 'មនុស្ស ប្រហែល ប្រាំ ពាន់ នាក់ ! ប្រាក់ មិន គ្រប់ ទេ !'], ['disciple', 'មាន ក្មេង ម្នាក់ មាន នំបុ័ង *ប្រាំ ដុំ និង ត្រី *ពីរ ។']]);
+  discs[1].talk = 'disciple';
+  await talk([['jesus', 'តើ យើង ទិញ នំបុ័ង ពី ណា ឲ្យ មនុស្ស ទាំងនេះ ហូប ?'], ['disciple', 'មនុស្ស ប្រហែល ប្រាំ ពាន់ នាក់ ! ប្រាក់ មិន គ្រប់ ទេ !'], ['disciple', 'មាន ក្មេង ម្នាក់ មាន នំបុ័ង ប្រាំ ដុំ និង ត្រី ពីរ ។']]);
+  discs[1].talk = null;
   goal('ឲ្យ នំបុ័ង ទៅ ព្រះយេស៊ូ ។', jesus);
   await act('ឲ្យ នំបុ័ង', jesus, 3.5); drop(); const held = lunch.clone(); jesus.m.arms[1].add(held); held.position.set(0, -.7, .2);
   await say('me', 'នេះ ជា អាហារ របស់ ខ្ញុំ ។ យក ទៅ ។');
   await camTo([player.x + 3, player.y + 2.4, player.z + 3], [jesus.x, jesus.y + 1.6, jesus.z], 1);
-  jesus.m.arms.forEach(a => a.rotation.x = -2.6); burst(jesus.x, jesus.y + 2.6, jesus.z, 0xfff0a0, 40, 2);
-  await say('jesus', 'អរ *ព្រះគុណ ព្រះវរបិតា ។'); jesus.m.arms.forEach(a => a.rotation.x = 0); camFree();
-  const basket2 = () => { const g = grp(); cyl(.35, .28, .4, 0xb08a50, 0, 0, 0, g, 6); for (let i = 0; i < 3; i++) sph(.14, 0xd8a050, (i - 1) * .18, .22, 0, g, 4, 2); return g; };
-  for (let n = 0; n < groups.length; n++) {
-    const gp = groups[n];
-    goal(`ចែក អាហារ ។ ( ${khNum(n)} / ${khNum(groups.length)} )`, [jesus.x, jesus.z]);
-    await act('យក អាហារ', jesus, 3.5); carry(basket2());
-    goal(`ចែក អាហារ ។ ( ${khNum(n)} / ${khNum(groups.length)} )`, [gp.x, gp.z]);
-    await act('ចែក អាហារ', [gp.x, gp.z], 4.5); drop(); good(); for (const e of gp.people) burst(e.x, e.y + 1.2, e.z, 0xd8a050, 6, 1); toast(khNum(n + 1), NUMW[n + 1]);
+  jesus.m.arms.forEach(a2 => a2.rotation.x = -2.6); burst(jesus.x, jesus.y + 2.6, jesus.z, 0xfff0a0, 40, 2);
+  await say('jesus', 'អរ ព្រះគុណ ព្រះវរបិតា ។'); jesus.m.arms.forEach(a2 => a2.rotation.x = 0); jesus.m.arms[1].remove(held);
+  // the food keeps coming: a pile of baskets of bread and fish at Jesus' feet that never runs out
+  const loaf = (x, z, p) => { const b = sph(.2, 0xd8a050, x, H(x, z) + .14, z, p || world, 5, 3); b.scale.set(1.3, .6, 1); return b; };
+  const fishOn = (x, z) => { const f2 = fish(0x8a9aa8).g; f2.scale.setScalar(.45); f2.rotation.z = Math.PI / 2; f2.position.set(x, H(x, z) + .15, z); world.add(f2); };
+  const basket2 = () => { const g = grp(); cyl(.38, .3, .42, 0xb08a50, 0, 0, 0, g, 6); for (let i = 0; i < 5; i++) { const b = sph(.15, 0xd8a050, (i % 3 - 1) * .18, .24 + Math.floor(i / 3) * .1, (i % 2) * .12 - .06, g, 4, 2); b.scale.y = .6; } return g; };
+  const pile = []; for (let i = 0; i < 10; i++) { const b2 = basket2(); place(b2, jesus.x + rnd(-1.8, 1.8), jesus.z + 1.4 + rnd(0, 1.4)); pile.push(b2); } tag('នំបុ័ង', pile[0]);
+  const pileTick = (dt, t) => { if (Math.random() < .03) burst(jesus.x + rnd(-1.5, 1.5), H(jesus.x, jesus.z) + .8, jesus.z + 1.6 + rnd(0, 1), 0xfff0a0, 4, 1); }; anims.push(pileTick);
+  camFree(); cap('នំបុ័ង');
+  const served = new Set();
+  const serve = gp => { if (served.has(gp)) return; served.add(gp); for (let i = 0; i < 10; i++) loaf(gp.x + rnd(-1.3, 1.3), gp.z + rnd(-1.3, 1.3)); for (let i = 0; i < 4; i++) fishOn(gp.x + rnd(-1, 1), gp.z + rnd(-1, 1)); for (const e of gp.people) burst(e.x, e.y + 1.2, e.z, 0xd8a050, 5, 1); };
+  // the disciples carry baskets out to the groups on their own
+  let runners = true; const order = groups.map((g, i) => i).sort(() => Math.random() - .5);
+  discs.forEach((d, i) => { (async () => { await wait(i * .7); while (runners && ents.includes(d)) { const gi = order.find(k => !served.has(groups[k]) && !groups[k].claimed); if (gi == null) break; const gp = groups[gi]; gp.claimed = d; const bk = basket2(); bk.position.set(0, 2.2, .1); d.m.b.add(bk); d.m.arms.forEach(a2 => a2.rotation.x = -2.6); await walk(d, gp.x + 3.2, gp.z - 2.4, 4.5); d.m.b.remove(bk); serve(gp); await wait(.6); if (!runners) break; await walk(d, jesus.x + rnd(-3, 3), jesus.z + 3.2, 4.5); } })(); });
+  let mine = 0;
+  while (served.size < groups.length) {
+    goal(`ចែក អាហារ ។ ( ${khNum(served.size)} / ${khNum(groups.length)} )`, [jesus.x, jesus.z + 2]);
+    await act('យក អាហារ', [jesus.x, jesus.z + 2], 3.5); if (served.size >= groups.length) break; carry(basket2());
+    const nextG = () => groups.filter(g => !served.has(g)).sort((a2, b2) => Math.hypot(a2.x - player.x, a2.z - player.z) - Math.hypot(b2.x - player.x, b2.z - player.z))[0];
+    goal(`ចែក អាហារ ។ ( ${khNum(served.size)} / ${khNum(groups.length)} )`, () => { const n = nextG(); return n ? [n.x, n.z] : null; });
+    const gp = await pick(groups.filter(g => !served.has(g)).map(g => ['ចែក អាហារ', [g.x, g.z], 4.6, g]));
+    drop(); serve(gp); good(); mine++; toast(khNum(served.size), served.size <= 10 ? NUMW[served.size] : '');
   }
-  await say('jesus', 'ប្រមូល *សំណល់ កុំ ឲ្យ ខាត ។');
-  const crumbs = []; for (let i = 0; i < 12; i++) { const gp = groups[i % groups.length], b = basket2(); place(b, gp.x + rnd(-3, 3), gp.z + rnd(-3, 3)); crumbs.push(b); } tag('សំណល់', crumbs[0]);
+  runners = false; drop(); anims.splice(anims.indexOf(pileTick), 1);
+  await camTo([0, 12, 52], [0, 0, 22], 1.6);
+  toast('ប្រាំ ពាន់ នាក់', 'គ្រប់ គ្នា ហូប ឆ្អែត ។'); speaking = 'god'; await sayPhrase('មនុស្ស ប្រាំ ពាន់ នាក់ ហូប ឆ្អែត ។');
+  camFree();
+  await say('jesus', 'ប្រមូល សំណល់ កុំ ឲ្យ ខាត ។');
+  const crumbs = []; for (let i = 0; i < 12; i++) { const gp = groups[i % groups.length], b2 = basket2(); place(b2, gp.x + rnd(-3, 3), gp.z + rnd(-3, 3)); crumbs.push(b2); } tag('សំណល់', crumbs[0]);
   for (let n = 1; n <= 12; n++) {
-    goal(`ប្រមូល សំណល់ ។ ( ${khNum(n - 1)} / ${khNum(12)} )`, () => { const q = crumbs.filter(b => b.visible).sort((a, b) => Math.hypot(a.position.x - player.x, a.position.z - player.z) - Math.hypot(b.position.x - player.x, b.position.z - player.z))[0]; return q ? [q.position.x, q.position.z] : null; });
-    const b = await pick(crumbs.filter(q => q.visible).map(q => ['ប្រមូល', [q.position.x, q.position.z], 2.2, q])); b.visible = false; tone([600 + n * 40], .12, 'triangle', .05); toast(khNum(n), n <= 10 ? NUMW[n] : n === 11 ? 'ដប់មួយ' : 'ដប់ពីរ');
+    goal(`ប្រមូល សំណល់ ។ ( ${khNum(n - 1)} / ${khNum(12)} )`, () => { const q = crumbs.filter(b2 => b2.visible).sort((a2, b2) => Math.hypot(a2.position.x - player.x, a2.position.z - player.z) - Math.hypot(b2.position.x - player.x, b2.position.z - player.z))[0]; return q ? [q.position.x, q.position.z] : null; });
+    const b2 = await pick(crumbs.filter(q => q.visible).map(q => ['ប្រមូល', [q.position.x, q.position.z], 2.4, q])); b2.visible = false; tone([600 + n * 40], .12, 'triangle', .05); toast(khNum(n), n <= 10 ? NUMW[n] : n === 11 ? 'ដប់មួយ' : 'ដប់ពីរ');
   }
   await say('me', 'កន្ត្រក ដប់ពីរ ពេញ ! អស្ចារ្យ ណាស់ !');
   await nextCh();
@@ -2393,13 +2417,13 @@ async function zacchaeus() {
   const crowd = []; for (let i = 0; i < 14; i++) { const e = npc('people', { skin: 0xa07050, top: [0x8a5a3a, 0x3a5a8a, 0x8a3a3a, 0x5a7a3a][i % 4], robe: true, cloth: 0xe0d0b0 }, -6 + (i % 7) * 2, 3 - Math.floor(i / 7) * 1.4, Math.PI); e.talk = null; crowd.push(e); }
   const jesus = npc('jesus', HEROES.jesus, 0, -30, 0); tag('ព្រះយេស៊ូ', jesus.g);
   await arrive([]);
-  await talk([['people', 'ព្រះយេស៊ូ មក ! ... ឯង ជា *អ្នក ទារ ពន្ធ ! ទៅ ឆ្ងាយ !'], ['people', 'សាខេ ទាប ណាស់ ។ គាត់ មើល មិន ឃើញ ទេ ! ហាហា !']]);
+  await talk([['people', 'ព្រះយេស៊ូ មក ! ... ឯង ជា អ្នក ទារ ពន្ធ ! ទៅ ឆ្ងាយ !'], ['people', 'សាខេ ទាប ណាស់ ។ គាត់ មើល មិន ឃើញ ទេ ! ហាហា !']]);
   goal('ឡើង ដើមឈើ ។', [6, -4]);
   await act('ឡើង ដើមឈើ', [6, -4], 3.5);
   player.x = 6; player.z = -3.4; yOverride = H(6, -4) + 3.4; clampFn = () => [6, -3.4]; good(); cap('ឡើង');
   await walk(jesus, 0, -5, 2.5); jesus.yaw = Math.atan2(6 - jesus.x, -3.4 - jesus.z);
   await camTo([2, H(0, 0) + 4, 4], [5, H(6, -4) + 4, -4], 1.2);
-  await talk([['jesus', 'សាខេ ! ចុះ មក ឆាប់ !'], ['jesus', 'ថ្ងៃ នេះ ខ្ញុំ ត្រូវ ស្នាក់ នៅ *ផ្ទះ អ្នក ។']]);
+  await talk([['jesus', 'សាខេ ! ចុះ មក ឆាប់ !'], ['jesus', 'ថ្ងៃ នេះ ខ្ញុំ ត្រូវ ស្នាក់ នៅ ផ្ទះ អ្នក ។']]);
   camFree(); goal('ចុះ ពី ដើមឈើ ។', null);
   await act('ចុះ', [player.x, player.z], 99); yOverride = null; clampFn = null; player.x = 4.5; player.z = -2; cap('ចុះ');
   await say('people', 'គាត់ ទៅ ផ្ទះ មនុស្ស មាន បាប !');
@@ -2430,7 +2454,7 @@ async function calvary() {
   await say('me', 'ខ្ញុំ មក ពី ស្រុក គីរេន ។ មាន រឿង អ្វី ?');
   walk(jesus, 0, 22, 1.1); await wait(2);
   await tween(.6, k => { jp.b.rotation.x = k * .9; jp.b.position.y = -k * .5; }); tone([160, 120], .5, 'triangle', .05);
-  await say('guard', 'អ្នក ! *លី ឈើឆ្កាង នេះ ! តាម គាត់ !');
+  await say('guard', 'អ្នក ! លី ឈើឆ្កាង នេះ ! តាម គាត់ !');
   goal('លី ឈើឆ្កាង ។', jesus);
   await act('លី ឈើឆ្កាង', jesus, 3.5);
   jp.b.remove(beam); const mine = crossMesh(); mine.scale.setScalar(.7); mine.position.set(.25, 1.3, -.5); mine.rotation.set(.9, 0, .4); hero.b.add(mine); tag('ឈើឆ្កាង', mine);
@@ -2440,7 +2464,7 @@ async function calvary() {
   await reach([-3, 4], 6);
   women.forEach(w => w.yaw = Math.atan2(jesus.x - w.x, jesus.z - w.z));
   await say('women', 'ឱ ព្រះយេស៊ូ ! ... ( យំ )');
-  await say('jesus', 'កូនស្រី ក្រុង យេរូសាឡិម អើយ ! កុំ *យំ ពី ខ្ញុំ ឡើយ ។');
+  await say('jesus', 'កូនស្រី ក្រុង យេរូសាឡិម អើយ ! កុំ យំ ពី ខ្ញុំ ឡើយ ។');
   goal('ឡើង ភ្នំ គាល់វ៉ារី ។', [0, -44]);
   await reach([0, -44], 5);
   goal('ដាក់ ឈើឆ្កាង ។', null);
@@ -2457,9 +2481,9 @@ async function calvary() {
   player.x = 4; player.z = -40; player.yaw = Math.PI;
   track = () => [[9, top + 2, -38], [0, top + 3.6, -51]];
   await tween(1, k => f.style.opacity = 1 - k); f.style.background = '';
-  await say('jesus', 'ព្រះវរបិតា អើយ ! សូម *អត់ទោស ឲ្យ គេ ផង ។ គេ មិន ដឹង ថា គេ ធ្វើ អ្វី ទេ ។');
+  await say('jesus', 'ព្រះវរបិតា អើយ ! សូម អត់ទោស ឲ្យ គេ ផង ។ គេ មិន ដឹង ថា គេ ធ្វើ អ្វី ទេ ។');
   setSky(0x050508, 0x14141c, 0x0a0a10, .12); toast('', 'ងងឹត ពី ថ្ងៃ ត្រង់ ដល់ ម៉ោង បី ។'); speaking = 'god'; await sayPhrase('ងងឹត ពី ថ្ងៃ ត្រង់ ដល់ ម៉ោង បី ។');
-  await say('jesus', 'ការ ទាំងអស់ បាន *សម្រេច ហើយ ។');
+  await say('jesus', 'ការ ទាំងអស់ បាន សម្រេច ហើយ ។');
   await tween(1.2, k => { jc.head.rotation.x = k * .6; });
   shake = 2.5; tone([50, 40], 2.5, 'sawtooth', .1); toast('', 'ផែនដី រញ្ជួយ ។ ថ្ម បែក ។'); await sayPhrase('ផែនដី រញ្ជួយ ។');
   track = () => [[centurion.x + 2.5, centurion.y + 2.2, centurion.z + 3], [centurion.x, centurion.y + 1.6, centurion.z]]; centurion.yaw = 0; await wait(1);
@@ -2486,7 +2510,7 @@ async function tomb() {
   goal('ទៅ ផ្នូរ ។', [0, -17]);
   await reach([0, -17], 4.5);
   setSky(0x4a7ac0, 0xf0c8a0, 0xd8c0a8, .8);
-  await say('me', 'មើល ! *ថ្ម ត្រូវ គេ រំកិល ចេញ !');
+  await say('me', 'មើល ! ថ្ម ត្រូវ គេ រំកិល ចេញ !');
   goal('មើល ក្នុង ផ្នូរ ។', [0, -19]);
   await act('មើល ក្នុង ផ្នូរ', [0, -19], 3);
   await camTo([0, H(0, -18) + 2, -16.5], [0, H(0, -21) + 1.4, -22], 1);
@@ -2501,10 +2525,10 @@ async function tomb() {
   await reach([0, -10], 3.2);
   await say('jesus', 'ស្ត្រី អើយ ! ហេតុ អ្វី អ្នក យំ ? អ្នក រក អ្នក ណា ?');
   await say('me', 'លោក ! បើ លោក បាន យក ព្រះអង្គ ទៅ សូម ប្រាប់ ខ្ញុំ ។');
-  await say('jesus', '*ម៉ារី ។');
+  await say('jesus', 'ម៉ារី ។');
   await say('me', 'រ៉ាបូនី ! លោកគ្រូ !');
   burst(jesus.x, jesus.y + 1.6, jesus.z, 0xfff0a0, 60, 3); good();
-  await say('jesus', 'ទៅ ប្រាប់ បងប្អូន ខ្ញុំ ។ ខ្ញុំ *រស់ ឡើង វិញ ហើយ !');
+  await say('jesus', 'ទៅ ប្រាប់ បងប្អូន ខ្ញុំ ។ ខ្ញុំ រស់ ឡើង វិញ ហើយ !');
   const disc = [0, 1, 2, 3].map(i => npc('disciple', { skin: 0xa07050, top: [0x8a5a3a, 0x3a6a5a, 0x6a4a6a, 0x5a5a8a][i], robe: true, cloth: 0xd8c8a0, beard: 0x3a2a1a }, -30 + i * 2, 40, 0));
   goal('រត់ ទៅ ប្រាប់ សិស្ស ។', [-27, 38]);
   await reach([-27, 38], 5);
@@ -2530,10 +2554,10 @@ async function pentecost() {
   await say('me', 'យើង រង់ចាំ ដូច ព្រះយេស៊ូ បាន មាន ព្រះបន្ទូល ។');
   await camTo([0, cityH(0, -6) + 7, 2], [0, cityH(0, -6) + 1, -6], 1.2);
   tone([110, 165, 220], 3, 'sawtooth', .04, 2); const wind = () => { for (let i = 0; i < 12; i++) emit(rnd(-6, 6), cityH(0, -6) + rnd(.5, 3), -6 + rnd(-5, 5), rnd(-8, 8), rnd(-.5, 1), rnd(-8, 8), 0xe8f0ff, .6, 0); }; anims.push(wind);
-  await say('god', 'ឮ សូរ ពី មេឃ ដូច *ខ្យល់ បក់ យ៉ាង ខ្លាំង ។'); await wait(1.5); anims.splice(anims.indexOf(wind), 1);
-  await say('god', 'អណ្ដាត *ភ្លើង មក សណ្ឋិត លើ ម្នាក់ៗ ។');
+  await say('god', 'ឮ សូរ ពី មេឃ ដូច ខ្យល់ បក់ យ៉ាង ខ្លាំង ។'); await wait(1.5); anims.splice(anims.indexOf(wind), 1);
+  await say('god', 'អណ្ដាត ភ្លើង មក សណ្ឋិត លើ ម្នាក់ៗ ។');
   for (const e of [...room, { m: hero }]) { const fl = godFlame(.16); fl.position.y = .55; e.m.head.add(fl); } good(); await wait(1.5);
-  await say('god', 'គ្រប់ គ្នា បាន ពេញ ដោយ *ព្រះវិញ្ញាណ បរិសុទ្ធ ។');
+  await say('god', 'គ្រប់ គ្នា បាន ពេញ ដោយ ព្រះវិញ្ញាណ បរិសុទ្ធ ។');
   camFree();
   const NATIONS = [['ຂ້ອຍໄດ້ຍິນເຂົາເວົ້າພາສາຂອງຂ້ອຍ !', 'lo'], ['ฉันได้ยินเขาพูดภาษาของฉัน !', 'th'], ['Tôi nghe họ nói tiếng của tôi !', 'vi'], ['ကျွန်တော့်ဘာသာစကား ကြားရတယ် !', 'my']];
   const crowd = []; for (let i = 0; i < 16; i++) { const e = npc('nation', { skin: [0x9a6a44, 0x6a4a2a, 0xc08a60, 0x8a5a3a][i % 4], top: [0xc04040, 0x4060c0, 0xc0a040, 0x40a060][i % 4], robe: true, cloth: [0xffffff, 0xf2c51c, 0x2a2a2a, 0xc04040][i % 4] }, -12 + (i % 8) * 3.4, 10 + Math.floor(i / 8) * 4, Math.PI); e.talk = null; crowd.push(e); }
@@ -2541,7 +2565,7 @@ async function pentecost() {
   await reach([0, 6], 4);
   await say('me', 'ព្រះជាម្ចាស់ ធ្វើ ឲ្យ យើង និយាយ ភាសា ផ្សេងៗ !');
   for (let n = 0; n < NATIONS.length; n++) { goal(`ស្ដាប់ ប្រជាជន ។ ( ${khNum(n)} / ${khNum(NATIONS.length)} )`, crowd[n * 4]); await act('ស្ដាប់', crowd[n * 4], 4); await say('nation', NATIONS[n][0], { lang: NATIONS[n][1] }); }
-  await say('god', 'នៅ បាបិល ភាសា ច្របូកច្របល់ ។ ថ្ងៃ នេះ គ្រប់ គ្នា *យល់ !');
+  await say('god', 'នៅ បាបិល ភាសា ច្របូកច្របល់ ។ ថ្ងៃ នេះ គ្រប់ គ្នា យល់ !');
   await say('me', 'ចូរ ប្រែ ចិត្ត ហើយ ទទួល ពិធី ជ្រមុជ ទឹក ក្នុង ព្រះនាម ព្រះយេស៊ូគ្រីស្ទ !');
   for (const e of crowd) burst(e.x, e.y + 1.5, e.z, 0x80c0ff, 8, 1.5); good();
   toast('បី ពាន់ នាក់'); speaking = 'god'; await sayPhrase('ថ្ងៃ នោះ មនុស្ស ប្រហែល បី ពាន់ នាក់ ជឿ ។');
@@ -2562,17 +2586,17 @@ async function lame() {
   await arrive([]);
   goal('ទៅ ព្រះវិហារ ។', [0, -10]);
   await reach([-1, -8], 4);
-  await say('beggar', 'សូម *ឲ្យ ប្រាក់ ខ្ញុំ ផង ! ខ្ញុំ ពិការ ជើង តាំង ពី កើត មក ។');
+  await say('beggar', 'សូម ឲ្យ ប្រាក់ ខ្ញុំ ផង ! ខ្ញុំ ពិការ ជើង តាំង ពី កើត មក ។');
   await say('me', 'មើល មក យើង !');
   await say('beggar', 'លោក នឹង ឲ្យ ខ្ញុំ អ្វី ?');
   await say('me', 'ខ្ញុំ គ្មាន ប្រាក់ ទេ ។ ប៉ុន្តែ ក្នុង ព្រះនាម ព្រះយេស៊ូ ចូរ ក្រោក ឡើង ហើយ ដើរ !');
   goal('ចាប់ ដៃ គាត់ ។', beggar);
   await act('ចាប់ ដៃ', beggar, 3);
   burst(beggar.x, beggar.y + .8, beggar.z, 0xfff0a0, 40, 2); await tween(.8, k => { bp.b.position.y = -.55 * (1 - k); bp.legs.forEach(l => l.rotation.x = -1.5 * (1 - k)); }); good();
-  await say('beggar', 'ជើង ខ្ញុំ ! ខ្ញុំ *ដើរ បាន !');
+  await say('beggar', 'ជើង ខ្ញុំ ! ខ្ញុំ ដើរ បាន !');
   beggar.talk = null; walk(beggar, -2, -4, 3); await wait(1.2);
   const hop = (dt, t) => { beggar.fly = Math.abs(Math.sin(t * 6)) * .8; }; anims.push(hop);
-  await say('beggar', 'ខ្ញុំ *លោត ! សរសើរ ព្រះ ! សរសើរ ព្រះ !'); cap('លោត'); await wait(1.5); anims.splice(anims.indexOf(hop), 1); beggar.fly = 0;
+  await say('beggar', 'ខ្ញុំ លោត ! សរសើរ ព្រះ ! សរសើរ ព្រះ !'); cap('លោត'); await wait(1.5); anims.splice(anims.indexOf(hop), 1); beggar.fly = 0;
   await nextCh();
 }
 
@@ -2588,12 +2612,12 @@ async function desertRoad() {
   await leapIn('philip', 0, 40, Math.PI);
   await arrive([]);
   const ang = ent(person({ glow: 0xffffff, scale: 1.2 }), 2, 36, { solid: 0, fly: .5, id: 'angel' }); ang.talk = 'angel';
-  await say('angel', 'ភីលីព ! ចូរ ទៅ តាម *ផ្លូវ ខាងត្បូង ក្នុង វាល រហោស្ថាន ។');
+  await say('angel', 'ភីលីព ! ចូរ ទៅ តាម ផ្លូវ ខាងត្បូង ក្នុង វាល រហោស្ថាន ។');
   world.remove(ang.g); ents.splice(ents.indexOf(ang), 1);
   const ch = chariot(); const eu = person({ skin: 0x5a3a24, top: 0xf2c51c, robe: true, cloth: 0x2a8a4a }); eu.g.position.set(0, .7, -.2); eu.g.rotation.y = 0; ch.add(eu.g); const scroll = cyl(.08, .08, .6, 0xf0e0b0, 0, -.55, .25, eu.arms[1], 5); scroll.rotation.z = Math.PI / 2;
   const car = ent({ g: ch }, 0, 30, { solid: 0, speed: 1.6, id: 'eunuch' }); car.yaw = Math.PI; tag('រទេះ', ch); LOOK.eunuch = { key: 'eunuch', make: () => person({ skin: 0x5a3a24, top: 0xf2c51c, robe: true, cloth: 0x2a8a4a }) };
   walk(car, 0, -40, 1.6);
-  await say('god', 'ព្រះវិញ្ញាណ មាន ព្រះបន្ទូល ៖ ចូរ ទៅ ជិត *រទេះ នោះ ។');
+  await say('god', 'ព្រះវិញ្ញាណ មាន ព្រះបន្ទូល ៖ ចូរ ទៅ ជិត រទេះ នោះ ។');
   goal('រត់ ទៅ ជិត រទេះ ។', car);
   await reach(car, 4);
   car.goal = null; tone([800], .2, 'triangle', .05);
@@ -2606,7 +2630,7 @@ async function desertRoad() {
   walk(car, 6, -55, 2.2);
   await say('me', 'កូនចៀម នោះ គឺ ព្រះយេស៊ូ ។ ព្រះអង្គ ស្លាប់ ហើយ រស់ ឡើង វិញ ។');
   await new Promise(r => { const w2 = () => Math.hypot(car.x - 6, car.z + 55) < .5 ? r() : setTimeout(w2, 200); w2(); });
-  await say('eunuch', 'មើល ! មាន *ទឹក ! ហេតុ អ្វី ខ្ញុំ មិន ទទួល ពិធី ជ្រមុជ ទឹក ?');
+  await say('eunuch', 'មើល ! មាន ទឹក ! ហេតុ អ្វី ខ្ញុំ មិន ទទួល ពិធី ជ្រមុជ ទឹក ?');
   ch.remove(me2.g); hero.g.visible = true; track = null; player.x = car.x + 2; player.z = car.z - 1.5;
   const eunE = npc('eunuch', { skin: 0x5a3a24, top: 0xf2c51c, robe: true, cloth: 0x2a8a4a }, car.x + 3, car.z - 1, Math.PI); ch.remove(eu.g);
   eunE.follow = 'player'; eunE.gap = 1.6;
@@ -2636,14 +2660,14 @@ async function damascus() {
   const f = $('#flash'); f.style.background = '#fff'; await tween(.4, k => f.style.opacity = k); tone([1200, 900, 600], 1.2, 'triangle', .06);
   await tween(.6, k => { hero.b.rotation.x = -k * 1.5; hero.b.position.y = k * .3; }); guards.forEach(g => { g.follow = null; g.goal = null; });
   await tween(1, k => f.style.opacity = 1 - k * .3); cap('ពន្លឺ');
-  await say('jesus', 'សូល ! សូល ! ហេតុ អ្វី អ្នក *បៀតបៀន ខ្ញុំ ?');
+  await say('jesus', 'សូល ! សូល ! ហេតុ អ្វី អ្នក បៀតបៀន ខ្ញុំ ?');
   await say('me', 'លោក ម្ចាស់ ! លោក ជា នរណា ?');
   await say('jesus', 'ខ្ញុំ ជា យេស៊ូ ដែល អ្នក កំពុង បៀតបៀន ។ ក្រោក ឡើង ហើយ ចូល ទៅ ក្នុង ក្រុង ។');
   await tween(.6, k => f.style.opacity = .7 * (1 - k)); f.style.background = '';
   await tween(.6, k => { hero.b.rotation.x = -(1 - k) * 1.5; hero.b.position.y = (1 - k) * .3; });
   // blind for three days
   cv.style.filter = 'blur(7px) brightness(.45)';
-  await say('me', 'ខ្ញុំ មើល មិន *ឃើញ !');
+  await say('me', 'ខ្ញុំ មើល មិន ឃើញ !');
   guards[0].talk = 'guard'; await say('guard', 'តាម ខ្ញុំ ! ខ្ញុំ នាំ លោក ទៅ ។');
   guards[0].goal = null; walk(guards[0], 0, -64, 2.6); guards[0].talk = null;
   goal('ដើរ តាម ទាហាន ។', guards[0]);
@@ -2651,7 +2675,7 @@ async function damascus() {
   for (let d = 1; d <= 3; d++) { toast(`ថ្ងៃ ទី ${khNum(d)}`); await sayPhrase(`ថ្ងៃ ទី ${NUMW[d]}`); }
   const ananias = npc('ananias', { skin: 0xa07050, top: 0x5a6a3a, robe: true, cloth: 0xe0d0b0, beard: 0x8a8a8a }, 3, -70, 0);
   await walk(ananias, player.x + 1.5, player.z - 1, 2.5);
-  await say('ananias', 'បង សូល ! ព្រះយេស៊ូ ចាត់ ខ្ញុំ មក ឲ្យ បង មើល *ឃើញ វិញ ។');
+  await say('ananias', 'បង សូល ! ព្រះយេស៊ូ ចាត់ ខ្ញុំ មក ឲ្យ បង មើល ឃើញ វិញ ។');
   burst(player.x, player.y + 1.8, player.z, 0xd8d8d0, 30, 1.5); cv.style.filter = ''; good(); cap('ឃើញ');
   await say('me', 'ខ្ញុំ មើល ឃើញ ហើយ ! ព្រះយេស៊ូ ជា ព្រះរាជបុត្រា របស់ ព្រះ !');
   await nextCh();
@@ -2674,13 +2698,13 @@ async function prison() {
   const chains = [-1, 1].map(s2 => { const c = mesh(new THREE.TorusGeometry(.12, .04, 3, 6), 0x4a4a50, 0, -.55, 0, hero.arms[s2 < 0 ? 0 : 1]); return c; }); tag('ច្រវាក់', chains[0]);
   await arrive([]);
   hero.b.rotation.x = -1.4; hero.b.position.y = .3;
-  await say('god', 'ពេត្រុស ដេក នៅ ចន្លោះ ទាហាន ពីរ នាក់ ជាប់ *ច្រវាក់ ។');
+  await say('god', 'ពេត្រុស ដេក នៅ ចន្លោះ ទាហាន ពីរ នាក់ ជាប់ ច្រវាក់ ។');
   const ang = ent(person({ glow: 0xffffff, scale: 1.2 }), 1.5, 0, { solid: 0, fly: .3, id: 'angel' }); burst(1.5, 1.5, 0, 0xffffff, 60, 3); setSky(0x6a6aa0, 0xc0c0e0, 0x9090b0, .7);
   await say('angel', 'ក្រោក ឡើង ឆាប់ !');
   goal('ក្រោក ឡើង ។', null);
   await act('ក្រោក', [player.x, player.z], 99);
   hero.b.rotation.x = 0; hero.b.position.y = 0; chains.forEach(c => { c.parent.remove(c); }); for (const s2 of [-1, 1]) { const c = mesh(new THREE.TorusGeometry(.14, .04, 3, 6), 0x4a4a50); c.rotation.x = Math.PI / 2; place(c, player.x + s2 * .5, player.z, 0, 0, .05); } tone([400, 300, 200], .5, 'square', .05); cap('ច្រវាក់');
-  await say('angel', 'ពាក់ *ស្បែកជើង ហើយ តាម ខ្ញុំ ។');
+  await say('angel', 'ពាក់ ស្បែកជើង ហើយ តាម ខ្ញុំ ។');
   await act('ពាក់ ស្បែកជើង', [player.x, player.z], 99); good();
   const gate = world.userData.gate, iron = world.userData.iron;
   await tween(.6, k => gate.position.x = -k * 2.2); solids.splice(solids.findIndex(q => q.z === 4 && q.x === -.6), 2);
@@ -2692,7 +2716,7 @@ async function prison() {
   await say('me', 'ព្រះអម្ចាស់ បាន ចាត់ ទេវតា មក សង្គ្រោះ ខ្ញុំ ពិត មែន !');
   goal('ទៅ ផ្ទះ ម៉ារី ។ គោះ ទ្វារ ។', [10, 44.6]);
   await act('គោះ ទ្វារ', [10, 44.6], 2.6); tone([300, 300], .3, 'square', .06);
-  await talk([['rhoda', 'អ្នក ណា ? ... *ពេត្រុស !'], ['rhoda', 'អ្នក ទាំងអស់ គ្នា ! ពេត្រុស នៅ ក្រៅ ទ្វារ !'], ['people', 'រ៉ូដា ! អ្នក ឆ្កួត ហើយ !']]);
+  await talk([['rhoda', 'អ្នក ណា ? ... ពេត្រុស !'], ['rhoda', 'អ្នក ទាំងអស់ គ្នា ! ពេត្រុស នៅ ក្រៅ ទ្វារ !'], ['people', 'រ៉ូដា ! អ្នក ឆ្កួត ហើយ !']]);
   goal('គោះ ទ្វារ ម្ដង ទៀត ។', [10, 44.6]);
   await act('គោះ ទ្វារ', [10, 44.6], 2.6); tone([300, 300, 300], .4, 'square', .06);
   const fam = [0, 1, 2].map(i => npc('people', { skin: 0xa07050, top: [0x8a5a3a, 0x3a5a8a, 0x8a3a3a][i], robe: true, cloth: 0xe0d0b0, female: i === 1 }, 9 + i, 47, 0));
@@ -2713,20 +2737,20 @@ async function philippi() {
   const others = [0, 1, 2].map(i => { const e = npc('people', { skin: 0x9a6a44, top: 0x6a6a5a, robe: true }, -3 + i * 3, -3, Math.PI); e.talk = null; return e; });
   const stocks = box(3.4, .3, .4, 0x6a4424); place(stocks, 0, -.6, 0, 0, .35); tag('ច្រវាក់', stocks);
   await arrive([]);
-  await say('silas', 'គេ វាយ យើង ហើយ ដាក់ យើង ក្នុង *គុក ។');
+  await say('silas', 'គេ វាយ យើង ហើយ ដាក់ យើង ក្នុង គុក ។');
   await say('me', 'កណ្ដាល អធ្រាត្រ ... តោះ ច្រៀង សរសើរ ព្រះ !');
   for (let n = 1; n <= 3; n++) { goal(`ច្រៀង ។ ( ${khNum(n - 1)} / ${khNum(3)} )`, null); await act('ច្រៀង', [player.x, player.z], 99); tone([[392, 494, 587], [440, 523, 659], [494, 587, 784]][n - 1], 1.2, 'triangle', .06); for (let i = 0; i < 6; i++) emit(player.x, player.y + 2, player.z, rnd(-1, 1), rnd(1, 2), rnd(-1, 1), 0xf2c51c, 1.5, 0); }
   cap('ច្រៀង');
   // the earthquake
   shake = 3; tone([50, 40], 2.5, 'sawtooth', .1); const quake = () => { if (shake > 0) for (let i = 0; i < 4; i++) emit(rnd(-4, 4), H(0, 0) + rnd(0, 3), rnd(-4, 4), 0, -2, 0, 0xa09080, .8, -4); }; anims.push(quake);
-  await say('god', '*រញ្ជួយ ដី យ៉ាង ខ្លាំង !');
+  await say('god', 'រញ្ជួយ ដី យ៉ាង ខ្លាំង !');
   await wait(1); anims.splice(anims.indexOf(quake), 1);
   const door = world.userData.door; await tween(.6, k => door.rotation.y = -k * 1.5); solids.splice(solids.findIndex(q => q.z === 4 && q.x === -.6), 2); world.remove(stocks); burst(0, H(0, 0) + .5, -.6, 0x4a4a50, 20, 2); toast('', 'ទ្វារ បើក ។ ច្រវាក់ ដាច់ ។'); await sayPhrase('ទ្វារ គុក បើក ទាំងអស់ ។');
   const jailer = npc('jailer', { skin: 0x9a6a44, top: 0x8a2a2a, cloth: 0xc8a040, robe: true }, 0, 8, Math.PI); tag('ឆ្មាំ គុក', jailer.g);
   await walk(jailer, 0, 5, 3);
   await say('jailer', 'ទ្វារ បើក ! អ្នក ទោស រត់ អស់ ហើយ ! ខ្ញុំ នឹង ត្រូវ ស្លាប់ ...');
   await say('me', 'កុំ ធ្វើ បាប ខ្លួន ឯង ! យើង នៅ ទីនេះ ទាំងអស់ គ្នា !');
-  await say('jailer', 'លោក អើយ ! តើ ខ្ញុំ ត្រូវ ធ្វើ អ្វី ដើម្បី បាន *សង្គ្រោះ ?');
+  await say('jailer', 'លោក អើយ ! តើ ខ្ញុំ ត្រូវ ធ្វើ អ្វី ដើម្បី បាន សង្គ្រោះ ?');
   await say('me', 'ចូរ ជឿ ព្រះអម្ចាស់ យេស៊ូ នោះ លោក នឹង បាន សង្គ្រោះ ទាំង គ្រួសារ លោក ។');
   burst(jailer.x, jailer.y + 1.5, jailer.z, 0xfff0a0, 40, 2); good();
   await say('jailer', 'ខ្ញុំ ជឿ ! មក ផ្ទះ ខ្ញុំ ។ ខ្ញុំ នឹង លាង របួស លោក ។');
@@ -2757,14 +2781,14 @@ async function malta() {
   toast('២៧៦ នាក់', 'គ្រប់ គ្នា រួច ជីវិត ។'); speaking = 'god'; await sayPhrase('គ្រប់ គ្នា រួច ជីវិត ។');
   const natives = [0, 1, 2].map(i => npc('native', { skin: 0x8a5a3a, top: 0xc8a050, robe: true }, -6 + i * 3, -52, 0));
   const bon = fire(); bon.scale.setScalar(1.4); place(bon, 0, -50); tag('ភ្លើង', bon);
-  await say('native', 'ត្រជាក់ ណាស់ ! មក កម្ដៅ ខ្លួន ជិត *ភ្លើង ។');
+  await say('native', 'ត្រជាក់ ណាស់ ! មក កម្ដៅ ខ្លួន ជិត ភ្លើង ។');
   const sticks = grp(); for (let i = 0; i < 5; i++) cyl(.05, .05, 1, 0x6a4424, (i - 2) * .12, .05, 0, sticks, 4).rotation.z = Math.PI / 2; place(sticks, 5, -48); tag('ឧស', sticks);
   goal('ប្រមូល ឧស ។', [5, -48]);
   await act('ប្រមូល ឧស', [5, -48], 3); world.remove(sticks);
   goal('ដាក់ ឧស ក្នុង ភ្លើង ។', [0, -50]);
   await act('ដាក់ ឧស', [0, -50], 3.2);
   const vip = snake(); vip.g.scale.setScalar(.45); hero.arms[1].add(vip.g); vip.g.position.set(0, -.6, .1); vip.g.rotation.x = Math.PI / 2; tag('ពស់', vip.g); tone([900, 300], .4, 'square', .07);
-  await say('native', 'មើល ! *ពស់ ចឹក ដៃ គាត់ ! គាត់ ច្បាស់ ជា ស្លាប់ !');
+  await say('native', 'មើល ! ពស់ ចឹក ដៃ គាត់ ! គាត់ ច្បាស់ ជា ស្លាប់ !');
   goal('រលាស់ ពស់ ចូល ភ្លើង ។', [0, -50]);
   await act('រលាស់ ពស់', [0, -50], 3.5);
   hero.arms[1].remove(vip.g); burst(0, H(0, -50) + 1, -50, 0xff8020, 30, 2); good();
