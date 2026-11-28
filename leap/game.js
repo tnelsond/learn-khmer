@@ -170,20 +170,20 @@ function person(o = {}) {
   // one low-poly torso, hips to neck; women: narrower waist, fuller hips, a moderate bust in the same shape
   const T = fem
     ? [[.68, .2, .13, 0, bot], [.82, .33, .21, 0, bot], [1.0, .2, .14, 0, top], [1.2, .26, clothed ? .2 : .17, clothed ? .05 : .03, top], [1.42, .27, .14, 0, top], [1.66, .075, .075, .01, sk]]
-    : [[.68, .18, .12, 0, bot], [.82, .25, .16, 0, bot], [1.0, .22, .14, 0, top], [1.28, .29, .17, .02, top], [1.44, .32, .15, 0, top], [1.67, .085, .085, .01, sk]];
-  mesh(loft(T.map(r => [r[0] + d, ...r.slice(1)]), 5), VM(), 0, 0, 0, b);
+    : [[.68, .18, .12, 0, bot], [.82, .25, .16, 0, bot], [1.0, .22, .14, 0, top], [1.14, .25, .16, .015, top], [1.28, .29, .17, .02, top], [1.44, .32, .15, 0, top], [1.67, .085, .085, .01, sk]];
+  mesh(loft(T.map(r => [r[0] + d, ...r.slice(1)]), 6), VM(), 0, 0, 0, b);
   // robes: women's reach the ground, men's stop above the ankle so the calves show
-  if (o.robe) mesh(loft(fem ? [[1.0 + d, .21, .15, 0, bot], [.8 + d, .3, .19, 0, bot], [.08, .48, .33, 0, bot]] : [[1.0, .23, .15, 0, bot], [.8, .27, .19, 0, bot], [.3, .37, .26, 0, bot]], 5, false), VM(), 0, 0, 0, b);
+  if (o.robe) mesh(loft(fem ? [[1.0 + d, .21, .15, 0, bot], [.8 + d, .32, .22, 0, bot], [.08, .52, .4, 0, bot]] : [[1.0, .23, .15, 0, bot], [.8, .3, .22, 0, bot], [.3, .44, .36, 0, bot]], 6, false), VM(), 0, 0, 0, b);
   if (o.coat) [0xd03a2a, 0xf2c51c, 0x2a8a4a, 0x2f5fd0].forEach((c, i) => { const y0 = .86 + d + i * .16; mesh(loft([[y0, .25, .17, .015, c], [y0 + .12, .26, .175, .015, c]], 5, false), VC, 0, 0, 0, b); });
   // arms: shoulder, bicep, forearm, hand in one shape
   const sl = o.sleeve ?? top;
-  for (const s of [-1, 1]) { const p = pivot(b, s * (fem ? .27 : .31), 1.4 + d, 0); mesh(loft([[.06, .08, .08, 0, sl], [-.06, .1, .09, 0, sl], [-.3, .065, .065, 0, sl], [-.52, .05, .05, .01, o.robe ? sl : sk], [-.68, .055, .035, .03, sk]], 4), VM(), 0, 0, 0, p); arms.push(p); }
+  for (const s of [-1, 1]) { const p = pivot(b, s * (fem ? .27 : .31), 1.4 + d, 0); mesh(loft([[.06, .08, .08, 0, sl], [-.06, .1, .09, 0, sl], [-.3, .065, .065, 0, sl], [-.52, .05, .05, .01, o.robe ? sl : sk], [-.68, .055, .035, .03, sk]], 5), VM(), 0, 0, 0, p); arms.push(p); }
   // legs: thigh and shin as separate shapes so the knee bends
   const lc = o.robe ? sk : pants ? bot : sk, fc = o.barefoot ? sk : 0x4a3420;
   for (const s of [-1, 1]) {
-    const W = fem ? 1.2 : 1, p = pivot(b, s * (fem ? .14 : .11), .74 + d, 0); mesh(loft(sy([[.04, .12 * W, .12 * W, 0, lc], [-.16, .11 * W, .105 * W, 0, lc], [-.38, .075 * W, .075 * W, .01, lc]]), 4), VM(), 0, 0, 0, p);
-    const k = pivot(p, 0, -.37 * L, 0); mesh(loft(sy([[.02, .075 * W, .075 * W, .01, sk], [-.1, .085 * W, .09 * W, -.015, sk], [-.32, .045 * W, .045 * W, 0, sk]]), 4), VM(), 0, 0, 0, k);
-    const f = mesh(loft(sy([[-.3, .055, .06, .01, fc], [-.4, .07, .12, .07, fc]]), 4), VM(), 0, 0, 0, k);
+    const W = fem ? 1.2 : 1, p = pivot(b, s * (fem ? .14 : .11), .74 + d, 0); if (!o.robe) mesh(loft(sy([[.04, .12 * W, .12 * W, 0, lc], [-.16, .11 * W, .105 * W, 0, lc], [-.38, .075 * W, .075 * W, .01, lc]]), 5), VM(), 0, 0, 0, p);
+    const k = pivot(p, 0, -.37 * L, 0); if (!o.robe) mesh(loft(sy([[.02, .075 * W, .075 * W, .01, sk], [-.1, .085 * W, .09 * W, -.015, sk], [-.32, .045 * W, .045 * W, 0, sk]]), 5), VM(), 0, 0, 0, k); else if (!fem) mesh(loft([[-.08, .07, .075, -.01, sk], [-.32, .045, .045, 0, sk]], 5), VM(), 0, 0, 0, k);
+    const f = mesh(loft(sy([[-.3, .055, .06, .01, fc], [-.4, .07, .12, .07, fc]]), 5), VM(), 0, 0, 0, k);
     legs.push(p); knees.push(k); feet.push(f);
   }
   if (o.staff) { const st = mesh(new THREE.CylinderGeometry(.035, .035, 2.2, 5), mat(0x6a4424), 0, -.5, .05, arms[1]); st.rotation.x = .1; }
@@ -195,7 +195,7 @@ function person(o = {}) {
   if (!o.glow) { for (const s of [-1, 1]) mesh(new THREE.OctahedronGeometry(.045, 0), MS(0x1a1010), s * .085, .03, .2, head); mesh(new THREE.OctahedronGeometry(.04, 0), o.glow ? mat(sk) : MB(sk), 0, -.05, .23, head); }
   if (!fem && o.cloth != null && o.hair == null) o = { ...o, hair: o.beard ?? 0x2a1a10 };
   if (o.hair != null) { const h = mesh(new THREE.SphereGeometry(.31, 6, 2, 0, Math.PI * 2, 0, Math.PI * .55), mat(o.hair), 0, .02, -.03, head); h.rotation.x = -.35; if (fem) capsule(.2, .4, mat(o.hair), 0, -.22, -.15, head); }
-  if (fem && o.cloth != null) { const c = mesh(new THREE.SphereGeometry(.33, 6, 2, 0, Math.PI * 2, 0, Math.PI * .6), mat(o.cloth), 0, .02, -.02, head); c.rotation.x = -.5; mesh(new THREE.CylinderGeometry(.24, .34, .5, 5, 1, true), mat(o.cloth), 0, -.2, -.1, head); }
+  if (fem && o.cloth != null) { const c = mesh(new THREE.SphereGeometry(.33, 6, 2, 0, Math.PI * 2, 0, Math.PI * .5), mat(o.cloth), 0, .05, -.08, head); c.rotation.x = -.6; mesh(new THREE.CylinderGeometry(.26, .34, .5, 5, 1, true, Math.PI * .6, Math.PI * .8), mat(o.cloth), 0, -.2, -.1, head); }
   if (o.beard != null) { const bd = mesh(new THREE.ConeGeometry(.2, .42, 6), mat(o.beard), 0, -.32, .14, head); bd.rotation.x = Math.PI + .2; }
   if (o.leaves) for (let i = 0; i < 8; i++) { const a = i / 8 * Math.PI * 2; const l = mesh(new THREE.ConeGeometry(.1, .36, 6), mat(0x3f8a2a), Math.sin(a) * .25, .6, Math.cos(a) * .2, b); l.rotation.x = Math.PI; }
   return { g, b, legs, arms, head, knees, feet };
