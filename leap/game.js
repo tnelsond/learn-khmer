@@ -316,6 +316,7 @@ function gate() { const g = new THREE.Group(); for (const s of [-1, 1]) box(1, 6
 // pictures for words: tapping a word shows its picture (comprehensible input, no translation)
 const HEROES = {
   adam: { name: 'អ័ដាម', skin: 0xb07850, top: 0xb07850, bottom: 0xb07850, hair: 0x2a1a10, barefoot: true },
+  adam2: { name: 'អ័ដាម', skin: 0xb07850, top: 0x8a6a4a, bottom: 0x7a5a3a, hair: 0x2a1a10, beard: 0x2a1a10, barefoot: true },
   eve: { name: 'អេវ៉ា', skin: 0xc08a60, top: 0xc08a60, bottom: 0xc08a60, hair: 0x3a2010, female: true, barefoot: true },
   noah: { name: 'ណូអេ', skin: 0xa07050, top: 0x7a5a3a, bottom: 0x8a6a44, robe: true, cloth: 0xe0d8c0, beard: 0xf0f0f0 },
   builder: { name: 'អ្នកសង់', skin: 0x9a6a44, top: 0xc8a878, bottom: 0x8a6a4a, hair: 0x1a1010, cloth: 0xb03a2a },
@@ -360,7 +361,7 @@ const HEROES = {
 const SPK_F0 = { 'kheng:1': 239, 'rith:': 138, 'khsv:1': 112, 'khsv:2': 118, 'khsv:3': 130, 'khsv:4': 130 };
 const CAST = {
   god: { km: 'ព្រះជាម្ចាស់', v: [2, 92] }, al: { km: 'អាល់', v: [1, 130] }, me: { km: '', v: [3, 120] },
-  adam: { km: 'អ័ដាម', v: [3, 120] }, eve: { km: 'អេវ៉ា', v: [0, 228] }, snake: { km: 'ពស់', v: [1, 155] },
+  adam: { km: 'អ័ដាម', v: [3, 120] }, cain: { km: 'កាអ៊ីន', v: [5, 160] }, abel: { km: 'អេបិល', v: [5, 190] }, eve: { km: 'អេវ៉ា', v: [0, 228] }, snake: { km: 'ពស់', v: [1, 155] },
   wife: { km: 'ប្រពន្ធ', v: [0, 212] }, son: { km: 'សិម', v: [5, 136] }, nb: { km: 'អ្នកជិតខាង', v: [1, 128] },
   boss: { km: 'មេការ', v: [2, 100] }, friend: { km: 'មិត្ត', v: [4, 142] }, w1: { km: 'អ្នកសង់', v: [5, 130] },
   sarai: { km: 'សារ៉ាយ', v: [0, 208] }, sarah: { km: 'សារ៉ា', v: [0, 208] }, lot: { km: 'ឡុត', v: [3, 125] }, guest: { km: 'ភ្ញៀវ', v: [2, 112] },
@@ -372,7 +373,7 @@ const CAST = {
   jesse: { km: 'អ៊ីសាយ', v: [2, 98] }, abishai: { km: 'អ្នក តាម ដាវីឌ', v: [4, 120] }, widow: { km: 'ស្ត្រី មេម៉ាយ', v: [0, 205] }, widowson: { km: 'កូនប្រុស', v: [5, 170] }, elijah: { km: 'អេលីយ៉ា', v: [2, 100] }, gomer: { km: 'កូមើរ', v: [0, 225] }, dorcas: { km: 'ស្ត្រី ចិត្ត ល្អ', v: [0, 215] }, cornelius: { km: 'កូនេលាស', v: [2, 108] }, youth: { km: 'យុវជន', v: [5, 150] }, creature: { km: 'សត្វ មាន ជីវិត', v: [1, 90] },
   ananias: { km: 'អាណានាស', v: [3, 115] }, rhoda: { km: 'រ៉ូដា', v: [0, 240] }, silas: { km: 'ស៊ីឡាស', v: [4, 120] }, jailer: { km: 'ឆ្មាំ គុក', v: [1, 120] }, native: { km: 'អ្នក កោះ ម៉ាល់តា', v: [5, 130] }, disciple: { km: 'សិស្ស', v: [5, 125] }, people: { km: 'ប្រជាជន', v: [4, 140] }, angel: { km: 'ទេវតា', v: [1, 145] },
 };
-const HERO_V = { samuel: [2, 96], david_man: [5, 130], elisha: [4, 112], hosea: [3, 112], stephen: [4, 122], adam: [3, 120], eve: [0, 228], noah: [4, 104], builder: [5, 126], abram: [2, 100], jacob: [3, 118], joseph: [5, 140], moses: [2, 100], ehud: [3, 115], samson: [2, 100], helper: [5, 140], miriam: [0, 260], ruth: [0, 220], david: [5, 150], elijah: [2, 100], jonah: [3, 115], shadrach: [3, 120], daniel: [2, 105], shepherd: [4, 120], peter: [3, 115], boy: [5, 170], zacchaeus: [1, 130], magdalene: [0, 220], philip: [4, 120], farmer: [4, 120], samaritan: [2, 110], son: [5, 135], john_old: [2, 100], friend: [4, 120], andrew: [3, 118], simon: [2, 110], saul: [2, 110], paul: [2, 110] };
+const HERO_V = { adam2: [3, 120], samuel: [2, 96], david_man: [5, 130], elisha: [4, 112], hosea: [3, 112], stephen: [4, 122], adam: [3, 120], eve: [0, 228], noah: [4, 104], builder: [5, 126], abram: [2, 100], jacob: [3, 118], joseph: [5, 140], moses: [2, 100], ehud: [3, 115], samson: [2, 100], helper: [5, 140], miriam: [0, 260], ruth: [0, 220], david: [5, 150], elijah: [2, 100], jonah: [3, 115], shadrach: [3, 120], daniel: [2, 105], shepherd: [4, 120], peter: [3, 115], boy: [5, 170], zacchaeus: [1, 130], magdalene: [0, 220], philip: [4, 120], farmer: [4, 120], samaritan: [2, 110], son: [5, 135], john_old: [2, 100], friend: [4, 120], andrew: [3, 118], simon: [2, 110], saul: [2, 110], paul: [2, 110] };
 const SP = CAST;
 const P = {
   person: () => person({ skin: 0xb07a50, top: 0x8a6a4a, hair: 0x2a1a10 }).g,
@@ -498,8 +499,22 @@ addEventListener('blur', releaseAll); document.addEventListener('visibilitychang
 /* ---------------- goal, marker, action button ---------------- */
 let goalAt = null;
 const mk = new THREE.Group(); { const o = mesh(new THREE.OctahedronGeometry(.5, 0), MB(0xf2c51c)); o.scale.y = 1.5; mk.add(o); mk.add(mesh(new THREE.OctahedronGeometry(.8, 0), MB(0xf2c51c, { transparent: true, opacity: .25, blending: THREE.AdditiveBlending, depthWrite: false }))); } scene.add(mk); mk.visible = false;
-function marker(at) { goalAt = at; mk.visible = !!at; }
+// the marker and arrow only appear once you've spent a while on a goal (you're struggling)
+const HINT_AFTER = 20; let goalT = 0;
+function marker(at) { if (at !== goalAt) goalT = performance.now(); goalAt = at; mk.visible = false; }
+const hinting = () => !!goalAt && (performance.now() - goalT) / 1000 > HINT_AFTER;
 const atXZ = at => !at ? null : typeof at === 'function' ? at() : Array.isArray(at) ? at : at.g ? [at.x, at.z] : at.position ? [at.position.x, at.position.z] : null;
+const COLS = [['ក្រហម', 0xc83228], ['ខៀវ', 0x2f5fd0], ['បៃតង', 0x2a9a4a], ['លឿង', 0xf2c51c], ['ស', 0xf4f4f0], ['ខ្មៅ', 0x262626], ['ស្វាយ', 0x7a3aa0], ['ទឹកក្រូច', 0xe8862a]];
+// colorPick: "go to the red one" — items carry .col (a colour word) and .at; a wrong pick names that colour
+async function colorPick(items, label, r, key, suffix = '') {
+  const want = items[Math.floor(Math.random() * items.length)];
+  for (;;) {
+    goal(fmt(key, want.col) + suffix, want.at);
+    const it = await pick(items.map(x => [label, x.at, r, x]));
+    if (it.col === want.col) { cap(it.col); return it; }
+    toast(it.col, fmt('នេះ ពណ៌ {0} ។', it.col)); speaking = 'god'; sayPhrase(fmt('នេះ ពណ៌ {0} ។', it.col)); tone([220, 160], .25, 'square', .04);
+  }
+}
 function goal(text, at = null) { text = tr(text); $('#obj').innerHTML = text ? wordsHTML(text) : ''; bindWords($('#obj'), text ? tokens(text) : []); marker(at); }
 function act(label, at, r = 3) { return new Promise(res => { const a = { label, at, r, fn: () => { acts.splice(acts.indexOf(a), 1); res(); } }; acts.push(a); }); }
 function pick(list) { return new Promise(res => { const mine = list.map(([label, at, r, v]) => ({ label, at, r: r || 3, fn: () => { for (const m of mine) { const i = acts.indexOf(m); if (i >= 0) acts.splice(i, 1); } res(v); } })); acts.push(...mine); }); }
@@ -905,6 +920,7 @@ function frame(now) {
   if (raining > 0) for (let i = 0; i < raining; i++) emit(camera.position.x + rnd(-25, 25), camera.position.y + 14, camera.position.z + rnd(-25, 25), 0, -24, 0, 0x6090ff, 1, 0);
   // marker, arrow
   const g = atXZ(goalAt);
+  mk.visible = !!g && hinting();
   if (g) { const gy = goalAt && goalAt.g ? goalAt.y + 3 : groundAt(g[0], g[1]) + 3.4; mk.position.set(g[0], gy + Math.sin(t * 3) * .3, g[1]); mk.rotation.y = t * 2; }
   drawArrow(g);
   // actions & reach & interactions
@@ -946,7 +962,7 @@ function tryMove(dx, dz) {
 }
 const arrowEl = $('#arrow');
 function drawArrow(g) {
-  if (!g || !started || ui || cine) return arrowEl.classList.add('hide');
+  if (!g || !started || ui || cine || !hinting()) return arrowEl.classList.add('hide');
   V3.set(g[0], groundAt(g[0], g[1]) + 2, g[1]).project(camera);
   const on = V3.z < 1 && Math.abs(V3.x) < .9 && Math.abs(V3.y) < .85;
   if (on) return arrowEl.classList.add('hide');
@@ -960,6 +976,7 @@ const CHAPTERS = [
   { title: 'ការបង្កើត', ref: 'លោកុប្បត្តិ ១', who: 'ពន្លឺ', run: creation },
   { title: 'សួនច្បារ អេដែន', ref: 'លោកុប្បត្តិ ២', who: 'អ័ដាម', run: adam },
   { title: 'ផ្លែឈើ ហាម', ref: 'លោកុប្បត្តិ ៣', who: 'អេវ៉ា', run: eve },
+  { title: 'អក្សរ ដំបូង', ref: 'លោកុប្បត្តិ ៤', who: 'អ័ដាម', run: alphabet },
   { title: 'ទូក ធំ', ref: 'លោកុប្បត្តិ ៦–៩', who: 'ណូអេ', run: noah },
   { title: 'ប៉ម បាបិល', ref: 'លោកុប្បត្តិ ១១', who: 'អ្នកសង់', run: babel },
   { title: 'ផ្កាយ និង ខ្សាច់', ref: 'លោកុប្បត្តិ ១២–២២', who: 'អាប់រ៉ាម', run: abram },
@@ -2537,7 +2554,8 @@ async function feeding() {
   await leapIn('boy', 0, 14, Math.PI);
   const jesus = npc('jesus', HEROES.jesus, 0, -2, 0); tag('ព្រះយេស៊ូ', jesus.g);
   // a big crowd sitting in groups on the green grass
-  const groups = []; for (let g = 0; g < 10; g++) { const gx = -28 + (g % 5) * 14, gz = 20 + Math.floor(g / 5) * 13, people = []; for (let i = 0; i < 6; i++) { const a2 = i / 6 * 6.28; const e = npc('people', { skin: [0xa07050, 0x8a5a3a, 0xb07a50][i % 3], top: [0x8a5a3a, 0x3a5a8a, 0x8a3a3a, 0x5a7a3a, 0xc8b080, 0x6a4a6a, 0x3a6a5a][i], robe: true, cloth: 0xe0d0b0, small: i >= 4 }, gx + Math.cos(a2) * 2.6, gz + Math.sin(a2) * 2.6, 0); e.talk = null; e.yaw = Math.atan2(gx - e.x, gz - e.z); kneel(e.m, .8, e); people.push(e); } groups.push({ x: gx, z: gz, people }); }
+  const groups = []; for (let g = 0; g < 8; g++) { const gx = -28 + (g % 5) * 14, gz = 20 + Math.floor(g / 5) * 13, people = []; for (let i = 0; i < 6; i++) { const a2 = i / 6 * 6.28; const e = npc('people', { skin: [0xa07050, 0x8a5a3a, 0xb07a50][i % 3], top: [0x8a5a3a, 0x3a5a8a, 0x8a3a3a, 0x5a7a3a, 0xc8b080, 0x6a4a6a, 0x3a6a5a][i], robe: true, cloth: 0xe0d0b0, small: i >= 4 }, gx + Math.cos(a2) * 2.6, gz + Math.sin(a2) * 2.6, 0); e.talk = null; e.yaw = Math.atan2(gx - e.x, gz - e.z); kneel(e.m, .8, e); people.push(e); } groups.push({ x: gx, z: gz, people }); }
+  groups.forEach((gp, i) => { gp.col = COLS[i][0]; gp.at = [gp.x, gp.z]; const m2 = box(3.6, .06, 3.6, COLS[i][1], gp.x, H(gp.x, gp.z) + .04, gp.z, world); tag('កន្ទេល', m2); });
   const discs = [0, 1, 2, 3, 4, 5].map(i => { const e = npc('disciple', { skin: 0xa07050, top: [0x8a5a3a, 0x3a6a5a, 0x6a4a6a, 0x5a5a8a, 0x8a7a3a, 0x4a6a3a][i], robe: true, cloth: 0xd8c8a0, beard: 0x3a2a1a }, -5 + i * 2, 1.5, Math.PI); e.talk = null; return e; });
   const lunch = grp(); for (let i = 0; i < 5; i++) { const b = sph(.18, 0xd8a050, (i - 2) * .2, .15, 0, lunch, 5, 3); b.scale.y = .6; } for (const s2 of [-1, 1]) { const fsh = fish(0x8a9aa8).g; fsh.scale.setScalar(.35); fsh.position.set(s2 * .25, .35, .1); lunch.add(fsh); }
   carry(lunch); tag('នំបុ័ង', lunch);
@@ -2568,8 +2586,7 @@ async function feeding() {
     goal(`ចែក អាហារ ។ ( ${khNum(served.size)} / ${khNum(groups.length)} )`, [jesus.x, jesus.z + 2]);
     await act('យក អាហារ', [jesus.x, jesus.z + 2], 3.5); if (served.size >= groups.length) break; carry(basket2());
     const nextG = () => groups.filter(g => !served.has(g)).sort((a2, b2) => Math.hypot(a2.x - player.x, a2.z - player.z) - Math.hypot(b2.x - player.x, b2.z - player.z))[0];
-    goal(`ចែក អាហារ ។ ( ${khNum(served.size)} / ${khNum(groups.length)} )`, () => { const n = nextG(); return n ? [n.x, n.z] : null; });
-    const gp = await pick(groups.filter(g => !served.has(g)).map(g => ['ចែក អាហារ', [g.x, g.z], 4.6, g]));
+    const gp = await colorPick(groups.filter(g => !served.has(g)), 'ចែក អាហារ', 4.6, 'ចែក អាហារ ដល់ ក្រុម ដែល អង្គុយ លើ កន្ទេល ពណ៌ {0} ។', ` ( ${khNum(served.size)} / ${khNum(groups.length)} )`);
     drop(); serve(gp); good(); mine++; toast(khNum(served.size), served.size <= 10 ? NUMW[served.size] : '');
   }
   runners = false; drop(); anims.splice(anims.indexOf(pileTick), 1);
@@ -2693,15 +2710,14 @@ async function sendTwelve() {
   const staff = cyl(.035, .035, 2.2, 0x6a4424, 0, -.5, .05, hero.arms[1], 5); tag('ដំបង', staff);
   others.forEach((e, i) => walk(e, Math.cos(i) * 80, Math.sin(i * 1.7) * 80, 3)); partner.follow = 'player'; partner.gap = 2; partner.talk = null;
   // village one: they welcome you
-  const sick = [0, 1, 2].map(i => { const p2 = person({ skin: 0xa07050, top: 0x8a8a7a, robe: true }); p2.g.rotation.x = -Math.PI / 2; const e = ent(p2, -40 + (i - 1) * 4, -36, { solid: 0, id: 'sickman' }); e.y = 0; return e; }); sick.forEach(e => tag('អ្នក ជំងឺ', e.g));
+  const sick = [0, 1, 2].map(i => { const p2 = person({ skin: 0xa07050, top: COLS[i][1], robe: true }); p2.g.rotation.x = -Math.PI / 2; const e = ent(p2, -40 + (i - 1) * 4, -36, { solid: 0, id: 'sickman' }); e.y = 0; e.col = COLS[i][0]; e.at = e; return e; }); sick.forEach(e => tag('អ្នក ជំងឺ', e.g));
   const vil = [0, 1, 2, 3].map(i => { const e = npc('people', { skin: 0xa07050, top: [0x8a5a3a, 0x3a5a8a, 0x8a3a3a, 0x5a7a3a][i], robe: true, cloth: 0xe0d0b0, female: i % 2 === 1 }, -44 + i * 3, -42, 0); e.talk = null; return e; });
   goal('ទៅ ភូមិ ទី មួយ ។', [-40, -38]);
   await reach([-40, -34], 6);
   await act('ប្រកាស', [player.x, player.z], 99);
   await say('me', 'ចូរ ប្រែ ចិត្ត ! នគរ ព្រះ មក ជិត ហើយ !');
   for (let n = 0; n < sick.length; n++) {
-    const e = sick[n]; goal(`ដាក់ ដៃ លើ អ្នក ជំងឺ ។ ( ${khNum(n)} / ${khNum(sick.length)} )`, e);
-    await act('ដាក់ ដៃ', e, 2.8);
+    const e = await colorPick(sick.filter(x => !x.healed), 'ដាក់ ដៃ', 2.8, 'ដាក់ ដៃ លើ អ្នក ជំងឺ ដែល ពាក់ អាវ ពណ៌ {0} ។', ` ( ${khNum(n)} / ${khNum(sick.length)} )`); e.healed = true;
     burst(e.x, e.y + .5, e.z, 0xfff0a0, 40, 2); await tween(.6, k => { e.g.rotation.x = 0; e.m.g.rotation.x = -Math.PI / 2 * (1 - k); }); good(); toast(khNum(n + 1), 'ជា !');
   }
   await say('people', 'អរគុណ ព្រះ ! ពួក គាត់ ជា ហើយ !');
@@ -2930,7 +2946,7 @@ async function pentecost() {
   const TONGUES = [['ພຣະເຈົ້າຍິ່ງໃຫຍ່ ! ພຣະເຢຊູຊົງພຣະຊົນຢູ່ !', 'lo', 'ឡាវ'], ['พระเจ้ายิ่งใหญ่ ! พระเยซูทรงพระชนม์อยู่ !', 'th', 'ថៃ'], ['Đức Chúa Trời thật vĩ đại ! Chúa Giê-xu đang sống !', 'vi', 'វៀតណាម'], ['ဘုရားသခင် ကြီးမြတ်တယ် ! ယေရှု အသက်ရှင်တယ် !', 'my', 'ភូមា']];
   for (let i = 0; i < 3; i++) await say('disciple', TONGUES[i][0], { lang: TONGUES[i][1] });
   camFree();
-  const crowd = []; for (let i = 0; i < 16; i++) { const e = npc('nation', { skin: [0x9a6a44, 0x6a4a2a, 0xc08a60, 0x8a5a3a][i % 4], top: [0xc04040, 0x4060c0, 0xc0a040, 0x40a060][i % 4], robe: true, cloth: [0xffffff, 0xf2c51c, 0x2a2a2a, 0xc04040][i % 4] }, -12 + (i % 8) * 3.4, 26 + Math.floor(i / 8) * 4, Math.PI); e.talk = null; crowd.push(e); walk(e, -12 + (i % 8) * 3.4, 8 + Math.floor(i / 8) * 4, 3); }
+  const crowd = []; for (let i = 0; i < 16; i++) { const e = npc('nation', { skin: [0x9a6a44, 0x6a4a2a, 0xc08a60, 0x8a5a3a][i % 4], top: COLS[i % 8][1], robe: true, cloth: [0xffffff, 0xf2c51c, 0x2a2a2a, 0xc04040][i % 4] }, -12 + (i % 8) * 3.4, 26 + Math.floor(i / 8) * 4, Math.PI); e.talk = null; crowd.push(e); walk(e, -12 + (i % 8) * 3.4, 8 + Math.floor(i / 8) * 4, 3); }
   toast('', 'ហ្វូង មនុស្ស ឮ សូរ នោះ ហើយ មក ជុំ គ្នា ។'); speaking = 'god'; await sayPhrase('ហ្វូង មនុស្ស ឮ សូរ នោះ ហើយ មក ជុំ គ្នា ។');
   goal('ចុះ ទៅ ខាងក្រៅ ។', [5.4, -6]);
   await reach([5.4, -6], 1.6);
@@ -2938,12 +2954,11 @@ async function pentecost() {
   const outs = room.slice(0, 4); outs.forEach((e, i) => { e.x = 4 + i * 1.6; e.z = 3 + (i % 2); e.yaw = 0; });
   // each nation hears the disciples in its own language, and says so in Khmer
   for (let n = 0; n < 4; n++) {
-    const who = crowd[n * 4], d = outs[n];
-    goal(`ស្ដាប់ ប្រជាជន ។ ( ${khNum(n)} / ${khNum(4)} )`, who);
-    await act('ស្ដាប់', who, 4.5);
+    const pool = crowd.slice(0, 4).filter(e => !e.heard); pool.forEach(e => { e.col = COLS[crowd.indexOf(e)][0]; e.at = e; });
+    const who = await colorPick(pool, 'ស្ដាប់', 4.5, 'ស្ដាប់ អ្នក ដែល ពាក់ អាវ ពណ៌ {0} ។', ` ( ${khNum(n)} / ${khNum(4)} )`); who.heard = true; const d = outs[n];
     d.x = who.x + 1.4; d.z = who.z - 1.2; d.yaw = Math.atan2(who.x - d.x, who.z - d.z); who.yaw = Math.atan2(d.x - who.x, d.z - who.z);
-    await say('disciple', TONGUES[n][0], { lang: TONGUES[n][1] });
-    await say('nation', fmt('ខ្ញុំ មក ពី ស្រុក {0} ។ ខ្ញុំ ឮ គាត់ និយាយ ភាសា របស់ ខ្ញុំ ! គាត់ និយាយ ពី ការ អស្ចារ្យ របស់ ព្រះ !', TONGUES[n][2]));
+    await say('disciple', TONGUES[crowd.indexOf(who)][0], { lang: TONGUES[crowd.indexOf(who)][1] });
+    await say('nation', fmt('ខ្ញុំ មក ពី ស្រុក {0} ។ ខ្ញុំ ឮ គាត់ និយាយ ភាសា របស់ ខ្ញុំ ! គាត់ និយាយ ពី ការ អស្ចារ្យ របស់ ព្រះ !', TONGUES[crowd.indexOf(who)][2]));
   }
   await say('people', 'មើល ! ពួក គេ ស្រវឹង ហើយ !');
   await say('me', 'ពួក យើង មិន ស្រវឹង ទេ ! ឥឡូវ ទើប តែ ម៉ោង ប្រាំបួន ព្រឹក ។ នេះ ជា ព្រះវិញ្ញាណ របស់ ព្រះ !');
@@ -3472,6 +3487,64 @@ async function newJerusalem() {
 }
 
 
+
+/* ---- Adam and Eve teach Cain and Abel their first letters (Genesis 4:1-2), as Adam ---- */
+const LETTERS = { km: ['ក', 'ខ', 'គ', 'ឃ', 'ង', 'ច'], lo: ['ກ', 'ຂ', 'ຄ', 'ງ', 'ຈ', 'ສ'], es: ['A', 'B', 'C', 'D', 'E', 'F'], en: ['A', 'B', 'C', 'D', 'E', 'F'] };
+function letterSprite(ch) {
+  const c = document.createElement('canvas'); c.width = c.height = 128; const g = c.getContext('2d');
+  g.fillStyle = 'rgba(30,24,16,.55)'; g.beginPath(); g.arc(64, 64, 60, 0, 7); g.fill();
+  g.font = '82px Battambang, "Noto Sans Lao", sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillStyle = '#f2c51c'; g.fillText(ch, 64, 70);
+  const s2 = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), transparent: true, depthWrite: false })); s2.scale.set(1.3, 1.3, 1); return s2;
+}
+alphabet.build = () => {
+  setSky(0x5a8ad0, 0xf0d0a0, 0xe8d0a8, 1, true); scene.fog.near = 50; scene.fog.far = 200;
+  H = (x, z) => 1 + Math.sin(x * .05) * .8 + Math.cos(z * .06) * .6; bound = 80; terrain(200, 50, (x, z, y) => y > 1.6 ? 0x8aa050 : 0x9aa858);
+  const hut = grp(); cone(3.4, 3.2, 0x9a7a4a, 0, 1.6, 0, hut, 7); cyl(3.2, 3.2, .8, 0x7a5a3a, 0, .4, 0, hut, 7); place(hut, -10, -12, 0, 3.2); tag('ផ្ទះ', hut);
+  const f = fire(); place(f, -4, -6); for (let i = 0; i < 12; i++) place(tree({ s: rnd(.7, 1.1), leaf: 0x5a8a3a }).g, rnd(-60, 60), rnd(-60, -24), 0, .7);
+  for (let i = 0; i < 6; i++) { const r2 = grp(); box(rnd(1.6, 2.6), .25, rnd(1.6, 2.4), 0x6a7a3a, 0, .12, 0, r2); place(r2, 14 + (i % 3) * 3, -4 + Math.floor(i / 3) * 3); }
+};
+async function alphabet() {
+  await leapIn('adam2', 0, 10, Math.PI);
+  const eve2 = npc('eve', { ...HEROES.eve, top: 0x8a6a4a, bottom: 0x7a5a3a, robe: true }, -6, -4, 0);
+  const cain = npc('cain', { skin: 0xb07850, top: 0x9a6a3a, bottom: 0x7a5a3a, hair: 0x2a1a10, small: true, barefoot: true }, -2, 0, 0);
+  const abel = npc('abel', { skin: 0xc08a60, top: 0xd8c8a0, bottom: 0x7a5a3a, hair: 0x3a2010, small: true, barefoot: true }, 2, 0, 0);
+  const hoe = cyl(.03, .03, 1.2, 0x6a4424, 0, -.4, .05, cain.m.arms[1], 5); tag('កាអ៊ីន', cain.g);
+  const lambE = ent(animal('sheep'), 3.5, 1.2, { speed: 2.5 }); lambE.m.g.scale.setScalar(.6); lambE.follow = abel; lambE.gap = 1.2; tag('កូនចៀម', lambE.g); tag('អេបិល', abel.g);
+  await arrive([]);
+  toast('', 'អ័ដាម និង អេវ៉ា មាន កូនប្រុស ពីរ នាក់ ៖ កាអ៊ីន និង អេបិល ។'); speaking = 'god'; await sayPhrase('អ័ដាម និង អេវ៉ា មាន កូនប្រុស ពីរ នាក់ ៖ កាអ៊ីន និង អេបិល ។');
+  await say('eve', 'អ័ដាម ! បង្រៀន កូន ពី អក្សរ ។');
+  const L = LETTERS[LANG] || LETTERS.km;
+  // six flat stones in a ring, each with a letter scratched on it
+  const stones = L.map((ch, i) => { const a = -Math.PI * .85 + i / (L.length - 1) * Math.PI * .7; const x = Math.cos(a) * 7, z = -2 + Math.sin(a) * 7 + 8; const st = grp(); box(1.4, .3, 1.4, 0xb8b0a0, 0, .15, 0, st); place(st, x, z, rnd(0, 1)); const sp = letterSprite(ch); sp.position.set(x, H(x, z) + 1.3, z); world.add(sp); tag(ch, st); return { ch, col: ch, at: [x, z], sp }; });
+  cain.follow = 'player'; cain.gap = 2.2; abel.follow = 'player'; abel.gap = 2.8; cain.talk = abel.talk = null;
+  // teach: read each letter aloud; the boys say it after you
+  const left = stones.slice();
+  for (let n = 1; n <= L.length; n++) {
+    goal(`បង្ហាញ អក្សរ ដល់ កូន ។ ( ${khNum(n - 1)} / ${khNum(L.length)} )`, left[0].at);
+    const st = await pick(left.map(x => ['អាន', x.at, 2.4, x])); left.splice(left.indexOf(st), 1);
+    burst(st.at[0], H(st.at[0], st.at[1]) + 1.3, st.at[1], 0xf2c51c, 20, 1.5); popWord(st.ch); speaking = 'me'; await playWord(st.ch);
+    await say(n % 2 ? 'cain' : 'abel', fmt('{0} ! {0} !', st.ch));
+  }
+  // quiz: the boys ask for a letter; go and point to it
+  await say('abel', 'ប៉ា ! ខ្ញុំ សួរ ប៉ា វិញ !');
+  const order = stones.slice().sort(() => Math.random() - .5).slice(0, 4);
+  for (let n = 0; n < order.length; n++) {
+    const want = order[n], kid = n % 2 ? 'cain' : 'abel';
+    await say(kid, fmt('តើ អក្សរ {0} នៅ ឯណា ?', want.ch));
+    for (;;) {
+      goal(fmt('ចង្អុល អក្សរ {0} ។', want.ch) + ` ( ${khNum(n)} / ${khNum(order.length)} )`, want.at);
+      const st = await pick(stones.map(x => ['ចង្អុល', x.at, 2.4, x]));
+      hero.arms[1].rotation.x = -1.6; setTimeout(() => hero.arms[1].rotation.x = 0, 600); speaking = 'me'; playWord(st.ch);
+      if (st === want) { burst(st.at[0], H(st.at[0], st.at[1]) + 1.3, st.at[1], 0x80ff80, 30, 2); good(); await say(kid, 'ត្រូវ ហើយ !'); break; }
+      await say(n % 2 ? 'abel' : 'cain', fmt('ទេ ! នោះ ជា អក្សរ {0} ។', st.ch));
+    }
+  }
+  await say('cain', 'ខ្ញុំ ចេះ អាន ហើយ !');
+  await say('eve', 'កូន ឆ្លាត ណាស់ !');
+  toast('', 'កាអ៊ីន ធ្វើ ស្រែ ។ អេបិល ជា អ្នក គង្វាល ចៀម ។'); speaking = 'god'; await sayPhrase('កាអ៊ីន ធ្វើ ស្រែ ។ អេបិល ជា អ្នក គង្វាល ចៀម ។');
+  await nextCh();
+}
+
 /* ================= more stories: Elijah, David, Hosea, Acts, and a fuller Revelation ================= */
 
 /* ---- Samuel anoints David (1 Samuel 16), as Samuel ---- */
@@ -3486,7 +3559,7 @@ async function anoint() {
   await leapIn('samuel', 0, 18, Math.PI);
   const horn = grp(); const hn = cone(.12, .6, 0xe8d8b0, 0, 0, 0, horn, 5); hn.rotation.z = 1.2; carry(horn); tag('ស្នែង', horn);
   const jesse = npc('jesse', { skin: 0xa07050, top: 0x6a5a3a, robe: true, cloth: 0xe0d8c0, beard: 0xd8d8d8 }, 0, -4, 0);
-  const sons = []; for (let i = 0; i < 7; i++) { const e = npc('son' + i, { skin: 0xa07050, top: [0x8a3a2a, 0x3a5a8a, 0x5a7a3a, 0x8a6a3a, 0x6a3a6a, 0x3a7a7a, 0x9a7a4a][i], bottom: 0x5a4a3a, beard: 0x2a1a10, scale: i === 0 ? 1.2 : 1 - i * .02 }, -9 + i * 3, -7, 0); e.talk = null; sons.push(e); }
+  const sons = []; for (let i = 0; i < 7; i++) { const e = npc('son' + i, { skin: 0xa07050, top: [0xc83228, 0x2f5fd0, 0x2a9a4a, 0xf2c51c, 0xf4f4f0, 0x7a3aa0, 0xe8862a][i], bottom: 0x5a4a3a, beard: 0x2a1a10, scale: i === 0 ? 1.2 : 1 - i * .02 }, -9 + i * 3, -7, 0); e.talk = null; e.col = ['ក្រហម', 'ខៀវ', 'បៃតង', 'លឿង', 'ស', 'ស្វាយ', 'ទឹកក្រូច'][i]; e.at = e; sons.push(e); }
   CAST.son0 = { km: 'អេលាប', v: [2, 100] };
   await arrive([]);
   await say('god', 'ចូរ ចាក់ ប្រេង លើ ក្បាល ស្ដេច ថ្មី ។ យើង បាន ជ្រើស រើស កូន ម្នាក់ របស់ អ៊ីសាយ ។');
@@ -3495,8 +3568,7 @@ async function anoint() {
   await say('jesse', 'សូម ស្វាគមន៍ ! នេះ គឺ កូនប្រុស ទាំង ប្រាំពីរ របស់ ខ្ញុំ ។');
   const left = sons.slice();
   for (let n = 1; n <= 7; n++) {
-    goal(`មើល កូនប្រុស ទាំង ប្រាំពីរ ។ ( ${khNum(n - 1)} / ${khNum(7)} )`, () => left[0] ? [left[0].x, left[0].z] : null);
-    const e = await pick(left.map(s2 => ['មើល', s2, 2.6, s2])); left.splice(left.indexOf(e), 1);
+    const e = n === 1 ? await (async () => { goal(`មើល កូនប្រុស ពាក់ អាវ ពណ៌ ក្រហម ។ ( ${khNum(0)} / ${khNum(7)} )`, sons[0]); await act('មើល', sons[0], 2.6); cap('ក្រហម'); return sons[0]; })() : await colorPick(left, 'មើល', 2.6, 'មើល កូនប្រុស ដែល ពាក់ អាវ ពណ៌ {0} ។', ` ( ${khNum(n - 1)} / ${khNum(7)} )`); left.splice(left.indexOf(e), 1);
     burst(e.x, e.y + 2.4, e.z, 0xd0d0d0, 10, 1); toast(khNum(n), NUMW[n]);
     if (e === sons[0]) { await say('me', 'គាត់ ខ្ពស់ ហើយ សង្ហា ។ ប្រាកដ ជា គាត់ ហើយ !'); await say('god', 'កុំ មើល រូប ខាង ក្រៅ ។ មនុស្ស មើល ខាង ក្រៅ ។ តែ ព្រះជាម្ចាស់ មើល ចិត្ត ។'); }
     else await say('god', 'មិន មែន អ្នក នេះ ទេ ។');
@@ -3839,14 +3911,13 @@ stephen.build = () => {
 };
 async function stephen() {
   await leapIn('stephen', 0, 18, Math.PI);
-  const widows = []; for (let i = 0; i < 4; i++) { const e = npc('women', { skin: 0xa07050, top: 0x3a3a3a, robe: true, cloth: 0x2a2a2a, female: true }, -9 + i * 6, 8 + (i % 2) * 3, Math.PI); e.talk = null; widows.push(e); }
+  const widows = []; for (let i = 0; i < 4; i++) { const e = npc('women', { skin: 0xa07050, top: 0x3a3a3a, robe: true, cloth: COLS[i][1], female: true }, -9 + i * 6, 8 + (i % 2) * 3, Math.PI); e.talk = null; e.col = COLS[i][0]; e.at = e; widows.push(e); }
   const basketB = grp(); cyl(.5, .4, .4, 0xb08a50, 0, .2, 0, basketB, 8); for (let i = 0; i < 5; i++) { const b2 = bread(); b2.scale.setScalar(.4); b2.position.set(rnd(-.2, .2), .4, rnd(-.2, .2)); basketB.add(b2); } place(basketB, 2, 16); tag('នំបុ័ង', basketB);
   await arrive([]);
   await say('me', 'ពួក សាវក ជ្រើស រើស ខ្ញុំ ឲ្យ ចែក អាហារ ដល់ ស្ត្រី មេម៉ាយ ។');
   const left = widows.slice();
   for (let n = 1; n <= 4; n++) {
-    goal(`ចែក នំបុ័ង ដល់ ស្ត្រី មេម៉ាយ ។ ( ${khNum(n - 1)} / ${khNum(4)} )`, () => left[0] ? [left[0].x, left[0].z] : null);
-    const e = await pick(left.map(w => ['ឲ្យ នំបុ័ង', w, 2.6, w])); left.splice(left.indexOf(e), 1);
+    const e = await colorPick(left, 'ឲ្យ នំបុ័ង', 2.6, 'ឲ្យ នំបុ័ង ដល់ ស្ត្រី មេម៉ាយ ដែល ពាក់ ក្រណាត់ ពណ៌ {0} ។', ` ( ${khNum(n - 1)} / ${khNum(4)} )`); left.splice(left.indexOf(e), 1);
     const b2 = bread(); b2.scale.setScalar(.45); e.m.arms[0].add(b2); b2.position.set(0, -.6, .15); e.m.arms[0].rotation.x = -.6; burst(e.x, e.y + 1.4, e.z, 0xfff0d0, 12, 1); toast(khNum(n), NUMW[n]);
   }
   good(); await say('women', 'អរគុណ ! ព្រះ ប្រទាន ពរ ដល់ អ្នក !');
@@ -4046,4 +4117,4 @@ $('#start').onclick = begin;
 try { if (sessionStorage.getItem('leap-autostart')) { sessionStorage.removeItem('leap-autostart'); begin(); } } catch (e) { }
 $('#pick').onclick = () => { ensureAudio(); ui = null; bookTab = 'chaps'; $('#title').classList.add('hide'); openBook(); $('#bookclose').onclick = () => { closeAll(); if (!started) $('#title').classList.remove('hide'); }; };
 $('#again').onclick = () => { S.ch = 0; save(); begin(); };
-window.LEAP = { thumb,  S, acts, speakers, pressA: () => { curAct = curAct || acts[0]; pressA(); }, dlgTap, trig: () => trigRes && trigRes('x'), get ui() { return ui; }, player, ents, reachers, get started() { return started; }, speak: w => { typed = KH ? w : tr(w).toLowerCase(); speakTyped(); }, tr, get lang() { return LANG; }, get audio() { return peak ? peak.source + ' ' + peak.speakers.length : 'none'; }, warp: (x, z) => { player.x = x; player.z = z; }, get goal() { return atXZ(goalAt); }, atXZ };
+window.LEAP = { get goalXZ() { return atXZ(goalAt); }, thumb,  S, acts, speakers, pressA: () => { curAct = curAct || acts[0]; pressA(); }, dlgTap, trig: () => trigRes && trigRes('x'), get ui() { return ui; }, player, ents, reachers, get started() { return started; }, speak: w => { typed = KH ? w : tr(w).toLowerCase(); speakTyped(); }, tr, get lang() { return LANG; }, get audio() { return peak ? peak.source + ' ' + peak.speakers.length : 'none'; }, warp: (x, z) => { player.x = x; player.z = z; }, get goal() { return atXZ(goalAt); }, atXZ };

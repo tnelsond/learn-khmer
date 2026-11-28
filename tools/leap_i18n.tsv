@@ -1561,3 +1561,35 @@
 ចាប់ផ្ដើម	Start	Empezar	ເລີ່ມ
 ជ្រើស រឿង	Choose a story	Elegir historia	ເລືອກ ເລື່ອງ
 អូស ខាង ឆ្វេង ដើម្បី ដើរ · អូស ខាង ស្ដាំ ដើម្បី មើល · ចុច ពាក្យ ដើម្បី ស្ដាប់ · ពាក់ កាស	Drag left to walk · Drag right to look · Tap a word to hear it · Use headphones	Arrastra a la izquierda para caminar · a la derecha para mirar · Toca una palabra para oírla · Usa auriculares	ລາກ ຊ້າຍ ເພື່ອ ຍ່າງ · ລາກ ຂວາ ເພື່ອ ເບິ່ງ · ກົດ ຄຳ ເພື່ອ ຟັງ · ໃສ່ ຫູຟັງ
+កាអ៊ីន	Cain	Caín	ກາອິນ
+អេបិល	Abel	Abel	ອາເບນ
+ក្រហម	red	rojo	ສີແດງ
+ខៀវ	blue	azul	ສີຟ້າ
+បៃតង	green	verde	ສີຂຽວ
+លឿង	yellow	amarillo	ສີເຫລືອງ
+ស	white	blanco	ສີຂາວ
+ខ្មៅ	black	negro	ສີດຳ
+ស្វាយ	purple	morado	ສີມ່ວງ
+ទឹកក្រូច	orange	naranja	ສີສົ້ມ
+នេះ ពណ៌ {0} ។	This one is {0}.	Este es {0}.	ອັນ ນີ້ {0} .
+អក្សរ ដំបូង	The First Letters	Las primeras letras	ຕົວອັກສອນ ທຳອິດ
+លោកុប្បត្តិ ៤	Genesis 4	Génesis 4	ປະຖົມມະການ 4
+ចែក អាហារ ដល់ ក្រុម ដែល អង្គុយ លើ កន្ទេល ពណ៌ {0} ។	Give food to the group sitting on the {0} mat.	Da comida al grupo sentado en la manta {0}.	ແຈກ ອາຫານ ໃຫ້ ກຸ່ມ ທີ່ ນັ່ງ ເທິງ ສາດ {0} .
+ដាក់ ដៃ លើ អ្នក ជំងឺ ដែល ពាក់ អាវ ពណ៌ {0} ។	Lay hands on the sick person wearing {0}.	Impón las manos al enfermo vestido de {0}.	ວາງ ມື ເທິງ ຄົນ ເຈັບ ທີ່ ນຸ່ງ ເສື້ອ {0} .
+ស្ដាប់ អ្នក ដែល ពាក់ អាវ ពណ៌ {0} ។	Listen to the person wearing {0}.	Escucha a la persona vestida de {0}.	ຟັງ ຄົນ ທີ່ ນຸ່ງ ເສື້ອ {0} .
+អ័ដាម និង អេវ៉ា មាន កូនប្រុស ពីរ នាក់ ៖ កាអ៊ីន និង អេបិល ។	Adam and Eve have two sons: Cain and Abel.	Adán y Eva tienen dos hijos: Caín y Abel.	ອາດາມ ແລະ ເອວາ ມີ ລູກຊາຍ ສອງ ຄົນ : ກາອິນ ແລະ ອາເບນ .
+អ័ដាម ! បង្រៀន កូន ពី អក្សរ ។	Adam! Teach the boys their letters.	¡Adán! Enséñales las letras a los niños.	ອາດາມ ! ສອນ ລູກ ເລື່ອງ ຕົວອັກສອນ .
+អាន	Read	Leer	ອ່ານ
+ប៉ា ! ខ្ញុំ សួរ ប៉ា វិញ !	Dad! Now I'll ask you!	¡Papá! ¡Ahora te pregunto yo!	ພໍ່ ! ຂ້ອຍ ຖາມ ພໍ່ ແດ່ !
+តើ អក្សរ {0} នៅ ឯណា ?	Where is the letter {0}?	¿Dónde está la letra {0}?	ຕົວ {0} ຢູ່ ໃສ ?
+ចង្អុល អក្សរ {0} ។	Point to the letter {0}.	Señala la letra {0}.	ຊີ້ ຕົວ {0} .
+ចង្អុល	Point	Señalar	ຊີ້
+ត្រូវ ហើយ !	That's right!	¡Correcto!	ຖືກ ແລ້ວ !
+ទេ ! នោះ ជា អក្សរ {0} ។	No! That's the letter {0}.	¡No! Esa es la letra {0}.	ບໍ່ ! ນັ້ນ ແມ່ນ ຕົວ {0} .
+ខ្ញុំ ចេះ អាន ហើយ !	I can read now!	¡Ya sé leer!	ຂ້ອຍ ອ່ານ ເປັນ ແລ້ວ !
+កូន ឆ្លាត ណាស់ !	You're so clever!	¡Qué listos son!	ລູກ ສະຫລາດ ຫລາຍ !
+កាអ៊ីន ធ្វើ ស្រែ ។ អេបិល ជា អ្នក គង្វាល ចៀម ។	Cain worked the fields. Abel was a shepherd.	Caín cultivó la tierra. Abel fue pastor de ovejas.	ກາອິນ ເຮັດ ນາ . ອາເບນ ເປັນ ຜູ້ ລ້ຽງ ແກະ .
+មើល កូនប្រុស ដែល ពាក់ អាវ ពណ៌ {0} ។	Look at the son wearing {0}.	Mira al hijo vestido de {0}.	ເບິ່ງ ລູກຊາຍ ທີ່ ນຸ່ງ ເສື້ອ {0} .
+ឲ្យ នំបុ័ង ដល់ ស្ត្រី មេម៉ាយ ដែល ពាក់ ក្រណាត់ ពណ៌ {0} ។	Give bread to the widow with the {0} head cloth.	Da pan a la viuda del pañuelo {0}.	ໃຫ້ ເຂົ້າຈີ່ ແກ່ ແມ່ໝ້າຍ ທີ່ ໃສ່ ຜ້າ {0} .
+បង្ហាញ អក្សរ ដល់ កូន ។	Show the letters to the boys.	Muéstrales las letras a los niños.	ສະແດງ ຕົວອັກສອນ ໃຫ້ ລູກ .
+មើល កូនប្រុស ពាក់ អាវ ពណ៌ ក្រហម ។	Look at the son wearing red.	Mira al hijo vestido de rojo.	ເບິ່ງ ລູກຊາຍ ທີ່ ນຸ່ງ ເສື້ອ ສີແດງ .

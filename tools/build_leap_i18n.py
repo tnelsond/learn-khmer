@@ -15,7 +15,7 @@ for m in re.finditer(r"'((?:[^'\\\n]|\\.)*)'", src):
     if not KH.search(t) or t.startswith('<'): continue
     parts = t.split(' ')
     if len(parts) > 8 and all(len(p) <= 2 for p in parts): continue  # keyboard letter rows
-    if len(t) == 1: continue
+    if len(t) == 1 and t != 'ស': continue  # single letters stay as they are; 'ស' is the colour white
     add(t)
 for m in re.finditer(r"`([^`]*)`", src):
     t = m.group(1)
