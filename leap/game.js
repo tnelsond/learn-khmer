@@ -550,7 +550,7 @@ function thumb(w) {
 }
 
 /* ---------------- speaker portraits: a close-up of whoever is talking ---------------- */
-const LOOK = { god: { key: 'god', make: () => glowOrb(0xfff0b0, .5) }, angel: { key: 'angel', make: () => person({ glow: 0xffffff }) }, snake: { key: 'snake', make: () => snake() } };
+const LOOK = { god: { key: 'god', make: () => godFlame(.6) }, angel: { key: 'angel', make: () => person({ glow: 0xffffff }) }, snake: { key: 'snake', make: () => snake() } };
 const avas = {};
 function portrait(who) {
   const L = who === 'me' ? (heroId ? { key: 'hero:' + heroId + JSON.stringify(HEROES[heroId]), make: () => person(HEROES[heroId]) } : null) : LOOK[who];
@@ -625,7 +625,7 @@ function renderBook() {
   } else {
     body.className = 'list';
     body.innerHTML = CHAPTERS.map((c, i) => `<button class="chap" data-i="${i}"><span class="n">${khNum(i + 1)}</span><span><strong>${esc(c.title)}</strong><small>${esc(c.ref)} · ${esc(c.who)}</small></span></button>`).join('');
-    body.querySelectorAll('.chap').forEach(c => c.onclick = () => { S.ch = +c.dataset.i; save(); if (!started) { closeAll(); begin(); } else location.reload(); });
+    body.querySelectorAll('.chap').forEach(c => c.onclick = () => { S.ch = +c.dataset.i; save(); if (!started) { closeAll(); begin(); } else { try { sessionStorage.setItem('leap-autostart', '1'); } catch (e) { } location.reload(); } });
   }
 }
 document.querySelectorAll('.tab').forEach(t => t.onclick = () => { bookTab = t.dataset.t; renderBook(); });
@@ -665,7 +665,16 @@ let al = null;
 function showAl(on = true, dx = 2.4) { if (!al) { al = ent(person({ glow: 0x80c8ff }), player.x + dx, player.z, { solid: 0, fly: .1 }); al.isAl = true; } al.hide = !on; al.g.visible = on; if (on) { al.x = player.x + Math.cos(camYaw) * dx; al.z = player.z - Math.sin(camYaw) * dx; al.follow = 'player'; burst(al.x, player.y + 1, al.z, 0x80c8ff, 30, 2); } }
 // the voice of God: a warm light
 let godLight = null;
-function godGlow(on, at) { if (!godLight) { godLight = glowOrb(0xfff0b0, 1.4); scene.add(godLight); } godLight.visible = on; if (at) godLight.position.set(...at); }
+// God appears as a living flame that floats, burns on nothing and throws sparks upward
+function godFlame(s = 1) {
+  const g = new THREE.Group(), add = THREE.AdditiveBlending;
+  [[.9, 2.6, 0xff4a10, .75], [.65, 2.1, 0xff9a20, .85], [.4, 1.5, 0xffe070, .9], [.2, .9, 0xfffff0, 1]].forEach(([r, h, c, o], i) => {
+    const m = mesh(new THREE.ConeGeometry(r * s, h * s, 5), MB(c, { transparent: true, opacity: o, blending: i < 3 ? THREE.NormalBlending : add, depthWrite: false, fog: false }), 0, h * s / 2 - .4 * s, 0, g); m.userData.f = i; m.renderOrder = 2 + i;
+  });
+  for (let i = 0; i < 3; i++) { const t = mesh(new THREE.ConeGeometry(.25 * s, 1.1 * s, 4), MB(0xff7a18, { transparent: true, opacity: .8, depthWrite: false, fog: false }), Math.cos(i * 2.1) * .45 * s, .9 * s, Math.sin(i * 2.1) * .45 * s, g); t.userData.f = 4 + i; }
+  return g;
+}
+function godGlow(on, at) { if (!godLight) { godLight = godFlame(1.6); scene.add(godLight); } godLight.visible = on; if (at) godLight.position.set(...at); }
 
 /* ---------------- main loop ---------------- */
 let last = performance.now(), started = false;
@@ -732,6 +741,7 @@ function frame(now) {
     if (e.m.segs) e.m.segs.forEach((s, i) => s.position.x = Math.sin(t * 4 - i * .7) * .18);
     if (e.tick) e.tick(dt, t);
   }
+  if (godLight && godLight.visible) { godLight.children.forEach(m => { const f = m.userData.f || 0; m.scale.set(1 + Math.sin(t * 9 + f) * .08, 1 + Math.sin(t * 13 + f * 1.7) * .18, 1 + Math.cos(t * 8 + f) * .08); m.rotation.y = t * (f % 2 ? 1.3 : -1.1); }); godLight.position.y += Math.sin(t * 1.5) * .004; if (Math.random() < .6) emit(godLight.position.x + rnd(-.8, .8), godLight.position.y + rnd(0, 2.5), godLight.position.z + rnd(-.8, .8), rnd(-.4, .4), rnd(2, 4), rnd(-.4, .4), Math.random() < .5 ? 0xffb030 : 0xffe070, .9, 0); }
   for (let i = anims.length - 1; i >= 0; i--) if (anims[i](dt, t) === false) anims.splice(i, 1);
   tickParts(dt);
   if (raining > 0) for (let i = 0; i < raining; i++) emit(camera.position.x + rnd(-25, 25), camera.position.y + 14, camera.position.z + rnd(-25, 25), 0, -24, 0, 0x6090ff, 1, 0);
@@ -2141,6 +2151,7 @@ setSky(0x0a1030, 0x1a2a6a, 0x0a1030, .3, true); stars.material.opacity = 1; came
 anims.push((dt, t) => { if (!started) { camera.rotation.y = t * .03; } else return false; });
 function begin() { ensureAudio(); $('#title').classList.add('hide'); $('#bookclose').onclick = closeAll; stars.material.opacity = 0; const ch = S.ch >= CHAPTERS.length ? 0 : S.ch; playChapter(ch).catch(e => console.error(e)); }
 $('#start').onclick = begin;
+try { if (sessionStorage.getItem('leap-autostart')) { sessionStorage.removeItem('leap-autostart'); begin(); } } catch (e) { }
 $('#pick').onclick = () => { ensureAudio(); ui = null; bookTab = 'chaps'; $('#title').classList.add('hide'); openBook(); $('#bookclose').onclick = () => { closeAll(); if (!started) $('#title').classList.remove('hide'); }; };
 $('#again').onclick = () => { S.ch = 0; save(); begin(); };
 window.LEAP = { thumb,  S, acts, speakers, pressA: () => { curAct = curAct || acts[0]; pressA(); }, dlgTap, trig: () => trigRes && trigRes('x'), get ui() { return ui; }, player, ents, reachers, get started() { return started; }, speak: w => { typed = w; speakTyped(); }, get audio() { return peak ? peak.source + ' ' + peak.speakers.length : 'none'; }, warp: (x, z) => { player.x = x; player.z = z; }, get goal() { return atXZ(goalAt); }, atXZ };
