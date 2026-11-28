@@ -544,12 +544,23 @@ let joyId = null, joyO = null, lookId = null, lookLast = null;
 function joyStart(id, x, y) { joyId = id; joyO = { x, y }; ring.style.left = x + 'px'; ring.style.top = y + 'px'; ring.classList.remove('hide'); $('#joyhint').classList.add('hide'); }
 function joyMove(x, y) { let dx = x - joyO.x, dy = y - joyO.y; const l = Math.hypot(dx, dy), m = 52; if (l > m) { dx *= m / l; dy *= m / l; } knob.style.transform = `translate(${dx}px,${dy}px)`; input.jx = dx / m; input.jy = dy / m; }
 function joyEnd() { joyId = null; input.jx = input.jy = 0; ring.classList.add('hide'); knob.style.transform = ''; }
-joy.addEventListener('pointerdown', e => { if (ui) return; ensureAudio(); joy.setPointerCapture(e.pointerId); joyStart(e.pointerId, e.clientX, e.clientY); e.preventDefault(); });
-joy.addEventListener('pointermove', e => { if (e.pointerId === joyId) joyMove(e.clientX, e.clientY); });
-for (const ev of ['pointerup', 'pointercancel']) joy.addEventListener(ev, e => { if (e.pointerId === joyId) joyEnd(); });
-cv.addEventListener('pointerdown', e => { if (ui) return; ensureAudio(); lookId = e.pointerId; lookLast = { x: e.clientX, y: e.clientY }; cv.setPointerCapture(e.pointerId); });
-cv.addEventListener('pointermove', e => { if (e.pointerId !== lookId) return; const k = e.pointerType === 'mouse' ? .005 : .008; camYaw -= (e.clientX - lookLast.x) * k; camPitch = clamp(camPitch + (e.clientY - lookLast.y) * k * .6, .05, 1.1); lookLast = { x: e.clientX, y: e.clientY }; });
-for (const ev of ['pointerup', 'pointercancel', 'lostpointercapture']) cv.addEventListener(ev, () => { lookId = null; });
+// Multitouch: walk with one thumb while the other looks, pinches to zoom or presses A.
+// A thumb that stays on the stick through a line of dialogue starts walking again as soon as it moves.
+const joyDown = new Set();
+joy.addEventListener('pointerdown', e => { ensureAudio(); joy.setPointerCapture(e.pointerId); joyDown.add(e.pointerId); e.preventDefault(); if (ui || joyId != null) return; joyStart(e.pointerId, e.clientX, e.clientY); });
+joy.addEventListener('pointermove', e => { if (e.pointerId === joyId) joyMove(e.clientX, e.clientY); else if (joyId == null && !ui && joyDown.has(e.pointerId)) joyStart(e.pointerId, e.clientX, e.clientY); });
+for (const ev of ['pointerup', 'pointercancel', 'lostpointercapture']) joy.addEventListener(ev, e => { joyDown.delete(e.pointerId); if (e.pointerId === joyId) joyEnd(); });
+// look with one finger; two fingers on the view pinch the camera closer or further
+const looks = new Map(); let pinch0 = null;
+const pinchD = () => { const [a, b] = [...looks.values()]; return Math.hypot(a.x - b.x, a.y - b.y) || 1; };
+cv.addEventListener('pointerdown', e => { if (ui) return; ensureAudio(); looks.set(e.pointerId, { x: e.clientX, y: e.clientY }); lookId = e.pointerId; cv.setPointerCapture(e.pointerId); pinch0 = looks.size === 2 ? { d: pinchD(), cd: camDist } : null; });
+cv.addEventListener('pointermove', e => {
+  const last = looks.get(e.pointerId); if (!last) return;
+  if (looks.size >= 2) { looks.set(e.pointerId, { x: e.clientX, y: e.clientY }); if (pinch0) camDist = clamp(pinch0.cd * pinch0.d / pinchD(), 3.5, 16); return; }
+  const k = e.pointerType === 'mouse' ? .005 : .008; camYaw -= (e.clientX - last.x) * k; camPitch = clamp(camPitch + (e.clientY - last.y) * k * .6, .05, 1.1); looks.set(e.pointerId, { x: e.clientX, y: e.clientY });
+});
+for (const ev of ['pointerup', 'pointercancel', 'lostpointercapture']) cv.addEventListener(ev, e => { looks.delete(e.pointerId); pinch0 = null; lookId = looks.size ? [...looks.keys()][0] : null; });
+cv.addEventListener('wheel', e => { camDist = clamp(camDist * (1 + Math.sign(e.deltaY) * .1), 3.5, 16); e.preventDefault(); }, { passive: false });
 addEventListener('keydown', e => {
   if (ui === 'kb') return kbKey(e);
   if (ui === 'dlg') { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); dlgTap(); } return; }
@@ -560,7 +571,7 @@ addEventListener('keydown', e => {
   if (e.code === 'Tab') { e.preventDefault(); openBook(); }
 });
 addEventListener('keyup', e => { input.keys[e.code] = false; });
-const releaseAll = () => { input.keys = {}; joyEnd(); lookId = null; };
+const releaseAll = () => { input.keys = {}; joyEnd(); joyDown.clear(); looks.clear(); pinch0 = null; lookId = null; };
 addEventListener('blur', releaseAll); document.addEventListener('visibilitychange', () => document.hidden && releaseAll());
 
 /* ---------------- goal, marker, action button ---------------- */
@@ -590,7 +601,7 @@ function act(label, at, r = 3) { return new Promise(res => { const a = { label, 
 function pick(list) { return new Promise(res => { const mine = list.map(([label, at, r, v]) => ({ label, at, r: r || 3, fn: () => { for (const m of mine) { const i = acts.indexOf(m); if (i >= 0) acts.splice(i, 1); } res(v); } })); acts.push(...mine); }); }
 let curAct = null;
 function pressA() { if (ui || !curAct) return; ensureAudio(); tone([520, 780], .25, 'square', .04); const a = curAct; curAct = null; $('#lA').textContent = '\u00a0'; $('#nA').classList.add('off'); $('#nA').classList.remove('on'); a.fn(); }
-$('#bA').onclick = pressA;
+$('#bA').addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); pressA(); });
 const reachers = [];
 function reach(at, r = 4) { return new Promise(res => reachers.push({ at, r, res })); }
 
@@ -743,7 +754,9 @@ function choiceBox(opts) {
 }
 async function talk(lines) { for (const l of lines) await say(...l); }
 function dlgTap() { if (dlgRes) dlgRes(); }
-$('#dlg').onclick = dlgTap;
+// on touch-up, not 'click' (phones drop clicks while another finger is down); word taps and buttons keep their own
+const dlgIn = new Set(); $('#dlg').addEventListener('pointerdown', e => dlgIn.add(e.pointerId));
+$('#dlg').addEventListener('pointerup', e => { if (dlgIn.delete(e.pointerId) && !e.target.closest('button, .w')) dlgTap(); });
 // a tap anywhere outside the text box moves the dialogue on too (lines that need a word tapped or a choice still wait)
 // a tap only counts if it began while the dialogue was showing (a thumb still on the stick when it opened doesn't skip it)
 const dlgDowns = new Set();
