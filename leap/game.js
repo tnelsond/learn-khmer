@@ -206,20 +206,20 @@ function person(o = {}) {
   // one low-poly torso, hips to neck; women: narrower waist, fuller hips, a moderate bust in the same shape
   const T = fem
     ? [[.68, .2, .13, 0, bot], [.82, .33, .21, 0, bot], [1.0, .2, .14, 0, top], [1.2, .26, clothed ? .2 : .17, clothed ? .05 : .03, top], [1.42, .27, .14, 0, top], [1.5, .12, .09, 0, top], [1.53, .075, .075, .01, sk], [1.66, .075, .075, .01, sk]]
-    : [[.68, .18, .12, 0, bot], [.82, .25, .16, 0, bot], [1.0, .22, .14, 0, top], [1.28, .29, .17, .02, top], [1.44, .32, .15, 0, top], [1.52, .14, .1, 0, top], [1.55, .085, .085, .01, sk], [1.67, .085, .085, .01, sk]];
+    : [[.68, .2, .13, 0, bot], [.82, .27, .17, 0, bot], [1.0, .27, .165, 0, top], [1.28, .31, .18, .02, top], [1.44, .34, .16, 0, top], [1.52, .14, .1, 0, top], [1.55, .085, .085, .01, sk], [1.67, .085, .085, .01, sk]];
   mesh(loft(T.map(r => [r[0] + d, ...r.slice(1)]), 5), VM(), 0, 0, 0, b);
   // robes: women's reach the ground, men's stop above the ankle so the calves show
-  if (o.robe) mesh(loft(fem ? [[1.0 + d, .21, .15, 0, bot], [.8 + d, .32, .22, 0, bot], [.08, .52, .4, 0, bot]] : [[1.0, .23, .15, 0, bot], [.8, .3, .22, 0, bot], [.3, .44, .36, 0, bot]], 6, false), VM(), 0, 0, 0, b);
+  if (o.robe) mesh(loft(fem ? [[1.0 + d, .21, .15, 0, bot], [.8 + d, .32, .22, 0, bot], [.08, .52, .4, 0, bot]] : [[1.0, .28, .17, 0, bot], [.8, .33, .23, 0, bot], [.3, .46, .37, 0, bot]], 6, false), VM(), 0, 0, 0, b);
   if (o.coat) [0xd03a2a, 0xf2c51c, 0x2a8a4a, 0x2f5fd0].forEach((c, i) => { const y0 = .86 + d + i * .16; mesh(loft([[y0, .25, .17, .015, c], [y0 + .12, .26, .175, .015, c]], 5, false), VC, 0, 0, 0, b); });
   // arms: shoulder, bicep, forearm, hand in one shape
   const sl = SK(o.sleeve ?? top);
-  for (const s of [-1, 1]) { const p = pivot(b, s * (fem ? .27 : .31), 1.4 + d, 0); mesh(loft([[.06, .08, .08, 0, sl], [-.06, .1, .09, 0, sl], [-.3, .065, .065, 0, sl], [-.52, .05, .05, .01, o.robe ? sl : sk], [-.68, .055, .035, .03, sk]], 4), VM(), 0, 0, 0, p); arms.push(p); }
+  const AW = fem ? 1 : 1.3; for (const s of [-1, 1]) { const p = pivot(b, s * (fem ? .27 : .35), 1.4 + d, 0); mesh(loft([[.06, .08 * AW, .08 * AW, 0, sl], [-.06, .1 * AW, .09 * AW, 0, sl], [-.3, .065 * AW, .065 * AW, 0, sl], [-.52, .05 * AW, .05 * AW, .01, o.robe ? sl : sk], [-.68, .055 * AW, .035 * AW, .03, sk]], 4), VM(), 0, 0, 0, p); arms.push(p); }
   // legs: thigh and shin as separate shapes so the knee bends
   const lc = o.robe ? sk : pants ? bot : sk, fc = o.barefoot ? sk : 0x4a3420;
   for (const s of [-1, 1]) {
-    const W = fem ? 1.2 : 1, p = pivot(b, s * (fem ? .14 : .11), .74 + d, 0); if (!o.robe) mesh(loft(sy([[.04, .12 * W, .12 * W, 0, lc], [-.16, .11 * W, .105 * W, 0, lc], [-.38, .075 * W, .075 * W, .01, lc]]), 4), VM(), 0, 0, 0, p);
-    const k = pivot(p, 0, -.37 * L, 0); if (!o.robe) mesh(loft(sy([[.02, .075 * W, .075 * W, .01, sk], [-.1, .085 * W, .09 * W, -.015, sk], [-.32, .045 * W, .045 * W, 0, sk]]), 4), VM(), 0, 0, 0, k); else if (!fem) mesh(loft([[-.08, .07, .075, -.01, sk], [-.32, .045, .045, 0, sk]], 4), VM(), 0, 0, 0, k);
-    const f = mesh(loft(sy([[-.3, .055, .06, .01, fc], [-.4, .07, .12, .07, fc]]), 4), VM(), 0, 0, 0, k);
+    const W = fem ? 1.2 : 1.3, p = pivot(b, s * (fem ? .14 : .13), .74 + d, 0); if (!o.robe) mesh(loft(sy([[.04, .12 * W, .12 * W, 0, lc], [-.16, .11 * W, .105 * W, 0, lc], [-.38, .075 * W, .075 * W, .01, lc]]), 4), VM(), 0, 0, 0, p);
+    const k = pivot(p, 0, -.37 * L, 0); if (!o.robe) mesh(loft(sy([[.02, .075 * W, .075 * W, .01, sk], [-.1, .085 * W, .09 * W, -.015, sk], [-.32, .045 * W, .045 * W, 0, sk]]), 4), VM(), 0, 0, 0, k); else if (!fem) mesh(loft([[-.08, .07 * W, .075 * W, -.01, sk], [-.32, .045 * W, .045 * W, 0, sk]], 4), VM(), 0, 0, 0, k);
+    const FW = fem ? 1 : 1.3, f = mesh(loft(sy([[-.3, .055 * FW, .06 * FW, .01, fc], [-.4, .07 * FW, .12 * FW, .07 * FW, fc]]), 4), VM(), 0, 0, 0, k);
     legs.push(p); knees.push(k); feet.push(f);
   }
   if (o.sash) { const sh = box(.95, .11, .4, MB(o.sash), 0, 1.16 + d, .005, b); sh.rotation.z = .85; }
@@ -535,6 +535,8 @@ const mk = new THREE.Group(); { const o = mesh(new THREE.OctahedronGeometry(.5, 
 // the marker and arrow only appear once you've spent a while on a goal (you're struggling)
 const HINT_AFTER = 20; let goalT = 0;
 function marker(at) { if (at !== goalAt) goalT = performance.now(); goalAt = at; mk.visible = false; }
+// a softly pulsing ring on the ground that says: here is the place
+function siteRing(x, z, r = 1.8) { const m = mesh(new THREE.RingGeometry(r * .8, r, 24).rotateX(-Math.PI / 2), MB(0xf2c51c, { transparent: true, opacity: .7, depthWrite: false, side: THREE.DoubleSide }), x, H(x, z) + .08, z, world); anims.push((dt, t) => { if (!m.parent) return false; m.material.opacity = .45 + Math.sin(t * 4) * .3; m.scale.setScalar(1 + Math.sin(t * 4) * .06); }); return m; }
 const hintNow = () => { goalT = performance.now() - HINT_AFTER * 1000 - 1; }; // after a couple of wrong tries, show the way at once
 const hinting = () => !!goalAt && (performance.now() - goalT) / 1000 > HINT_AFTER;
 const atXZ = at => !at ? null : typeof at === 'function' ? at() : Array.isArray(at) ? at : at.g ? [at.x, at.z] : at.position ? [at.position.x, at.position.z] : null;
@@ -2406,8 +2408,8 @@ async function elijah() {
     const st = await pick(stones.filter(s2 => s2.visible).map(s2 => ['យក ថ្ម', [s2.position.x, s2.position.z], 2, s2]));
     st.visible = false; tone([500 + n * 40], .12, 'triangle', .05); toast(khNum(n));
   }
-  goal('ធ្វើ អាសនា ។', [-6, -6]);
-  await act('ធ្វើ អាសនា', [-6, -6], 4); const al2 = altar(); al2.scale.setScalar(1.6); place(al2, -6, -6, 0, 1.8); const wood = logPile(); wood.scale.setScalar(.6); place(wood, -6, -6, 0, 0, 1.4); tag('អាសនា', al2);
+  goal('ធ្វើ អាសនា ។', [-6, -6]); hintNow(); const ring = siteRing(-6, -6, 2.4); const ruin = grp(); for (let i = 0; i < 7; i++) { const st = rock(.35, 0x8a8478); st.position.set(Math.cos(i) * 1.2, 0, Math.sin(i * 1.7) * 1.1); ruin.add(st); } place(ruin, -6, -6); tag('អាសនា', ruin);
+  await act('ធ្វើ អាសនា', [-6, -6], 4); world.remove(ring); world.remove(ruin); const al2 = altar(); al2.scale.setScalar(1.6); place(al2, -6, -6, 0, 1.8); const wood = logPile(); wood.scale.setScalar(.6); place(wood, -6, -6, 0, 0, 1.4); tag('អាសនា', al2);
   const ditch = mesh(new THREE.RingGeometry(2.4, 3.2, 10).rotateX(-Math.PI / 2), new THREE.MeshLambertMaterial({ color: 0x3a7ad0, map: waterTex, transparent: true, opacity: 0 }), -6, carmelH(-6, -6) + .1, -6, world); tag('ទឹក', ditch);
   const jar = grp(); cyl(.3, .22, .6, 0xb06a3a, 0, .3, 0, jar, 7); place(jar, -1, -2); tag('ក្អម', jar);
   for (let n = 1; n <= 3; n++) {
@@ -3938,14 +3940,14 @@ wives.build = () => {
   setSky(0x5a7ab8, 0xf0c898, 0xe0c0a0, .95, true); scene.fog.near = 60; scene.fog.far = 230;
   H = (x, z) => z < -40 ? (-40 - z) * .35 : 0; bound = 95; terrain(240, 50, (x, z, y) => y > 1 ? 0x9a8a68 : 0xd8c8a0);
   // a huge courtyard of palaces
-  const pal = grp(); for (const [w, d, x, z] of [[70, 6, 0, -32], [6, 60, -36, 0], [6, 60, 36, 0]]) box(w, 9, d, 0xe8dcc0, x, 4.5, z, pal); for (let i = 0; i < 12; i++) box(2, 2.4, .3, 0x3a2a1a, -30 + i * 5.4, 6.2, -28.9, pal); world.add(pal); tag('វាំង', pal);
-  for (let x = -32; x <= 32; x += 4) solids.push({ x, z: -32, r: 3.2 }); for (let z = -28; z <= 28; z += 4) solids.push({ x: -36, z, r: 3.2 }, { x: 36, z, r: 3.2 });
+  const pal = grp(); for (const [w, d, x, z] of [[31, 6, -19.5, -32], [31, 6, 19.5, -32], [6, 60, -36, 0], [6, 60, 36, 0]]) box(w, 9, d, 0xe8dcc0, x, 4.5, z, pal); for (let i = 0; i < 12; i++) if (Math.abs(-30 + i * 5.4) > 5) box(2, 2.4, .3, 0x3a2a1a, -30 + i * 5.4, 6.2, -28.9, pal); for (const sx of [-4.5, 4.5]) box(1.4, 11, 1.4, 0xd8b040, sx, 5.5, -29, pal); world.add(pal); tag('វាំង', pal);
+  for (let x = -32; x <= 32; x += 4) if (Math.abs(x) > 7) solids.push({ x, z: -32, r: 3.2 }); solids.push({ x: -5.6, z: -32, r: 1.6 }, { x: 5.6, z: -32, r: 1.6 }); for (let z = -30; z > -50; z -= 2.5) { const st = grp(); box(2.4, .12, 1.6, 0xb8a888, 0, .05, 0, st); place(st, 0, z); } for (let z = -28; z <= 28; z += 4) solids.push({ x: -36, z, r: 3.2 }, { x: 36, z, r: 3.2 });
   // one thousand women: 700 wives, 300 concubines (instanced, so it stays light)
   const N = 1000, bodyG = new THREE.ConeGeometry(.38, 1.5, 5).translate(0, .75, 0), headG = new THREE.SphereGeometry(.22, 5, 3).translate(0, 1.68, 0);
   const bodies = new THREE.InstancedMesh(bodyG, new THREE.MeshLambertMaterial({ flatShading: true }), N), heads = new THREE.InstancedMesh(headG, new THREE.MeshLambertMaterial({ color: 0xa07050, flatShading: true }), N);
   const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), col = new THREE.Color(), RIM = [0xc83228, 0x2f5fd0, 0x2a9a4a, 0xf2c51c, 0x7a3aa0, 0xe8862a, 0xe060a0, 0x40c0c0, 0xf4f4f0];
   for (let i = 0; i < N; i++) {
-    let x, z; if (i < 700) { x = -30 + (i % 35) * 1.75 + rnd(-.3, .3); z = -26 + Math.floor(i / 35) * 1.5 + rnd(-.3, .3); if (Math.abs(x) < 4 && z > -8) z += 40; } else { const k = i - 700; x = (k % 2 ? 1 : -1) * (31 + Math.floor(k / 150) * 1.6); z = -26 + (k % 150) / 2 * .72; }
+    let x, z; if (i < 700) { x = -30 + (i % 35) * 1.75 + rnd(-.3, .3); z = -26 + Math.floor(i / 35) * 1.5 + rnd(-.3, .3); if (Math.abs(x) < 4) x += x < 0 ? -4 : 4; } else { const k = i - 700; x = (k % 2 ? 1 : -1) * (31 + Math.floor(k / 150) * 1.6); z = -26 + (k % 150) / 2 * .72; }
     q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), rnd(0, 6.28)); m4.compose(new THREE.Vector3(x, H(x, z), z), q, new THREE.Vector3(1, rnd(.9, 1.05), 1));
     bodies.setMatrixAt(i, m4); heads.setMatrixAt(i, m4); bodies.setColorAt(i, col.setHex(i < 700 ? RIM[i % RIM.length] : 0xd8c8b0));
   }
@@ -3975,7 +3977,8 @@ async function wives() {
     await say('wife', 'សូម ទៅ ! សូម ទៅ ! បើ ស្ដេច ស្រឡាញ់ ខ្ញុំ !');
     const [x, z] = idolSpots[i];
     goal(fmt('សង់ អាសនា សម្រាប់ ព្រះ {0} លើ ភ្នំ ។', FOREIGN[i][1]), [x, z + 2]);
-    await act('សង់ អាសនា', [x, z + 2], 3);
+    const ring = siteRing(x, z + .4, 2.2); hintNow();
+    await act('សង់ អាសនា', [x, z + 2], 3.4); world.remove(ring);
     const alt = altar(); place(alt, x, z); const idol = grp(); cyl(.5, .7, 2.6, [0x8a6a2a, 0x5a3a2a, 0x6a7a8a][i], 0, 1.3, 0, idol, 6); sph(.6, [0x8a6a2a, 0x5a3a2a, 0x6a7a8a][i], 0, 3, 0, idol, 5, 3); place(idol, x, z - 1.6); tag('រូប ព្រះ', idol);
     burst(x, H(x, z) + 1, z, 0xc8a060, 30, 2); w.follow = null; w.yaw = 0; kneel(w.m, 1, w);
   }
@@ -4158,33 +4161,33 @@ stew.build = () => {
   H = (x, z) => .8 + Math.sin(x * .05) * .6 + Math.cos(z * .04) * .5; bound = 80; terrain(200, 40, (x, z, y) => y > 1 ? 0xb8a868 : 0xa89858);
   for (let i = 0; i < 3; i++) { const t = tent(0x7a5a3a); place(t, -14 + i * 8, -16, 0, 2.6); }
   const f = fire(); place(f, 0, -4); tag('ភ្លើង', f);
-  const table = grp(); box(6, .2, 1.6, 0x7a5a3a, 0, .9, 0, table); for (const sx of [-2.8, 2.8]) for (const sz of [-.6, .6]) cyl(.06, .06, .9, 0x5a3a1e, sx, .45, sz, table, 4); place(table, 0, -8.5, 0, 1.6);
+  const table = grp(); box(10, .2, 1.6, 0x7a5a3a, 0, .9, 0, table); for (const sx of [-4.8, 4.8]) for (const sz of [-.6, .6]) cyl(.06, .06, .9, 0x5a3a1e, sx, .45, sz, table, 4); place(table, 0, -8.5); for (let x = -4.5; x <= 4.5; x += 1.5) solids.push({ x, z: -8.6, r: .75 });
   for (let i = 0; i < 8; i++) place(tree({ palm: true, s: rnd(.9, 1.2) }).g, rnd(-50, 50), rnd(-50, -24), 0, .7);
 };
 async function stew() {
   await leapIn('jacob', 0, 2, Math.PI);
   const mom = npc('rebekah', { skin: 0xa07050, top: 0x6a3a6a, robe: true, female: true, cloth: 0xd8c8b0 }, -3, -6, Math.PI / 4); mom.talk = null;
   const ty = H(0, -8.5) + 1.05;
-  const thing = (name, x, build) => { const g = grp(); build(g); g.position.set(x, ty, -8.5); world.add(g); tag(name, g); return { name, at: [x, -7], g }; };
+  const thing = (name, x, build) => { const g = grp(); build(g); g.position.set(x, ty, -8.5); world.add(g); tag(name, g); return { name, at: [x, -7.2], g }; };
   const ING = [
-    thing('ឆ្នាំង', -2.4, g => { cyl(.45, .35, .5, 0x3a3a3a, 0, .25, 0, g, 8); }),
-    thing('ទឹក', -1.2, g => { cyl(.22, .3, .6, 0xb06a3a, 0, .3, 0, g, 6); }),
-    thing('សណ្ដែក', 0, g => { for (let i = 0; i < 14; i++) sph(.07, 0xc04a2a, rnd(-.25, .25), .07 + rnd(0, .1), rnd(-.2, .2), g, 4, 3); }),
-    thing('ខ្ទឹម ក្រហម', 1.2, g => { for (let i = 0; i < 3; i++) sph(.14, 0x9a3a6a, i * .22 - .22, .14, 0, g, 5, 4); }),
-    thing('ខ្ទឹម', 2.2, g => { for (let i = 0; i < 4; i++) sph(.08, 0xf0ece0, i * .14 - .2, .08, .05, g, 4, 3); }),
-    thing('អំបិល', 3, g => { cyl(.15, .12, .14, 0x8a6a4a, 0, .07, 0, g, 6); sph(.11, 0xffffff, 0, .16, 0, g, 4, 2); }),
+    thing('ឆ្នាំង', -4, g => { cyl(.45, .35, .5, 0x3a3a3a, 0, .25, 0, g, 8); }),
+    thing('ទឹក', -2.4, g => { cyl(.22, .3, .6, 0xb06a3a, 0, .3, 0, g, 6); }),
+    thing('សណ្ដែក', -.8, g => { for (let i = 0; i < 14; i++) sph(.07, 0xc04a2a, rnd(-.25, .25), .07 + rnd(0, .1), rnd(-.2, .2), g, 4, 3); }),
+    thing('ខ្ទឹម ក្រហម', .8, g => { for (let i = 0; i < 3; i++) sph(.14, 0x9a3a6a, i * .22 - .22, .14, 0, g, 5, 4); }),
+    thing('ខ្ទឹម', 2.4, g => { for (let i = 0; i < 4; i++) sph(.08, 0xf0ece0, i * .14 - .2, .08, .05, g, 4, 3); }),
+    thing('អំបិល', 4, g => { cyl(.15, .12, .14, 0x8a6a4a, 0, .07, 0, g, 6); sph(.11, 0xffffff, 0, .16, 0, g, 4, 2); }),
   ];
   const potSpot = [0, -2.6];
   await arrive([]);
   await say('rebekah', 'យ៉ាកុប ! តោះ ធ្វើ សម្ល សណ្ដែក ក្រហម ។ ខ្ញុំ ប្រាប់ អ្នក ។');
   // the pot first, onto the fire
   await say('rebekah', 'ដំបូង យក ឆ្នាំង ។');
-  await namePick([ING[0]], 'យក', 1.8, 'យក {0} ។', 'នោះ ជា {0} ។ រក {1} ។');
+  await namePick([ING[0]], 'យក', 1.4, 'យក {0} ។', 'នោះ ជា {0} ។ រក {1} ។');
   world.remove(ING[0].g); const pot = grp(); cyl(.45, .35, .5, 0x3a3a3a, 0, .25, 0, pot, 8); place(pot, 0, -4, 0, 0, .35); tag('ឆ្នាំង', pot);
   const soup = cyl(.4, .4, .05, 0x5a8ad0, 0, .5, 0, pot, 8); soup.visible = false;
   const left = ING.slice(1);
   for (let n = 0; n < 5; n++) {
-    const it = await namePick(left, 'យក', 1.8, 'យក {0} ដាក់ ក្នុង ឆ្នាំង ។', 'នោះ ជា {0} ។ រក {1} ។', ` ( ${khNum(n)} / ${khNum(5)} )`);
+    const it = await namePick(left, 'យក', 1.4, 'យក {0} ដាក់ ក្នុង ឆ្នាំង ។', 'នោះ ជា {0} ។ រក {1} ។', ` ( ${khNum(n)} / ${khNum(5)} )`);
     left.splice(left.indexOf(it), 1); it.g.visible = false; const held = it.g.clone(); held.visible = true; carry(held);
     goal(fmt('ដាក់ {0} ក្នុង ឆ្នាំង ។', it.name), potSpot); await act('ដាក់', potSpot, 2.6); drop();
     burst(0, H(0, -4) + 1, -4, 0xfff0d0, 16, 1); soup.visible = true;
@@ -4239,35 +4242,36 @@ async function granary() {
   };
   await arrive([]);
   toast('', 'ប្រាំពីរ ឆ្នាំ មាន ស្បៀង ច្រើន ។'); speaking = 'god'; await sayPhrase('ប្រាំពីរ ឆ្នាំ មាន ស្បៀង ច្រើន ។');
-  const adds = [[3, 2], [4, 3], [5, 4]];
-  for (const [a, b] of adds) {
-    for (let i = 0; i < a + b; i++) {
-      if (i === a) { toast(`${khNum(a)} + ${khNum(b)}`, fmt('{0} បូក {1}', NUMW[a], NUMW[b])); }
-      goal(`យក បាវ ស្រូវ ពី ស្រែ ។ ( ${khNum(i)} / ${khNum(a + b)} )`, field); await act('យក បាវ', field, 5); carry(sack());
-      goal(`ដាក់ បាវ ក្នុង ឃ្លាំង ។ ( ${khNum(i)} / ${khNum(a + b)} )`, [0, -9]); await act('ដាក់ បាវ', [0, -9], 4); drop(); putSack();
-      if (i === a - 1) await say('me', fmt('{0} បាវ ។ ឥឡូវ {1} បាវ ទៀត ។', NUMW[a], NUMW[b]));
-    }
-    await answer(`${khNum(a)} + ${khNum(b)} = ?`, a + b);
-    toast(`${khNum(a)} + ${khNum(b)} = ${khNum(a + b)}`, fmt('{0} បូក {1} ស្មើ {2}', NUMW[a], NUMW[b], NUMW[a + b])); await wait(1.2);
-    for (let i = 0; i < a + b - 2; i++) takeSack();
+  // each harvest lies in the field as sacks you can see; the granary keeps everything from year to year
+  let have = 0; const door = [0, -8.4];
+  const fetch = async (pile, n) => { for (let i = 0; i < n; i++) {
+    const g = pile[pile.length - 1], at = [g.position.x, g.position.z + .9];
+    goal(`យក បាវ ស្រូវ ពី ស្រែ ។ ( ${khNum(i)} / ${khNum(n)} )`, at); await act('យក បាវ', at, 2.2); world.remove(pile.pop()); carry(sack());
+    goal(`ដាក់ បាវ ក្នុង ឃ្លាំង ។ ( ${khNum(i)} / ${khNum(n)} )`, door); await act('ដាក់ បាវ', door, 3.5); drop(); putSack(); toast(khNum(stack.length)); tone([500 + stack.length * 40], .1, 'triangle', .04);
+  } };
+  for (const [y, b] of [3, 2, 2].entries()) {
+    const pile = []; for (let i = 0; i < b; i++) { const g = sack(); place(g, 4 + i * 1.2, 4); pile.push(g); tag('បាវ', g); }
+    burst(5, 1, 4, 0xf2d070, 20, 1.5);
+    if (y === 0) await say('me', 'យក បាវ ស្រូវ ទៅ ទុក ក្នុង ឃ្លាំង ។');
+    else { toast(`${khNum(have)} + ${khNum(b)}`, fmt('{0} បូក {1}', NUMW[have], NUMW[b])); await say('me', fmt('{0} បាវ ។ ឥឡូវ {1} បាវ ទៀត ។', NUMW[have], NUMW[b])); }
+    await fetch(pile, b);
+    if (y > 0) { await answer(`${khNum(have)} + ${khNum(b)} = ?`, have + b); toast(`${khNum(have)} + ${khNum(b)} = ${khNum(have + b)}`, fmt('{0} បូក {1} ស្មើ {2}', NUMW[have], NUMW[b], NUMW[have + b])); await wait(1.2); }
+    have += b;
   }
   toast('', 'ប្រាំពីរ ឆ្នាំ ទៀត គ្មាន ស្បៀង ។ មនុស្ស មក ទិញ ស្រូវ ។'); speaking = 'god'; await sayPhrase('ប្រាំពីរ ឆ្នាំ ទៀត គ្មាន ស្បៀង ។ មនុស្ស មក ទិញ ស្រូវ ។');
   setSky(0x8a9ab8, 0xf8e0b0, 0xf0d8b0, 1.1);
-  while (stack.length) takeSack();
-  const subs = [[8, 3], [10, 4], [9, 5]];
-  const buyers = [];
-  for (const [a, b] of subs) {
-    for (let i = 0; i < a; i++) putSack();
-    const who = npc('people', { skin: 0x9a6a44, top: COLS[buyers.length + 2][1], robe: true }, 8, 6, -Math.PI / 2); who.talk = null; buyers.push(who);
+  // the same sacks now go out again, a few to each buyer
+  for (const [k, b] of [3, 2].entries()) {
+    const who = npc('people', { skin: 0x9a6a44, top: COLS[k + 2][1], robe: true }, 30, 4, -Math.PI / 2); who.talk = null; await walk(who, 5, -5, 4); who.yaw = -Math.PI / 2;
     await say('people', fmt('សូម លក់ ស្រូវ {0} បាវ ឲ្យ ខ្ញុំ !', NUMW[b]));
-    toast(`${khNum(a)} − ${khNum(b)}`, fmt('{0} ដក {1}', NUMW[a], NUMW[b]));
+    toast(`${khNum(have)} − ${khNum(b)}`, fmt('{0} ដក {1}', NUMW[have], NUMW[b]));
     for (let i = 0; i < b; i++) {
-      goal(`យក បាវ ពី ឃ្លាំង ។ ( ${khNum(i)} / ${khNum(b)} )`, [0, -9]); await act('យក បាវ', [0, -9], 4); takeSack(); carry(sack());
+      goal(`យក បាវ ពី ឃ្លាំង ។ ( ${khNum(i)} / ${khNum(b)} )`, door); await act('យក បាវ', door, 3.5); takeSack(); carry(sack()); toast(khNum(stack.length));
       goal(`ឲ្យ បាវ ទៅ អ្នក ទិញ ។ ( ${khNum(i)} / ${khNum(b)} )`, who); await act('ឲ្យ បាវ', who, 3); drop();
     }
-    await answer(`${khNum(a)} − ${khNum(b)} = ?`, a - b);
-    toast(`${khNum(a)} − ${khNum(b)} = ${khNum(a - b)}`, fmt('{0} ដក {1} ស្មើ {2}', NUMW[a], NUMW[b], NUMW[a - b])); await wait(1.2);
-    walk(who, 40, 30, 3); while (stack.length) takeSack();
+    await answer(`${khNum(have)} − ${khNum(b)} = ?`, have - b);
+    toast(`${khNum(have)} − ${khNum(b)} = ${khNum(have - b)}`, fmt('{0} ដក {1} ស្មើ {2}', NUMW[have], NUMW[b], NUMW[have - b])); await wait(1.2);
+    have -= b; walk(who, 40, 30, 3.5);
   }
   await say('me', 'ព្រះ បាន ឲ្យ យើង ទុក ស្រូវ ។ មនុស្ស ជា ច្រើន មិន ស្លាប់ ដោយ សារ ទុរ្ភិក្ស ទេ ។');
   await nextCh();
@@ -4492,10 +4496,11 @@ async function whisper() {
     if (n === 1) await say('angel', 'ក្រោក ឡើង ហូប ម្ដង ទៀត ។ ផ្លូវ នៅ ឆ្ងាយ ណាស់ ។');
   }
   world.remove(angel.g); ents.splice(ents.indexOf(angel), 1); world.remove(cake);
-  goal('ដើរ ទៅ ភ្នំ របស់ ព្រះ ។', [0, -34]);
-  await reach([0, 0], 6);
+  goal('ដើរ ទៅ ភ្នំ របស់ ព្រះ ។', [0, -35]); hintNow();
+  for (let z = 26; z > -32; z -= 4) { const st = rock(.3, 0x9a9080); place(st, (z / 4) % 2 ? -1.4 : 1.4, z); }
+  await Promise.race([reach([0, -12], 14), (async () => { while (player.z > -2) await wait(.2); })()]);
   toast('សែសិប ថ្ងៃ', 'សែសិប យប់'); speaking = 'god'; await sayPhrase('គាត់ ដើរ សែសិប ថ្ងៃ សែសិប យប់ ។');
-  await reach([0, -36], 3);
+  await reach([0, -35], 4.5);
   await say('god', 'អេលីយ៉ា ! តើ អ្នក ធ្វើ អ្វី នៅ ទីនេះ ?');
   await say('me', 'ខ្ញុំ នៅ ម្នាក់ ឯង ! ពួក គេ ចង់ សម្លាប់ ខ្ញុំ ។');
   await say('god', 'ចេញ មក ឈរ នៅ លើ ភ្នំ ។ ព្រះជាម្ចាស់ នឹង យាង កាត់ ។');
