@@ -51,7 +51,7 @@ button:focus-visible{outline:3px solid var(--c);outline-offset:2px}
 #nA.off{opacity:.35;pointer-events:none}
 #nA.on button{animation:pulse 1s ease-in-out infinite}
 @keyframes pulse{50%{box-shadow:0 4px 0 rgba(0,0,0,.45),0 0 0 3px rgba(0,0,0,.35),0 0 22px 6px rgba(122,160,255,.8)}}
-#toast{position:fixed;left:50%;top:30%;transform:translate(-50%,-50%);padding:8px 22px;text-align:center;pointer-events:none!important;opacity:0;transition:opacity .3s;max-width:88vw}
+#toast{position:fixed;z-index:27;left:50%;top:30%;transform:translate(-50%,-50%);padding:8px 22px;text-align:center;pointer-events:none!important;opacity:0;transition:opacity .3s;max-width:88vw}
 #toast.on{opacity:1}
 #toast b{display:block;font:400 clamp(30px,8vw,46px)/1.7 var(--ti);color:var(--c);text-shadow:0 3px 0 #000}
 #toast i{font-style:normal;font-size:18px}
