@@ -149,15 +149,21 @@ function faceTex(skin) { const c = document.createElement('canvas'); c.width = c
 const MS = c => typeof c === 'number' ? M(c) : c;
 const capsule = (r, len, c, x, y, z, p, seg = 4) => mesh(new THREE.CapsuleGeometry(r, len, 1, Math.min(seg, 4)), MS(c), x, y, z, p);
 const sph = (r, c, x, y, z, p, w = 5, h = 3) => mesh(new THREE.SphereGeometry(r, Math.min(w, 5), Math.min(h, 3)), MS(c), x, y, z, p);
+// body material: skin-coloured vertices get some self-light, so skin shadows stay mild while clothes shade normally
 const VC = new THREE.MeshLambertMaterial({ vertexColors: true, flatShading: true });
+VC.onBeforeCompile = sh => {
+  sh.vertexShader = 'attribute float skinw;\nvarying float vSkin;\n' + sh.vertexShader.replace('#include <begin_vertex>', '#include <begin_vertex>\nvSkin = skinw;');
+  sh.fragmentShader = 'varying float vSkin;\n' + sh.fragmentShader.replace('#include <emissivemap_fragment>', '#include <emissivemap_fragment>\ntotalEmissiveRadiance += vColor.rgb * .2 * vSkin;');
+};
+let LOFT_SKIN = -1;
 function loft(rings, sides = 6, caps = true) {
   const pos = [], col = [], c = new THREE.Color(), P = (r, j, i = 0) => { const a = ((j + (i % 2) * .5) / sides) * Math.PI * 2 + Math.PI / sides; return [Math.sin(a) * r[1], r[0], r[3] + Math.cos(a) * r[2]]; };
-  const tri = (a, b2, d, ca, cb, cd) => { pos.push(...a, ...b2, ...d); for (const cc of [ca, cb, cd]) { c.setHex(cc); col.push(c.r, c.g, c.b); } };
+  const skw = [], tri = (a, b2, d, ca, cb, cd) => { pos.push(...a, ...b2, ...d); for (const cc of [ca, cb, cd]) { c.setHex(cc); col.push(c.r, c.g, c.b); skw.push(cc === LOFT_SKIN ? 1 : 0); } };
   for (let i = 0; i < rings.length - 1; i++) { const A = rings[i], B = rings[i + 1]; for (let j = 0; j < sides; j++) { const a0 = P(A, j, i), a1 = P(A, j + 1, i), b0 = P(B, j, i + 1), b1 = P(B, j + 1, i + 1); // staggered rings: on even bands the next ring's vertex sits between a0 and a1, on odd bands b1 does, so the fan has to follow it or the triangles cross
         const ys = A[0] > B[0], F = (p, q, r, cp, cq, cr) => ys ? tri(p, r, q, cp, cr, cq) : tri(p, q, r, cp, cq, cr);
         if (i % 2 === 0) { F(a0, a1, b0, A[4], A[4], B[4]); F(a1, b1, b0, A[4], B[4], B[4]); } else { F(a0, a1, b1, A[4], A[4], B[4]); F(a0, b1, b0, A[4], B[4], B[4]); } } }
   if (caps) { const first = rings[0], last = rings[rings.length - 1], down = first[0] > last[0]; for (const [r, up, ri] of [[first, down, 0], [last, !down, rings.length - 1]]) { const ctr = [0, r[0], r[3]]; for (let j = 0; j < sides; j++) { const a = P(r, j, ri), b2 = P(r, j + 1, ri); if (up) tri(ctr, b2, a, r[4], r[4], r[4]); else tri(ctr, a, b2, r[4], r[4], r[4]); } } }
-  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3)); g.computeVertexNormals(); return g;
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3)); g.setAttribute('skinw', new THREE.Float32BufferAttribute(skw, 1)); g.computeVertexNormals(); return g;
 }
 const HEADM = {}; let PERSON_N = 0;
 function person(o = {}) {
@@ -166,6 +172,7 @@ function person(o = {}) {
   const g = new THREE.Group(), b = grp(0, 0, 0, g); b.scale.setScalar(o.small ? .66 : (o.scale || 1) * (fem ? 1 : 1.1));
   // everyone's skin a shade lighter, so shaded faces stay readable; clothes that were "skin" follow it
   const sk0 = o.skin ?? 0xb07a50, sk = new THREE.Color(sk0).lerp(new THREE.Color(0xffe2c4), .2).getHex(), SK = c => c === sk0 ? sk : c;
+  LOFT_SKIN = sk;
   const top = SK(o.top ?? 0x8a6a4a), bot = SK(o.bottom ?? o.top ?? 0x8a6a4a);
   const mat = c => o.glow ? MB(o.glow, { transparent: true, opacity: .55, blending: THREE.AdditiveBlending, depthWrite: false }) : MS(c);
   const legs = [], arms = [], knees = [], feet = [], VM = () => o.glow ? mat(0) : VC;
@@ -195,7 +202,7 @@ function person(o = {}) {
   // the head: a six-sided double pyramid, 12 triangles, a flat face to the front
   // the lower faces point down and caught almost no light, which read as a beard: give the face its own softly lit skin
   // shaded, with a little self-light so the down-facing chin faces don't go dark
-  const hm = o.glow ? mat(sk) : (HEADM[sk] ??= new THREE.MeshLambertMaterial({ color: sk, flatShading: true, emissive: new THREE.Color(sk).multiplyScalar(.3) }));
+  const hm = o.glow ? mat(sk) : (HEADM[sk] ??= new THREE.MeshLambertMaterial({ color: sk, flatShading: true, emissive: new THREE.Color(sk).multiplyScalar(.38) }));
   mesh(new THREE.SphereGeometry(.29, 6, 2), hm, 0, 0, 0, head).scale.set(1, 1.05, 1);
   // every person gets one of several head shapes: broad, long, tall, small, square...
   const HS = [[1, 1, 1], [1.1, .9, 1], [.9, 1.14, .95], [1.04, 1.12, 1.04], [.94, .94, .94], [1.12, 1, 1.06], [.96, 1.06, 1.08]][(o.face ?? PERSON_N++) % 7];
