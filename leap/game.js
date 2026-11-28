@@ -156,12 +156,12 @@ VC.onBeforeCompile = sh => {
   sh.fragmentShader = 'varying float vSkin;\n' + sh.fragmentShader.replace('#include <emissivemap_fragment>', '#include <emissivemap_fragment>\ntotalEmissiveRadiance += vColor.rgb * .2 * vSkin;');
 };
 let LOFT_SKIN = -1;
-function loft(rings, sides = 6, caps = true) {
-  const pos = [], col = [], c = new THREE.Color(), P = (r, j, i = 0) => { const a = ((j + (i % 2) * .5) / sides) * Math.PI * 2 + Math.PI / sides; return [Math.sin(a) * r[1], r[0], r[3] + Math.cos(a) * r[2]]; };
+function loft(rings, sides = 6, caps = true, stagger = true) {
+  const pos = [], col = [], c = new THREE.Color(), P = (r, j, i = 0) => { const a = ((j + (stagger ? i % 2 : 0) * .5) / sides) * Math.PI * 2 + Math.PI / sides; return [Math.sin(a) * r[1], r[0], r[3] + Math.cos(a) * r[2]]; };
   const skw = [], tri = (a, b2, d, ca, cb, cd) => { pos.push(...a, ...b2, ...d); for (const cc of [ca, cb, cd]) { c.setHex(cc); col.push(c.r, c.g, c.b); skw.push(cc === LOFT_SKIN ? 1 : 0); } };
   for (let i = 0; i < rings.length - 1; i++) { const A = rings[i], B = rings[i + 1]; for (let j = 0; j < sides; j++) { const a0 = P(A, j, i), a1 = P(A, j + 1, i), b0 = P(B, j, i + 1), b1 = P(B, j + 1, i + 1); // staggered rings: on even bands the next ring's vertex sits between a0 and a1, on odd bands b1 does, so the fan has to follow it or the triangles cross
         const ys = A[0] > B[0], F = (p, q, r, cp, cq, cr) => ys ? tri(p, r, q, cp, cr, cq) : tri(p, q, r, cp, cq, cr);
-        if (i % 2 === 0) { F(a0, a1, b0, A[4], A[4], B[4]); F(a1, b1, b0, A[4], B[4], B[4]); } else { F(a0, a1, b1, A[4], A[4], B[4]); F(a0, b1, b0, A[4], B[4], B[4]); } } }
+        if (!stagger || i % 2 === 0) { F(a0, a1, b0, A[4], A[4], B[4]); F(a1, b1, b0, A[4], B[4], B[4]); } else { F(a0, a1, b1, A[4], A[4], B[4]); F(a0, b1, b0, A[4], B[4], B[4]); } } }
   if (caps) { const first = rings[0], last = rings[rings.length - 1], down = first[0] > last[0]; for (const [r, up, ri] of [[first, down, 0], [last, !down, rings.length - 1]]) { const ctr = [0, r[0], r[3]]; for (let j = 0; j < sides; j++) { const a = P(r, j, ri), b2 = P(r, j + 1, ri); if (up) tri(ctr, b2, a, r[4], r[4], r[4]); else tri(ctr, a, b2, r[4], r[4], r[4]); } } }
   const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3)); g.setAttribute('skinw', new THREE.Float32BufferAttribute(skw, 1)); g.computeVertexNormals(); return g;
 }
@@ -203,12 +203,12 @@ function person(o = {}) {
   // the lower faces point down and caught almost no light, which read as a beard: give the face its own softly lit skin
   // shaded, with a little self-light so the down-facing chin faces don't go dark
   const hm = o.glow ? mat(sk) : (HEADM[sk] ??= new THREE.MeshLambertMaterial({ color: sk, flatShading: true, emissive: new THREE.Color(sk).multiplyScalar(.38) }));
-  mesh(new THREE.SphereGeometry(.29, 6, 2), hm, 0, 0, 0, head).scale.set(1, 1.05, 1);
+  mesh(loft([[.305, .02, .02, 0, sk], [0, .29, .29, 0, sk], [-.16, .24, .24, .025, sk], [-.3, .06, .06, .05, sk]], 6, true, false), o.glow ? mat(sk) : VC, 0, 0, 0, head);
   // every person gets one of several head shapes: broad, long, tall, small, square...
   const HS = [[1, 1, 1], [1.1, .9, 1], [.9, 1.14, .95], [1.04, 1.12, 1.04], [.94, .94, .94], [1.12, 1, 1.06], [.96, 1.06, 1.08]][(o.face ?? PERSON_N++) % 7];
   head.scale.set(...HS);
-  if (!o.glow) { const mo = mesh(new THREE.BoxGeometry(.1, .022, .04), MB(0x5a2a22), 0, -.13, .15, head); mo.rotation.x = .55; }
-  if (!o.glow) { for (const s of [-1, 1]) mesh(new THREE.OctahedronGeometry(.045, 0), MS(0x1a1010), s * .085, .03, .2, head); const no = mesh(new THREE.ConeGeometry(.055, .13, 3), MS(new THREE.Color(sk).multiplyScalar(.88).getHex()), 0, -.03, .215, head); no.rotation.x = -.3; }
+  if (!o.glow) { const mo = mesh(new THREE.BoxGeometry(.1, .022, .04), MB(0x5a2a22), 0, -.14, .235, head); mo.rotation.x = .15; }
+  if (!o.glow) { for (const s of [-1, 1]) mesh(new THREE.OctahedronGeometry(.045, 0), MS(0x1a1010), s * .085, .03, .225, head); const no = mesh(new THREE.ConeGeometry(.055, .13, 3), MS(new THREE.Color(sk).multiplyScalar(.88).getHex()), 0, -.04, .235, head); no.rotation.x = -.3; }
   if (!fem && o.cloth != null && o.hair == null) o = { ...o, hair: o.beard ?? 0x2a1a10 };
   if (o.hair != null) { const h = mesh(new THREE.SphereGeometry(.31, 6, 2, 0, Math.PI * 2, 0, Math.PI * .55), mat(o.hair), 0, .02, -.03, head); h.rotation.x = -.35; if (fem) capsule(.2, .4, mat(o.hair), 0, -.22, -.15, head); }
   if (fem && o.cloth != null) { const c = mesh(new THREE.SphereGeometry(.33, 6, 2, 0, Math.PI * 2, 0, Math.PI * .5), mat(o.cloth), 0, .05, -.08, head); c.rotation.x = -.6; mesh(new THREE.CylinderGeometry(.26, .34, .5, 5, 1, true, Math.PI * .6, Math.PI * .8), mat(o.cloth), 0, -.2, -.1, head); }
