@@ -549,6 +549,8 @@ function choiceBox(opts) {
 async function talk(lines) { for (const l of lines) await say(...l); }
 function dlgTap() { if (dlgRes) dlgRes(); }
 $('#dlg').onclick = dlgTap;
+// a tap anywhere outside the text box moves the dialogue on too (lines that need a word tapped or a choice still wait)
+addEventListener('pointerup', e => { if (ui === 'dlg' && !e.target.closest('#dlg, #bookbtn, #pop, #book, #kb')) dlgTap(); });
 $('#hear').onclick = e => { e.stopPropagation(); if (curLine) hearLine(curLine.text, curLine.o.lang); };
 async function hearLine(text, lang) {
   const my = ++hearing;
