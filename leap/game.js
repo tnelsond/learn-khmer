@@ -72,7 +72,13 @@ const good = () => tone([523, 659, 784, 1046], .7, 'triangle', .09);
 const leapSound = () => { tone([220, 330, 440, 660, 880, 1320, 1760], 1.4, 'sawtooth', .035, 2); tone([110], 2, 'sine', .15, 4); };
 let kmVoice = null;
 try { const pick = () => { kmVoice = speechSynthesis.getVoices().find(v => /^km/i.test(v.lang)) || null; }; pick(); speechSynthesis.onvoiceschanged = pick; } catch (e) { }
-const PEAK = {
+// Lao is spoken from PeakSlab's Lao slab (thesaurus.la and a Bible reader); Khmer from the Khmer slabs
+const LAO = LANG === 'lo';
+const PEAK = LAO ? {
+  sources: ['https://peakslab.org/', LIB.replace(/village\/$/, 'lao-village/')],
+  slabs: [{ name: 'lao', path: 'lao/aux/lo-audio-tnefar.slab', bufmax: 1 << 20 }],
+  postfilters: null,
+} : {
   sources: ['https://peakslab.org/', LIB],
   slabs: [
     { name: 'kheng', path: 'khmer/aux/km-kheng.slab', bufmax: 1 << 20 },
@@ -82,7 +88,7 @@ const PEAK = {
   postfilters: { path: 'khmer/aux/km-postfilters.slab', bufmax: 1 << 20 },
 };
 let peak = null, speaking = null;
-const peakReady = peakAudio(PEAK).then(p => (peak = p)).catch(e => { console.warn('PeakSlab unavailable', e); return null; });
+const peakReady = !(KH || LAO) ? Promise.resolve(null) : peakAudio(PEAK).then(p => (peak = p)).catch(e => { console.warn('PeakSlab unavailable', e); return null; });
 function playPcm(s, rate) {
   ensureAudio(); if (!actx) return Promise.resolve(false);
   const b = actx.createBuffer(1, s.length, 16000); b.copyToChannel(s, 0);
@@ -114,7 +120,32 @@ const useTTS = () => S.tts && ttsWorks !== false;
 // The best recording of each word: clean dictionary clips first (kheng.info), then the others; never a clip
 // flagged in badrec.js; played as recorded (no pitch or speed change), so a word always sounds the same.
 const READERS = ['kheng:1', 'rith:', 'khsv:1', 'khsv:2', 'khsv:3', 'khsv:4'];
+// Lao: each word from the slab, whole or in the fewest recorded pieces; a word nobody recorded goes to the
+// device's Lao voice if it has one. Spellings are tried both ways (ຫຼ/ຫລ, ໜ/ຫນ, ໝ/ຫມ).
+const loNorm = s => s.normalize('NFC').replace(/[\u200b\u200c\u200d\s]/g, '').replace(/\u0ecd([\u0ec8-\u0ecb])\u0eb2/g, '$1\u0eb3').replace(/\u0ecd\u0eb2/g, '\u0eb3').replace(/\u0eab\u0e99/g, '\u0edc').replace(/\u0eab\u0ea1/g, '\u0edd').replace(/\u0eab\u0ea5/g, '\u0eab\u0ebc');
+const loAlt = w => [w, w.replace(/\u0eab\u0ebc/g, '\u0eab\u0ea5').replace(/\u0edc/g, '\u0eab\u0e99').replace(/\u0edd/g, '\u0eab\u0ea1'), w.replace(/\u0eab\u0ebc/g, '\u0edc')];
+const loKey = w => loAlt(w).find(x => peak.who(x).length);
+const LOSEG = {};
+function loSeg(w) {
+  if (w in LOSEG) return LOSEG[w]; const k = loKey(w); if (k) return LOSEG[w] = [k];
+  let best = null; for (let i = w.length - 1; i > 0; i--) { const a = loKey(w.slice(0, i)); if (!a) continue; const r = loSeg(w.slice(i)); if (r && (!best || r.length + 1 < best.length)) best = [a, ...r]; }
+  return LOSEG[w] = best;
+}
+async function laoSay(text) {
+  if (!peak) await Promise.race([peakReady, wait(4)]);
+  const words = String(text).replace(/\*/g, '').split(/\s+/).map(w => loNorm(w.replace(/[^\u0e80-\u0eff]/g, ''))).filter(Boolean);
+  if (!words.length) return false;
+  const sp = peak ? peak.speakers : [], pref = sp.length ? sp[((CAST[speaking] || CAST.me).v || [0])[0] % sp.length] : '';
+  let any = false;
+  for (const w of words) {
+    const parts = peak && loSeg(w);
+    if (parts) { for (const q of parts) { const s2 = peak.samples(q, pref); if (s2) { await playPcm(s2, 1); any = true; } } await wait(.04); }
+    else if (await sayTTS(w, 'lo')) any = true;
+  }
+  return any;
+}
 async function playWord(w, lang) {
+  if (!lang && LAO) { w = tr(w); if (await laoSay(w)) return true; lang = TTSL; }
   if (!lang && !KH) lang = TTSL, w = tr(w);
   if (lang) { try { return await sayTTS(w, lang); } catch (e) { return false; } }
   if (useTTS() && await sayTTS(w)) return true;
@@ -723,6 +754,7 @@ $('#hear').onclick = e => { e.stopPropagation(); if (curLine) hearLine(curLine.t
 async function hearLine(text, lang) {
   const my = ++hearing;
   if (lang) { await wait(.2); if (my === hearing) playWord(text, lang); return; }
+  if (LAO) { const els = [...$('#line').querySelectorAll('.w')]; await wait(.15); for (const el of els) { if (my !== hearing) return; el.classList.add('play'); await laoSay(el.textContent); el.classList.remove('play'); } return; }
   if (!KH) { const els = [...$('#line').querySelectorAll('.w')]; await wait(.15); els.forEach(e => e.classList.add('play')); try { await sayTTS(text.replace(/\*/g, ''), TTSL); } catch (e) { } els.forEach(e => e.classList.remove('play')); return; }
   const els = [...$('#line').querySelectorAll('.w')], tk = tokens(text);
   await wait(.15);
@@ -739,7 +771,7 @@ function pop(el, w) {
 function flashTag(w) { for (const o of tags[wkey(w)] || []) { const s = o.scale.clone(); let t = 0; anims.push(dt => { t += dt; const k = 1 + .25 * Math.sin(t * 12) * (1 - t / 1.2); o.scale.copy(s).multiplyScalar(k); if (t > 1.2) { o.scale.copy(s); return false; } }); } }
 let toastT;
 // a phrase out loud: the device's Khmer voice if it has one, else word by word through tnefar
-async function sayPhrase(text) { if (!KH) { try { await sayTTS(tr(text).replace(/\*/g, ''), TTSL); } catch (e) { } return; } if (useTTS()) { try { if (await sayTTS(text)) return; } catch (e) { } } for (const w of text.split(' ')) if (w && !isPunct(w)) { await playWord(w); await wait(.05); } }
+async function sayPhrase(text) { if (LAO) { await laoSay(tr(text)); return; } if (!KH) { try { await sayTTS(tr(text).replace(/\*/g, ''), TTSL); } catch (e) { } return; } if (useTTS()) { try { if (await sayTTS(text)) return; } catch (e) { } } for (const w of text.split(' ')) if (w && !isPunct(w)) { await playWord(w); await wait(.05); } }
 function cap(w) { toast(w); speaking = 'god'; playWord(tr(w)); }
 function toast(big, small = '') { big = tr(big); small = tr(small); const t = $('#toast'); t.innerHTML = (big ? `<b>${esc(big)}</b>` : '') + (small ? `<i>${esc(small)}</i>` : ''); t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), Math.max(2600, 2000 + 600 * (big + ' ' + small).split(' ').filter(Boolean).length)); }
 function popWord(w) { const p = document.createElement('div'); p.className = 'pop'; p.textContent = w; document.body.appendChild(p); setTimeout(() => p.remove(), 1600); }
