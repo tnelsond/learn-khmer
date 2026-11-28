@@ -324,7 +324,7 @@ let world = new THREE.Group(); scene.add(world);
 let H = () => 0, bound = 80, clampFn = null;
 const solids = [], ents = [], acts = [], floors = [];
 let ground = null, water = null, waterY = -100;
-function clearWorld() { shake = 0; track = null; yOverride = null; player.raise = false; scene.remove(world); world = new THREE.Group(); scene.add(world); solids.length = ents.length = acts.length = floors.length = 0; ground = water = null; waterY = -100; clampFn = null; tags = {}; anims.length = 0; stars.material.opacity = 0; marker(null); }
+function clearWorld() { talkCam = null; lastPartner = null; shake = 0; track = null; yOverride = null; player.raise = false; scene.remove(world); world = new THREE.Group(); scene.add(world); solids.length = ents.length = acts.length = floors.length = 0; ground = water = null; waterY = -100; clampFn = null; tags = {}; anims.length = 0; stars.material.opacity = 0; marker(null); }
 const groundAt = (x, z) => { let h = H(x, z); for (const f of floors) if (x > f.x0 && x < f.x1 && z > f.z0 && z < f.z1) h = Math.max(h, f.y()); return h; };
 function terrain(size, seg, color) {
   const geo = new THREE.PlaneGeometry(size, size, seg, seg).rotateX(-Math.PI / 2), p = geo.attributes.position, cols = new Float32Array(p.count * 3), c = new THREE.Color();
@@ -412,6 +412,22 @@ function wordsHTML(text, fx) { return tokens(text).map((t, i) => isPunct(t.km) ?
 function bindWords(el, tk) { el.querySelectorAll('.w').forEach(w => w.onclick = ev => { ev.stopPropagation(); ensureAudio(); const t = tk[+w.dataset.i]; if (t.trig && trigRes) return trigRes(t.km); hearing++; speaking = speaking || 'me'; playWord(t.km); pop(w, t.km); flashTag(t.km); }); }
 function seeWords(text) { let n = false; for (const t of tokens(text)) if (!isPunct(t.km) && isKh(t.km)) { if (!S.seen[t.km]) n = true; S.seen[t.km] = (S.seen[t.km] || 0) + 1; } $('#count').textContent = khNum(Object.keys(S.seen).length); return n; }
 let dlgRes = null, trigRes = null, hearing = 0, curLine = null;
+// conversation camera: over your shoulder at whoever speaks, over theirs when you answer
+let talkCam = null, lastPartner = null;
+function speakerEnt(who) {
+  if (who === 'god') return godLight && godLight.visible ? { x: godLight.position.x, z: godLight.position.z, y: godLight.position.y, god: true } : null;
+  let b = null, bd = 28; for (const e of ents) { if (e.id !== who || e.hide || !e.g.visible || e.dead) continue; const d = Math.hypot(e.x - player.x, e.z - player.z); if (d < bd) { bd = d; b = e; } } return b;
+}
+function aimTalk(who) {
+  if (!hero || cine || track) return talkCam = null;
+  let s2 = null, rev = false;
+  if (who === 'me') { s2 = lastPartner && ents.includes(lastPartner) && !lastPartner.hide && Math.hypot(lastPartner.x - player.x, lastPartner.z - player.z) < 28 ? lastPartner : null; rev = true; }
+  else { s2 = speakerEnt(who); if (s2 && !s2.god) lastPartner = s2; }
+  if (!s2) return talkCam = null;
+  const dx = s2.x - player.x, dz = s2.z - player.z, L = Math.max(.5, Math.hypot(dx, dz)), mx = (s2.x + player.x) / 2, mz = (s2.z + player.z) / 2;
+  const side = ((camera.position.x - mx) * -dz / L + (camera.position.z - mz) * dx / L) >= 0 ? 1 : -1;
+  talkCam = { s: s2, rev, side: talkCam && talkCam.s === s2 ? talkCam.side : side };
+}
 function say(who, text, o = {}) {
   if (who === 'al') return Promise.resolve(); // no narrator: the scene carries it
   if (who === 'me' && !o.chosen && !text.includes('*')) return choose(text); // you pick what you say
@@ -419,12 +435,12 @@ function say(who, text, o = {}) {
     $('#kb').classList.add('hide'); $('#book').classList.add('hide'); // a line that pops up closes the keyboard/book
     ui = 'dlg'; joyEnd(); speaking = who; curLine = { who, text, o };
     const fx = !!o.lang;
-    $('#who').textContent = CAST[who]?.km || who; showAva(who); $('#dlg').classList.remove('hide'); $('#hear').classList.remove('hide');
+    $('#who').textContent = CAST[who]?.km || who; showAva(who); aimTalk(who); $('#dlg').classList.remove('hide'); $('#hear').classList.remove('hide');
     $('#line').innerHTML = wordsHTML(text, fx); const tk = tokens(text); bindWords($('#line'), tk);
     if (!fx) seeWords(text);
     const trig = tk.some(t => t.trig);
     $('#more').classList.toggle('hide', trig);
-    const fin = v => { dlgRes = trigRes = null; $('#dlg').classList.add('hide'); ui = null; hearing++; res(v); };
+    const fin = v => { dlgRes = trigRes = null; $('#dlg').classList.add('hide'); ui = null; hearing++; talkCam = null; res(v); };
     if (trig) { trigRes = w => { playWord(w); fin(w); }; dlgRes = null; }
     else dlgRes = () => fin();
     hearLine(text, o.lang);
@@ -486,10 +502,10 @@ function choiceBox(opts) {
   return new Promise(res => {
     $('#kb').classList.add('hide'); $('#book').classList.add('hide');
     ui = 'dlg'; joyEnd(); speaking = 'me'; dlgRes = trigRes = null; hearing++;
-    $('#who').textContent = CAST.me.km; showAva('me'); $('#dlg').classList.remove('hide'); $('#more').classList.add('hide'); $('#hear').classList.add('hide');
+    $('#who').textContent = CAST.me.km; showAva('me'); aimTalk('me'); $('#dlg').classList.remove('hide'); $('#more').classList.add('hide'); $('#hear').classList.add('hide');
     $('#line').innerHTML = opts.map((t, i) => `<div class="ch"><button class="chh" data-i="${i}" aria-label="ស្ដាប់"><svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8.5a5 5 0 010 7"/></svg></button><button class="cht" data-i="${i}">${t.split(' ').filter(Boolean).map(w => isPunct(w) ? `<span class="p">${esc(w)}</span>` : `<span class="tk">${kw(w)}</span>`).join(' ')}</button></div>`).join('');
     $('#line').querySelectorAll('.chh').forEach(b => b.onclick = e => { e.stopPropagation(); speaking = 'me'; sayPhrase(opts[+b.dataset.i]); });
-    $('#line').querySelectorAll('.cht').forEach(b => b.onclick = e => { e.stopPropagation(); $('#dlg').classList.add('hide'); ui = null; res(opts[+b.dataset.i]); });
+    $('#line').querySelectorAll('.cht').forEach(b => b.onclick = e => { e.stopPropagation(); $('#dlg').classList.add('hide'); ui = null; talkCam = null; res(opts[+b.dataset.i]); });
   });
 }
 async function talk(lines) { for (const l of lines) await say(...l); }
@@ -678,6 +694,15 @@ function frame(now) {
   }
   // camera
   if (track) { const [p, l] = track(); camera.position.lerp(V3.set(...p), Math.min(1, dt * 3)); cineLook.lerp(new THREE.Vector3(...l), Math.min(1, dt * 3)); camera.lookAt(cineLook); }
+  else if (talkCam && hero && !cine) {
+    const s2 = talkCam.s, sy = s2.god ? s2.y : s2.y, dx = s2.x - player.x, dz = s2.z - player.z, L = Math.max(.5, Math.hypot(dx, dz)), ux = dx / L, uz = dz / L, sx = -uz * talkCam.side, sz = ux * talkCam.side;
+    let pos, look;
+    if (s2.god) { pos = [player.x - ux * 4 + sx * 1.5, player.y + 1.8, player.z - uz * 4 + sz * 1.5]; look = [s2.x, s2.y, s2.z]; }
+    else if (!talkCam.rev) { pos = [player.x - ux * 3 + sx * 1.4, player.y + 2.3, player.z - uz * 3 + sz * 1.4]; look = [s2.x, sy + 1.5, s2.z]; }
+    else { pos = [s2.x + ux * 3 + sx * 1.4, sy + 2.3, s2.z + uz * 3 + sz * 1.4]; look = [player.x, player.y + 1.5, player.z]; }
+    pos[1] = Math.max(pos[1], groundAt(pos[0], pos[2]) + .6);
+    camera.position.lerp(V3.set(...pos), Math.min(1, dt * 4)); cineLook.lerp(new THREE.Vector3(...look), Math.min(1, dt * 4)); camera.lookAt(cineLook);
+  }
   else if (cine) { cine.t = Math.min(cine.dur, cine.t + dt); const k = ease(cine.t / cine.dur); camera.position.lerpVectors(cine.from, cine.to, k); cineLook.lerpVectors(cine.lookFrom, cine.look, k); camera.lookAt(cineLook); }
   else if (hero) {
     // the camera eases round behind you only while you walk, and gently
@@ -943,7 +968,7 @@ async function eve() {
   await leapIn('eve', -6, 8, Math.PI);
   const adamE = npc('adam', HEROES.adam, -3, 10, Math.PI);
   await arrive([['al', 'អ្នក ជា អេវ៉ា ។'], ['al', 'ថ្ងៃ នេះ ... រឿង ពិបាក ។'], ['al', 'អ្នក ត្រូវ ធ្វើ ឲ្យ រឿង ទៅ មុខ ។ មិន មែន ធ្វើ ល្អ ទេ ។']]);
-  const sn = snake(); const snE = ent(sn, 1.5, -21.5, { solid: 0, speed: 2 }); tag('ពស់', sn.g); snE.talk = 'snake';
+  const sn = snake(); const snE = ent(sn, 1.5, -21.5, { solid: 0, speed: 2, id: 'snake' }); tag('ពស់', sn.g); snE.talk = 'snake';
   goal('ទៅ ដើមឈើ នៅ កណ្ដាល សួនច្បារ ។', [0, -21]);
   await reach([0, -21], 6);
   await camTo([player.x + 4.5, player.y + 2.6, player.z + 2.5], [1, player.y + .8, -21.5], 1.2);
@@ -1527,7 +1552,7 @@ async function ehud() {
   await act('យក សួយសារអាករ', [-6, 22], 3.5); world.remove(baskets); const bk = grp(); cyl(.35, .28, .45, 0xb08a50, 0, 0, 0, bk, 7); ball(.28, 0xe03a2a, 0, .25, 0, bk, 5, 3); carry(bk);
   const eg = person({ skin: 0x9a6a44, top: 0x6a2a6a, robe: true, cloth: 0xf2c51c, beard: 0x1a1010 }); eg.b.scale.set(2, 1.1, 1.8); cone(.22, .5, 0xf2c51c, 0, .45, 0, eg.head, 5);
   LOOK.eglon = { key: 'eglon', make: () => { const p = person({ skin: 0x9a6a44, top: 0x6a2a6a, robe: true, cloth: 0xf2c51c, beard: 0x1a1010 }); p.b.scale.set(2, 1.1, 1.8); cone(.22, .5, 0xf2c51c, 0, .45, 0, p.head, 5); return p; } };
-  const eglon = ent(eg, 0, -48, { yaw: 0, solid: 1.3 }); eglon.talk = 'eglon'; tag('អេក្លូន', eg.g); tag('ធាត់', eg.g); tag('ស្ដេច', eg.g);
+  const eglon = ent(eg, 0, -48, { yaw: 0, solid: 1.3, id: 'eglon' }); eglon.talk = 'eglon'; tag('អេក្លូន', eg.g); tag('ធាត់', eg.g); tag('ស្ដេច', eg.g);
   const guards = [-1, 1].map(sx => npc('guard', { skin: 0x9a6a44, top: 0x2a3a6a, cloth: 0x2a3a6a, robe: true }, sx * 2, -43, 0));
   goal('ចូល បន្ទប់ ស្ដេច ។', eglon);
   await reach([0, -45], 3.5);
@@ -1952,7 +1977,7 @@ async function david() {
   const army = []; for (let i = 0; i < 10; i++) { const e = npc('people', { skin: 0xa07050, top: 0x3a5a8a, cloth: 0x8a8a92, sleeve: 0x3a5a8a }, -14 + i * 3, 18, Math.PI); e.talk = null; army.push(e); }
   const gp = person({ skin: 0x9a6a44, top: 0x9a8a60, bottom: 0x6a4a2a, cloth: 0xb8a060, beard: 0x1a1010, sleeve: 0x9a8a60 }); gp.b.scale.setScalar(2.8); const shield = box(.8, 1, .1, 0xc8a040, 0, -.3, .2, gp.arms[0]); const spear = cyl(.04, .04, 3, 0x6a4424, 0, -.4, .1, gp.arms[1], 5);
   LOOK.goliath = { key: 'goliath', make: () => person({ skin: 0x9a6a44, top: 0x9a8a60, bottom: 0x6a4a2a, cloth: 0xb8a060, beard: 0x1a1010, sleeve: 0x9a8a60 }) };
-  const goliath = ent(gp, 0, -22, { yaw: 0, solid: 1.6 }); goliath.talk = 'goliath'; tag('កូលីយ៉ាត', gp.g);
+  const goliath = ent(gp, 0, -22, { yaw: 0, solid: 1.6, id: 'goliath' }); goliath.talk = 'goliath'; tag('កូលីយ៉ាត', gp.g);
   const phil = []; for (let i = 0; i < 10; i++) phil.push(soldierStatic(-14 + i * 3, -28));
   await arrive([]);
   await camTo([8, elahH(0, 10) + 6, 10], [0, elahH(0, -22) + 5, -22], 1.5);
