@@ -333,12 +333,12 @@ export const HEADS = [
 ];
 export const DOOR_ORDER = ["ແດງ", "ຟ້າ", "ເຫຼືອງ"];
 
-// Shops: item word, price in kip. kind: amt | full | fix | bottle
+// Shops: item word, price (in riel-sized units: the game shows and says them x10, in kip). kind: amt | full | fix | bottle
 export const SHOPS = {
-  vendor: [["ປາ", 30000], ["ກ້ວຍ", 5000], ["ໄຂ່", 5000], ["ເຂົ້າໜົມ", 15000], ["ໝາກມ່ວງ", 10000], ["ນ້ຳມັນ", 50000, "bottle"]],
-  che: [["ໝາກບານ", 30000], ["ກາເຟ", 20000], ["ນ້ຳຕານ", 10000], ["ປຶ້ມ", 50000]],
-  gas: [["ນ້ຳມັນ", 20000, "amt"], ["ນ້ຳມັນ", 50000, "amt"], ["ນ້ຳມັນ", 100000, "amt"], ["ນ້ຳມັນ", 0, "full"]],
-  jang: [["ລໍ້", 20000, "fix"]],
+  vendor: [["ປາ", 3000], ["ກ້ວຍ", 500], ["ໄຂ່", 500], ["ເຂົ້າໜົມ", 1500], ["ໝາກມ່ວງ", 1000], ["ນ້ຳມັນ", 5000, "bottle"]],
+  che: [["ໝາກບານ", 3000], ["ກາເຟ", 2000], ["ນ້ຳຕານ", 1000], ["ປຶ້ມ", 5000]],
+  gas: [["ນ້ຳມັນ", 2000, "amt"], ["ນ້ຳມັນ", 5000, "amt"], ["ນ້ຳມັນ", 10000, "amt"], ["ນ້ຳມັນ", 0, "full"]],
+  jang: [["ລໍ້", 2000, "fix"]],
 };
 
 // Enemies. type, word, home position. Night-only ones only appear after dark.
@@ -351,3 +351,51 @@ export const ENEMIES = [
   { type: "bees", word: "ເຜິ້ງ", at: [28, -71] },
   { type: "thief", word: "ໂຈນ", at: [118, 2], night: true }, { type: "thief", word: "ໂຈນ", at: [16, -82], night: true },
 ];
+
+// ---------------- the quest: three gems and the Yak ----------------
+Object.assign(VOCAB, {
+  "ຍັກ": "giant, ogre (yak)", "ແກ້ວ": "gem, jewel", "ດາບ": "sword", "ປ້ອງກັນ": "protect, shield", "ລົມ": "wind", "ເປີດ": "open",
+  "ເງົາ": "shadow", "ແຂ້": "crocodile", "ເສືອ": "tiger", "ນົກອິນຊີ": "eagle", "ງຽບ": "quiet, silent", "ມືດ": "dark",
+  "ແສງ": "light", "ແຂງແຮງ": "strong", "ກ້າຫານ": "brave", "ຢ່າ": "don't", "ຊະນະ": "win", "ຖ້ຳ": "cave", "ປ່າ": "forest",
+  "ຫົວໃຈ": "heart", "ລໍ": "wait", "ດົນ": "a long time", "ທັງໝົດ": "all", "ບໍ່ມີ": "without, there is none", "ຈະ": "will",
+  "ຕ້ອງ": "must", "ທິດໃຕ້": "south", "ໃຜ": "who", "ໂພດ": "too (much)", "ຮັກ": "love", "ໜ່ວຍ": "(counter for round things)",
+  "ແຮງ": "strong", "ທິດເໜືອ": "north",
+});
+Object.assign(SPELLS, {
+  "ປ້ອງກັນ": { d: "A shield of light: nothing can hurt you for a while", uses: ["shield", "fire", "boss"] },
+  "ລົມ": { d: "A gust of wind: blows away clouds, fog, smoke and flying things", uses: ["gust", "cloud", "fog", "eagle", "bees", "shadow"] },
+  "ເປີດ": { d: "Opens what is shut: chests, gates", uses: ["chest", "gate", "door"] },
+});
+Object.assign(NPCS, {
+  spirit: { km: "ຢາຍ", bilingual: true, color: 0xf0e8d0, krama: 0xd8b25a, pos: [0, 0], hidden: true },
+  yak: { km: "ຍັກ", bilingual: false, color: 0x8a2a2a, krama: 0xc8a030, pos: [0, 0], hidden: true },
+});
+Object.assign(TALK, {
+  vision: [
+    ["spirit", "ລູກ ! ລູກ ມາ ບ້ານເກີດ ແລ້ວ !"],
+    ["spirit", "ຢາຍ ລໍ ລູກ ດົນ ຫຼາຍ ."],
+    ["yak", "ຮາຮາຮາ{(laughs)} ! ຄຳ ທັງໝົດ ເປັນ ຂອງ ຂ້ອຍ !"],
+    ["spirit", "ຍັກ ! ມັນ ລັກ ແກ້ວ ສາມ ໜ່ວຍ ."],
+    ["spirit", "ບໍ່ມີ ແກ້ວ ບ້ານ ຈະ ງຽບ ."],
+    ["spirit", "ລູກ ຕ້ອງ ຊອກ ແກ້ວ . ຢ່າ ຢ້ານ !"],
+  ],
+  monk_sword: [["monk", "ເອົາ ດາບ ນີ້ ."], ["monk", "ແກ້ວ ນ້ຳ ຢູ່ ຖ້ຳ ແຂ້ ."]],
+  monk_q1: [["monk", "ຖ້ຳ ແຂ້ ຢູ່ ທິດໃຕ້ ."]],
+  monk_q2: [["monk", "ແກ້ວ ໄຟ ຢູ່ ໃນ ປ່າ ."]],
+  monk_q3: [["monk", "ແກ້ວ ລົມ ຢູ່ ເທິງ ພູ ."]],
+  monk_q4: [["monk", "ໄປ ປະຕູ ຍັກ . ເຈົ້າ ແຂງແຮງ ແລ້ວ ."]],
+  gem1: [["spirit", "ດີ ຫຼາຍ ລູກ ! ແກ້ວ ນ້ຳ !"], ["spirit", "ຄຳ ໃໝ່ : ປ້ອງກັນ ."]],
+  gem2: [["spirit", "ລູກ ກ້າຫານ ຫຼາຍ ! ແກ້ວ ໄຟ !"], ["spirit", "ຄຳ ໃໝ່ : ລົມ ."]],
+  gem3: [["spirit", "ແກ້ວ ລົມ ! ແກ້ວ ສາມ ໜ່ວຍ ແລ້ວ !"], ["spirit", "ຄຳ ໃໝ່ : ເປີດ . ເປີດ ປະຕູ ຍັກ ."]],
+  yak_intro: [["yak", "ເຈົ້າ ແມ່ນ ໃຜ ? ຂ້ອຍ ບໍ່ ຢ້ານ !"]],
+  yak_night: [["yak", "ກາງຄືນ !"]],
+  yak_silence: [["yak", "ງຽບ ! ດຽວນີ້ ບ້ານ ງຽບ !"], ["spirit", "ລູກ ! ເວົ້າ ຄຳ ຂອງ ຢາຍ !"]],
+  yak_end: [["yak", "ໂອຍ{ow} ... ຄຳ ... ແຮງ ໂພດ ..."]],
+  spirit_end: [["spirit", "ລູກ ຊະນະ ແລ້ວ !"], ["spirit", "ຄຳ ກັບ ມາ ບ້ານ ຄືນ ."], ["spirit", "ຂອບໃຈ ລູກ . ຢາຍ ຮັກ ລູກ ."]],
+});
+export const EPIC = {
+  sword: "ດາບ", yak: "ຍັກ", gem: "ແກ້ວ", protect: "ປ້ອງກັນ", wind: "ລົມ", open: "ເປີດ", shadow: "ເງົາ",
+  croc: "ແຂ້", tiger: "ເສືອ", eagle: "ນົກອິນຊີ", cave: "ຖ້ຳ", forest: "ປ່າ", mountain: "ພູ", door: "ປະຕູ", heart: "ຫົວໃຈ",
+  home: "ບ້ານເກີດ", night: "ກາງຄືນ", day: "ກາງເວັນ", stop: "ເຊົາ", fire: "ໄຟ", water: "ນ້ຳ", climb: "ຂຶ້ນ", dark: "ມືດ", light: "ແສງ",
+  gemNames: ["ແກ້ວ ນ້ຳ", "ແກ້ວ ໄຟ", "ແກ້ວ ລົມ"], cavePlace: "ຖ້ຳ ແຂ້",
+};

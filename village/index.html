@@ -18,7 +18,7 @@
    PICTURE: the 3D world itself fills the screen; UI floats on its edges.
    COLOUR and TYPE: lacquer black-green #14201f, palm-leaf gold #e8c477, laterite #b4532a; Khmer in Battambang, English in Cormorant Garamond.
    LAYOUT: full-bleed canvas; objective top, joystick bottom-left, cast/act bottom-right, panels slide from bottom. */
-@font-face{font-family:"Battambang";src:url(battambang.ttf) format("truetype");font-display:swap}
+@font-face{font-family:"Battambang";src:url(battambang.ttf) format("truetype");font-display:swap}@font-face{font-family:"Noto Sans Lao";src:url(noto-sans-lao-400.woff2) format("woff2");font-weight:400;font-display:swap}@font-face{font-family:"Noto Sans Lao";src:url(noto-sans-lao-700.woff2) format("woff2");font-weight:600 700;font-display:swap}
 :root{--lac:#14201f;--lac2:#1f3130;--gold:#e8c477;--gold2:#f6e3b0;--lat:#b4532a;--ink:#f4ead2;--kh:"Battambang","Noto Sans Khmer","Khmer OS",serif;--en:"Cormorant Garamond",Georgia,serif;--ui:Inter,system-ui,sans-serif;
 --st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px);--sl:env(safe-area-inset-left,0px);--sr:env(safe-area-inset-right,0px)}
 *{box-sizing:border-box;min-width:0;-webkit-tap-highlight-color:transparent}
@@ -114,6 +114,13 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 #money{height:44px;padding:0 12px;white-space:nowrap;display:flex;align-items:center;gap:4px;font:600 15px var(--ui);color:var(--gold2);pointer-events:none}
 #hearts{position:fixed;top:calc(60px + var(--st));right:calc(10px + var(--sr));height:30px;padding:0 8px;display:flex;align-items:center;gap:1px;font:18px var(--ui);pointer-events:none}
 #hearts span{color:rgba(244,234,210,.25)}#hearts span.on{color:#e0503a;text-shadow:0 0 6px rgba(224,80,58,.6)}
+#swordbtn{position:fixed;right:calc(102px + var(--sr));bottom:calc(22px + var(--sb));width:62px;height:62px;border-radius:50%;display:grid;place-items:center;align-content:center;background:radial-gradient(circle at 40% 35%,#eaf2ff,#8aa0c0 60%,#3a4a66);box-shadow:0 0 0 3px rgba(20,32,31,.7),0 0 18px rgba(170,200,255,.5);color:#121a28;pointer-events:auto;z-index:2}
+#swordbtn svg{width:24px;height:24px;stroke:#121a28;fill:none;stroke-width:2;stroke-linejoin:round}#swordbtn .kh{font:600 12px/1.2 var(--kh)}
+#swordbtn:active{transform:scale(.94)}
+#boss{position:fixed;left:50%;bottom:calc(58px + var(--sb));transform:translateX(-50%);width:min(56vw,380px);padding:6px 12px;display:flex;align-items:center;gap:10px;pointer-events:none;z-index:2}
+#boss b{font:600 18px/1.3 var(--kh);color:#ffb0a0;white-space:nowrap}
+#boss span{flex:1;height:10px;border-radius:5px;background:rgba(0,0,0,.45);overflow:hidden}#boss i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#c0302a,#ff8060);transition:width .3s}
+#hearts .gems{display:inline-flex;gap:5px;margin-left:8px}#hearts .gems i{width:9px;height:9px;transform:rotate(45deg);border:1px solid rgba(232,196,119,.6);background:rgba(0,0,0,.35)}
 #hurt{position:fixed;inset:0;pointer-events:none;opacity:0;background:radial-gradient(ellipse at center,transparent 45%,rgba(200,30,20,.55));z-index:5}
 #ride{position:fixed;top:calc(96px + var(--st));right:calc(10px + var(--sr));padding:6px 10px;display:flex;gap:8px;align-items:center;font:600 12px var(--ui);pointer-events:none}
 #ride .bar{width:70px;height:8px;border-radius:4px;background:rgba(0,0,0,.4);overflow:hidden}
@@ -130,13 +137,13 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .item .tag{align-self:flex-start;margin-top:4px;padding:1px 8px;border-radius:8px;background:#f6e3b0;color:#3a2a10;font:600 15px var(--kh)}
 .say{display:flex;flex-wrap:wrap;gap:4px 8px;margin:10px 0 4px;min-height:46px;align-items:flex-end}
 .pile{font:13px var(--ui)}.pile b{font:600 22px var(--kh);color:var(--gold2)}
-.notes{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;margin:8px 0}
+.notes{display:grid;gap:6px;margin:8px 0}
 .note{height:48px;border-radius:6px;border:1px solid rgba(0,0,0,.3);font:600 16px var(--kh);color:#2a1a08;box-shadow:inset 0 0 0 3px rgba(255,255,255,.25)}
 .note:disabled{opacity:.3}
-.n100{background:#c8b8e0}.n500{background:#e8a0a0}.n1000{background:#a8c8e8}.n2000{background:#b8d8a0}.n5000{background:#e8c890}.n10000{background:#90b8b0}
+.c0{background:#c8b8e0}.c1{background:#e8a0a0}.c2{background:#a8c8e8}.c3{background:#b8d8a0}.c4{background:#e8c890}.c5{background:#90b8b0}.c6{background:#e0b0c8}
 .shopbar{display:flex;gap:10px;justify-content:flex-end}
 .shopmsg{font:italic 500 16px var(--en);color:var(--gold)}
-@media(max-width:600px){#hearts{font-size:15px}#money{padding:0 8px;font-size:13px}.notes{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:600px){#hearts{font-size:15px}#money{padding:0 8px;font-size:13px}}
 #bookfoot{display:flex;gap:8px;justify-content:space-between;align-items:center;margin-top:8px;font:13px var(--ui);color:rgba(244,234,210,.7)}
 /* title & ending */
 .screen{position:fixed;inset:0;display:grid;place-items:center;padding:24px;background:radial-gradient(ellipse at 50% 30%,rgba(20,32,31,.55),rgba(8,12,12,.92));z-index:30;text-align:center}
@@ -145,6 +152,9 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .screen p{font:500 19px/1.5 var(--en);max-width:34em;margin:14px auto;color:var(--ink)}
 .screen .row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:18px}
 .screen .tip{font:13px var(--ui);color:rgba(244,234,210,.6);max-width:30em;margin:18px auto 0}
+.langpick{margin-top:14px;font:600 13px var(--ui);color:rgba(244,234,210,.7)}.langpick .row{margin-top:6px!important}.langpick .btn{min-width:96px;font:600 18px var(--kh)}.langpick .btn.pri{font-weight:700}
+#title>div{max-height:100%;overflow-y:auto;touch-action:pan-y}
+@media(max-height:520px){#title{padding:12px}#title .khT{font-size:26px;line-height:1.3}#title h1{font-size:30px}#title p{font-size:15px;margin:6px auto}#intro2,#title .tip{display:none}.langpick{margin-top:6px}#title .row{margin-top:8px}}
 #endtxt{max-height:70vh;overflow-y:auto;touch-action:pan-y}
 #endtxt .kh{color:var(--gold2)}
 @media(max-width:600px){.w b{font-size:21px}.k{height:42px;font-size:20px}#keys{gap:4px}#cast{width:70px;height:70px}}
@@ -168,9 +178,11 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
   <div id="joyring" class="hide"><div id="joyknob"></div></div>
   <div id="actions">
     <button id="act" class="leaf hide"></button>
-    <button id="cast" aria-label="Speak a word"><span class="kh">និយាយ</span>speak</button>
+    <button id="cast" aria-label="Speak a word"><span class="kh" id="castkh"></span>speak</button>
   </div>
 </div>
+<button id="swordbtn" class="hide" aria-label="Swing the sword"><svg viewBox="0 0 24 24"><path d="M14.5 3.5 20.5 3.5 20.5 9.5 9 21 3 15z" /><path d="M6 13.5l4.5 4.5M4 20l2.5-2.5"/></svg><span class="kh" id="swordkh"></span></button>
+<div id="boss" class="leaf hide"><b class="kh"></b><span><i></i></span></div>
 <div id="hurt"></div>
 <div id="toast" class="leaf"></div>
 <div id="pop" class="leaf hide"></div>
@@ -198,11 +210,12 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 
 <div id="title" class="screen">
   <div>
-    <div class="khT">ភូមិពាក្យ</div>
+    <div class="khT" id="ttl"></div>
     <h1>Village of Words</h1>
-    <p>You wake beneath a stilt house in a Cambodian village. You don't know how you got here. In your hand is a stone carved with letters you can't yet read.</p><p style="font-size:16px">Earn riel, shop at the market, ride a motorbike to town, and find the hidden word stones.</p>
+    <p id="intro"></p><p style="font-size:16px" id="intro2"></p>
+    <div class="langpick"><span>Learn</span><div class="row" id="langs"></div></div>
     <div class="row"><button class="btn pri" id="start">Wake up</button><button class="btn hide" id="newg">Start over</button></div>
-    <div class="tip">Drag the left side to walk, the right side to look. Tap words to hear them. Speak Khmer words to work magic. Headphones help.</div>
+    <div class="tip">Drag the left side to walk, the right side to look. Tap words to hear them. Speak words to work magic. Headphones help.</div>
   </div>
 </div>
 

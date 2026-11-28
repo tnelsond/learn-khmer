@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Khmer audio check</title>
+<title>Word audio check</title>
 <style>
 /* VOICE: a plain working checklist. IDEA: a reviewer's word list. PICTURE: the list itself.
    COLOUR and TYPE: black on white, the game's script font for its words. LAYOUT: one column of rows, filters on top. */
 @font-face{font-family:"Battambang";src:url(battambang.ttf) format("truetype")}
+@font-face{font-family:"Noto Sans Lao";src:url(noto-sans-lao-400.woff2) format("woff2")}
 :root{--script:"Battambang"}
 :root{color-scheme:light dark;--bg:light-dark(#fff,#151515);--ink:light-dark(#151515,#eee);--mut:light-dark(#666,#aaa);--line:light-dark(#e3e3e3,#333)}
 :root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
@@ -12,6 +13,7 @@
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,sans-serif;padding:16px;max-width:900px;margin-inline:auto}
 h1{font-size:32px;line-height:1.05;margin:8px 0}
 p{color:var(--mut)}
+#langs a{color:inherit;font-size:22px;padding:6px 4px;display:inline-block;min-height:44px}
 .bar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
 button{font:inherit;min-height:44px;padding:6px 14px;border-radius:22px;border:1px solid var(--line);background:none;color:inherit;cursor:pointer}
 button.on{background:var(--ink);color:var(--bg)}
@@ -23,17 +25,21 @@ button.on{background:var(--ink);color:var(--bg)}
 .none{opacity:.5}
 @media(max-width:600px){.row{grid-template-columns:minmax(0,1fr)}.plays{justify-content:flex-start}}
 </style></head><body>
-<h1>Khmer word audio</h1>
+<h1>Word audio</h1>
+<p id="langs"></p>
 <p id="src">Loading PeakSlab's engine and the audio slabs…</p>
 <div class="bar" id="f"></div>
 <div id="list"></div>
 <script type="module">
 import { peakAudio } from './peakaudio.js';
-import { PEAK, SPEAKER_NAMES } from './peakconfig.js';
-import { AUDIO, ROM } from './audio.js';
-import { VOCAB } from './content.js';
+import { LANGS, pickLang } from './i18n.js';
+const LANG = pickLang(), LG = LANGS[LANG], PEAK = LG.peak, SPEAKER_NAMES = LG.speakers;
+const { AUDIO, ROM } = await import(LG.audio);
+const { VOCAB } = await import(LG.content);
+document.title = LG.en + ' audio check'; document.querySelector('h1').textContent = LG.en + ' word audio'; document.documentElement.style.setProperty('--script', LG.font);
+document.querySelector('#langs').innerHTML = Object.entries(LANGS).map(([k, v]) => `<a href="?lang=${k}" style="font-family:${v.font}">${v.name}</a>`).join(' · ');
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const name = s => SPEAKER_NAMES[s] || s;
+const name = s => SPEAKER_NAMES[s] || ('speaker ' + s);
 let P = null, ctx = null, filter = 'all';
 try { P = await peakAudio(PEAK); } catch (e) { }
 document.getElementById('src').textContent = P ? `Recordings from ${P.source === './' ? 'the slabs beside the game' : 'peakslab.org'}, through PeakSlab's own engine. Speakers: ${P.speakers.map(name).join(', ')}. A word nobody recorded is tried as two recorded parts, then a fallback clip, then nothing.` : 'PeakSlab’s engine could not be loaded here.';

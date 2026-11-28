@@ -75,7 +75,7 @@ try { const pick = () => { kmVoice = speechSynthesis.getVoices().find(v => /^km/
 // Lao is spoken from PeakSlab's Lao slab (thesaurus.la and a Bible reader); Khmer from the Khmer slabs
 const LAO = LANG === 'lo';
 const PEAK = LAO ? {
-  sources: ['https://peakslab.org/', LIB.replace(/village\/$/, 'lao-village/')],
+  sources: ['https://peakslab.org/', LIB], // the Lao slab sits beside the Khmer ones in ../village/
   slabs: [{ name: 'lao', path: 'lao/aux/lo-audio-tnefar.slab', bufmax: 1 << 20 }],
   postfilters: null,
 } : {

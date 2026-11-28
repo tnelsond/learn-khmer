@@ -1,11 +1,11 @@
-"""Build audio.js for the Lao Village of Words from peakslab_sources/lao.
+"""Build audio-lo.js for the Village of Words (Lao) from peakslab_sources/lao.
 Word audio: thesaurus.la recordings (tnefar) decoded with peakslab's tnefar decoder.
 Words without their own recording are cut out of a two-part compound that contains them
 (e.g. ໄປ from ຂາໄປ), or spliced from parts. Pronunciation: lo-ipa.tsv (Vientiane)."""
 import os, re, sys, json, base64, subprocess, wave, struct, math
 LAO = os.environ.get('PEAKSLAB_LAO', '../peakslab_sources/lao')
 DEC = os.environ.get('TNEFAR', 'tnefar_cli')
-GAME = sys.argv[1] if len(sys.argv) > 1 else 'lao-village'
+GAME = sys.argv[1] if len(sys.argv) > 1 else 'village'
 A = LAO + '/aux/lo-audio-tnefar'; VOICE = A + '/tnefar.voice'
 TMP = '/tmp/laoaud'; os.makedirs(TMP, exist_ok=True)
 
@@ -104,7 +104,7 @@ def get(w, depth=0):
             if ra and rb: return ra[0] + [0] * 800 + rb[0], f'spliced {a}+{b}'
     return None
 
-src = open(GAME + '/content.js', encoding='utf8').read()
+src = open(GAME + '/content-lo.js', encoding='utf8').read()
 words = sorted(set(re.findall('[຀-໿]+', src)) - set(re.findall('[໐-໙]+', src)))
 words = [w for w in words if not re.fullmatch('[໐-໙]+', w)]
 aud, rom, how, miss = {}, {}, {}, []
@@ -123,7 +123,7 @@ for w in words:
         parts = [p for p in re.findall('.{1,6}', w)]
         for i in range(1, len(w)):
             if norm(w[:i]) in ipa and norm(w[i:]) in ipa: rom[w] = ipa[norm(w[:i])] + ' ' + ipa[norm(w[i:])]; break
-open(GAME + '/audio.js', 'w', encoding='utf8').write('export const AUDIO=' + json.dumps(aud, ensure_ascii=False) + ';\nexport const ROM=' + json.dumps(rom, ensure_ascii=False) + ';\n')
+open(GAME + '/audio-lo.js', 'w', encoding='utf8').write('export const AUDIO=' + json.dumps(aud, ensure_ascii=False) + ';\nexport const ROM=' + json.dumps(rom, ensure_ascii=False) + ';\n')
 json.dump(how, open(GAME + '/audio-sources.json', 'w', encoding='utf8'), ensure_ascii=False, indent=0)
 c = {}
 for v in how.values(): k = v.split(' ')[0]; c[k] = c.get(k, 0) + 1

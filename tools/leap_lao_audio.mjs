@@ -1,7 +1,7 @@
 // How much of the leap's Lao text PeakSlab's Lao slab can say: node tools/leap_lao_audio.mjs
 // Each word is looked up whole, else cut into the fewest recorded pieces (as the game does).
 import fs from 'fs';
-const root = new URL('../lao-village/', import.meta.url).pathname;
+const root = new URL('../village/', import.meta.url).pathname;
 globalThis.fetch = async u => { if (/^https?:/.test(u)) throw new Error('offline'); const b = fs.readFileSync(u); return { ok: true, arrayBuffer: async () => b.buffer.slice(b.byteOffset, b.byteOffset + b.length) }; };
 const { peakAudio } = await import(root + 'peakaudio.js');
 const p = await peakAudio({ sources: [root], slabs: [{ name: 'lao', path: 'lao/aux/lo-audio-tnefar.slab', bufmax: 1 << 20 }], postfilters: null });

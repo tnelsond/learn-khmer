@@ -354,3 +354,51 @@ export const ENEMIES = [
   { type: "bees", word: "ឃ្មុំ", at: [28, -71] },
   { type: "thief", word: "ចោរ", at: [118, 2], night: true }, { type: "thief", word: "ចោរ", at: [16, -82], night: true },
 ];
+
+// ---------------- the quest: three gems and the Yak ----------------
+Object.assign(VOCAB, {
+  "យក្ស": "giant, ogre (yak)", "ត្បូង": "gem", "ដាវ": "sword", "ការពារ": "protect, shield", "ខ្យល់": "wind", "បើក": "open",
+  "ស្រមោល": "shadow", "ក្រពើ": "crocodile", "ខ្លា": "tiger", "ឥន្ទ្រី": "eagle", "ស្ងាត់": "quiet, silent", "ងងឹត": "dark",
+  "ពន្លឺ": "light", "ខ្លាំង": "strong", "ក្លាហាន": "brave", "កុំ": "don't", "ឈ្នះ": "win", "រូង": "cave", "ព្រៃ": "forest",
+  "បេះដូង": "heart", "យូរ": "a long time", "ទាំងអស់": "all", "គ្មាន": "without, there is none", "នឹង": "will",
+  "ត្រូវ": "must", "ខាងត្បូង": "south", "នរណា": "who", "ពេក": "too (much)", "ស្រឡាញ់": "love", "ខាងជើង": "north",
+});
+Object.assign(SPELLS, {
+  "ការពារ": { d: "A shield of light: nothing can hurt you for a while", uses: ["shield", "fire", "boss"] },
+  "ខ្យល់": { d: "A gust of wind: blows away clouds, fog, smoke and flying things", uses: ["gust", "cloud", "fog", "eagle", "bees", "shadow"] },
+  "បើក": { d: "Opens what is shut: chests, gates", uses: ["chest", "gate", "door"] },
+});
+Object.assign(NPCS, {
+  spirit: { km: "ជីដូន", bilingual: true, color: 0xf0e8d0, krama: 0xd8b25a, pos: [0, 0], hidden: true },
+  yak: { km: "យក្ស", bilingual: false, color: 0x8a2a2a, krama: 0xc8a030, pos: [0, 0], hidden: true },
+});
+Object.assign(TALK, {
+  vision: [
+    ["spirit", "ចៅ ! ចៅ មក ស្រុក ហើយ !"],
+    ["spirit", "ជីដូន ចាំ ចៅ យូរ ណាស់ ។"],
+    ["yak", "ហាហាហា{(laughs)} ! ពាក្យ ទាំងអស់ ជា របស់ ខ្ញុំ !"],
+    ["spirit", "យក្ស ! វា លួច ត្បូង បី ។"],
+    ["spirit", "គ្មាន ត្បូង ភូមិ នឹង ស្ងាត់ ។"],
+    ["spirit", "ចៅ ត្រូវ រក ត្បូង ។ កុំ ខ្លាច !"],
+  ],
+  monk_sword: [["monk", "យក ដាវ នេះ ។"], ["monk", "ត្បូង ទឹក នៅ រូង ក្រពើ ។"]],
+  monk_q1: [["monk", "រូង ក្រពើ នៅ ខាងត្បូង ។"]],
+  monk_q2: [["monk", "ត្បូង ភ្លើង នៅ ក្នុង ព្រៃ ។"]],
+  monk_q3: [["monk", "ត្បូង ខ្យល់ នៅ លើ ភ្នំ ។"]],
+  monk_q4: [["monk", "ទៅ ទ្វារ យក្ស ។ ចៅ ខ្លាំង ហើយ ។"]],
+  gem1: [["spirit", "ល្អ ណាស់ ចៅ ! ត្បូង ទឹក !"], ["spirit", "ពាក្យ ថ្មី ៖ ការពារ ។"]],
+  gem2: [["spirit", "ចៅ ក្លាហាន ណាស់ ! ត្បូង ភ្លើង !"], ["spirit", "ពាក្យ ថ្មី ៖ ខ្យល់ ។"]],
+  gem3: [["spirit", "ត្បូង ខ្យល់ ! ត្បូង បី ហើយ !"], ["spirit", "ពាក្យ ថ្មី ៖ បើក ។ បើក ទ្វារ យក្ស ។"]],
+  yak_intro: [["yak", "អ្នក ជា នរណា ? ខ្ញុំ មិន ខ្លាច ទេ !"]],
+  yak_night: [["yak", "យប់ !"]],
+  yak_silence: [["yak", "ស្ងាត់ ! ឥឡូវ ភូមិ ស្ងាត់ !"], ["spirit", "ចៅ ! និយាយ ពាក្យ របស់ ជីដូន !"]],
+  yak_end: [["yak", "អូយ{ow} ... ពាក្យ ... ខ្លាំង ពេក ..."]],
+  spirit_end: [["spirit", "ចៅ ឈ្នះ ហើយ !"], ["spirit", "ពាក្យ ត្រឡប់ មក ភូមិ វិញ ។"], ["spirit", "អរគុណ ចៅ ។ ជីដូន ស្រឡាញ់ ចៅ ។"]],
+});
+// the quest's words, by role (game.js uses these, so it works in every language)
+export const EPIC = {
+  sword: "ដាវ", yak: "យក្ស", gem: "ត្បូង", protect: "ការពារ", wind: "ខ្យល់", open: "បើក", shadow: "ស្រមោល",
+  croc: "ក្រពើ", tiger: "ខ្លា", eagle: "ឥន្ទ្រី", cave: "រូង", forest: "ព្រៃ", mountain: "ភ្នំ", door: "ទ្វារ", heart: "បេះដូង",
+  home: "ស្រុក", night: "យប់", day: "ថ្ងៃ", stop: "ឈប់", fire: "ភ្លើង", water: "ទឹក", climb: "ឡើង", dark: "ងងឹត", light: "ពន្លឺ",
+  gemNames: ["ត្បូង ទឹក", "ត្បូង ភ្លើង", "ត្បូង ខ្យល់"], cavePlace: "រូង ក្រពើ",
+};
