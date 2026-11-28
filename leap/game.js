@@ -159,7 +159,7 @@ function loft(rings, sides = 6, caps = true) {
   if (caps) { const first = rings[0], last = rings[rings.length - 1], down = first[0] > last[0]; for (const [r, up, ri] of [[first, down, 0], [last, !down, rings.length - 1]]) { const ctr = [0, r[0], r[3]]; for (let j = 0; j < sides; j++) { const a = P(r, j, ri), b2 = P(r, j + 1, ri); if (up) tri(ctr, b2, a, r[4], r[4], r[4]); else tri(ctr, a, b2, r[4], r[4], r[4]); } } }
   const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3)); g.computeVertexNormals(); return g;
 }
-const HEADM = {};
+const HEADM = {}; let PERSON_N = 0;
 function person(o = {}) {
   const fem = !!o.female && !o.small, clothed = (o.top ?? 0x8a6a4a) !== (o.skin ?? 0xb07a50), pants = !o.robe && (o.bottom ?? o.top ?? 0x8a6a4a) !== (o.skin ?? 0xb07a50);
   // grown men stand about 10% taller than women
@@ -171,8 +171,8 @@ function person(o = {}) {
   const d = fem ? .12 : 0, L = (.74 + d) / .74, sy = rs => rs.map(r => [r[0] * L, ...r.slice(1)]);
   // one low-poly torso, hips to neck; women: narrower waist, fuller hips, a moderate bust in the same shape
   const T = fem
-    ? [[.68, .2, .13, 0, bot], [.82, .33, .21, 0, bot], [1.0, .2, .14, 0, top], [1.2, .26, clothed ? .2 : .17, clothed ? .05 : .03, top], [1.42, .27, .14, 0, top], [1.5, .12, .09, 0, top], [1.53, .055, .055, .01, sk], [1.66, .055, .055, .01, sk]]
-    : [[.68, .18, .12, 0, bot], [.82, .25, .16, 0, bot], [1.0, .22, .14, 0, top], [1.28, .29, .17, .02, top], [1.44, .32, .15, 0, top], [1.52, .14, .1, 0, top], [1.55, .065, .065, .01, sk], [1.67, .065, .065, .01, sk]];
+    ? [[.68, .2, .13, 0, bot], [.82, .33, .21, 0, bot], [1.0, .2, .14, 0, top], [1.2, .26, clothed ? .2 : .17, clothed ? .05 : .03, top], [1.42, .27, .14, 0, top], [1.5, .12, .09, 0, top], [1.53, .075, .075, .01, sk], [1.66, .075, .075, .01, sk]]
+    : [[.68, .18, .12, 0, bot], [.82, .25, .16, 0, bot], [1.0, .22, .14, 0, top], [1.28, .29, .17, .02, top], [1.44, .32, .15, 0, top], [1.52, .14, .1, 0, top], [1.55, .085, .085, .01, sk], [1.67, .085, .085, .01, sk]];
   mesh(loft(T.map(r => [r[0] + d, ...r.slice(1)]), 5), VM(), 0, 0, 0, b);
   // robes: women's reach the ground, men's stop above the ankle so the calves show
   if (o.robe) mesh(loft(fem ? [[1.0 + d, .21, .15, 0, bot], [.8 + d, .32, .22, 0, bot], [.08, .52, .4, 0, bot]] : [[1.0, .23, .15, 0, bot], [.8, .3, .22, 0, bot], [.3, .44, .36, 0, bot]], 6, false), VM(), 0, 0, 0, b);
@@ -194,6 +194,10 @@ function person(o = {}) {
   // the lower faces point down and caught almost no light, which read as a beard: give the face its own softly lit skin
   const hm = o.glow ? mat(sk) : MB(sk); // unlit: one even skin tone, no shading on the face
   mesh(new THREE.SphereGeometry(.29, 6, 2), hm, 0, 0, 0, head).scale.set(1, 1.05, 1);
+  // every person gets one of several head shapes: broad, long, tall, small, square...
+  const HS = [[1, 1, 1], [1.1, .9, 1], [.9, 1.14, .95], [1.04, 1.12, 1.04], [.94, .94, .94], [1.12, 1, 1.06], [.96, 1.06, 1.08]][(o.face ?? PERSON_N++) % 7];
+  head.scale.set(...HS);
+  if (!o.glow) { const mo = mesh(new THREE.BoxGeometry(.1, .022, .04), MB(0x5a2a22), 0, -.13, .15, head); mo.rotation.x = .55; }
   if (!o.glow) { for (const s of [-1, 1]) mesh(new THREE.OctahedronGeometry(.045, 0), MS(0x1a1010), s * .085, .03, .2, head); mesh(new THREE.OctahedronGeometry(.04, 0), o.glow ? mat(sk) : MB(sk), 0, -.05, .23, head); }
   if (!fem && o.cloth != null && o.hair == null) o = { ...o, hair: o.beard ?? 0x2a1a10 };
   if (o.hair != null) { const h = mesh(new THREE.SphereGeometry(.31, 6, 2, 0, Math.PI * 2, 0, Math.PI * .55), mat(o.hair), 0, .02, -.03, head); h.rotation.x = -.35; if (fem) capsule(.2, .4, mat(o.hair), 0, -.22, -.15, head); }
