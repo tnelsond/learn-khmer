@@ -172,20 +172,20 @@ function person(o = {}) {
   // one low-poly torso, hips to neck; women: narrower waist, fuller hips, a moderate bust in the same shape
   const T = fem
     ? [[.68, .2, .13, 0, bot], [.82, .33, .21, 0, bot], [1.0, .2, .14, 0, top], [1.2, .26, clothed ? .2 : .17, clothed ? .05 : .03, top], [1.42, .27, .14, 0, top], [1.66, .075, .075, .01, sk]]
-    : [[.68, .18, .12, 0, bot], [.82, .25, .16, 0, bot], [1.0, .22, .14, 0, top], [1.14, .25, .16, .015, top], [1.28, .29, .17, .02, top], [1.44, .32, .15, 0, top], [1.67, .085, .085, .01, sk]];
-  mesh(loft(T.map(r => [r[0] + d, ...r.slice(1)]), 6), VM(), 0, 0, 0, b);
+    : [[.68, .18, .12, 0, bot], [.82, .25, .16, 0, bot], [1.0, .22, .14, 0, top], [1.28, .29, .17, .02, top], [1.44, .32, .15, 0, top], [1.67, .085, .085, .01, sk]];
+  mesh(loft(T.map(r => [r[0] + d, ...r.slice(1)]), 5), VM(), 0, 0, 0, b);
   // robes: women's reach the ground, men's stop above the ankle so the calves show
   if (o.robe) mesh(loft(fem ? [[1.0 + d, .21, .15, 0, bot], [.8 + d, .32, .22, 0, bot], [.08, .52, .4, 0, bot]] : [[1.0, .23, .15, 0, bot], [.8, .3, .22, 0, bot], [.3, .44, .36, 0, bot]], 6, false), VM(), 0, 0, 0, b);
   if (o.coat) [0xd03a2a, 0xf2c51c, 0x2a8a4a, 0x2f5fd0].forEach((c, i) => { const y0 = .86 + d + i * .16; mesh(loft([[y0, .25, .17, .015, c], [y0 + .12, .26, .175, .015, c]], 5, false), VC, 0, 0, 0, b); });
   // arms: shoulder, bicep, forearm, hand in one shape
   const sl = o.sleeve ?? top;
-  for (const s of [-1, 1]) { const p = pivot(b, s * (fem ? .27 : .31), 1.4 + d, 0); mesh(loft([[.06, .08, .08, 0, sl], [-.06, .1, .09, 0, sl], [-.3, .065, .065, 0, sl], [-.52, .05, .05, .01, o.robe ? sl : sk], [-.68, .055, .035, .03, sk]], 5), VM(), 0, 0, 0, p); arms.push(p); }
+  for (const s of [-1, 1]) { const p = pivot(b, s * (fem ? .27 : .31), 1.4 + d, 0); mesh(loft([[.06, .08, .08, 0, sl], [-.06, .1, .09, 0, sl], [-.3, .065, .065, 0, sl], [-.52, .05, .05, .01, o.robe ? sl : sk], [-.68, .055, .035, .03, sk]], 4), VM(), 0, 0, 0, p); arms.push(p); }
   // legs: thigh and shin as separate shapes so the knee bends
   const lc = o.robe ? sk : pants ? bot : sk, fc = o.barefoot ? sk : 0x4a3420;
   for (const s of [-1, 1]) {
-    const W = fem ? 1.2 : 1, p = pivot(b, s * (fem ? .14 : .11), .74 + d, 0); if (!o.robe) mesh(loft(sy([[.04, .12 * W, .12 * W, 0, lc], [-.16, .11 * W, .105 * W, 0, lc], [-.38, .075 * W, .075 * W, .01, lc]]), 5), VM(), 0, 0, 0, p);
-    const k = pivot(p, 0, -.37 * L, 0); if (!o.robe) mesh(loft(sy([[.02, .075 * W, .075 * W, .01, sk], [-.1, .085 * W, .09 * W, -.015, sk], [-.32, .045 * W, .045 * W, 0, sk]]), 5), VM(), 0, 0, 0, k); else if (!fem) mesh(loft([[-.08, .07, .075, -.01, sk], [-.32, .045, .045, 0, sk]], 5), VM(), 0, 0, 0, k);
-    const f = mesh(loft(sy([[-.3, .055, .06, .01, fc], [-.4, .07, .12, .07, fc]]), 5), VM(), 0, 0, 0, k);
+    const W = fem ? 1.2 : 1, p = pivot(b, s * (fem ? .14 : .11), .74 + d, 0); if (!o.robe) mesh(loft(sy([[.04, .12 * W, .12 * W, 0, lc], [-.16, .11 * W, .105 * W, 0, lc], [-.38, .075 * W, .075 * W, .01, lc]]), 4), VM(), 0, 0, 0, p);
+    const k = pivot(p, 0, -.37 * L, 0); if (!o.robe) mesh(loft(sy([[.02, .075 * W, .075 * W, .01, sk], [-.1, .085 * W, .09 * W, -.015, sk], [-.32, .045 * W, .045 * W, 0, sk]]), 4), VM(), 0, 0, 0, k); else if (!fem) mesh(loft([[-.08, .07, .075, -.01, sk], [-.32, .045, .045, 0, sk]], 4), VM(), 0, 0, 0, k);
+    const f = mesh(loft(sy([[-.3, .055, .06, .01, fc], [-.4, .07, .12, .07, fc]]), 4), VM(), 0, 0, 0, k);
     legs.push(p); knees.push(k); feet.push(f);
   }
   if (o.staff) { const st = mesh(new THREE.CylinderGeometry(.035, .035, 2.2, 5), mat(0x6a4424), 0, -.5, .05, arms[1]); st.rotation.x = .1; }
