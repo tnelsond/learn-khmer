@@ -211,7 +211,7 @@ function person(o = {}) {
   if (!o.glow) { const mo = mesh(new THREE.BoxGeometry(.1, .022, .04), MB(0x5a2a22), 0, -.14, .235, head); mo.rotation.x = .15; }
   if (!o.glow) { for (const s of [-1, 1]) mesh(new THREE.OctahedronGeometry(.045, 0), MS(0x1a1010), s * .085, .03, .225, head); const no = mesh(new THREE.ConeGeometry(.055, .13, 3), MS(new THREE.Color(sk).multiplyScalar(.88).getHex()), 0, -.04, .235, head); no.rotation.x = -.3; }
   if (!fem && o.cloth != null && o.hair == null) o = { ...o, hair: o.beard ?? 0x2a1a10 };
-  if (o.hair != null) { const h = mesh(new THREE.SphereGeometry(.31, 6, 2, 0, Math.PI * 2, 0, Math.PI * .55), mat(o.hair), 0, .02, -.03, head); h.rotation.x = -.35; if (fem) capsule(.2, .4, mat(o.hair), 0, -.22, -.15, head); }
+  if (o.hair != null) { const h = mesh(new THREE.SphereGeometry(.31, 6, 2, 0, Math.PI * 2, 0, Math.PI * .55), mat(o.hair), 0, .02, -.03, head); h.rotation.x = -.35; if (fem || o.longHair) capsule(.2, .4, mat(o.hair), 0, -.22, -.15, head); }
   if (fem && o.cloth != null) { const c = mesh(new THREE.SphereGeometry(.33, 6, 2, 0, Math.PI * 2, 0, Math.PI * .5), mat(o.cloth), 0, .05, -.08, head); c.rotation.x = -.6; mesh(new THREE.CylinderGeometry(.26, .34, .5, 5, 1, true, Math.PI * .6, Math.PI * .8), mat(o.cloth), 0, -.2, -.1, head); }
   if (o.beard != null) { const bd = mesh(new THREE.ConeGeometry(.2, .42, 6), mat(o.beard), 0, -.32, .14, head); bd.rotation.x = Math.PI + .2; }
   if (o.leaves) for (let i = 0; i < 10; i++) { const a = i / 10 * Math.PI * 2; const l = mesh(new THREE.ConeGeometry(.11, .42, 4), mat(0x3f8a2a), Math.sin(a) * (fem ? .31 : .25), .8 + d, Math.cos(a) * (fem ? .21 : .17), b); l.rotation.x = Math.PI; }
@@ -298,7 +298,7 @@ const HEROES = {
   joseph: { name: 'យ៉ូសែប', skin: 0xb07a50, top: 0xe0d8c0, bottom: 0xe0d8c0, robe: true, hair: 0x2a1a10 },
   moses: { name: 'ម៉ូសេ', skin: 0xa07050, top: 0x8a5a3a, bottom: 0x8a6a44, robe: true, cloth: 0xe8e0c8, beard: 0xd8d8d8, staff: true },
   ehud: { name: 'អេហ៊ូឌ', skin: 0xa07050, top: 0x5a6a3a, bottom: 0x8a7a5a, robe: true, cloth: 0xd8c8a0, beard: 0x2a1a10 },
-  samson: { name: 'សាំសុន', skin: 0xa86e46, top: 0x8a5a3a, bottom: 0x6a4a2a, hair: 0x1a1010, female: true, beard: 0x1a1010, scale: 1.15 },
+  samson: { name: 'សាំសុន', skin: 0xa86e46, top: 0x8a5a3a, bottom: 0x6a4a2a, hair: 0x1a1010, longHair: true, beard: 0x1a1010, scale: 1.15 },
   miriam: { name: 'ម៉ារាម', skin: 0xb07a50, top: 0x8a6a3a, robe: true, hair: 0x2a1a10, female: true, small: true },
   ruth: { name: 'រស់', skin: 0xb07a50, top: 0x8a4a3a, robe: true, cloth: 0xe8d8c0, female: true },
   david: { name: 'ដាវីឌ', skin: 0xc08060, top: 0xc8a878, bottom: 0x8a6a4a, hair: 0xa04a20, small: true },
@@ -619,7 +619,11 @@ async function talk(lines) { for (const l of lines) await say(...l); }
 function dlgTap() { if (dlgRes) dlgRes(); }
 $('#dlg').onclick = dlgTap;
 // a tap anywhere outside the text box moves the dialogue on too (lines that need a word tapped or a choice still wait)
-addEventListener('pointerup', e => { if (ui === 'dlg' && !e.target.closest('#dlg, #bookbtn, #pop, #book, #kb')) dlgTap(); });
+// a tap only counts if it began while the dialogue was showing (a thumb still on the stick when it opened doesn't skip it)
+const dlgDowns = new Set();
+addEventListener('pointerdown', e => { if (ui === 'dlg' && !e.target.closest('#dlg, #bookbtn, #pop, #book, #kb')) dlgDowns.add(e.pointerId); }, true);
+addEventListener('pointercancel', e => dlgDowns.delete(e.pointerId), true);
+addEventListener('pointerup', e => { const mine = dlgDowns.delete(e.pointerId); if (mine && ui === 'dlg' && !e.target.closest('#dlg, #bookbtn, #pop, #book, #kb')) dlgTap(); });
 $('#hear').onclick = e => { e.stopPropagation(); if (curLine) hearLine(curLine.text, curLine.o.lang); };
 async function hearLine(text, lang) {
   const my = ++hearing;
@@ -1743,14 +1747,12 @@ async function ehud() {
   goal('ចាក់ ស្ដេច អេក្លូន ។', eglon);
   await act('ចាក់', eglon, 3.5);
   await camTo([player.x + 4, player.y + 2.4, player.z + 1], [(player.x + eglon.x) / 2, player.y + 1.2, (player.z + eglon.z) / 2], .6);
-  // a close look: the blade goes into his belly, hilt and all, and the fat closes over it
-  const belly = sph(.36, 0x6a2a6a, 0, 1.1, .78, eg.g, 7, 5); belly.scale.set(1.5, 1, 1);
+  // a close look: the blade goes into his belly, hilt and all
   hero.arms[1].remove(sword); sword.position.set(0, 1.1, 2.5); sword.rotation.x = Math.PI / 2; eg.g.add(sword);
   const ex = eglon.x + Math.sin(eglon.yaw) * 1.2, ez = eglon.z + Math.cos(eglon.yaw) * 1.2;
   await camTo([ex + Math.cos(eglon.yaw) * 2.6, eglon.y + 1.4, ez - Math.sin(eglon.yaw) * 2.6], [ex, eglon.y + 1.1, ez], .6);
   hero.arms[1].rotation.x = -1.6; tone([200, 120], .4, 'square', .07);
-  await tween(.9, k => { sword.position.z = 2.5 - k * 1.75; }); burst(ex, eglon.y + 1.1, ez, 0xa01818, 20, 1.2);
-  await tween(.8, k => { belly.scale.set(1.5 + k * .25, 1 + k * .25, 1 + k * .35); });
+  await tween(1.1, k => { sword.position.z = 2.5 - k * 2.3; }); sword.visible = false; burst(ex, eglon.y + 1.1, ez, 0xa01818, 20, 1.2); await wait(.4);
   await say('god', 'ខ្លាញ់ គ្រប ដាវ ។ អេហ៊ូឌ មិន ហូត ដាវ ចេញ ទេ ។');
   await camTo([player.x + 4, player.y + 2.4, player.z + 1], [(player.x + eglon.x) / 2, player.y + 1.2, (player.z + eglon.z) / 2], .6);
   await tween(1, k => { eg.g.rotation.x = -k * 1.45; }); eglon.solid = 0;
@@ -1789,17 +1791,21 @@ samsonLion.build = () => {
 async function samsonLion() {
   await leapIn('samson', 0, 40, Math.PI);
   await arrive([]);
-  await say('me', 'ខ្ញុំ ទៅ ក្រុង ធីមណាត់ ។');
+  const par = [npc('dad', { skin: 0xa07050, top: 0x6a5a3a, robe: true, beard: 0xd8d8d8 }, -2, 36, Math.PI), npc('mom', { skin: 0xa07050, top: 0x5a3a4a, robe: true, female: true, cloth: 0xd8c8b0 }, 2, 36, Math.PI)];
+  for (const e of par) e.talk = null;
+  await say('me', 'ខ្ញុំ ទៅ ក្រុង ធីមណាត់ ជាមួយ ឪពុក ម្ដាយ ។');
+  for (const e of par) walk(e, e.x * 3, -60, 3.4);
   goal('ដើរ តាម ផ្លូវ ។', [0, 0]);
   await reach([0, 2], 6);
+  for (const e of par) { world.remove(e.g); ents.splice(ents.indexOf(e), 1); }
   const lion = animal('lion'); lion.g.scale.setScalar(1.3); tag('តោ', lion.g);
   const L = foe(lion, 0, -18, { hp: 4, speed: 5 }); L.yaw = 0;
   tone([90, 70], 1.2, 'sawtooth', .08); await camTo([player.x + 5, player.y + 3, player.z + 4], [0, 1, -14], 1);
   await say('me', 'មើល ! តោ !');
   toast('', 'ព្រះវិញ្ញាណ មក លើ សាំសុន ។'); speaking = 'god'; sayPhrase('ព្រះវិញ្ញាណ មក លើ សាំសុន ។'); burst(player.x, player.y + 1, player.z, 0xfff0a0, 60, 3);
-  camFree(); goal('វាយ តោ ! ចុច A ។', () => [L.x, L.z]);
-  await fight([L], 'វាយ តោ');
-  good(); await say('me', 'ព្រះជាម្ចាស់ ឲ្យ កម្លាំង ខ្ញុំ !');
+  camFree(); goal('ហែក តោ ដោយ ដៃ ទទេ ! ចុច A ។', () => [L.x, L.z]);
+  await fight([L], 'ហែក តោ');
+  good(); toast('', 'គាត់ ហែក តោ ដោយ ដៃ ទទេ ដូច ហែក កូន ពពែ ។ គាត់ មិន ប្រាប់ ឪពុក ម្ដាយ ទេ ។'); speaking = 'god'; await sayPhrase('គាត់ ហែក តោ ដោយ ដៃ ទទេ ។ គាត់ មិន ប្រាប់ ឪពុក ម្ដាយ ទេ ។');
   const lx = clamp(L.x, -2, 2), lz = L.z; await wait(1.5);
   const f = $('#flash'); f.style.background = '#000'; await tween(.8, k => f.style.opacity = k);
   const body = animal('lion'); body.g.scale.setScalar(1.3); body.g.rotation.z = 1.5; place(body.g, lx + 2, lz, 0, 1.2, .5); tag('តោ', body.g);
@@ -1816,6 +1822,12 @@ async function samsonLion() {
   goal('ហូប ទឹកឃ្មុំ ។', null);
   await act('ហូប ទឹកឃ្មុំ', [player.x, player.z], 99); drop(); good();
   await say('me', 'ផ្អែម ណាស់ !'); anims.splice(anims.indexOf(bees), 1);
+  const par2 = [npc('dad', { skin: 0xa07050, top: 0x6a5a3a, robe: true, beard: 0xd8d8d8 }, player.x - 3, player.z - 6, 0), npc('mom', { skin: 0xa07050, top: 0x5a3a4a, robe: true, female: true, cloth: 0xd8c8b0 }, player.x - 1, player.z - 7, 0)];
+  goal('ឲ្យ ទឹកឃ្មុំ ខ្លះ ដល់ ឪពុក ម្ដាយ ។', par2[0]);
+  await act('ឲ្យ ទឹកឃ្មុំ', par2[0], 3.5); burst(par2[0].x, par2[0].y + 1.4, par2[0].z, 0xf2b81c, 20, 1.2);
+  await say('mom', 'ផ្អែម ណាស់ ! កូន បាន ពី ណា ?');
+  toast('', 'សាំសុន មិន ប្រាប់ ថា ទឹកឃ្មុំ ចេញ ពី តោ ទេ ។'); speaking = 'god'; await sayPhrase('សាំសុន មិន ប្រាប់ ថា ទឹកឃ្មុំ ចេញ ពី តោ ទេ ។');
+  await say('me', 'នៅ ពិធី មង្គល ការ ខ្ញុំ នឹង ឲ្យ ប្រស្នា ៖ ពី អ្នក ស៊ី ចេញ មក អាហារ ។ ពី អ្នក ខ្លាំង ចេញ មក របស់ ផ្អែម ។');
   await nextCh();
 }
 
@@ -1887,9 +1899,9 @@ async function samsonFight() {
   await leapIn('samson', 0, 6, Math.PI);
   const judah = [0, 1, 2].map(i => npc('people', { skin: 0xa07050, top: 0x5a7a3a, robe: true, cloth: 0xe0d0b0 }, -3 + i * 3, 9, Math.PI));
   await arrive([]);
-  await talk([['people', 'សាំសុន ! ពួក ភីលីស្ទីន មក ចាប់ អ្នក ។'], ['people', 'យើង ត្រូវ ចង អ្នក ដោយ ខ្សែ ។']]);
+  await talk([['people', 'សាំសុន ! យើង ជា ពួក យូដា ។ ពួក ភីលីស្ទីន ត្រួត ត្រា លើ យើង ហើយ ពួក គេ ចង់ ចាប់ អ្នក ។'], ['people', 'យើង ត្រូវ ចង អ្នក ដោយ ខ្សែ ថ្មី ពីរ ។']]);
   await say('me', 'ចង ខ្ញុំ ចុះ ។ ប៉ុន្តែ កុំ សម្លាប់ ខ្ញុំ ។');
-  const ropes = []; for (let i = 0; i < 3; i++) { const r = mesh(new THREE.TorusGeometry(.36, .05, 3, 8), 0xc8a870, 0, .95 + i * .22, 0, hero.b); r.rotation.x = Math.PI / 2; ropes.push(r); } cap('ខ្សែ');
+  const ropes = []; for (let i = 0; i < 2; i++) { const r = mesh(new THREE.TorusGeometry(.36, .05, 3, 8), 0xc8a870, 0, .95 + i * .22, 0, hero.b); r.rotation.x = Math.PI / 2; ropes.push(r); } cap('ខ្សែ');
   for (const j of judah) { j.talk = null; walk(j, j.x * 3, 40, 4); }
   const wave = n => { const out = []; for (let i = 0; i < n; i++) { const a = rnd(0, 6.28); out.push(soldier(player.x + Math.cos(a) * rnd(20, 30), player.z + Math.sin(a) * rnd(20, 30))); } return out; };
   const first = wave(5); for (const s of first) { s.tick0 = s.tick; s.tick = null; walk(s, player.x + (s.x - player.x) * .4, player.z + (s.z - player.z) * .4, 3); }
@@ -1912,6 +1924,12 @@ async function samsonFight() {
   hero.arms[1].remove(jh); good();
   await say('me', 'ដោយ ឆ្អឹង ថ្គាម លា ខ្ញុំ វាយ មនុស្ស មួយ ពាន់ នាក់ !');
   toast('មួយ ពាន់'); speaking = 'god'; await sayPhrase('មួយ ពាន់ នាក់');
+  await say('me', 'ខ្ញុំ ស្រេក ទឹក ណាស់ ! ព្រះជាម្ចាស់ អើយ តើ ខ្ញុំ ត្រូវ ស្លាប់ ដោយ ស្រេក ទឹក ឬ ?');
+  const sx0 = player.x + 3, sz0 = player.z - 2, spring = rock(1.2, 0x8a8478); place(spring, sx0, sz0); tag('ថ្ម', spring); shake = .4; tone([80, 60], .5, 'square', .06); burst(sx0, H(sx0, sz0) + 1, sz0, 0x8a8478, 30, 2);
+  const flow = () => { for (let i = 0; i < 3; i++) emit(sx0 + rnd(-.2, .2), H(sx0, sz0) + 1.2, sz0 + .6, rnd(-.4, .4), 1.5, 1.4, 0x60a0ff, .9, -9); }; anims.push(flow);
+  toast('', 'ព្រះជាម្ចាស់ បំបែក ថ្ម នៅ លេហ៊ី ។ ទឹក ហូរ ចេញ មក ។'); speaking = 'god'; sayPhrase('ព្រះជាម្ចាស់ បំបែក ថ្ម ។ ទឹក ហូរ ចេញ មក ។');
+  goal('ផឹក ទឹក ។', [sx0, sz0 + 1.6]);
+  await act('ផឹក ទឹក', [sx0, sz0 + 1.6], 3); kneel(hero, .6); tone([500, 600], .2, 'sine', .05); await wait(.8); kneel(hero, 0); anims.splice(anims.indexOf(flow), 1); good(); cap('ទឹក');
   // the gates of Gaza, at night
   const f = $('#flash'); f.style.background = '#000'; await tween(1, k => f.style.opacity = k);
   for (const e of [...ents]) if (e.foe || judah.includes(e)) { world.remove(e.g); ents.splice(ents.indexOf(e), 1); }
@@ -1922,12 +1940,12 @@ async function samsonFight() {
   player.x = 0; player.z = 30; player.yaw = Math.PI; camYaw = 0;
   await tween(1, k => f.style.opacity = 1 - k); f.style.background = '';
   toast('កាសា', 'យប់ ។ ក្រុង កាសា ។'); speaking = 'god'; await sayPhrase('ក្រុង កាសា ។');
-  await talk([['w1', 'សាំសុន នៅ ក្នុង ក្រុង ។ ចាំ ដល់ ព្រឹក ហើយ ចាប់ គាត់ !']]);
+  await talk([['w1', 'សាំសុន នៅ ក្នុង ក្រុង ។ ចាំ ដល់ ព្រឹក ហើយ ចាប់ គាត់ !']]); toast('អធ្រាត្រ'); await wait(1.2);
   goal('លើក ទ្វារ ក្រុង ។', [0, 22]);
   await act('លើក ទ្វារ', [0, 22], 4);
   world.remove(gateO); solids.splice(solids.findIndex(q => q.x === 0 && q.z === 20 && q.r === 2.2), 1);
-  const g2 = grp(); box(3.4, 4, .3, plankM, 0, 0, 0, g2); g2.rotation.x = -1.2; g2.position.set(0, 2.6, -.3); hero.b.add(g2); player.raise = true; good(); cap('ទ្វារ');
-  goal('យក ទ្វារ ទៅ លើ ភ្នំ ។', [-40, -55]);
+  const g2 = grp(); box(3.4, 4, .3, plankM, 0, 0, 0, g2); for (const sx of [-1, 1]) cyl(.14, .14, 4.6, 0x5a3a20, sx * 1.8, 0, 0, g2, 5); box(3.8, .2, .2, 0x5a3a20, 0, .6, .2, g2); g2.rotation.x = -1.2; g2.position.set(0, 2.6, -.3); hero.b.add(g2); player.raise = true; good(); cap('ទ្វារ');
+  goal('យក ទ្វារ ទៅ លើ ភ្នំ ទល់ មុខ ក្រុង ហេប្រុន ។', [-40, -55]);
   setSky(0x2a3a7a, 0xd09060, 0x8a6a6a, .6);
   await reach([-40, -55], 6);
   goal('ដាក់ ទ្វារ ។', null);
